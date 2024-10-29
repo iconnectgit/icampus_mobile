@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             x:Class="iCampus.MobileApp.Views.UserModules.BusTracking.BusTracking"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="bustracking">
+    <ContentPage.Content>
+
+        <Grid RowDefinitions="Auto,Auto,*,Auto" ColumnDefinitions="*" BackgroundColor="{StaticResource BorderColor}">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <Style x:Key="BusTrackingBoldLabels" TargetType="Label"
+                           BasedOn="{StaticResource TitleLabelStyle}">
+                        <Setter Property="FontSize" Value="15" />
+                    </Style>
+                </ResourceDictionary>
+            </Grid.Resources>
+            <ContentView ControlTemplate="{StaticResource BeamHeader}" BackgroundColor="White" Grid.Row="0" />
+            <ContentView ControlTemplate="{StaticResource BeamStudentSelection}" Grid.Row="1" />
+            <ScrollView Grid.Row="2" VerticalOptions="FillAndExpand">
+                <StackLayout VerticalOptions="FillAndExpand">
+                    <StackLayout Padding="15,10,15,0" Margin="0,10,0,0"
+                                 IsVisible="{Binding NoDataExist}">
+                        <Frame Padding="5,5,5,5" HasShadow="False"
+                               CornerRadius="5"
+                               IsClippedToBounds="True"
+                               BorderColor="{StaticResource BorderColor}"
+                               BackgroundColor="White">
+                            <Label
+                                Style="{StaticResource DescriptionLabelStyle}"
+                                Text="Transportation details not found"
+                                VerticalTextAlignment="Center"
+                                HorizontalTextAlignment="Start" />
+                        </Frame>
+                    </StackLayout>
+                    <StackLayout Padding="20,10,20,4">
+                        <Frame CornerRadius="5"
+                               HasShadow="False"
+                               BorderColor="{StaticResource BorderColor}"
+                               Padding="6"
+                               IsClippedToBounds="true"
+                               IsVisible="{Binding PickUpDataAvailable}">
+                            <StackLayout VerticalOptions="Fill"
+                                         HorizontalOptions="Fill"
+                                         Padding="10,5,10,5">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="To School"
+                                           FontSize="16"
+                                           HorizontalOptions="StartAndExpand"
+                                           Style="{StaticResource BusTrackingBoldLabels}" />
+                                    <Label Text="{Binding BusTrackingInformation.PickupDate}"
+                                           HorizontalOptions="EndAndExpand"
+                                           Style="{StaticResource DateLabelStyle}" />
+                                </StackLayout>
+                                <Label Margin="0,5,0,0">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Bus Number"
+                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                            <Span Text=" " />
+                                            <Span Text="{Binding BusTrackingInformation.PickUpBusNumber}"
+                                                  Style="{StaticResource BusTrackingBoldLabels}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Margin="0,5,0,0">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Driver"
+                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                            <Span Text=" " />
+                                            <Span Text="{Binding BusTrackingInformation.PickUpBusDriverName}"
+                                                  Style="{StaticResource BusTrackingBoldLabels}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Margin="0,5,0,0">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Mobile" Style="{StaticResource DescriptionLabelStyle}" />
+                                            <Span Text=" " />
+                                            <Span
+                                                Text="{Binding BusTrackingInformation.PickUpBusDriverTelephone}"
+                                                Style="{StaticResource BusTrackingBoldLabels}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Button Text="Track your bus"
+                                        Margin="0,5,0,0"
+                                        HeightRequest="30"
+                                        Padding="5,0,5,0"
+                                        FontSize="16"
+                                        VerticalOptions="Start"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        CornerRadius="4"
+                                        Command="{Binding TrackButtonCommand}"
+                                        CommandParameter="PickUp"
+                                        TextColor="White" />
+                            </StackLayout>
+                            <Frame.GestureRecognizers>
+                                <SwipeGestureRecognizer
+                                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference bustracking}}"
+                                    Direction="Right" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        <Frame CornerRadius="5"
+                               HasShadow="False"
+                               BorderColor="{StaticResource BorderColor}"
+                               Padding="6"
+                               Margin="0,10,0,0"
+                               IsClippedToBounds="true"
+                               IsVisible="{Binding DropOffDataAvailable}">
+                            <StackLayout VerticalOptions="Fill"
+                                         HorizontalOptions="Fill"
+                                         Padding="10,5,10,5">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="From School"
+                                           FontSize="16"
+                                           HorizontalOptions="StartAndExpand"
+                                           Style="{StaticResource BusTrackingBoldLabels}" />
+                                    <Label Text="{Binding BusTrackingInformation.DropOffDate}"
+                                           HorizontalOptions="EndAndExpand"
+                                           Style="{StaticResource DateLabelStyle}" />
+                                </StackLayout>
+                                <Label Margin="0,5,0,0">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Bus Number"
+                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                            <Span Text=" " />
+                                            <Span Text="{Binding BusTrackingInformation.DropOffBusNumber}"
+                                                  Style="{StaticResource BusTrackingBoldLabels}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Margin="0,5,0,0">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Driver"
+                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                            <Span Text=" " />
+                                            <Span Text="{Binding BusTrackingInformation.DropOffBusDriverName}"
+                                                  Style="{StaticResource BusTrackingBoldLabels}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Margin="0,5,0,0">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Mobile"
+                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                            <Span Text=" " />
+                                            <Span
+                                                Text="{Binding BusTrackingInformation.DropOffBusDriverTelephone}"
+                                                Style="{StaticResource BusTrackingBoldLabels}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Button Text="Track your bus"
+                                        HeightRequest="30"
+                                        Padding="5,0,5,0"
+                                        FontSize="16"
+                                        Margin="0,5,0,0"
+                                        VerticalOptions="Start"
+                                        HorizontalOptions="Start"
+                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        CornerRadius="4"
+                                        TextColor="White"
+                                        Command="{Binding TrackButtonCommand}"
+                                        CommandParameter="DropOff" />
+                            </StackLayout>
+                            <Frame.GestureRecognizers>
+                                <SwipeGestureRecognizer
+                                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference bustracking}}"
+                                    Direction="Right" />
+                            </Frame.GestureRecognizers>
+                        </Frame>
+                        <StackLayout.GestureRecognizers>
+                            <SwipeGestureRecognizer
+                                Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference bustracking}}"
+                                Direction="Right" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+            <StackLayout VerticalOptions="EndAndExpand" Grid.Row="3" HeightRequest="65">
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand"
+                             HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference bustracking}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

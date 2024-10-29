@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<views:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="iCampus.MobileApp.Views.PopUpViews.StudentCommentPopup"
+    xmlns:views="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:controls="clr-namespace:iCampus.MobileApp.Controls"
+    xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+    x:Name="studentCommentPopup"
+    Color="Transparent">
+
+    <Grid>
+        <StackLayout Padding="10"
+                     Spacing="0">
+            <Frame CornerRadius="5"
+                   HasShadow="False"
+                   BorderColor="{StaticResource BorderColor}"
+                   Padding="10"
+                   Margin="10"
+                   HorizontalOptions="CenterAndExpand"
+                   VerticalOptions="StartAndExpand"
+                   IsClippedToBounds="true"
+                   BackgroundColor="WhiteSmoke"
+                   WidthRequest="350">
+                <Grid RowSpacing="4" BackgroundColor="WhiteSmoke">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.35*" />
+                        <ColumnDefinition Width="0.65*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="Comments" Style="{StaticResource TitleLabelStyle}"
+                           Grid.Row="0"
+                           Grid.Column="0"
+                           Grid.ColumnSpan="2"
+                           FontSize="18"
+                           FontAttributes="Bold"
+                           Margin="0,0,0,10"
+                           VerticalTextAlignment="End"
+                           VerticalOptions="EndAndExpand" />
+                    <Grid Grid.Row="1"
+                          Grid.Column="0"
+                          Grid.ColumnSpan="2"
+                          HeightRequest="40"
+                          Margin="0,0,0,0"
+                          HorizontalOptions="FillAndExpand">
+                        <Picker Title="Select Grade"
+                                Style="{StaticResource PickerFontStyle}"
+                                BackgroundColor="White"
+                                TextColor="Gray"
+                                ItemsSource="{Binding SelectedEntry.AttendanceCommentList}"
+                                SelectedItem="{Binding SelectedEntry.SelectedComment}"
+                                ItemDisplayBinding="{Binding ItemName}"
+                                VerticalOptions="Center"
+                                HorizontalOptions="FillAndExpand" />
+                        <Image Source="dropdown_gray_picker"
+                               HorizontalOptions="End"
+                               VerticalOptions="Center"
+                               WidthRequest="20"
+                               HeightRequest="20"
+                               Margin="0,0,10,0" />
+                    </Grid>
+                    <Frame Grid.Row="3" 
+                           Grid.Column="0" 
+                           Grid.ColumnSpan="2" 
+                           Padding="0" 
+                           HasShadow="false"
+                           CornerRadius="5" 
+                           HeightRequest="40"
+                           IsClippedToBounds="True" 
+                           BackgroundColor="White"
+                           BorderColor="Transparent">
+                        <controls:BorderlessEditor Placeholder="Write comment here"
+                                                   Style="{StaticResource EditorFontStyle}"
+                                                   VerticalOptions="CenterAndExpand"
+                                                   BackgroundColor="White"
+                                                   IsVisible="{Binding SelectedEntry.IsOtherComment}"
+                                                   AutoSize="TextChanges"
+                                                   Text="{Binding SelectedEntry.OtherComments,Mode=TwoWay}" />
+                    </Frame>
+                    <Button Text="Save" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" WidthRequest="80"
+                            HeightRequest="30"
+                            BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                            TextColor="White" VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand"
+                            Margin="5,10,5,5" Padding="0"
+                            Command="{Binding SaveCommentClickCommand}"
+                            CornerRadius="5" />
+                </Grid>
+            </Frame>
+        </StackLayout>
+    </Grid>
+</views:Popup>

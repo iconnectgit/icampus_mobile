@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:individual="clr-namespace:iCampus.MobileApp.Behaviours.Individual"
+             x:Class="iCampus.MobileApp.Views.UserModules.Appointment.FamilyAppointment"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="appointmentPage">
+    <ContentPage.Content>
+
+        <Grid>
+            <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*"
+                  BackgroundColor="{StaticResource BorderColor}">
+                <ContentView ControlTemplate="{StaticResource BeamHeader}" BackgroundColor="White" Grid.Row="0"
+                             Grid.Column="0" />
+                <StackLayout Grid.Row="1" Grid.Column="0">
+                    <StackLayout.Resources>
+                        <ResourceDictionary>
+                            <behaviours:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
+                            <behaviours:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter" />
+                            <individual:ApproveCompleteVisibilityConverter x:Key="ApproveCompleteVisibilityConverter" />
+                            <behaviours:ColorCodeConverter x:Key="ColorCodeConverter" />
+                        </ResourceDictionary>
+                    </StackLayout.Resources>
+                    <StackLayout Padding="10,10,10,10"
+                                 IsVisible="{Binding IsAppointmentsAvailable}">
+                        <Frame Padding="10,10,10,10"
+                               CornerRadius="5" HasShadow="False"
+                               IsClippedToBounds="True"
+                               BorderColor="{StaticResource BorderColor}"
+                               BackgroundColor="White">
+                            <Label VerticalOptions="CenterAndExpand"
+                                   Text="{Binding NoDataFound}" Style="{StaticResource DescriptionLabelStyle}"
+                                   HorizontalTextAlignment="Start" />
+                        </Frame>
+                    </StackLayout>
+
+                    <ListView HasUnevenRows="true" VerticalScrollBarVisibility="Never"
+                              ItemsSource="{Binding BindableFamilyAppointmentList, Mode=TwoWay}"
+                              SeparatorVisibility="None"
+                              SelectedItem="{Binding SelectedAppointment, Mode=TwoWay}"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              VerticalOptions="FillAndExpand"
+                              Margin="10,10,10,0"
+                              x:Name="beamListview">
+                        <x:Arguments>
+                            <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                        </x:Arguments>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="5">
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               Padding="10,8,10,8"
+                                               IsClippedToBounds="true">
+                                            <Grid RowSpacing="0"
+                                                  Padding="10,5,10,5"
+                                                  Margin="0,0,5,0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.6*" />
+                                                    <ColumnDefinition Width="0.4*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Text="{Binding StudentName}"
+                                                       Grid.Row="0"
+                                                       Grid.Column="0"
+                                                       MaxLines="1"
+                                                       HorizontalOptions="StartAndExpand"
+                                                       Style="{StaticResource TitleLabelStyle}" />
+                                                <Label Text="{Binding BookingDateTimeFormatted}"
+                                                       Grid.Row="1"
+                                                       Grid.Column="0"
+                                                       Style="{StaticResource DateLabelStyle}"
+                                                       Grid.ColumnSpan="2"
+                                                       VerticalOptions="EndAndExpand" />
+                                                <Label Grid.Column="1"
+                                                       Grid.Row="0"
+                                                       TextColor="{Binding StatusColor,Converter={StaticResource ColorCodeConverter}}"
+                                                       VerticalOptions="Center"
+                                                       HorizontalOptions="End"
+                                                       VerticalTextAlignment="Start"
+                                                       FontAttributes="Bold"
+                                                       HeightRequest="20"
+                                                       Text="{Binding StatusText}" />
+                                                <Label Grid.Row="1" Grid.Column="1" Text="Approve"
+                                                       VerticalOptions="Center"
+                                                       IsVisible="{Binding .,Converter={StaticResource ApproveCompleteVisibilityConverter},ConverterParameter=1}"
+                                                       TextDecorations="Underline"
+                                                       HorizontalOptions="End" Style="{StaticResource TitleLabelStyle}"
+                                                       VerticalTextAlignment="Start">
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.ApproveClickCommand,Source={x:Reference appointmentPage}}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </Label.GestureRecognizers>
+                                                </Label>
+                                                <Label Grid.Row="1" Grid.Column="1" Text="Complete"
+                                                       IsVisible="{Binding .,Converter={StaticResource ApproveCompleteVisibilityConverter},ConverterParameter=2}"
+                                                       VerticalOptions="Center" TextDecorations="Underline"
+                                                       Margin="0,5,0,0"
+                                                       HorizontalOptions="End" Style="{StaticResource TitleLabelStyle}"
+                                                       VerticalTextAlignment="Start">
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.CompleteClickCommand,Source={x:Reference appointmentPage}}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </Label.GestureRecognizers>
+                                                </Label>
+                                            </Grid>
+                                        </Frame>
+                                    </StackLayout>
+
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.Behaviors>
+                            <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                              Command="{Binding FamilyAppointmentListTappedCommand}"
+                                                              CommandParameter="{Binding SelectedAppointment}" />
+                        </ListView.Behaviors>
+                    </ListView>
+                    <StackLayout.GestureRecognizers>
+                        <SwipeGestureRecognizer
+                            Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference appointmentPage}}"
+                            Direction="Right" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+                <StackLayout VerticalOptions="EndAndExpand" HeightRequest="65" Grid.Row="2">
+                    <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                                 VerticalOptions="EndAndExpand"
+                                 HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+            </Grid>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

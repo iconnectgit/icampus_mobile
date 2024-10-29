@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             x:Class="iCampus.MobileApp.Views.UserModules.MessageFromSchool.HistoryDetailsPage"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             NavigationPage.HasNavigationBar="false"
+             x:Name="historyDetailsPage">
+    <ContentPage.Content>
+
+        <Grid>
+            <StackLayout BackgroundColor="{Binding BackgroundColor,Source={x:Static local:AppSettings.Current}}">
+                <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                             BackgroundColor="White" />
+                <StackLayout>
+
+                    <Frame CornerRadius="5"
+                           HasShadow="False" Margin="10"
+                           BorderColor="Transparent"
+                           Padding="5"
+                           IsClippedToBounds="true"
+                           IsVisible="{Binding DetailsVisibility}">
+                        <StackLayout VerticalOptions="Fill"
+                                     HorizontalOptions="Fill"
+                                     Padding="5,5,5,5">
+
+                            <Label Text="{Binding HistoryDetailsObject.CustomAlertsName}"
+                                   Style="{StaticResource TitleLabelStyle}"
+                                   HorizontalOptions="StartAndExpand"
+                                   HorizontalTextAlignment="Start"
+                                   Margin="0,0,0,0"
+                                   IsVisible="{Binding IsTitleAvailable}" />
+                            <ScrollView>
+                                <Label IsVisible="{Binding IsMessageAvailable}"
+                                       Text="{Binding HistoryDetailsObject.CustomAlertsMessage}"
+                                       TextType="Html" />
+
+                                <!-- <WebView x:Name="beamDetails" HeightRequest="100"  -->
+                                <!--                   IsVisible="{Binding IsMessageAvailable}" -->
+                                <!--                   InputTransparent="False" -->
+                                <!--                   Margin="-8,0,0,0"> -->
+                                <!-- -->
+                                <!--     <WebView.Source> -->
+                                <!--         <HtmlWebViewSource Html="{Binding HistoryDetailsObject.CustomAlertsMessage}"/> -->
+                                <!--     </WebView.Source> -->
+                                <!-- </WebView> -->
+                            </ScrollView>
+                            <Label HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start"
+                                   Margin="0,0,0,5" IsVisible="{Binding IsDateAvailable}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Date :"
+                                              Style="{StaticResource TitleLabelStyle}" />
+                                        <Span Text=" " />
+                                        <Span Text="{Binding HistoryDetailsObject.CustomAlertsCheckedDate}"
+                                              Style="{StaticResource DescriptionLabelStyle}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <Label HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start"
+                                   Margin="0,0,0,5" IsVisible="{Binding IsAcknowledgedAvailable}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Acknowledged :"
+                                              Style="{StaticResource TitleLabelStyle}" />
+                                        <Span Text=" " />
+                                        <Span Text="{Binding HistoryDetailsObject.CustomAlertsIsAcknowledged}"
+                                              Style="{StaticResource DescriptionLabelStyle}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <Label HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start"
+                                   IsVisible="{Binding IsFeedbackAvailable}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="User Feedback :"
+                                              Style="{StaticResource TitleLabelStyle}" />
+                                        <Span Text=" " />
+                                        <Span Text="{Binding HistoryDetailsObject.FeedbackData}"
+                                              Style="{StaticResource DescriptionLabelStyle}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+                <StackLayout.GestureRecognizers>
+                    <SwipeGestureRecognizer
+                        Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference historyDetailsPage}}"
+                        Direction="Right" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

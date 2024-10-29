@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             x:Class="iCampus.MobileApp.Views.UserModules.Resources.FilterResources"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="attendancePageFilter">
+    <ContentPage.Content>
+
+        <StackLayout VerticalOptions="FillAndExpand"
+                     BackgroundColor="{Binding BackgroundColor, Source={x:Static local:AppSettings.Current}}">
+            <StackLayout.Resources>
+                <behaviours:VisiblityConverter x:Key="visiblityConverter" />
+            </StackLayout.Resources>
+            
+            <!-- Header -->
+            <ContentView ControlTemplate="{StaticResource BeamHeader}" BackgroundColor="White" />
+            
+            <!-- Main Content Area -->
+            <Grid RowSpacing="10" Padding="20,10,20,20" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!-- First Picker (All Terms) -->
+                <Grid Grid.Row="2" HeightRequest="40" Margin="0,5,0,0" HorizontalOptions="FillAndExpand">
+                    <Picker Title="All Terms"
+                            Style="{StaticResource PickerFontStyle}" 
+                            BackgroundColor="White"
+                            TextColor="Gray"
+                            ItemsSource="{Binding TermList, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedTerm, Mode=TwoWay}"
+                            ItemDisplayBinding="{Binding ItemName}"
+                            VerticalOptions="Center"
+                            HorizontalOptions="FillAndExpand"/>
+                    <Image Source="dropdown_gray_picker"
+                           HorizontalOptions="End"
+                           VerticalOptions="Center"
+                           WidthRequest="20"
+                           HeightRequest="20"
+                           Margin="0,0,10,0" />
+                </Grid>
+
+                <!-- Date Picker Section (From/To) -->
+                <Frame Grid.Row="0" CornerRadius="5" HasShadow="False" Padding="5" BackgroundColor="White"
+                       VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BorderColor="Transparent">
+                    <Grid RowSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.47*" />
+                            <ColumnDefinition Width="0.06*" />
+                            <ColumnDefinition Width="0.47*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <Label Text="From Date" Grid.Column="0" Style="{StaticResource TitleLabelStyle}"
+                               VerticalTextAlignment="Start" VerticalOptions="StartAndExpand" />
+                        <Label Text="To Date" Grid.Column="2" Style="{StaticResource TitleLabelStyle}"
+                               VerticalTextAlignment="Start" VerticalOptions="StartAndExpand" />
+
+                        <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Padding="0">
+                            <DatePicker Date="{Binding FromDate}" Style="{StaticResource DatePickerFontStyle}"
+                                        BackgroundColor="White" VerticalOptions="Center" />
+                            <ffimageloading:CachedImage Source="calendar_icon.png" VerticalOptions="Center"
+                                                        HorizontalOptions="StartAndExpand" WidthRequest="30" HeightRequest="30" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Padding="0">
+                            <DatePicker Date="{Binding ToDate}" Style="{StaticResource DatePickerFontStyle}"
+                                        BackgroundColor="White" VerticalOptions="Center" />
+                            <ffimageloading:CachedImage Source="calendar_icon.png" VerticalOptions="Center"
+                                                        HorizontalOptions="StartAndExpand" WidthRequest="30" HeightRequest="30" />
+                        </StackLayout>
+                        
+                        <!-- Date Error Message -->
+                        <Label Text="From Date should be less than To Date"
+                               HorizontalOptions="StartAndExpand" FontSize="10"
+                               Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
+                               IsVisible="{Binding DateErrorMessageVisibility}"
+                               Margin="5,0,0,0" TextColor="Red" />
+                    </Grid>
+                </Frame>
+
+                <!-- Second Picker (All Courses) -->
+                <Grid Grid.Row="1" HeightRequest="40" Margin="0,5,0,0" HorizontalOptions="FillAndExpand">
+                    <Picker Title="All Courses" Style="{StaticResource PickerFontStyle}"
+                            BackgroundColor="White" TextColor="Gray"
+                            ItemsSource="{Binding CourseList, Mode=TwoWay}"
+                            SelectedItem="{Binding SelectedCourse, Mode=TwoWay}"
+                            ItemDisplayBinding="{Binding CurriculumName}"
+                            VerticalOptions="Center" HorizontalOptions="FillAndExpand"/>
+                    <Image Source="dropdown_gray_picker" HorizontalOptions="End" VerticalOptions="Center"
+                           WidthRequest="20" HeightRequest="20" Margin="0,0,10,0" />
+                </Grid>
+
+                <!-- Search Button -->
+                <Button Grid.Row="3" Text="Search" TextColor="White" CornerRadius="5" Margin="0,5,0,0"
+                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                        HorizontalOptions="FillAndExpand" Command="{Binding SearchClickCommand}" />
+
+                <!-- No Data Found Message -->
+                <StackLayout Grid.Row="4" Padding="0,10,0,0" IsVisible="{Binding IsNoRecordMsg}">
+                    <Frame Padding="10" CornerRadius="5" HasShadow="False" BorderColor="{StaticResource BorderColor}" 
+                           BackgroundColor="White">
+                        <Label Text="{Binding NoDataFound, Mode=TwoWay}" Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalTextAlignment="Center" HorizontalTextAlignment="Start" />
+                    </Frame>
+                </StackLayout>
+
+                <!-- List View -->
+                <ListView Grid.Row="5" HasUnevenRows="true" BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                          ItemsSource="{Binding FilteredResourceList, Mode=TwoWay}" SeparatorVisibility="None"
+                          IsPullToRefreshEnabled="True" IsRefreshing="{Binding IsRefreshing}"
+                          RefreshCommand="{Binding RefreshedCommand}" VerticalOptions="FillAndExpand"
+                          x:Name="listView">
+                    <x:Arguments>
+                    <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                </x:Arguments>
+                <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="5">
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               Padding="5"
+                                               IsClippedToBounds="true">
+                                            <Grid RowSpacing="4"
+                                                  Padding="5,2,5,5">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.45*" />
+                                                    <ColumnDefinition Width="0.55*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Text="{Binding Title}"
+                                                       Grid.Row="0" Grid.ColumnSpan="2"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       VerticalOptions="CenterAndExpand"
+                                                       Grid.Column="0" />
+                                                <ffimageloading:CachedImage Source="{Binding ArrowImageSource}"
+                                                                            Grid.Row="1" Grid.Column="1"
+                                                                            HorizontalOptions="EndAndExpand"
+                                                                            Scale="0.8" />
+                                                <Label Text="{Binding UserName}"
+                                                       Grid.Row="1" Grid.ColumnSpan="2"
+                                                       Margin="0,0,0,0"
+                                                       Style="{StaticResource DescriptionLabelStyle}"
+                                                       Grid.Column="0"
+                                                       VerticalOptions="StartAndExpand" />
+
+                                            </Grid>
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding BindingContext.ArrowClickedCommand,Source={x:Reference attendancePageFilter}}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Frame.GestureRecognizers>
+                                        </Frame>
+
+
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False" IsVisible="{Binding DescriptionVisibility}"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               Padding="5"
+                                               IsClippedToBounds="true">
+                                            <Grid RowSpacing="5"
+                                                  ColumnSpacing="5"
+                                                  Padding="5,2,5,5">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.45*" />
+                                                    <ColumnDefinition Width="0.55*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label
+                                                    Text="{Binding Data,Converter={StaticResource HtmlTagRemoverConverter}}"
+                                                    Grid.Row="0"
+                                                    IsVisible="{Binding Data,Converter={StaticResource visiblityConverter}}"
+                                                    Grid.Column="0" Grid.ColumnSpan="2"
+                                                    Style="{StaticResource DateLabelStyle}"
+                                                    Margin="-2,0,0,5"
+                                                    Padding="0"
+                                                    VerticalOptions="StartAndExpand" />
+
+                                                <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                                             Orientation="Horizontal" Margin="0,-10,0,0"
+                                                             Padding="0,0,0,0">
+                                                    <Label Text="Date :"
+                                                           Style="{StaticResource TitleLabelStyle}" />
+                                                    <Label Text="{Binding Date}"
+                                                           Margin="5,0,0,0"
+                                                           Style="{StaticResource DescriptionLabelStyle}"
+                                                           VerticalOptions="StartAndExpand" />
+                                                </StackLayout>
+                                                <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                                             Orientation="Horizontal" Margin="0,0,0,0"
+                                                             Padding="0,0,0,0" IsVisible="{Binding IsCourseVisible}">
+                                                    <Label Text="Course :"
+                                                           Style="{StaticResource TitleLabelStyle}" />
+                                                    <Label Text="{Binding CurriculumName}"
+                                                           Margin="5,0,0,0"
+                                                           Style="{StaticResource DescriptionLabelStyle}"
+                                                           VerticalOptions="StartAndExpand" />
+                                                </StackLayout>
+                                                <Label HorizontalOptions="StartAndExpand"
+                                                       Grid.Row="3"
+                                                       Grid.Column="0"
+                                                       IsVisible="{Binding AttachmentFileList.Count, Converter={StaticResource IntToBoolValueConverter}}"
+                                                       Text="{Binding AttachmentFileList.Count, StringFormat='Attachments ({0})'}"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       TextDecorations="Underline"
+                                                       FontAttributes="Bold">
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.AttachmentClickCommand,Source={x:Reference attendancePageFilter}}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </Label.GestureRecognizers>
+                                                </Label>
+                                            </Grid>
+                                        </Frame>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                </ListView>
+            </Grid>
+
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,608 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:controls="clr-namespace:iCampus.MobileApp.Controls"
+             x:Class="iCampus.MobileApp.Views.UserModules.OnlinePayment.OnlinePaymentPage"
+             NavigationPage.HasNavigationBar="False"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="onlinePaymentPage">
+    <ContentPage.Content>
+        
+        <Grid VerticalOptions="FillAndExpand"
+              BackgroundColor="{StaticResource BorderColor}" RowDefinitions="Auto,Auto,*,Auto" ColumnDefinitions="*"
+              Margin="0,0,0,0">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <Style x:Key="OnlinePaymentBoldLabels" TargetType="Label" BasedOn="{StaticResource TitleLabelStyle}">
+                        <Setter Property="FontSize" Value="15" />
+                    </Style>
+                </ResourceDictionary>
+            </Grid.Resources>
+
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         VerticalOptions="StartAndExpand"
+                         BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
+            <ContentView ControlTemplate="{StaticResource BeamStudentSelection}"
+                         BackgroundColor="{StaticResource BorderColor}" Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" />
+                
+            <StackLayout Grid.Row="2" Grid.Column="0">
+                <StackLayout Margin="5,0,5,0">
+                        <Grid Margin="0,0,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                    
+                        <StackLayout Grid.Column="0" Spacing="0" >
+                             <Frame BackgroundColor="Transparent" 
+                                    HasShadow="False" 
+                                    BorderColor="Transparent" 
+                                    CornerRadius="5" 
+                                    Margin="0,0,0,0" 
+                                    Padding="0">
+                                 <Button Text="Pending Invoice" 
+                                         FontSize="16" 
+                                         FontAttributes="Bold" 
+                                         BackgroundColor="WhiteSmoke" 
+                                         HorizontalOptions="FillAndExpand" 
+                                         VerticalOptions="Center" 
+                                         TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" 
+                                         CornerRadius="0" 
+                                         Margin="0,10,0,0" 
+                                         HeightRequest="40" 
+                                         Padding="0" 
+                                         Command="{Binding PendingInvoiceCommand}" 
+                                         Opacity="{Binding InvoiceButtonOpacity}"/>
+                             </Frame> 
+                            
+                        </StackLayout> 
+                        <StackLayout Grid.Column="1" Spacing="0">
+                             <Frame BackgroundColor="Transparent" 
+                                    HasShadow="False" BorderColor="Transparent" 
+                                    CornerRadius="5" Margin="0,0,0,0" 
+                                    Padding="0">
+                                  <Button Text="Payment History" 
+                                          FontSize="16" 
+                                          FontAttributes="Bold"  
+                                          BackgroundColor="WhiteSmoke" 
+                                          HorizontalOptions="FillAndExpand" 
+                                          VerticalOptions="Center" 
+                                          TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" 
+                                          CornerRadius="0" 
+                                          Margin="0,10,0,0" 
+                                          HeightRequest="40" 
+                                          Padding="0" 
+                                          Command="{Binding PaymentHistoryCommand}" 
+                                          Opacity="{Binding HistoryButtonOpacity}"/>
+                             </Frame> 
+                            
+                        </StackLayout>
+                        </Grid>
+                    </StackLayout>
+                
+                <StackLayout IsVisible="{Binding IsPendingInvoiceVisible}">
+                    <Grid VerticalOptions="FillAndExpand" 
+                          Padding="10"
+                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto" >
+                                <StackLayout Padding="0"
+                                             Grid.Row="1"
+                                             IsVisible="{Binding NoInvoiceFoundVisibility}">
+                                    <Frame Padding="5,7,5,7"
+                                           CornerRadius="5"
+                                           IsClippedToBounds="True"
+                                           BorderColor="{StaticResource BorderColor}"
+                                           BackgroundColor="White"
+                                           HeightRequest="60"
+                                           Margin="10,20,10,10"
+                                           HasShadow="False">
+                                        <Label Text="{Binding NoInvoiceMessage}"
+                                               HorizontalOptions="StartAndExpand"
+                                               VerticalOptions="CenterAndExpand"
+                                               TextType="Html"
+                                               Style="{StaticResource AttachmentTextStyle}" />
+                                    </Frame>
+                                </StackLayout>
+
+                                <ListView ItemsSource="{Binding InvoiceDetailsList,Mode=TwoWay}"
+
+                                          HasUnevenRows="True" VerticalScrollBarVisibility="Never"
+                                          VerticalOptions="StartAndExpand"
+                                          SeparatorVisibility="None"
+                                          Margin="0,0,0,0"
+                                          Grid.Row="1">
+                                    <x:Arguments>
+                                        <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                                    </x:Arguments>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <Grid Margin="0,0,0,10" IsVisible="{Binding IsFrameVisible}"
+                                                      RowDefinitions="Auto" Padding="0,0,0,30"
+                                                      VerticalOptions="FillAndExpand">
+                                                    <StackLayout Spacing="0">
+                                                        <Frame HasShadow="False"
+                                                               BackgroundColor="{StaticResource BorderColor}"
+                                                               BorderColor="Transparent"
+                                                               Margin="5">
+                                                            <Label Text="{Binding HeaderText}" FontSize="18"
+                                                                   FontAttributes="Bold" Margin="0,0,0,0" />
+                                                        </Frame>
+                                                        <Frame HasShadow="False">
+                                                            <StackLayout
+                                                                BindableLayout.ItemsSource="{Binding BindableInvoiceSubDetailsList}"
+                                                                Orientation="Vertical">
+                                                                <BindableLayout.ItemTemplate>
+                                                                    <DataTemplate>
+                                                                        <StackLayout Orientation="Horizontal"
+                                                                            HorizontalOptions="FillAndExpand">
+                                                                            <Grid ColumnDefinitions="*,*"
+                                                                                VerticalOptions="FillAndExpand"
+                                                                                RowDefinitions="Auto"
+                                                                                HorizontalOptions="FillAndExpand">
+                                                                                <Label
+                                                                                    Text="{Binding CostCategoryGroupName}"
+                                                                                    HorizontalOptions="StartAndExpand"
+                                                                                    Grid.Row="0"
+                                                                                    Grid.Column="0"
+                                                                                    VerticalOptions="CenterAndExpand"
+                                                                                    HeightRequest="25"
+                                                                                    FontAttributes="{Binding FontAttributes}" />
+                                                                                <Label
+                                                                                    Text="{Binding TotalString}"
+                                                                                    HorizontalOptions="EndAndExpand"
+                                                                                    Grid.Row="0"
+                                                                                    Grid.Column="1"
+                                                                                    VerticalOptions="CenterAndExpand"
+                                                                                    HeightRequest="25"
+                                                                                    FontAttributes="{Binding FontAttributes}" />
+                                                                            </Grid>
+                                                                        </StackLayout>
+                                                                    </DataTemplate>
+                                                                </BindableLayout.ItemTemplate>
+                                                            </StackLayout>
+                                                        </Frame>
+
+
+                                                        <Label Text="Please select the payment type :"
+                                                               FontAttributes="Bold" FontSize="18"
+                                                               Margin="10,0,0,0"
+                                                               VerticalOptions="StartAndExpand"
+                                                               IsVisible="{Binding IsPaymentTypeSelectionVisible}" />
+                                                        <Grid RowDefinitions="Auto,Auto,Auto"
+                                                              ColumnDefinitions="Auto,0.2*,Auto"
+                                                              VerticalOptions="StartAndExpand"
+                                                              Margin="0,0,10,0"
+                                                              IsVisible="{Binding IsPaymentTypeSelectionVisible}">
+                                                            <ffimageloading:CachedImage
+                                                                Source="{Binding TotalAmountRadioButtonImage}"
+                                                                Grid.Row="0" Grid.Column="0" Scale="0.4">
+                                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.TotalAmountRadioButtonCommand, Source={x:Reference onlinePaymentPage}}"
+                                                                        CommandParameter="{Binding .}"
+                                                                        NumberOfTapsRequired="1" />
+                                                                </ffimageloading:CachedImage.GestureRecognizers>
+                                                            </ffimageloading:CachedImage>
+                                                            <ffimageloading:CachedImage
+                                                                Source="{Binding MinimumAmountRadioButtonImage}"
+                                                                Grid.Row="1" Grid.Column="0" Scale="0.4"
+                                                                IsVisible="{Binding IsMinimumAmountOptionVisible}">
+                                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.MinimumAmountRadioButtonCommand, Source={x:Reference onlinePaymentPage}}"
+                                                                        CommandParameter="{Binding .}"
+                                                                        NumberOfTapsRequired="1" />
+                                                                </ffimageloading:CachedImage.GestureRecognizers>
+                                                            </ffimageloading:CachedImage>
+                                                            <ffimageloading:CachedImage
+                                                                Source="{Binding OtherAmountRadioButtonImage}"
+                                                                Grid.Row="2" Grid.Column="0" Scale="0.4">
+                                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.OtherAmountRadioButtonCommand, Source={x:Reference onlinePaymentPage}}"
+                                                                        CommandParameter="{Binding .}"
+                                                                        NumberOfTapsRequired="1" />
+                                                                </ffimageloading:CachedImage.GestureRecognizers>
+                                                            </ffimageloading:CachedImage>
+                                                            <Label
+                                                                Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current},StringFormat='Total Amount ({0}):' }"
+                                                                Grid.Row="0" Grid.Column="1" Margin="0,0,0,0"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                VerticalTextAlignment="Center">
+                                                                <Label.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.TotalAmountRadioButtonCommand, Source={x:Reference onlinePaymentPage}}"
+                                                                        CommandParameter="{Binding .}"
+                                                                        NumberOfTapsRequired="1" />
+                                                                </Label.GestureRecognizers>
+                                                            </Label>
+
+                                                            <StackLayout
+                                                                IsVisible="{Binding IsMinimumAmountOptionVisible}"
+                                                                Grid.Row="1" Grid.Column="1">
+                                                                <Label
+                                                                    VerticalOptions="CenterAndExpand"
+                                                                    VerticalTextAlignment="Center">
+                                                                    <Label.FormattedText>
+                                                                        <FormattedString>
+                                                                            <Span
+                                                                                Text="{Binding MinimumAmountPercentage,StringFormat= 'Minimum({0}% of total) Amount '}" />
+                                                                            <Span
+                                                                                Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current},StringFormat='({0}):'}" />
+                                                                        </FormattedString>
+                                                                    </Label.FormattedText>
+                                                                    <Label.GestureRecognizers>
+                                                                        <TapGestureRecognizer
+                                                                            Command="{Binding BindingContext.MinimumAmountRadioButtonCommand, Source={x:Reference onlinePaymentPage}}"
+                                                                            CommandParameter="{Binding .}"
+                                                                            NumberOfTapsRequired="1" />
+                                                                    </Label.GestureRecognizers>
+                                                                </Label>
+
+                                                                <Label
+                                                                    VerticalOptions="CenterAndExpand"
+                                                                    IsVisible="{Binding IsMinimumFixedAmountVisible}"
+                                                                    VerticalTextAlignment="Center">
+                                                                    <Label.FormattedText>
+                                                                        <FormattedString>
+                                                                            <Span Text="Minimum Amount" />
+                                                                            <Span
+                                                                                Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current},StringFormat='({0}):'}" />
+                                                                        </FormattedString>
+                                                                    </Label.FormattedText>
+                                                                    <Label.GestureRecognizers>
+                                                                        <TapGestureRecognizer
+                                                                            Command="{Binding BindingContext.MinimumAmountRadioButtonCommand, Source={x:Reference onlinePaymentPage}}"
+                                                                            CommandParameter="{Binding .}"
+                                                                            NumberOfTapsRequired="1" />
+                                                                    </Label.GestureRecognizers>
+                                                                </Label>
+                                                            </StackLayout>
+
+
+                                                            <Label
+                                                                Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current},StringFormat='Other Amount({0}):'}"
+                                                                Grid.Row="2" Grid.Column="1"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                VerticalTextAlignment="Center">
+                                                                <Label.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.OtherAmountRadioButtonCommand, Source={x:Reference onlinePaymentPage}}"
+                                                                        CommandParameter="{Binding .}"
+                                                                        NumberOfTapsRequired="1" />
+                                                                </Label.GestureRecognizers>
+                                                            </Label>
+                                                            <Label Text="{Binding TotalAmount}" Grid.Row="0"
+                                                                   Grid.Column="2"
+                                                                   VerticalOptions="CenterAndExpand"
+                                                                   VerticalTextAlignment="Center"
+                                                                   HorizontalOptions="EndAndExpand" />
+                                                            <StackLayout
+                                                                IsVisible="{Binding IsMinimumAmountOptionVisible}"
+                                                                Grid.Row="1" Grid.Column="2">
+                                                                <Label Text="{Binding MinimumAmount}"
+                                                                       HorizontalOptions="EndAndExpand"
+                                                                       VerticalOptions="CenterAndExpand"
+                                                                       VerticalTextAlignment="Center"
+                                                                       IsVisible="{Binding IsMinimumFixedAmountVisible,Converter={StaticResource ReverseBoolValueConverter}}" />
+                                                                <Label Text="{Binding MinimumFixedAmount}"
+                                                                       HorizontalOptions="EndAndExpand"
+                                                                       VerticalOptions="CenterAndExpand"
+                                                                       VerticalTextAlignment="Center"
+                                                                       IsVisible="{Binding IsMinimumFixedAmountVisible}" />
+                                                            </StackLayout>
+                                                            <Frame Padding="5" CornerRadius="5"
+                                                                   HasShadow="False" Grid.Row="2"
+                                                                   BackgroundColor="WhiteSmoke" Grid.Column="2">
+                                                                <controls:NoUnderlineEntry
+                                                                    Text="{Binding OtherAmountEntered}"
+                                                                    BackgroundColor="White" Keyboard="Numeric"
+                                                                    IsEnabled="{Binding IsOtherAmountEntryEnabled}"
+                                                                    WidthRequest="80"
+                                                                    HorizontalOptions="EndAndExpand">
+                                                                    <Entry.Behaviors>
+                                                                        <behaviours:EventToCommandBehavior
+                                                                            EventName="TextChanged"
+                                                                            Command="{Binding BindingContext.OtherAmountEntryTextChangedCommand, Source={x:Reference onlinePaymentPage}}"
+                                                                            CommandParameter="{Binding .}" />
+                                                                    </Entry.Behaviors>
+                                                                </controls:NoUnderlineEntry>
+                                                            </Frame>
+                                                        </Grid>
+                                                        <Label Text="{Binding OtherAmountErrorMessage}"
+                                                               HorizontalOptions="EndAndExpand"
+                                                               FontSize="10"
+                                                               IsVisible="{Binding IsOtherAmountErrorMessaheVisible}"
+                                                               Margin="0,0,0,10"
+                                                               TextColor="Red" />
+                                                        <Label Style="{StaticResource TitleLabelStyle}"
+                                                               IsVisible="{Binding IsRemainingPaymentDueVisible}"
+                                                               Margin="5,0,0,0">
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span
+                                                                        Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current},StringFormat='The Remaining Payment Due({0}) : '}" />
+                                                                    <Span
+                                                                        Text="{Binding RemainingPaymentDue,StringFormat='{0}'}" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                        <Frame Padding="10" Margin="10,0,10,10"
+                                                               HasShadow="False"
+                                                               IsVisible="{Binding IsTotalVisible}">
+                                                            <StackLayout>
+                                                                <Grid ColumnDefinitions="*,*"
+                                                                      VerticalOptions="FillAndExpand"
+                                                                      HorizontalOptions="FillAndExpand"
+                                                                      IsVisible="{Binding IsTotalVisible}">
+                                                                    <Label Text="Total Amount"
+                                                                        HorizontalOptions="StartAndExpand"
+                                                                        Grid.Row="0" Grid.Column="0"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        HeightRequest="25"
+                                                                        FontAttributes="Bold" />
+                                                                    <Label HorizontalOptions="EndAndExpand"
+                                                                        Grid.Row="0" Grid.Column="1"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        HeightRequest="25"
+                                                                        FontAttributes="Bold">
+                                                                        <Label.FormattedText>
+                                                                            <FormattedString>
+                                                                                <Span
+                                                                                    Text="{Binding TotalAmount,StringFormat='{0}'}" />
+                                                                                <Span Text=" " />
+                                                                                <Span
+                                                                                    Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current}}" />
+                                                                            </FormattedString>
+                                                                        </Label.FormattedText>
+                                                                    </Label>
+                                                                </Grid>
+                                                                <Grid ColumnDefinitions="*,*"
+                                                                      VerticalOptions="FillAndExpand"
+                                                                      HorizontalOptions="FillAndExpand"
+                                                                      IsVisible="{Binding VatAndGrandTotalVisibility}">
+                                                                    <Label Text="VAT"
+                                                                        HorizontalOptions="StartAndExpand"
+                                                                        Grid.Row="0" Grid.Column="0"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        HeightRequest="25"
+                                                                        FontAttributes="Bold" />
+                                                                    <Label HorizontalOptions="EndAndExpand"
+                                                                        Grid.Row="0" Grid.Column="1"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        HeightRequest="25"
+                                                                        FontAttributes="Bold">
+                                                                        <Label.FormattedText>
+                                                                            <FormattedString>
+                                                                                <Span
+                                                                                    Text="{Binding TotalVATAmount,StringFormat='{0}'}" />
+                                                                                <Span Text=" " />
+                                                                                <Span
+                                                                                    Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current}}" />
+                                                                            </FormattedString>
+                                                                        </Label.FormattedText>
+                                                                    </Label>
+                                                                </Grid>
+                                                                <Grid ColumnDefinitions="*,*"
+                                                                      VerticalOptions="FillAndExpand"
+                                                                      HorizontalOptions="FillAndExpand"
+                                                                      IsVisible="{Binding VatAndGrandTotalVisibility}">
+                                                                    <Label Text="Grand Total"
+                                                                        HorizontalOptions="StartAndExpand"
+                                                                        Grid.Row="0" Grid.Column="0"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        HeightRequest="25"
+                                                                        FontAttributes="Bold" />
+                                                                    <Label HorizontalOptions="EndAndExpand"
+                                                                        Grid.Row="0" Grid.Column="1"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        HeightRequest="25"
+                                                                        FontAttributes="Bold">
+                                                                        <Label.FormattedText>
+                                                                            <FormattedString>
+                                                                                <Span
+                                                                                    Text="{Binding GrandTotal,StringFormat='{0}'}" />
+                                                                                <Span Text=" " />
+                                                                                <Span
+                                                                                    Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current}}" />
+                                                                            </FormattedString>
+                                                                        </Label.FormattedText>
+                                                                    </Label>
+                                                                </Grid>
+                                                            </StackLayout>
+
+                                                        </Frame>
+                                                        <Button Text="Pay Now"
+                                                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                HorizontalOptions="EndAndExpand"
+                                                                TextColor="White" CornerRadius="5"
+                                                                Margin="0,5,5,0"
+                                                                HeightRequest="40" Padding="10"
+                                                                Command="{Binding BindingContext.PayNowCommand, Source={x:Reference onlinePaymentPage}}"
+                                                                CommandParameter="{Binding .}"
+                                                                IsVisible="{Binding IsPayNowVisible}" />
+                                                    </StackLayout>
+
+                                                </Grid>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </Grid>
+
+                </StackLayout>
+                
+                <StackLayout IsVisible="{Binding IsPaymentHistoryVisible}">
+                    <StackLayout Padding="15,0,15,0"
+                                         IsVisible="false">
+                                <Frame Padding="5,15,5,5"
+                                       CornerRadius="5" HasShadow="False"
+                                       IsClippedToBounds="True"
+                                       BorderColor="{StaticResource BorderColor}"
+                                       BackgroundColor="White">
+                                    <Label Text="{Binding NoDataFound}"
+                                           Style="{StaticResource DescriptionLabelStyle}"
+                                           VerticalTextAlignment="Center"
+                                           HorizontalTextAlignment="Start" />
+                                </Frame>
+                            </StackLayout>
+                            <ListView ItemsSource="{Binding PaymentHistoryList,Mode=TwoWay}"
+                                      SelectedItem="{Binding SelectedPaymentHistory, Mode=TwoWay}"
+                                      HasUnevenRows="True" VerticalScrollBarVisibility="Never"
+                                      BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                      VerticalOptions="StartAndExpand"
+                                      SeparatorVisibility="None" SelectionMode="None"
+                                      Margin="0,10,0,0"
+                                      x:Name="beamPaymentHistoryListview">
+                                <x:Arguments>
+                                    <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                                </x:Arguments>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout Padding="10,10,10,5"
+                                                         IsVisible="{Binding PickUpDataAvailable}">
+                                                <Frame CornerRadius="5"
+                                                       HasShadow="False"
+                                                       BorderColor="{StaticResource BorderColor}"
+                                                       Padding="2"
+                                                       HeightRequest="40"
+                                                       IsClippedToBounds="true"
+                                                       IsVisible="{Binding PickUpDataAvailable}">
+
+
+                                                    <StackLayout VerticalOptions="Fill"
+                                                                 HorizontalOptions="Fill"
+                                                                 Padding="5,5,10,5">
+                                                        <StackLayout Orientation="Horizontal">
+                                                            <Label Text="{Binding OrderId}"
+                                                                   HorizontalOptions="StartAndExpand"
+                                                                   Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                            <ffimageloading:CachedImage
+                                                                HorizontalOptions="EndAndExpand"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                WidthRequest="25"
+                                                                HeightRequest="25"
+                                                                Aspect="AspectFit"
+                                                                DownsampleToViewSize="True"
+                                                                Source="download.png"
+                                                                IsVisible="{Binding DownloadIconVisibility}">
+                                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.DownloadCommand,Source={x:Reference beamPaymentHistoryListview}}"
+                                                                        CommandParameter="{Binding .}" />
+                                                                </ffimageloading:CachedImage.GestureRecognizers>
+                                                            </ffimageloading:CachedImage>
+                                                            <StackLayout VerticalOptions="CenterAndExpand">
+                                                                <ffimageloading:CachedImage Margin="10,0,0,0"
+                                                                    Source="{Binding ArrowImageSource}"
+                                                                    HorizontalOptions="EndAndExpand"
+                                                                    VerticalOptions="CenterAndExpand"
+                                                                    Scale="0.8">
+                                                                    <ffimageloading:CachedImage.GestureRecognizers>
+                                                                        <TapGestureRecognizer
+                                                                            Command="{Binding BindingContext.ExpandCollapseClickCommand,Source={x:Reference onlinePaymentPage}}"
+                                                                            CommandParameter="{Binding .}" />
+                                                                    </ffimageloading:CachedImage.GestureRecognizers>
+                                                                </ffimageloading:CachedImage>
+                                                                <StackLayout.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.ExpandCollapseClickCommand,Source={x:Reference onlinePaymentPage}}"
+                                                                        CommandParameter="{Binding .}" />
+                                                                </StackLayout.GestureRecognizers>
+                                                            </StackLayout>
+
+                                                        </StackLayout>
+                                                    </StackLayout>
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.ExpandCollapseClickCommand,Source={x:Reference onlinePaymentPage}}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </Frame.GestureRecognizers>
+                                                </Frame>
+                                                <Frame CornerRadius="5"
+                                                       HasShadow="False" Margin="0,-5,0,0"
+                                                       BorderColor="{StaticResource BorderColor}"
+                                                       Padding="6"
+                                                       IsClippedToBounds="true"
+                                                       IsVisible="{Binding DetailsVisibility}">
+                                                    <StackLayout VerticalOptions="Fill"
+                                                                 HorizontalOptions="Fill"
+                                                                 Padding="5,5,10,5">
+                                                        <StackLayout Orientation="Horizontal" Spacing="0">
+                                                            <Label>
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Total"
+                                                                            Style="{StaticResource DescriptionLabelStyle}" />
+                                                                        <Span Text=" " />
+                                                                        <Span Text="{Binding Amount}"
+                                                                            Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+
+                                                            <Label Text="{Binding PaymentFullStatus}"
+                                                                   Style="{StaticResource DescriptionLabelStyle}"
+                                                                   HorizontalOptions="EndAndExpand"
+                                                                   HorizontalTextAlignment="End" />
+                                                        </StackLayout>
+
+                                                        <Label HorizontalOptions="StartAndExpand"
+                                                               HorizontalTextAlignment="Start"
+                                                               Margin="0,5,0,0">
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="Payment Module"
+                                                                        Style="{StaticResource DescriptionLabelStyle}" />
+                                                                    <Span Text=" " />
+                                                                    <Span Text="{Binding PaymentModule}"
+                                                                        Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                        <Label Text="{Binding FormattedTransactionDate}"
+                                                               HorizontalOptions="StartAndExpand"
+                                                               Style="{StaticResource DescriptionLabelStyle}"
+                                                               HorizontalTextAlignment="Start" 
+                                                               Margin="0,5,0,0"/>
+                                                    </StackLayout>
+                                                </Frame>
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </StackLayout>
+
+                    
+                    
+                    
+                    
+                    
+                    
+                               
+                            
+                </StackLayout>
+                <StackLayout VerticalOptions="EndAndExpand" Grid.Row="3">
+        
+                    <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                                 VerticalOptions="EndAndExpand"
+                                 HorizontalOptions="FillAndExpand" />
+        
+                </StackLayout>
+                <Grid.GestureRecognizers>
+                    <SwipeGestureRecognizer
+                        Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference onlinePaymentPage}}"
+                        Direction="Right" />
+                </Grid.GestureRecognizers>
+            </Grid>
+    </ContentPage.Content>
+</ContentPage>

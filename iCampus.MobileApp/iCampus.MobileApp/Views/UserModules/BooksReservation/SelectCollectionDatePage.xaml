@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             x:Class="iCampus.MobileApp.Views.UserModules.BooksReservation.SelectCollectionDatePage"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="collectionDateSelectionPage">
+    <ContentPage.Content>
+
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto" ColumnDefinitions="*,Auto">
+            <ContentView ControlTemplate="{StaticResource BeamHeader}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                         BackgroundColor="White" />
+            <Label Text="You selected date and time for" Grid.Row="1" Grid.Column="0"
+                   Style="{StaticResource DescriptionLabelStyle}" Margin="15,0,15,0"
+                   IsVisible="{Binding SelectedDateTimeVisibility}" />
+            <Label Text="{Binding SelectedDateTime}" Grid.Row="2" Grid.Column="0"
+                   Style="{StaticResource DescriptionLabelStyle}" Margin="15,0,0,0"
+                   IsVisible="{Binding SelectedDateTimeVisibility}" />
+            <Button Text="Save &amp; Confirm"
+                    CornerRadius="4" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" VerticalOptions="CenterAndExpand"
+                    Margin="0,0,15,0" IsVisible="{Binding SelectedDateTimeVisibility}"
+                    HeightRequest="30"
+                    Padding="5,0,5,0"
+                    Command="{Binding SaveAndConfirmClickedCommand}"
+                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                    TextColor="White" HorizontalOptions="EndAndExpand" />
+
+            <StackLayout Padding="0" Margin="10,0,10,0"
+                         IsVisible="{Binding IsNoRecordMsg}" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+                <Frame Padding="10"
+                       CornerRadius="5" HasShadow="False"
+                       IsClippedToBounds="True"
+                       BorderColor="{StaticResource BorderColor}"
+                       BackgroundColor="White">
+                    <Label Text="{Binding NoDataFound,Mode=TwoWay}" Style="{StaticResource DescriptionLabelStyle}"
+                           VerticalTextAlignment="Center"
+                           HorizontalTextAlignment="Start" />
+                </Frame>
+            </StackLayout>
+
+            <ListView HasUnevenRows="true" Margin="15,0,15,10" VerticalOptions="FillAndExpand"
+                      ItemsSource="{Binding AvailableTimeList}" x:Name="listView" Grid.Row="3" Grid.Column="0"
+                      Grid.ColumnSpan="2"
+                      SeparatorVisibility="None" VerticalScrollBarVisibility="Never"
+                      BackgroundColor="{StaticResource ListViewBackgroundColor}">
+                <x:Arguments>
+                    <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                </x:Arguments>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout>
+                                <Frame CornerRadius="0"
+                                       HasShadow="False" Margin="5"
+                                       BorderColor="{StaticResource BorderColor}"
+                                       Padding="1"
+                                       IsClippedToBounds="true">
+                                    <Grid ColumnSpacing="10" Margin="0,0,0,0" Padding="5">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Padding="0"
+                                               Grid.Column="0" Text="{Binding Date}"
+                                               Style="{StaticResource TitleLabelStyle}" />
+                                        <ffimageloading:CachedImage Source="{Binding ArrowImageSource}" Grid.Row="0"
+                                                                    Grid.Column="1" HorizontalOptions="EndAndExpand"
+                                                                    Scale="0.8" />
+                                        <Grid.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding BindingContext.ArrowClickedCommand,Source={x:Reference collectionDateSelectionPage}}"
+                                                CommandParameter="{Binding .}" />
+                                        </Grid.GestureRecognizers>
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference collectionDateSelectionPage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

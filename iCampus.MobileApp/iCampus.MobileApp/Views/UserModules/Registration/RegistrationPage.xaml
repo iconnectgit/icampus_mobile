@@ -1,0 +1,1235 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="iCampus.MobileApp.Views.UserModules.Registration.RegistrationPage"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="registrationpage">
+    <ContentPage.Content>
+
+        <Grid VerticalOptions="FillAndExpand"
+              BackgroundColor="{StaticResource BorderColor}" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*"
+              Margin="0,0,0,0">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <behaviours:VisiblityConverter x:Key="VisiblityConverter" />
+                    <Style x:Key="OnlinePaymentBoldLabels" TargetType="Label"
+                           BasedOn="{StaticResource TitleLabelStyle}">
+                        <Setter Property="FontSize" Value="15" />
+                    </Style>
+                </ResourceDictionary>
+            </Grid.Resources>
+
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         VerticalOptions="StartAndExpand"
+                         BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
+
+            <ScrollView Grid.Row="1" Grid.Column="0" Margin="10,10,10,10" VerticalOptions="FillAndExpand">
+                <StackLayout Spacing="0" VerticalOptions="FillAndExpand">
+                    <StackLayout Spacing="0" IsVisible="{Binding IsErrorMessageVisible}">
+                        <Label Text="{Binding RegistrationData.ErrorMessage}"
+                               Style="{StaticResource TitleLabelStyle}"
+                               TextColor="Red" />
+                    </StackLayout>
+                    <StackLayout Spacing="0" IsVisible="{Binding IsWaitingListMessage}">
+                        <Label Text="{Binding RegistrationData.WaitingListMessage}"
+                               Style="{StaticResource TitleLabelStyle}"
+                               TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                               TextType="Html" />
+                    </StackLayout>
+                    <StackLayout Spacing="0" IsVisible="{Binding IsRegistrationDataVisible}" VerticalOptions="FillAndExpand">
+                        <StackLayout Spacing="0">
+                            <Grid Margin="0,0,0,0" ColumnSpacing="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Spacing="0" Grid.Column="0">
+                                    <Button
+                                        Text="Update Family Details"
+                                        FontSize="16"
+                                        FontAttributes="Bold"
+                                        TextColor="White"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="FillAndExpand"
+                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        CornerRadius="6"
+                                        Command="{Binding UpdateDetailsCommand}" />
+                                </StackLayout>
+                                <StackLayout Spacing="0" Grid.Column="1"
+                                             IsVisible="{Binding  IsAppointmentButtonVisible}">
+                                    <Button
+                                        Text="Book an Appointment"
+                                        FontSize="16"
+                                        FontAttributes="Bold"
+                                        TextColor="White"
+                                        VerticalOptions="Center"
+                                        BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        HorizontalOptions="FillAndExpand"
+                                        Margin="0,0,0,0"
+                                        CornerRadius="6"
+                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        Command="{Binding BookAppointmentCommand}" />
+                                </StackLayout>
+                            </Grid>
+                        </StackLayout>
+                        <StackLayout Spacing="0" Margin="0,0,0,0" IsVisible="{Binding IsInstructionVisible}">
+                            <Button
+                                Text="Registration Instructions"
+                                FontSize="Small"
+                                Padding="5,0,5,0"
+                                HeightRequest="30"
+                                MinimumHeightRequest="30"
+                                FontAttributes="Bold"
+                                VerticalOptions="Center"
+                                HorizontalOptions="EndAndExpand"
+                                TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                BackgroundColor="White"
+                                BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                CornerRadius="6"
+                                Command="{Binding RegistrationInstructionsCommand}" />
+                        </StackLayout>
+
+                        <StackLayout IsVisible="{Binding IsBookingsVisible}" Margin="0" Spacing="0" VerticalOptions="FillAndExpand">
+                            <StackLayout>
+                                <Label Text="Bookings"
+                                       FontSize="Medium"
+                                       Style="{StaticResource TitleLabelStyle}" />
+                                <Frame Padding="5,10,5,10"
+                                       CornerRadius="5" HasShadow="False" IsClippedToBounds="True"
+                                       BorderColor="{StaticResource BorderColor}"
+                                       Margin="0,5,0,0">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width=".25*" />
+                                            <ColumnDefinition Width=".25*" />
+                                            <ColumnDefinition Width=".5*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Row="0"
+                                               Grid.Column="0"
+                                               Text="Date"
+                                               Style="{StaticResource TitleLabelStyle}"
+                                               VerticalTextAlignment="Center"
+                                               HorizontalTextAlignment="Start" />
+                                        <Label Grid.Row="0"
+                                               Grid.Column="1"
+                                               Text="Time"
+                                               Style="{StaticResource TitleLabelStyle}"
+                                               VerticalTextAlignment="Center"
+                                               HorizontalTextAlignment="Start" />
+                                        <Label Grid.Row="0"
+                                               Grid.Column="2"
+                                               Text="Action"
+                                               Style="{StaticResource TitleLabelStyle}"
+                                               VerticalTextAlignment="Center"
+                                               HorizontalTextAlignment="Center" />
+                                    </Grid>
+                                </Frame>
+                            </StackLayout>
+                            
+                                <ListView ItemsSource="{Binding FamilyAppointmentBookings,Mode=TwoWay}"
+                                          SelectedItem="{Binding SelectedFamilyAppointment}"
+                                          HasUnevenRows="True" VerticalScrollBarVisibility="Never"
+                                          BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                          VerticalOptions="FillAndExpand"
+                                          SeparatorVisibility="None" SelectionMode="None"
+                                          x:Name="beamListview">
+                                    <x:Arguments>
+                                        <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                                    </x:Arguments>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <Frame Padding="5,5,5,5"
+                                                       CornerRadius="5" HasShadow="False" IsClippedToBounds="True"
+                                                       BorderColor="{StaticResource BorderColor}"
+                                                       Margin="0,0,0,0">
+                                                    <Grid>
+                                                        <Grid.RowDefinitions>
+                                                            <RowDefinition Height="Auto" />
+                                                        </Grid.RowDefinitions>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width=".25*" />
+                                                            <ColumnDefinition Width=".25*" />
+                                                            <ColumnDefinition Width=".5*" />
+                                                        </Grid.ColumnDefinitions>
+                                                        <Label Grid.Row="0"
+                                                               Grid.Column="0"
+                                                               Text="{Binding BookingDateFormatted}"
+                                                               Style="{StaticResource DescriptionLabelStyle}"
+                                                               VerticalTextAlignment="Center"
+                                                               HorizontalTextAlignment="Start" />
+                                                        <Label Grid.Row="0"
+                                                               Grid.Column="1"
+                                                               Text="{Binding BookingTimeFormatted}"
+                                                               Style="{StaticResource DescriptionLabelStyle}"
+                                                               VerticalTextAlignment="Center"
+                                                               HorizontalTextAlignment="Start" />
+                                                        <StackLayout Grid.Row="0"
+                                                                     Grid.Column="2"
+                                                                     Spacing="5"
+                                                                     Orientation="Horizontal"
+                                                                     VerticalOptions="Center"
+                                                                     HorizontalOptions="Center">
+                                                            <Button Padding="5,0,5,0"
+                                                                    Text="Modify"
+                                                                    FontSize="Small"
+                                                                    TextColor="White"
+                                                                    HeightRequest="35"
+                                                                    MinimumHeightRequest="35"
+                                                                    WidthRequest="60"
+                                                                    VerticalOptions="Center"
+                                                                    HorizontalOptions="FillAndExpand"
+                                                                    IsVisible="{Binding BindingContext.IsModifyVisible,Source={x:Reference registrationpage}}"
+                                                                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                    BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                    CornerRadius="6"
+                                                                    Command="{Binding BindingContext.ModifyBookingCommand,Source={x:Reference registrationpage}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            <Button Padding="5,0,5,0"
+                                                                    Text="Cancel"
+                                                                    FontSize="Small"
+                                                                    HeightRequest="35"
+                                                                    MinimumHeightRequest="35"
+                                                                    WidthRequest="60"
+                                                                    TextColor="White"
+                                                                    VerticalOptions="Center"
+                                                                    HorizontalOptions="FillAndExpand"
+                                                                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                    BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                    CornerRadius="6"
+                                                                    Command="{Binding BindingContext.CancelCommand,Source={x:Reference registrationpage}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                        </StackLayout>
+                                                    </Grid>
+                                                </Frame>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                        </StackLayout>
+
+                        <StackLayout Margin="0,5,0,5" 
+                                     Spacing="0" IsVisible="{Binding StudentNamesListVisible}" 
+                                     VerticalOptions="FillAndExpand"
+                                     HeightRequest="{Binding StudentsListViewHeight}">
+                            <Label Text="Existing child/children"
+                                   FontSize="Medium"
+                                   Margin="0,0,0,5"
+                                   Style="{StaticResource TitleLabelStyle}" />
+
+                                <ListView ItemsSource="{Binding StudentNamesList,Mode=TwoWay}"
+                                          SelectedItem="{Binding SelectedExistingStudent}"
+                                          HasUnevenRows="True" VerticalScrollBarVisibility="Never"
+                                          BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                          VerticalOptions="FillAndExpand"
+                                          SeparatorVisibility="None" SelectionMode="None"
+                                          x:Name="studentNameListview">
+                                    <x:Arguments>
+                                        <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                                    </x:Arguments>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <StackLayout>
+                                                    <Frame CornerRadius="5"
+                                                           HasShadow="False"
+                                                           BorderColor="{StaticResource BorderColor}"
+                                                           Padding="6"
+                                                           IsClippedToBounds="true"
+                                                           IsVisible="{Binding PickUpDataAvailable}">
+                                                        <StackLayout VerticalOptions="Fill"
+                                                                     HorizontalOptions="Fill"
+                                                                     Padding="5">
+                                                            <StackLayout Orientation="Horizontal">
+
+                                                                <Label Text="{Binding StudentName}"
+                                                                       HorizontalOptions="StartAndExpand"
+                                                                       Style="{StaticResource OnlinePaymentBoldLabels}" />
+
+                                                                <StackLayout VerticalOptions="CenterAndExpand">
+                                                                    <ffimageloading:CachedImage Margin="10,0,0,0"
+                                                                        Source="{Binding ArrowImageSource}"
+                                                                        HorizontalOptions="EndAndExpand"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        Scale="0.8" IsVisible="true">
+                                                                        <ffimageloading:CachedImage.GestureRecognizers>
+                                                                            <TapGestureRecognizer
+                                                                                Command="{Binding BindingContext.StudentListExpandCollapseCommand,Source={x:Reference registrationpage}}"
+                                                                                CommandParameter="{Binding .}" />
+                                                                        </ffimageloading:CachedImage.GestureRecognizers>
+                                                                    </ffimageloading:CachedImage>
+                                                                    <StackLayout.GestureRecognizers>
+                                                                        <TapGestureRecognizer
+                                                                            Command="{Binding BindingContext.StudentListExpandCollapseCommand, Source={x:Reference registrationpage}}"
+                                                                            CommandParameter="{Binding .}" />
+                                                                    </StackLayout.GestureRecognizers>
+                                                                </StackLayout>
+
+                                                            </StackLayout>
+                                                        </StackLayout>
+                                                        <Frame.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding BindingContext.StudentListExpandCollapseCommand, Source={x:Reference registrationpage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                        </Frame.GestureRecognizers>
+                                                    </Frame>
+                                                    <Frame CornerRadius="5"
+                                                           HasShadow="False"
+                                                           BorderColor="{StaticResource BorderColor}"
+                                                           Padding="6"
+                                                           IsVisible="{Binding DetailsVisibility}">
+                                                        <StackLayout VerticalOptions="Fill"
+                                                                     HorizontalOptions="Fill"
+                                                                     Padding="5">
+                                                            <Label HorizontalOptions="StartAndExpand"
+                                                                   HorizontalTextAlignment="Start">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Class "
+                                                                              Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                                        <Span Text=": " />
+                                                                        <Span Text="{Binding ClassName}"
+                                                                              Style="{StaticResource DescriptionLabelStyle}" />
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+                                                            <Label HorizontalOptions="StartAndExpand"
+                                                                   HorizontalTextAlignment="Start">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Grade "
+                                                                              Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                                        <Span Text=": " />
+                                                                        <Span Text="{Binding GradeName}"
+                                                                              Style="{StaticResource DescriptionLabelStyle}" />
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+                                                            <Label HorizontalOptions="StartAndExpand"
+                                                                   HorizontalTextAlignment="Start"
+                                                                   IsVisible="{Binding BindingContext.ShowRegistrationFees, Source={x:Reference studentNameListview}}">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Registration Fees "
+                                                                              Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                                        <Span Text=": " />
+                                                                        <Span Text="{Binding CurrentYearFeesAmount}"
+                                                                              Style="{StaticResource TitleLabelStyle}" />
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+                                                            <StackLayout Orientation="Horizontal"
+                                                                         IsVisible="{Binding BindingContext.ShowTransportationDeposit, Source={x:Reference studentNameListview}}">
+                                                                <StackLayout>
+                                                                    <input:CheckBox HorizontalOptions="StartAndExpand"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        HeightRequest="30"
+                                                                        WidthRequest="25"
+                                                                        InputTransparent="True"
+                                                                        Scale="0.8"
+                                                                        Margin="0,0,0,0"
+                                                                        IsDisabled="{Binding TransportationFeeCheckBoxDisabled}"
+                                                                        IsChecked="{Binding TransportationFeeCheckBoxChecked}"
+                                                                        IsVisible="{Binding TransportationFeeCheckBoxVisible}"
+                                                                        Color="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                                    <StackLayout.GestureRecognizers>
+                                                                        <TapGestureRecognizer
+                                                                            Command="{Binding BindingContext.ExistingRegCheckboxClickCommand,Source={x:Reference studentNameListview}}"
+                                                                            CommandParameter="{Binding .}"
+                                                                            NumberOfTapsRequired="1" />
+
+                                                                    </StackLayout.GestureRecognizers>
+
+                                                                </StackLayout>
+                                                                <Label HorizontalOptions="StartAndExpand"
+                                                                       VerticalOptions="Center" Margin="5,0,10,0">
+                                                                    <Label.FormattedText>
+                                                                        <FormattedString>
+                                                                            <Span
+                                                                                Text="{Binding TransportationFeeMessage}"
+                                                                                Style="{StaticResource DescriptionLabelStyle}" />
+                                                                            <Span Text=" " />
+                                                                            <Span
+                                                                                Text="{Binding TransportationFeesFormatted}"
+                                                                                Style="{StaticResource TitleLabelStyle}" />
+                                                                        </FormattedString>
+                                                                    </Label.FormattedText>
+                                                                </Label>
+                                                            </StackLayout>
+                                                            <Label HorizontalOptions="StartAndExpand"
+                                                                   VerticalOptions="CenterAndExpand"
+                                                                   Margin="0"
+                                                                   Text="{Binding ReRegistrationMessage}"
+                                                                   Style="{StaticResource DescriptionLabelStyle }"
+                                                                   IsVisible="{Binding ReRegistrationMessage,Converter={StaticResource VisiblityConverter}}" />
+                                                        </StackLayout>
+                                                    </Frame>
+                                                </StackLayout>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                        </StackLayout>
+
+
+                        <StackLayout Margin="0,5,0,5" Spacing="0" 
+                                     VerticalOptions="FillAndExpand"
+                                     IsVisible="{Binding CurrentYearExistingStudentsVisible}"
+                                     HeightRequest="{Binding CurrentYearListViewHeight}">
+                            <Label Text="{Binding CurrentYearExistingStudentGridTitle}"
+                                   FontSize="Medium"
+                                   Margin="0,0,0,5"
+                                   Style="{StaticResource TitleLabelStyle}" />
+
+                                <ListView ItemsSource="{Binding CurrentYearExistingStudents,Mode=TwoWay}"
+                                          SelectedItem="{Binding SelectedExistingStudent}"
+                                          HasUnevenRows="True" VerticalScrollBarVisibility="Never"
+                                          BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                          VerticalOptions="FillAndExpand"
+                                          SeparatorVisibility="None" SelectionMode="None"
+                                          x:Name="existingListview">
+                                    <x:Arguments>
+                                        <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                                    </x:Arguments>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <StackLayout>
+                                                    <Frame CornerRadius="5"
+                                                           HasShadow="False"
+                                                           BorderColor="{StaticResource BorderColor}"
+                                                           Padding="6"
+                                                           IsClippedToBounds="true"
+                                                           IsVisible="{Binding PickUpDataAvailable}">
+                                                        <StackLayout VerticalOptions="Fill"
+                                                                     HorizontalOptions="Fill"
+                                                                     Padding="5">
+                                                            <StackLayout Orientation="Horizontal">
+
+                                                                <Label Text="{Binding StudentName}"
+                                                                       HorizontalOptions="StartAndExpand"
+                                                                       Style="{StaticResource OnlinePaymentBoldLabels}" />
+
+                                                                <StackLayout VerticalOptions="CenterAndExpand">
+                                                                    <ffimageloading:CachedImage Margin="10,0,0,0"
+                                                                        Source="{Binding ArrowImageSource}"
+                                                                        HorizontalOptions="EndAndExpand"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        Scale="0.8" IsVisible="true">
+                                                                        <ffimageloading:CachedImage.GestureRecognizers>
+                                                                            <TapGestureRecognizer
+                                                                                Command="{Binding BindingContext.ExpandCollapseClickCommand,Source={x:Reference registrationpage}}"
+                                                                                CommandParameter="{Binding .}" />
+                                                                        </ffimageloading:CachedImage.GestureRecognizers>
+                                                                    </ffimageloading:CachedImage>
+                                                                    <StackLayout.GestureRecognizers>
+                                                                        <TapGestureRecognizer
+                                                                            Command="{Binding BindingContext.ExpandCollapseClickCommand, Source={x:Reference registrationpage}}"
+                                                                            CommandParameter="{Binding .}" />
+                                                                    </StackLayout.GestureRecognizers>
+                                                                </StackLayout>
+
+                                                            </StackLayout>
+                                                        </StackLayout>
+                                                        <Frame.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding BindingContext.ExpandCollapseClickCommand, Source={x:Reference registrationpage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                        </Frame.GestureRecognizers>
+                                                    </Frame>
+                                                    <Frame CornerRadius="5"
+                                                           HasShadow="False"
+                                                           BorderColor="{StaticResource BorderColor}"
+                                                           Padding="6"
+                                                           IsVisible="{Binding DetailsVisibility}">
+                                                        <StackLayout VerticalOptions="Fill"
+                                                                     HorizontalOptions="Fill"
+                                                                     Padding="5">
+                                                            <Label HorizontalOptions="StartAndExpand"
+                                                                   HorizontalTextAlignment="Start">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Class "
+                                                                              Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                                        <Span Text=": " />
+                                                                        <Span Text="{Binding ClassName}"
+                                                                              Style="{StaticResource DescriptionLabelStyle}" />
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+                                                            <Label HorizontalOptions="StartAndExpand"
+                                                                   HorizontalTextAlignment="Start">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Grade "
+                                                                              Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                                        <Span Text=": " />
+                                                                        <Span Text="{Binding GradeName}"
+                                                                              Style="{StaticResource DescriptionLabelStyle}" />
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+                                                            <Label HorizontalOptions="StartAndExpand"
+                                                                   HorizontalTextAlignment="Start"
+                                                                   IsVisible="{Binding BindingContext.ShowRegistrationFees, Source={x:Reference existingListview}}">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Registration Fees "
+                                                                              Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                                        <Span Text=": " />
+                                                                        <Span Text="{Binding CurrentYearFeesAmount}"
+                                                                              Style="{StaticResource TitleLabelStyle}" />
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+                                                            <StackLayout Orientation="Horizontal"
+                                                                         IsVisible="{Binding ShowTransportationDeposit}"
+                                                                         Margin="0">
+                                                                <StackLayout Margin="0,-10,5,-10"
+                                                                             IsVisible="{Binding TransportationFeeCheckBoxVisible}">
+                                                                    <input:CheckBox HorizontalOptions="StartAndExpand"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        HeightRequest="30"
+                                                                        WidthRequest="25"
+                                                                        InputTransparent="True"
+                                                                        Scale="0.8"
+                                                                        Margin="0,0,0,0"
+                                                                        IsDisabled="{Binding TransportationFeeCheckBoxDisabled}"
+                                                                        IsChecked="{Binding TransportationFeeCheckBoxChecked}"
+                                                                        IsVisible="{Binding TransportationFeeCheckBoxVisible}"
+                                                                        Color="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                                    <StackLayout.GestureRecognizers>
+                                                                        <TapGestureRecognizer
+                                                                            Command="{Binding BindingContext.CurrentYearCheckboxClickCommand,Source={x:Reference existingListview}}"
+                                                                            CommandParameter="{Binding .}"
+                                                                            NumberOfTapsRequired="1" />
+
+                                                                    </StackLayout.GestureRecognizers>
+
+                                                                </StackLayout>
+                                                                <Label HorizontalOptions="StartAndExpand"
+                                                                       VerticalOptions="Center" Margin="0"
+                                                                       IsVisible="{Binding TransportationFeeMessage,Converter={StaticResource VisiblityConverter}}">
+                                                                    <Label.FormattedText>
+                                                                        <FormattedString>
+                                                                            <Span
+                                                                                Text="{Binding TransportationFeeMessage}"
+                                                                                Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                                            <Span Text=" : " />
+                                                                            <Span
+                                                                                Text="{Binding TransportationFeesFormatted}"
+                                                                                Style="{StaticResource TitleLabelStyle}" />
+                                                                        </FormattedString>
+                                                                    </Label.FormattedText>
+                                                                </Label>
+                                                            </StackLayout>
+                                                            <StackLayout Orientation="Vertical" Margin="0,0,0,0"
+                                                                         IsVisible="{Binding UploadStudentPictureButtonVisible}">
+                                                                <Frame HasShadow="False" Padding="7"
+                                                                       BackgroundColor="White"
+                                                                       HorizontalOptions="StartAndExpand"
+                                                                       BorderColor="#E8E8E8">
+                                                                    <StackLayout Orientation="Horizontal"
+                                                                        Spacing="0" IsClippedToBounds="True"
+                                                                        HorizontalOptions="EndAndExpand"
+                                                                        VerticalOptions="CenterAndExpand">
+                                                                        <ffimageloading:CachedImage
+                                                                            HorizontalOptions="StartAndExpand"
+                                                                            VerticalOptions="CenterAndExpand"
+                                                                            WidthRequest="12"
+                                                                            HeightRequest="12"
+                                                                            Aspect="AspectFit"
+                                                                            DownsampleToViewSize="True"
+                                                                            Source="attachment_icon.png" />
+                                                                        <Label HorizontalOptions="StartAndExpand"
+                                                                               VerticalOptions="CenterAndExpand"
+                                                                               Margin="10,0,0,0"
+                                                                               Text="{Binding UploadStudentPictureButtonText}"
+                                                                               Style="{StaticResource DescriptionLabelStyle }" />
+                                                                        <StackLayout.GestureRecognizers>
+                                                                            <TapGestureRecognizer
+                                                                                Command="{Binding BindingContext.UpdatePhotoClickCommand,Source={x:Reference existingListview}}"
+                                                                                CommandParameter="{Binding .}" />
+                                                                        </StackLayout.GestureRecognizers>
+                                                                    </StackLayout>
+                                                                </Frame>
+                                                            </StackLayout>
+                                                            <Label HorizontalOptions="StartAndExpand"
+                                                                   VerticalOptions="CenterAndExpand"
+                                                                   Margin="0"
+                                                                   Text="{Binding ReRegistrationMessage}"
+                                                                   Style="{StaticResource DescriptionLabelStyle }"
+                                                                   IsVisible="{Binding ReRegistrationMessage,Converter={StaticResource VisiblityConverter}}" />
+                                                            <StackLayout Orientation="Horizontal"
+                                                                         IsVisible="{Binding ReRegistrationCheckBoxVisible}"
+                                                                         Margin="0,-10,0,-10">
+                                                                <StackLayout>
+                                                                    <input:CheckBox HorizontalOptions="StartAndExpand"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        HeightRequest="30"
+                                                                        WidthRequest="25"
+                                                                        InputTransparent="True"
+                                                                        Scale="0.8"
+                                                                        Margin="0,0,0,0"
+                                                                        IsDisabled="{Binding ReRegistrationCheckBoxDisabled}"
+                                                                        IsChecked="{Binding ReRegistrationCheckBoxChecked}"
+                                                                        Color="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                                    <StackLayout.GestureRecognizers>
+                                                                        <TapGestureRecognizer
+                                                                            Command="{Binding BindingContext.CurrentYearReregCheckboxClickCommand,Source={x:Reference existingListview}}"
+                                                                            CommandParameter="{Binding .}"
+                                                                            NumberOfTapsRequired="1" />
+                                                                    </StackLayout.GestureRecognizers>
+
+                                                                </StackLayout>
+                                                            </StackLayout>
+                                                            <StackLayout Orientation="Horizontal"
+                                                                         HorizontalOptions="EndAndExpand" Margin="0"
+                                                                         IsVisible="{Binding PaymentButtonVisible}">
+                                                                <Button
+                                                                    Text="Pay Now"
+                                                                    FontSize="Small"
+                                                                    FontAttributes="Bold"
+                                                                    TextColor="White"
+                                                                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                    VerticalOptions="Center"
+                                                                    HorizontalOptions="Start"
+                                                                    BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                    CornerRadius="6"
+                                                                    Padding="5"
+                                                                    HeightRequest="40"
+                                                                    Command="{Binding BindingContext.PayNowCommandCurrentYear,Source={x:Reference existingListview}}"
+                                                                    CommandParameter="{Binding .}"
+                                                                    IsEnabled="{Binding PaymentButtonDisabled}">
+                                                                    <VisualStateManager.VisualStateGroups>
+                                                                        <VisualStateGroup Name="CommonStates1">
+                                                                            <VisualState Name="Normal1">
+                                                                                <VisualState.Setters>
+                                                                                    <Setter Property="TextColor"
+                                                                                        Value="White" />
+                                                                                </VisualState.Setters>
+                                                                            </VisualState>
+                                                                            <VisualState Name="Disabled1">
+                                                                                <VisualState.Setters>
+                                                                                    <Setter Property="TextColor"
+                                                                                        Value="#E8E8E8" />
+                                                                                </VisualState.Setters>
+                                                                            </VisualState>
+                                                                        </VisualStateGroup>
+                                                                    </VisualStateManager.VisualStateGroups>
+                                                                </Button>
+                                                            </StackLayout>
+
+                                                            <Label Text="View Receipt"
+                                                                   TextColor="blue"
+                                                                   TextDecorations="Underline"
+                                                                   IsVisible="{Binding ReceiptLinkVisible}"
+                                                                   HorizontalOptions="StartAndExpand"
+                                                                   Style="{StaticResource DescriptionLabelStyle}"
+                                                                   HorizontalTextAlignment="Start">
+                                                                <Label.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.ViewReceiptClickCommand,Source={x:Reference existingListview}}"
+                                                                        CommandParameter="{Binding .}"
+                                                                        NumberOfTapsRequired="1" />
+                                                                </Label.GestureRecognizers>
+                                                            </Label>
+                                                        </StackLayout>
+                                                    </Frame>
+                                                </StackLayout>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                        </StackLayout>
+
+                        <StackLayout Margin="0,5,0,15"  
+                                     VerticalOptions="FillAndExpand"
+                                     HeightRequest="{Binding NextYearListViewHeight}"
+                                     IsVisible="{Binding NextYearExistingStudentsVisible}">
+                            <Label Text="{Binding NextYearExistingStudentGridTitle}"
+                                   FontSize="Medium"
+                                   Margin="0,0,0,5"
+                                   Style="{StaticResource TitleLabelStyle}" />
+
+                                <ListView ItemsSource="{Binding NextYearExistingStudents,Mode=TwoWay}"
+                                          HasUnevenRows="True" VerticalScrollBarVisibility="Never"
+                                          BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                          VerticalOptions="FillAndExpand"
+                                          SeparatorVisibility="None" SelectionMode="None"
+                                          
+                                          x:Name="newListview">
+                                    <x:Arguments>
+                                        <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                                    </x:Arguments>
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <StackLayout>
+                                                    <Frame CornerRadius="5"
+                                                           HasShadow="False"
+                                                           BorderColor="{StaticResource BorderColor}"
+                                                           Padding="6"
+                                                           IsClippedToBounds="true"
+                                                           IsVisible="{Binding PickUpDataAvailable}">
+                                                        <StackLayout VerticalOptions="Fill"
+                                                                     HorizontalOptions="Fill"
+                                                                     Padding="5">
+                                                            <StackLayout Orientation="Horizontal">
+
+                                                                <Label Text="{Binding StudentName}"
+                                                                       HorizontalOptions="StartAndExpand"
+                                                                       Style="{StaticResource OnlinePaymentBoldLabels}" />
+
+                                                                <StackLayout VerticalOptions="CenterAndExpand">
+                                                                    <ffimageloading:CachedImage Margin="10,0,0,0"
+                                                                        Source="{Binding ArrowImageSource}"
+                                                                        HorizontalOptions="EndAndExpand"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        Scale="0.8" IsVisible="true">
+                                                                        <ffimageloading:CachedImage.GestureRecognizers>
+                                                                            <TapGestureRecognizer
+                                                                                Command="{Binding BindingContext.NewExpandCollapseClickCommand,Source={x:Reference registrationpage}}"
+                                                                                CommandParameter="{Binding .}" />
+                                                                        </ffimageloading:CachedImage.GestureRecognizers>
+                                                                    </ffimageloading:CachedImage>
+                                                                    <StackLayout.GestureRecognizers>
+                                                                        <TapGestureRecognizer
+                                                                            Command="{Binding BindingContext.NewExpandCollapseClickCommand, Source={x:Reference registrationpage}}"
+                                                                            CommandParameter="{Binding .}" />
+                                                                    </StackLayout.GestureRecognizers>
+                                                                </StackLayout>
+
+                                                            </StackLayout>
+                                                        </StackLayout>
+                                                        <Frame.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding BindingContext.NewExpandCollapseClickCommand, Source={x:Reference registrationpage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                        </Frame.GestureRecognizers>
+                                                    </Frame>
+                                                    <Frame CornerRadius="5"
+                                                           HasShadow="False"
+                                                           BorderColor="{StaticResource BorderColor}"
+                                                           Padding="6"
+                                                           IsVisible="{Binding DetailsVisibility}">
+                                                        <StackLayout VerticalOptions="FillAndExpand"
+                                                                     HorizontalOptions="Fill"
+                                                                     Padding="5">
+                                                            <Label HorizontalOptions="StartAndExpand"
+                                                                   HorizontalTextAlignment="Start">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Class "
+                                                                              Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                                        <Span Text=": " />
+                                                                        <Span Text="{Binding ClassName}"
+                                                                              Style="{StaticResource DescriptionLabelStyle}" />
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+                                                            <Label HorizontalOptions="StartAndExpand"
+                                                                   HorizontalTextAlignment="Start"
+                                                                   Margin="0,5,0,0">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Next Grade "
+                                                                              Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                                        <Span Text=": " />
+                                                                        <Span Text="{Binding NextGradeName}"
+                                                                              Style="{StaticResource DescriptionLabelStyle}" />
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+                                                            <Label HorizontalOptions="StartAndExpand"
+                                                                   HorizontalTextAlignment="Start"
+                                                                   Margin="0,5,0,0"
+                                                                   IsVisible="{Binding BindingContext.ShowRegistrationFees, Source={x:Reference newListview}}">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Registration Fees "
+                                                                              Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                                        <Span Text=": " />
+                                                                        <Span Text="{Binding FeesAmount}"
+                                                                              Style="{StaticResource TitleLabelStyle}" />
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+                                                            <StackLayout Orientation="Horizontal"
+                                                                         IsVisible="{Binding ShowTransportationDeposit}"
+                                                                         Margin="0">
+                                                                <StackLayout Margin="0,5,5,0"
+                                                                             IsVisible="{Binding TransportationFeeCheckBoxVisible}">
+                                                                    <input:CheckBox HorizontalOptions="StartAndExpand"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        HeightRequest="30"
+                                                                        WidthRequest="25"
+                                                                        InputTransparent="True"
+                                                                        Scale="0.8"
+                                                                        Margin="0,0,0,0"
+                                                                        IsDisabled="{Binding TransportationFeeCheckBoxDisabled}"
+                                                                        IsChecked="{Binding TransportationFeeCheckBoxChecked}"
+                                                                        IsVisible="{Binding TransportationFeeCheckBoxVisible}"
+                                                                        Color="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                                    <StackLayout.GestureRecognizers>
+                                                                        <TapGestureRecognizer
+                                                                            Command="{Binding BindingContext.NextYearCheckboxClickCommand,Source={x:Reference newListview}}"
+                                                                            CommandParameter="{Binding .}"
+                                                                            NumberOfTapsRequired="1" />
+                                                                    </StackLayout.GestureRecognizers>
+
+                                                                </StackLayout>
+                                                                <Label HorizontalOptions="StartAndExpand"
+                                                                       VerticalOptions="Center" 
+                                                                       Margin="0,5,0,0"
+                                                                       IsVisible="{Binding TransportationFeeMessage,Converter={StaticResource VisiblityConverter}}">
+                                                                    <Label.FormattedText>
+                                                                        <FormattedString>
+                                                                            <Span
+                                                                                Text="{Binding TransportationFeeMessage}"
+                                                                                Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                                            <Span Text=" : " />
+                                                                            <Span
+                                                                                Text="{Binding TransportationFeesFormatted}"
+                                                                                Style="{StaticResource TitleLabelStyle}" />
+                                                                        </FormattedString>
+                                                                    </Label.FormattedText>
+                                                                </Label>
+                                                            </StackLayout>
+                                                            <StackLayout Orientation="Vertical" Margin="0,5,0,0"
+                                                                         IsVisible="{Binding UploadStudentPictureButtonVisible}">
+                                                                <Frame HasShadow="False" Padding="7"
+                                                                       BackgroundColor="White"
+                                                                       HorizontalOptions="StartAndExpand"
+                                                                       BorderColor="#E8E8E8">
+                                                                    <StackLayout Orientation="Horizontal"
+                                                                        Spacing="0" IsClippedToBounds="True"
+                                                                        HorizontalOptions="EndAndExpand"
+                                                                        VerticalOptions="CenterAndExpand">
+                                                                        <ffimageloading:CachedImage
+                                                                            HorizontalOptions="StartAndExpand"
+                                                                            VerticalOptions="CenterAndExpand"
+                                                                            WidthRequest="12"
+                                                                            HeightRequest="12"
+                                                                            Aspect="AspectFit"
+                                                                            DownsampleToViewSize="True"
+                                                                            Source="attachment_icon.png" />
+                                                                        <Label HorizontalOptions="StartAndExpand"
+                                                                               VerticalOptions="CenterAndExpand"
+                                                                               Margin="10,0,0,0"
+                                                                               Text="{Binding UploadStudentPictureButtonText}"
+                                                                               Style="{StaticResource DescriptionLabelStyle }" />
+                                                                        <StackLayout.GestureRecognizers>
+                                                                            <TapGestureRecognizer
+                                                                                Command="{Binding BindingContext.UpdatePhotoClickCommand,Source={x:Reference newListview}}"
+                                                                                CommandParameter="{Binding .}" />
+                                                                        </StackLayout.GestureRecognizers>
+                                                                    </StackLayout>
+                                                                </Frame>
+                                                            </StackLayout>
+                                                            <Label HorizontalOptions="StartAndExpand"
+                                                                   VerticalOptions="CenterAndExpand"
+                                                                   Margin="0,5,0,0"
+                                                                   Text="{Binding ReRegistrationMessage}"
+                                                                   Style="{StaticResource DescriptionLabelStyle }"
+                                                                   IsVisible="{Binding ReRegistrationMessage,Converter={StaticResource VisiblityConverter}}" />
+                                                            <StackLayout Orientation="Horizontal"
+                                                                         IsVisible="{Binding ReRegistrationCheckBoxVisible}"
+                                                                         Margin="0,5,0,0">
+                                                                <StackLayout>
+                                                                    <input:CheckBox HorizontalOptions="StartAndExpand"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        HeightRequest="30"
+                                                                        WidthRequest="25"
+                                                                        InputTransparent="True"
+                                                                        Scale="0.8"
+                                                                        Margin="0,0,0,0"
+                                                                        IsDisabled="{Binding ReRegistrationCheckBoxDisabled}"
+                                                                        IsChecked="{Binding ReRegistrationCheckBoxChecked}"
+                                                                        Color="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                                    <StackLayout.GestureRecognizers>
+                                                                        <TapGestureRecognizer
+                                                                            Command="{Binding BindingContext.NextYearReregCheckboxClickCommand,Source={x:Reference newListview}}"
+                                                                            CommandParameter="{Binding .}"
+                                                                            NumberOfTapsRequired="1" />
+                                                                    </StackLayout.GestureRecognizers>
+
+                                                                </StackLayout>
+                                                            </StackLayout>
+                                                            <StackLayout Orientation="Horizontal"
+                                                                         HorizontalOptions="EndAndExpand" Margin="0"
+                                                                         IsVisible="{Binding PaymentButtonVisible}">
+                                                                <Button
+                                                                    Text="Pay Now"
+                                                                    FontSize="Small"
+                                                                    FontAttributes="Bold"
+                                                                    TextColor="White"
+                                                                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                    VerticalOptions="Center"
+                                                                    HorizontalOptions="Start"
+                                                                    BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                    CornerRadius="6"
+                                                                    Padding="5"
+                                                                    Margin="0,5,0,0"
+                                                                    HeightRequest="40"
+                                                                    Command="{Binding BindingContext.PayNowCommandNextYear,Source={x:Reference newListview}}"
+                                                                    CommandParameter="{Binding .}"
+                                                                    IsEnabled="{Binding PaymentButtonDisabled}">
+                                                                    <VisualStateManager.VisualStateGroups>
+                                                                        <VisualStateGroup Name="CommonStates2">
+                                                                            <VisualState Name="Normal2">
+                                                                                <VisualState.Setters>
+                                                                                    <Setter Property="TextColor"
+                                                                                        Value="White" />
+                                                                                </VisualState.Setters>
+                                                                            </VisualState>
+                                                                            <VisualState Name="Disabled2">
+                                                                                <VisualState.Setters>
+                                                                                    <Setter Property="TextColor"
+                                                                                        Value="#E8E8E8" />
+                                                                                </VisualState.Setters>
+                                                                            </VisualState>
+                                                                        </VisualStateGroup>
+                                                                    </VisualStateManager.VisualStateGroups>
+                                                                </Button>
+                                                            </StackLayout>
+
+                                                            <Label Text="View Receipt"
+                                                                   TextColor="blue"
+                                                                   Margin="0,5,0,0"
+                                                                   TextDecorations="Underline"
+                                                                   IsVisible="{Binding ReceiptLinkVisible}"
+                                                                   HorizontalOptions="StartAndExpand"
+                                                                   Style="{StaticResource DescriptionLabelStyle}"
+                                                                   HorizontalTextAlignment="Start">
+                                                                <Label.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.ViewReceiptClickCommand,Source={x:Reference newListview}}"
+                                                                        CommandParameter="{Binding .}"
+                                                                        NumberOfTapsRequired="1" />
+                                                                </Label.GestureRecognizers>
+                                                            </Label>
+                                                        </StackLayout>
+                                                    </Frame>
+                                                </StackLayout>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                        </StackLayout>
+
+                        <StackLayout Spacing="0" Margin="0,5,0,0"
+                                     IsVisible="{Binding RequestReRegistrationButtonVisible}">
+                            <Button
+                                Text="Request Reregister"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                TextColor="White"
+                                VerticalOptions="Center"
+                                HorizontalOptions="FillAndExpand"
+                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                CornerRadius="6"
+                                Command="{Binding ReregistrationCommand}" />
+                        </StackLayout>
+                        <StackLayout Spacing="0" Margin="0,0,0,0"
+                                     IsVisible="{Binding CancelRequestReRegistrationButtonVisible}">
+                            <Button
+                                Text="Cancel Request"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                TextColor="White"
+                                VerticalOptions="Center"
+                                HorizontalOptions="FillAndExpand"
+                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                CornerRadius="6"
+                                Command="{Binding CancelRequestCommand}" />
+                        </StackLayout>
+
+                        <StackLayout Spacing="0" IsVisible="{Binding IsAddChildVisible}">
+                            <Label Text="New child/children"
+                                   FontSize="Large"
+                                   Margin="0,10,0,0"
+                                   Style="{StaticResource TitleLabelStyle}" />
+                            <Label Text="Add new child"
+                                   FontSize="Small"
+                                   Margin="5,5,0,0"
+                                   Style="{StaticResource TitleLabelStyle}" />
+                            <Grid Margin="0,0,0,0" ColumnSpacing="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Spacing="0" Grid.Column="0">
+                                    <Button
+                                        Text="Current Year 2021-2022"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        TextColor="White"
+                                        VerticalOptions="Center"
+                                        HorizontalOptions="FillAndExpand"
+                                        IsVisible="{Binding RegistrationData.CanAddChildForCurrentYear}"
+                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        CornerRadius="6"
+                                        Command="{Binding CurrentYearRegistrationCommand}" />
+                                </StackLayout>
+                                <StackLayout Spacing="0" Grid.Column="1">
+                                    <Button
+                                        Text="Next Year 2022-2023"
+                                        FontSize="14"
+                                        FontAttributes="Bold"
+                                        TextColor="White"
+                                        VerticalOptions="Center"
+                                        BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        HorizontalOptions="FillAndExpand"
+                                        IsVisible="{Binding RegistrationData.CanAddChildForNextYear}"
+                                        Margin="0,0,0,0"
+                                        CornerRadius="6"
+                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        Command="{Binding NextYearRegistrationCommand}" />
+                                </StackLayout>
+                            </Grid>
+                        </StackLayout>
+
+                        <StackLayout Spacing="0">
+                            <Label Text="{Binding KgInformationMissingMessage}"
+                                   FontSize="Small"
+                                   TextColor="Red"
+                                   TextType="Html"
+                                   Margin="5,5,0,-10"
+                                   Style="{StaticResource TitleLabelStyle}" />
+
+                            <ListView ItemsSource="{Binding RegistrationNewStudentList, Mode=TwoWay}"
+                                      HasUnevenRows="True"
+                                      VerticalScrollBarVisibility="Never"
+                                      BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                      VerticalOptions="StartAndExpand"
+                                      HeightRequest="{Binding NewStudentsListViewHeight}"
+                                      SeparatorVisibility="None"
+                                      SelectionMode="None"
+                                      x:Name="newStudentListview">
+                                <x:Arguments>
+                                    <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                                </x:Arguments>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout>
+                                                <Frame CornerRadius="5"
+                                                       HasShadow="False"
+                                                       BorderColor="{StaticResource BorderColor}"
+                                                       Padding="6"
+                                                       IsClippedToBounds="true">
+                                                    <StackLayout VerticalOptions="Fill"
+                                                                 HorizontalOptions="Fill"
+                                                                 Padding="5">
+                                                        <StackLayout Orientation="Horizontal"
+                                                                     HorizontalOptions="FillAndExpand">
+                                                            <StackLayout Orientation="Vertical" Spacing="0"
+                                                                         VerticalOptions="Center">
+                                                                <Label Text="{Binding FirstName}"
+                                                                       VerticalOptions="Center"
+                                                                       FontSize="Small"
+                                                                       Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                                <Label Text="{Binding GradeName}"
+                                                                       VerticalOptions="Center"
+                                                                       FontSize="Small"
+                                                                       Style="{StaticResource DescriptionLabelStyle}" />
+                                                            </StackLayout>
+                                                            <StackLayout VerticalOptions="CenterAndExpand"
+                                                                         HorizontalOptions="EndAndExpand">
+                                                                <ffimageloading:CachedImage Margin="10,0,0,0"
+                                                                    Source="{Binding ArrowImageSource}"
+                                                                    HorizontalOptions="End"
+                                                                    VerticalOptions="CenterAndExpand"
+                                                                    Scale="0.8"
+                                                                    IsVisible="true">
+                                                                    <ffimageloading:CachedImage.GestureRecognizers>
+                                                                        <TapGestureRecognizer
+                                                                            Command="{Binding BindingContext.NewStudentsCollapseClickCommand, Source={x:Reference registrationpage}}"
+                                                                            CommandParameter="{Binding .}" />
+                                                                    </ffimageloading:CachedImage.GestureRecognizers>
+                                                                </ffimageloading:CachedImage>
+                                                            </StackLayout>
+                                                            <StackLayout.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.NewStudentsCollapseClickCommand, Source={x:Reference registrationpage}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            </StackLayout.GestureRecognizers>
+                                                        </StackLayout>
+                                                    </StackLayout>
+                                                    <Frame.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.NewStudentsCollapseClickCommand, Source={x:Reference registrationpage}}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </Frame.GestureRecognizers>
+                                                </Frame>
+                                                <Frame CornerRadius="5"
+                                                       HasShadow="False"
+                                                       BorderColor="{StaticResource BorderColor}"
+                                                       Padding="6"
+                                                       IsVisible="{Binding DetailsVisibility}">
+                                                    <StackLayout Orientation="Vertical"
+                                                                 HorizontalOptions="StartAndExpand">
+                                                        <Button Text="Edit"
+                                                                FontSize="Small"
+                                                                FontAttributes="Bold"
+                                                                TextColor="White"
+                                                                IsVisible="{Binding IsEditDeleteButtonVisible}"
+                                                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                VerticalOptions="Center"
+                                                                HorizontalOptions="Start"
+                                                                BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                CornerRadius="6"
+                                                                Padding="5"
+                                                                Margin="0,0,0,0"
+                                                                HeightRequest="35"
+                                                                MinimumHeightRequest="35"
+                                                                WidthRequest="160"
+                                                                Command="{Binding BindingContext.EditNewStudentsDetalsCommand, Source={x:Reference registrationpage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                        <Button Text="Delete"
+                                                                FontSize="Small"
+                                                                FontAttributes="Bold"
+                                                                IsVisible="{Binding IsEditDeleteButtonVisible}"
+                                                                TextColor="White"
+                                                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                VerticalOptions="Center"
+                                                                HorizontalOptions="Start"
+                                                                BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                CornerRadius="6"
+                                                                Padding="5"
+                                                                Margin="0,5,0,0"
+                                                                HeightRequest="35"
+                                                                MinimumHeightRequest="35"
+                                                                WidthRequest="160"
+                                                                Command="{Binding BindingContext.DeleteNewStudentCommand, Source={x:Reference registrationpage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                        <Button Text="{Binding KgInformationButtonCaption}"
+                                                                FontSize="Small"
+                                                                IsVisible="{Binding IsKGInformationButtonVisible}"
+                                                                FontAttributes="Bold"
+                                                                VerticalOptions="Center"
+                                                                HorizontalOptions="Start"
+                                                                BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                CornerRadius="6"
+                                                                BorderWidth="2"
+                                                                Padding="5"
+                                                                Margin="0,5,0,0"
+                                                                HeightRequest="35"
+                                                                MinimumHeightRequest="35"
+                                                                Command="{Binding BindingContext.KGInformationCommand, Source={x:Reference registrationpage}}"
+                                                                CommandParameter="{Binding .}">
+                                                            <Button.Triggers>
+                                                                <DataTrigger TargetType="Button"
+                                                                             Binding="{Binding KgInformationButtonCaption}"
+                                                                             Value="KG Info (Mandatory)">
+                                                                    <Setter Property="BackgroundColor" Value="White" />
+                                                                    <Setter Property="TextColor" Value="Red" />
+                                                                    <Setter Property="WidthRequest" Value="160" />
+                                                                </DataTrigger>
+                                                                <DataTrigger TargetType="Button"
+                                                                             Binding="{Binding KgInformationButtonCaption}"
+                                                                             Value="KG Info">
+                                                                    <Setter Property="BackgroundColor"
+                                                                            Value="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                                    <Setter Property="TextColor" Value="White" />
+                                                                    <Setter Property="WidthRequest" Value="160" />
+                                                                </DataTrigger>
+                                                            </Button.Triggers>
+                                                        </Button>
+
+                                                        <Button Text="Book an Appointment"
+                                                                FontSize="Small"
+                                                                IsVisible="{Binding IsPerStudentAppointmentButtonVisible}"
+                                                                FontAttributes="Bold"
+                                                                TextColor="White"
+                                                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                VerticalOptions="Center"
+                                                                HorizontalOptions="Start"
+                                                                BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                CornerRadius="6"
+                                                                Padding="5"
+                                                                Margin="0,5,0,0"
+                                                                HeightRequest="35"
+                                                                MinimumHeightRequest="35"
+                                                                WidthRequest="160"
+                                                                Command="{Binding BindingContext.BookAppointmentPerStudentCommand, Source={x:Reference registrationpage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                        <Button Text="{Binding BookingData}"
+                                                                FontSize="Small"
+                                                                IsVisible="{Binding IsBookingDateButtonVisible}"
+                                                                FontAttributes="Bold"
+                                                                TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                BackgroundColor="White"
+                                                                VerticalOptions="Center"
+                                                                HorizontalOptions="Start"
+                                                                BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                BorderWidth="2"
+                                                                CornerRadius="6"
+                                                                Padding="5"
+                                                                Margin="0,5,0,0"
+                                                                HeightRequest="35"
+                                                                MinimumHeightRequest="35" />
+                                                        <Button Text="Cancel"
+                                                                FontSize="Small"
+                                                                IsVisible="{Binding IsCancelButtonVisible}"
+                                                                FontAttributes="Bold"
+                                                                TextColor="White"
+                                                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                VerticalOptions="Center"
+                                                                HorizontalOptions="Start"
+                                                                BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                                CornerRadius="6"
+                                                                Padding="5"
+                                                                Margin="0,5,0,0"
+                                                                HeightRequest="35"
+                                                                MinimumHeightRequest="35"
+                                                                WidthRequest="160"
+                                                                Command="{Binding BindingContext.CancelAppointmentPerStudentCommand, Source={x:Reference registrationpage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                    </StackLayout>
+                                                </Frame>
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+            </ScrollView>
+
+            <StackLayout VerticalOptions="EndAndExpand" Margin="0,0,0,0" Grid.Row="2" Grid.Column="0">
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand"
+                             HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference registrationpage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

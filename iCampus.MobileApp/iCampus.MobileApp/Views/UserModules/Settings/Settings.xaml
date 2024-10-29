@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:individual="clr-namespace:iCampus.MobileApp.Behaviours.Individual"
+             x:Class="iCampus.MobileApp.Views.UserModules.Settings.Settings"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             x:Name="settingPage"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             NavigationPage.HasNavigationBar="false">
+    <ContentPage.Content>
+
+        <Grid>
+            <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*"
+                  BackgroundColor="{StaticResource BorderColor}">
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <individual:VersionTextVisibilityConverter x:Key="VersionTextVisibilityConverter" />
+                    </ResourceDictionary>
+                </Grid.Resources>
+                <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                             BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
+                <StackLayout Padding="10,10,10,10"
+                             BackgroundColor="WhiteSmoke" Grid.Row="1" Grid.Column="0">
+                    <Label Text="Notifications"
+                           FontSize="16"
+                           Style="{StaticResource TitleLabelStyle}"
+                           FontAttributes="Bold"
+                           Margin="4,0,0,0" />
+                    <StackLayout Padding="2,2,2,2">
+                        <Frame Padding="10,10,10,10" HasShadow="False" IsClippedToBounds="True"
+                               BorderColor="{StaticResource BorderColor}"
+                               CornerRadius="5">
+                            <StackLayout Orientation="Horizontal"
+                                         HorizontalOptions="FillAndExpand">
+                                <Label Text="Push Notifications" Style="{StaticResource DescriptionLabelStyle}"
+                                       HorizontalOptions="StartAndExpand"
+                                       VerticalOptions="CenterAndExpand" />
+                                <Switch HorizontalOptions="EndAndExpand"
+                                        OnColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        IsToggled="{Binding IsPushNotificationEnable,Source={x:Static local:AppSettings.Current}}"
+                                        VerticalOptions="CenterAndExpand">
+                                    <Switch.Behaviors>
+                                        <behaviours:EventToCommandBehavior EventName="Toggled"
+                                                                           Command="{Binding SwitchToggledEventCommand}" />
+                                    </Switch.Behaviors>
+                                </Switch>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                    <Label Text="iCampus Mobile"
+                           FontSize="16"
+                           Style="{StaticResource TitleLabelStyle}"
+                           Margin="4,0,0,0"
+                           FontAttributes="Bold" />
+                    <StackLayout Padding="2,2,2,2"
+                                 Spacing="10">
+                        <Frame Padding="10,2,10,2"
+                               CornerRadius="5" HasShadow="False" IsClippedToBounds="True"
+                               BorderColor="{StaticResource BorderColor}">
+                            <ListView HeightRequest="218"
+                                      BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                      VerticalScrollBarVisibility="Never"
+                                      SelectedItem="{Binding SelectedOption,Mode=TwoWay}">
+                                <ListView.ItemsSource>
+                                    <x:Array Type="{x:Type x:String}">
+                                        <x:String>About</x:String>
+                                        <x:String>Help Center</x:String>
+                                        <x:String>Privacy Policy</x:String>
+                                        <x:String>Report an Issue</x:String>
+                                        <x:String>Clear Cache</x:String>
+                                    </x:Array>
+                                </ListView.ItemsSource>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                                                <Label Text="{Binding .}"
+                                                       Margin="5,0,0,0" Style="{StaticResource DescriptionLabelStyle}"
+                                                       VerticalOptions="CenterAndExpand"
+                                                       VerticalTextAlignment="Center" />
+                                                <Label
+                                                    Text="{Binding BindingContext.VersionText,Source={x:Reference settingPage}}"
+                                                    Margin="10,0,0,0" TextColor="#A9A9A9"
+                                                    Style="{StaticResource DescriptionLabelStyle}"
+                                                    VerticalOptions="CenterAndExpand"
+                                                    VerticalTextAlignment="Center"
+                                                    IsVisible="{Binding .,Converter={StaticResource VersionTextVisibilityConverter}}" />
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                                <ListView.Behaviors>
+                                    <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                                    Command="{Binding ListTappedCommand}"
+                                                                    CommandParameter="{Binding SelectedOption}" />
+                                </ListView.Behaviors>
+                            </ListView>
+                        </Frame>
+                    </StackLayout>
+                    <Frame Padding="0" 
+                           HasShadow="False" 
+                           CornerRadius="5" 
+                           Margin="2"
+                           BorderColor="Transparent">
+                        <StackLayout VerticalOptions="StartAndExpand"
+                                     Orientation="Horizontal" HorizontalOptions="StartAndExpand"
+                                     Margin="10,0,0,0"
+                                     Spacing="0"
+                                     Padding="0">
+                            <ffimageloading:CachedImage VerticalOptions="CenterAndExpand"
+                                                        WidthRequest="20"
+                                                        HeightRequest="20"
+                                                        Aspect="AspectFit"
+                                                        DownsampleToViewSize="True"
+                                                        Source="logout_icon">
+                                <ffimageloading:CachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding LogoutClickCommand}"
+                                                          NumberOfTapsRequired="1" />
+                                </ffimageloading:CachedImage.GestureRecognizers>
+                            </ffimageloading:CachedImage>
+                            <Button Text="Logout" TextColor="Black"
+                                    HorizontalOptions="StartAndExpand"
+                                    BackgroundColor="Transparent"
+                                    Command="{Binding LogoutClickCommand}"
+                                    VerticalOptions="CenterAndExpand" />
+                        </StackLayout>
+                    </Frame>
+                    <StackLayout.GestureRecognizers>
+                        <SwipeGestureRecognizer
+                            Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference settingPage}}"
+                            Direction="Right" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+                <StackLayout VerticalOptions="EndAndExpand" Margin="0,0,0,0" Grid.Row="2">
+                    <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                                 VerticalOptions="EndAndExpand"
+                                 HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+            </Grid>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

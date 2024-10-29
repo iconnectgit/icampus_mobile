@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:forms="clr-namespace:iCampus.MobileApp.Forms"
+    xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+    x:Class="iCampus.MobileApp.Views.PopUpViews.RequestAppointmentPopup"
+    CanBeDismissedByTappingOutsideOfPopup="False"
+    x:Name="requestAppointmentPopup"
+    Color="Transparent">
+
+    <Frame CornerRadius="5"
+           HasShadow="False"
+           Padding="0"
+           IsClippedToBounds="true"
+           BackgroundColor="White"
+           VerticalOptions="CenterAndExpand"
+           HorizontalOptions="CenterAndExpand"
+           WidthRequest="350"
+           HeightRequest="600">
+        <StackLayout Spacing="0" Margin="5,5,5,5">
+            <StackLayout.Resources>
+                <ResourceDictionary>
+                    <behaviours:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
+                    <behaviours:TimeSpanFormatConverter x:Key="TimeSpanFormatConverter" />
+                </ResourceDictionary>
+            </StackLayout.Resources>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
+                <Label Text="Request Appointments" HorizontalOptions="StartAndExpand"
+                       FontAttributes="Bold" FontSize="14" Margin="5,5,0,0" />
+                <Label
+                    Text="&#xf057;"
+                    FontFamily="FontAwesomeSolid"
+                    TextColor="Red"
+                    FontSize="24"
+                    HorizontalOptions="EndAndExpand"
+                    VerticalOptions="CenterAndExpand">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MenuClosedClick" NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+            <Label Text="{Binding SelectedTeacherCurriculum.TeacherName,StringFormat='Teacher - {0}'}"
+                   Margin="10,10,0,10" HorizontalOptions="StartAndExpand"
+                   Style="{StaticResource DescriptionLabelStyle}" />
+            <Grid Margin="10">
+                <Picker Title="Select Date" Style="{StaticResource PickerFontStyle}"
+                        BackgroundColor="White" TextColor="Gray"
+                        ItemsSource="{Binding AppointmentDateList,Mode=TwoWay}"
+                        ItemDisplayBinding="{Binding BookingDateFormatted}"
+                        SelectedItem="{Binding SelectedDate,Mode=TwoWay}"
+                        VerticalOptions="StartAndExpand"
+                        HorizontalOptions="FillAndExpand" />
+                <Image Source="dropdown_gray_picker" HorizontalOptions="End" VerticalOptions="Center"
+                       WidthRequest="20" HeightRequest="20" Margin="0,0,5,0" />
+            </Grid>
+
+            <CollectionView ItemsSource="{Binding AppointmentTimeList,Mode=TwoWay}"
+                            SelectionMode="Single"
+                            SelectedItem="{Binding SelectedTime,Mode=TwoWay}"
+                            SelectionChangedCommand="{Binding TimeSlotClickCommand}"
+                            HeightRequest="350">
+                <CollectionView.ItemsLayout>
+                    <GridItemsLayout Orientation="Vertical" Span="3" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid ColumnSpacing="5" RowSpacing="5" HeightRequest="40" BackgroundColor="White">
+                            <Frame CornerRadius="5" Padding="2" Grid.Row="0" Grid.Column="0" Margin="5"
+                                   HeightRequest="35" HasShadow="False" IsClippedToBounds="True"
+                                   BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}">
+                                <Label Text="{Binding TimeSlot,Converter={StaticResource TimeSpanFormatConverter}}"
+                                       BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                                       TextColor="White" HorizontalOptions="CenterAndExpand"
+                                       VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center"
+                                       HeightRequest="30"
+                                       FontSize="Small" />
+                            </Frame>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+        </StackLayout>
+        <Frame.GestureRecognizers>
+            <SwipeGestureRecognizer
+                Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference requestAppointmentPopup}}"
+                Direction="Right" />
+        </Frame.GestureRecognizers>
+    </Frame>
+
+</toolkit:Popup>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             x:Class="iCampus.MobileApp.Views.UserModules.ReportCard.ReportCardFilterPage"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="reportCardFilterPage">
+    <ContentPage.Content>
+
+        <Grid>
+            <StackLayout VerticalOptions="FillAndExpand"
+                         BackgroundColor="{StaticResource BorderColor}">
+                <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                             BackgroundColor="White" />
+                <StackLayout Padding="20,20,20,0">
+                    <Grid RowSpacing="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.3*" />
+                            <ColumnDefinition Width="0.7*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Label Text="Select Year" 
+                               Style="{StaticResource TitleLabelStyle}"
+                               Grid.Row="0" 
+                               Grid.Column="0" 
+                               VerticalOptions="CenterAndExpand"
+                               VerticalTextAlignment="End" 
+                               IsVisible="{Binding IsAcademicYearsVisible}"/>
+                        <Grid Grid.Row="0" 
+                              Grid.Column="1" 
+                              Padding="0" 
+                              IsClippedToBounds="True"
+                              IsVisible="{Binding IsAcademicYearsVisible}">
+                            <Picker Title="Select Year" Style="{StaticResource PickerFontStyle}"
+                                    BackgroundColor="White" TextColor="Gray"
+                                    ItemsSource="{Binding AcademicYearList,Mode=TwoWay}"
+                                    ItemDisplayBinding="{Binding ItemName}"
+                                    SelectedItem="{Binding SelectedAcademicYear,Mode=TwoWay}"
+                                    VerticalOptions="StartAndExpand"
+                                    HorizontalOptions="FillAndExpand" />
+                            <Image Source="dropdown_gray_picker" HorizontalOptions="End" VerticalOptions="Center"
+                                   WidthRequest="20" HeightRequest="20" Margin="0,0,10,0" />
+                        </Grid>
+
+                        <Label Text="Select Term" Style="{StaticResource TitleLabelStyle}"
+                               Grid.Row="1" Grid.Column="0" VerticalOptions="CenterAndExpand"
+                               VerticalTextAlignment="End" />
+                        <Grid Grid.Row="1" Grid.Column="1" Padding="0" IsClippedToBounds="True" IsVisible="{Binding IsMarksTermVisible}">
+                            <Picker Title="Select Term" Style="{StaticResource PickerFontStyle}"
+                                    BackgroundColor="White" TextColor="Gray"
+                                    ItemsSource="{Binding MarksReportCardActiveTermsList,Mode=TwoWay}"
+                                    ItemDisplayBinding="{Binding TermName}"
+                                    SelectedItem="{Binding SelectedTermMarksReport,Mode=TwoWay}"
+                                    VerticalOptions="StartAndExpand"
+                                    HorizontalOptions="FillAndExpand" />
+                            <Image Source="dropdown_gray_picker" HorizontalOptions="End" VerticalOptions="Center"
+                                   WidthRequest="20" HeightRequest="20" Margin="0,0,10,0" />
+                        </Grid>
+                        <Grid Grid.Row="1" Grid.Column="1" Padding="0" IsClippedToBounds="True" IsVisible="{Binding IsMarksTermVisible,Converter={StaticResource ReverseBoolValueConverter}}">
+                            <Picker Title="Select Term" Style="{StaticResource PickerFontStyle}"
+                                    BackgroundColor="White" TextColor="Gray"
+                                    ItemsSource="{Binding SkillsReportCardActiveTermsList,Mode=TwoWay}"
+                                    ItemDisplayBinding="{Binding TermName}"
+                                    SelectedItem="{Binding SelectedTermSkillReport,Mode=TwoWay}"
+                                    VerticalOptions="StartAndExpand"
+                                    HorizontalOptions="FillAndExpand" />
+                            <Image Source="dropdown_gray_picker" HorizontalOptions="End" VerticalOptions="Center"
+                                   WidthRequest="20" HeightRequest="20" Margin="0,0,10,0" />
+                        </Grid>
+                        <Label Text="Please select term"
+                               Grid.Row="2" Grid.Column="2"
+                               IsVisible="{Binding TermSelectionErrorMessageVisibility}"
+                               VerticalOptions="StartAndExpand"
+                               VerticalTextAlignment="Start"
+                               FontSize="Small"
+                               TextColor="Red" />
+                        <Button Text="Search" TextColor="White" Margin="0,0,0,0" Grid.Row="3" Grid.Column="0"
+                                Grid.ColumnSpan="3"
+                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                HorizontalOptions="FillAndExpand" Command="{Binding SearchClickCommand}"
+                                CornerRadius="5" />
+                    </Grid>
+
+                </StackLayout>
+                <StackLayout.GestureRecognizers>
+                    <SwipeGestureRecognizer
+                        Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference reportCardFilterPage}}"
+                        Direction="Right" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

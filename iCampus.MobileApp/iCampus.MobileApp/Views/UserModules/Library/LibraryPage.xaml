@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="iCampus.MobileApp.Views.UserModules.Library.LibraryPage"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="libraryPage"
+             NavigationPage.HasNavigationBar="false">
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand"
+              BackgroundColor="{StaticResource BorderColor}" RowDefinitions="Auto,Auto,*,Auto" ColumnDefinitions="*"
+              Margin="0,0,0,0">
+            <Grid.Resources>
+                <ResourceDictionary />
+            </Grid.Resources>
+
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         VerticalOptions="StartAndExpand"
+                         BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
+            <ContentView ControlTemplate="{StaticResource BeamStudentSelection}"
+                         BackgroundColor="{StaticResource BorderColor}" Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" />
+
+
+            <StackLayout Grid.Row="2" Grid.Column="0" Margin="0,0,0,10">
+                <StackLayout Margin="5,0,5,0">
+                    <Grid Margin="0,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackLayout Spacing="0" Grid.Column="0">
+                            <Frame BackgroundColor="Transparent" 
+                                   HasShadow="{Binding CurrentShadow}"
+                                   CornerRadius="5" 
+                                   Margin="0,0,0,0" 
+                                   Padding="0">
+                                <Button Text="Current Holdings" 
+                                        FontSize="Small" FontAttributes="{Binding CurrentFontType}"
+                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        HorizontalOptions="FillAndExpand" 
+                                        VerticalOptions="Center" 
+                                        TextColor="White"
+                                        CornerRadius="5" 
+                                        Margin="0,10,0,0"
+                                        HeightRequest="40" 
+                                        Padding="0" 
+                                        Command="{Binding CurrentCommand}" />
+                            </Frame>
+                        </StackLayout>
+                        <StackLayout Spacing="0" Grid.Column="1">
+                            <Frame BackgroundColor="Transparent" 
+                                   HasShadow="{Binding HistoryShadow}"
+                                   CornerRadius="5" 
+                                   Margin="0,0,0,0" 
+                                   Padding="0">
+                                <Button Text="History" 
+                                        FontSize="Small" 
+                                        FontAttributes="{Binding HistoryFontType}"
+                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        HorizontalOptions="FillAndExpand" 
+                                        VerticalOptions="Center" 
+                                        TextColor="White"
+                                        CornerRadius="5" 
+                                        Margin="0,10,0,0"
+                                        HeightRequest="40" 
+                                        Padding="0" 
+                                        Command="{Binding HistoryCommand}" />
+                            </Frame>
+                        </StackLayout>
+                        
+                        
+                        
+                    </Grid>
+                </StackLayout>
+                <StackLayout IsVisible="{Binding IsCurrent}">
+                    <StackLayout Padding="0" Margin="10,20,10,0"
+                                 IsVisible="{Binding IsNoRecordLibrary}">
+                        <Frame Padding="10"
+                               CornerRadius="5" HasShadow="False"
+                               IsClippedToBounds="True"
+                               BorderColor="{StaticResource BorderColor}"
+                               BackgroundColor="White">
+                            <Label Text="{Binding NoDataFound}" Style="{StaticResource DescriptionLabelStyle}"
+                                   VerticalTextAlignment="Center"
+                                   HorizontalTextAlignment="Start" />
+                        </Frame>
+                    </StackLayout>
+                </StackLayout>
+
+                <StackLayout IsVisible="{Binding IsCurrent}" VerticalOptions="FillAndExpand">
+
+                    <ListView ItemsSource="{Binding LibraryList,Mode=TwoWay}"
+                              SelectedItem="{Binding SelectedLibraryList, Mode=TwoWay}"
+                              HasUnevenRows="True" VerticalScrollBarVisibility="Always"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              SeparatorVisibility="Default" SelectionMode="None"
+                              Margin="0,10,0,0"
+                              x:Name="beamCurrentListview">
+                        <x:Arguments>
+                            <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                        </x:Arguments>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="10,5,10,0">
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               Padding="6"
+                                               HeightRequest="40"
+                                               IsClippedToBounds="true">
+
+
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label HorizontalOptions="StartAndExpand" VerticalOptions="Center">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="{Binding Title}"
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <StackLayout VerticalOptions="CenterAndExpand">
+                                                    <ffimageloading:CachedImage Margin="10,0,10,0"
+                                                        Source="{Binding ArrowImageSource}"
+                                                        HorizontalOptions="EndAndExpand"
+                                                        VerticalOptions="CenterAndExpand"
+                                                        Scale="0.8" IsVisible="true">
+                                                        <ffimageloading:CachedImage.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding BindingContext.CurrentExpandCollapseClickCommand,Source={x:Reference libraryPage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                        </ffimageloading:CachedImage.GestureRecognizers>
+                                                    </ffimageloading:CachedImage>
+                                                    <StackLayout.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.CurrentExpandCollapseClickCommand, Source={x:Reference libraryPage}}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </StackLayout.GestureRecognizers>
+                                                </StackLayout>
+
+
+                                            </StackLayout>
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding BindingContext.CurrentExpandCollapseClickCommand,Source={x:Reference libraryPage}}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Frame.GestureRecognizers>
+                                        </Frame>
+
+
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               Padding="5"
+                                               IsVisible="{Binding DetailsVisibility}">
+                                            <StackLayout VerticalOptions="Fill"
+                                                         HorizontalOptions="Fill"
+                                                         Padding="5,5,5,5">
+                                                <StackLayout Orientation="Horizontal" Spacing="0">
+                                                    <Label>
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Classification :"
+                                                                      Style="{StaticResource TitleLabelStyle}" />
+                                                                <Span Text=" " />
+                                                                <Span Text="{Binding Classification}"
+                                                                      Style="{StaticResource DescriptionLabelStyle}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+
+                                                    <Label Text="{Binding GroupName}" TextColor="Red"
+                                                           IsVisible="{Binding IsOverDue}"
+                                                           Style="{StaticResource DescriptionLabelStyle}"
+                                                           HorizontalOptions="EndAndExpand"
+                                                           HorizontalTextAlignment="End" />
+                                                </StackLayout>
+
+                                                <StackLayout Orientation="Horizontal" Spacing="5">
+                                                    <Label Margin="0,10,0,0">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Media :"
+                                                                      Style="{StaticResource TitleLabelStyle}" />
+                                                                <Span Text=" " />
+                                                                <Span Text="{Binding Media}"
+                                                                      Style="{StaticResource DescriptionLabelStyle}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </StackLayout>
+
+                                                <Label HorizontalOptions="StartAndExpand"
+                                                       HorizontalTextAlignment="Start"
+                                                       Margin="0,10,0,0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Barcode :"
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text=" " />
+                                                            <Span Text="{Binding CopyBarcode}"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+
+                                                <Label HorizontalOptions="StartAndExpand"
+                                                       HorizontalTextAlignment="Start"
+                                                       Margin="0,10,0,0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Due Date :"
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text=" " />
+                                                            <Span Text="{Binding DueDate}"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </StackLayout>
+                                        </Frame>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+                <StackLayout IsVisible="{Binding IsHistory}">
+                    <StackLayout Padding="0" Margin="10,0,10,0"
+                                 IsVisible="{Binding IsNoRecordHistory}">
+                        <Frame Padding="10"
+                               CornerRadius="5" HasShadow="False"
+                               IsClippedToBounds="True"
+                               BorderColor="{StaticResource BorderColor}"
+                               BackgroundColor="White">
+                            <Label Text="{Binding NoDataFound}" Style="{StaticResource DescriptionLabelStyle}"
+                                   VerticalTextAlignment="Center"
+                                   HorizontalTextAlignment="Start" />
+                        </Frame>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout IsVisible="{Binding IsHistory}" VerticalOptions="FillAndExpand">
+
+                    <ListView ItemsSource="{Binding LibraryHistoryList,Mode=TwoWay}"
+                              SelectedItem="{Binding SelectedHistoryLibraryList, Mode=TwoWay}"
+                              HasUnevenRows="True" VerticalScrollBarVisibility="Always"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              SeparatorVisibility="None" SelectionMode="None"
+                              Margin="0,10,0,0"
+                              x:Name="beamHistoryListview">
+                        <x:Arguments>
+                            <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                        </x:Arguments>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="10,5,10,0">
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               Padding="6"
+                                               HeightRequest="40"
+                                               IsClippedToBounds="true">
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label HorizontalOptions="StartAndExpand" VerticalOptions="Center">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="{Binding Title}"
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <StackLayout VerticalOptions="CenterAndExpand">
+                                                    <ffimageloading:CachedImage Margin="10,0,10,0"
+                                                        Source="{Binding ArrowImageSource}"
+                                                        HorizontalOptions="EndAndExpand"
+                                                        VerticalOptions="CenterAndExpand"
+                                                        Scale="0.8" IsVisible="true">
+                                                        <ffimageloading:CachedImage.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding BindingContext.HistoryExpandCollapseClickCommand,Source={x:Reference libraryPage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                        </ffimageloading:CachedImage.GestureRecognizers>
+                                                    </ffimageloading:CachedImage>
+                                                    <StackLayout.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.HistoryExpandCollapseClickCommand, Source={x:Reference libraryPage}}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </StackLayout.GestureRecognizers>
+                                                </StackLayout>
+
+
+                                            </StackLayout>
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding BindingContext.HistoryExpandCollapseClickCommand,Source={x:Reference libraryPage}}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Frame.GestureRecognizers>
+
+
+                                        </Frame>
+
+
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               Padding="5"
+                                               IsVisible="{Binding DetailsVisibility}">
+                                            <StackLayout VerticalOptions="Fill"
+                                                         HorizontalOptions="Fill"
+                                                         Padding="5,5,5,5">
+                                                <StackLayout Orientation="Horizontal" Spacing="0">
+                                                    <Label>
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Classification :"
+                                                                      Style="{StaticResource TitleLabelStyle}" />
+                                                                <Span Text=" " />
+                                                                <Span Text="{Binding Classification}"
+                                                                      Style="{StaticResource DescriptionLabelStyle}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+
+                                                </StackLayout>
+
+                                                <StackLayout Orientation="Horizontal" Spacing="0">
+                                                    <Label Margin="0,10,0,0">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Media :"
+                                                                      Style="{StaticResource TitleLabelStyle}" />
+                                                                <Span Text=" " />
+                                                                <Span Text="{Binding Media}"
+                                                                      Style="{StaticResource DescriptionLabelStyle}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </StackLayout>
+
+                                                <Label HorizontalOptions="StartAndExpand"
+                                                       HorizontalTextAlignment="Start"
+                                                       Margin="0,10,0,0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Barcode :"
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text=" " />
+                                                            <Span Text="{Binding CopyBarcode}"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+
+                                                <Label HorizontalOptions="StartAndExpand"
+                                                       HorizontalTextAlignment="Start"
+                                                       Margin="0,10,0,0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Due Date :"
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text=" " />
+                                                            <Span Text="{Binding DueDate}"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label HorizontalOptions="StartAndExpand"
+                                                       HorizontalTextAlignment="Start"
+                                                       Margin="0,10,0,0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Return Date :"
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text=" " />
+                                                            <Span Text="{Binding ReturnDate}"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+
+                                            </StackLayout>
+
+                                        </Frame>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+
+
+            </StackLayout>
+
+            <StackLayout VerticalOptions="EndAndExpand" Margin="0,0,0,0" Grid.Row="3" Grid.Column="0">
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand"
+                             HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference libraryPage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

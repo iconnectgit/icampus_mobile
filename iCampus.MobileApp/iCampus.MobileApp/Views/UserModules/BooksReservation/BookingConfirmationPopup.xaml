@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:forms="clr-namespace:iCampus.MobileApp.Forms"
+    xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+    x:Class="iCampus.MobileApp.Views.UserModules.BooksReservation.BookingConfirmationPopup"
+    CanBeDismissedByTappingOutsideOfPopup="False"
+    x:Name="bookingConfirmationPopup"
+    Color="Transparent">
+
+    <Frame CornerRadius="5"
+           HasShadow="False"
+           Padding="0"
+           IsClippedToBounds="true"
+           BackgroundColor="White"
+           VerticalOptions="CenterAndExpand"
+           HorizontalOptions="CenterAndExpand"
+           WidthRequest="350"
+           HeightRequest="250">
+        <StackLayout Spacing="0" Margin="5,5,5,5">
+            <StackLayout.Resources>
+                <ResourceDictionary>
+                    <behaviours:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
+                    <behaviours:TimeSpanFormatConverter x:Key="TimeSpanFormatConverter" />
+                    <behaviours:VisiblityConverter x:Key="VisibilityConverter"/>
+                </ResourceDictionary>
+            </StackLayout.Resources>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" >
+                <Label
+                    Text="&#xf057;"
+                    FontFamily="FontAwesomeSolid"
+                    TextColor="Red"
+                    FontSize="24"
+                    HorizontalOptions="EndAndExpand"
+                    VerticalOptions="CenterAndExpand">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MenuClosedClick" NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+            
+            <Label
+                Margin="5,10,5,5" 
+                Text="&#xf058;"
+                FontFamily="FontAwesomeSolid"
+                TextColor="{Binding Settings.ThemeColor,Source={x:Static forms:AppSettings.Current}}"
+                FontSize="50"
+                HorizontalOptions="CenterAndExpand">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding DecrementReminderBeforeDaysCommand}" NumberOfTapsRequired="1"/>
+                </Label.GestureRecognizers>
+            </Label>
+            
+            <Label Text="Booking Confirmed" 
+                   HorizontalOptions="CenterAndExpand"
+                   FontAttributes="Bold" 
+                   FontSize="20" 
+                   Margin="5,5,5,5" 
+                   TextColor="{Binding Settings.ThemeColor,Source={x:Static forms:AppSettings.Current}}"/>
+            
+            <Label Text="Email confirmation sent to : "
+                   HorizontalOptions="Center"
+                   Margin="5,5,5,5" 
+                   FontAttributes="Bold"
+                   FontSize="Small"
+                   TextColor="{Binding Settings.ThemeColor,Source={x:Static forms:AppSettings.Current}}"
+                   Grid.Row="3" Grid.Column="0"/>
+
+            <Label Text="{Binding FatherEmail, Source={x:Static forms:AppSettings.Current}}"
+                   HorizontalOptions="Center"
+                   Margin="5,5,5,5" 
+                   FontAttributes="Bold"
+                   FontSize="Small"
+                   TextColor="{Binding Settings.ThemeColor,Source={x:Static forms:AppSettings.Current}}"
+                   Grid.Row="4" Grid.Column="0"
+                   IsVisible="{Binding FatherEmail, Source={x:Static forms:AppSettings.Current},Converter={StaticResource VisibilityConverter}}"/>
+
+            <Label Text="{Binding MotherEmail, Source={x:Static forms:AppSettings.Current}}"
+                   HorizontalOptions="Center"
+                   Margin="5,5,5,5" 
+                   FontAttributes="Bold"
+                   FontSize="Small"
+                   TextColor="{Binding Settings.ThemeColor,Source={x:Static forms:AppSettings.Current}}"
+                   Grid.Row="5" Grid.Column="0"
+                   IsVisible="{Binding MotherEmail, Source={x:Static forms:AppSettings.Current},Converter={StaticResource VisibilityConverter}}"/>
+
+        </StackLayout>
+        <Frame.GestureRecognizers>
+            <SwipeGestureRecognizer
+                Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference bookingConfirmationPopup}}"
+                Direction="Right" />
+        </Frame.GestureRecognizers>
+    </Frame>
+
+</toolkit:Popup>

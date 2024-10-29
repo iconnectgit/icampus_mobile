@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             x:Class="iCampus.MobileApp.Views.UserModules.Event.Events"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             NavigationPage.HasNavigationBar="false"
+             x:Name="eventPage">
+    <ContentPage.Content>
+
+        <Grid VerticalOptions="FillAndExpand"
+              BackgroundColor="{StaticResource BorderColor}" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*"
+              Margin="0,0,0,0">
+            <Grid.Resources>
+                <behaviours:VisiblityConverter x:Key="visiblityConverter" />
+                <behaviours:IntToBoolValueConverter x:Key="intToBoolValueConverter" />
+            </Grid.Resources>
+            <ContentView ControlTemplate="{StaticResource BeamHeader}" BackgroundColor="White" Grid.Row="0" />
+            <StackLayout VerticalOptions="FillAndExpand" Margin="0,0,0,0" Spacing="0" Grid.Row="1">
+
+                <StackLayout Padding="0,10,0,0" VerticalOptions="StartAndExpand" Margin="15,0,15,0"
+                             IsVisible="{Binding NoDataExist}">
+                    <Frame Padding="10" HasShadow="False"
+                           CornerRadius="5"
+                           IsClippedToBounds="True"
+                           BorderColor="{StaticResource BorderColor}"
+                           BackgroundColor="White">
+                        <Label Text="No events found for today. Please search for events to see more."
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Start" />
+                    </Frame>
+                </StackLayout>
+                <ListView HasUnevenRows="true"
+                          VerticalOptions="FillAndExpand"
+                          ItemsSource="{Binding EventList,Mode=TwoWay}"
+                          x:Name="beameventlist"
+                          SelectedItem="{Binding SelectedEvent, Mode=TwoWay}"
+                          SeparatorVisibility="None" VerticalScrollBarVisibility="Never"
+                          BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                          Margin="0,10,0,0">
+                    <x:Arguments>
+                        <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                    </x:Arguments>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="5" VerticalOptions="FillAndExpand">
+                                    <Frame CornerRadius="5"
+                                           HasShadow="False" Margin="5,0,5,0"
+                                           BorderColor="{StaticResource BorderColor}"
+                                           Padding="10,5,5,5"
+                                           HeightRequest="50"
+                                           IsClippedToBounds="true">
+                                            <StackLayout Orientation="Horizontal"
+                                                         Padding="0">
+                                                <Label Text="{Binding EventName}"
+                                                       MaxLines="1"
+                                                       LineBreakMode="TailTruncation"
+                                                       HorizontalOptions="StartAndExpand"
+                                                       VerticalOptions="Center"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       TextColor="{Binding EventCategoryColor,Converter={StaticResource ColorCodeConverter}}" />
+                                                <ffimageloading:CachedImage Margin="10,0,0,0"
+                                                                            Source="{Binding ArrowImageSource}"
+                                                                            HorizontalOptions="EndAndExpand"
+                                                                            VerticalOptions="Center"
+                                                                            Scale="0.8">
+                                                    <ffimageloading:CachedImage.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.ExpandCollapseClickCommand,Source={x:Reference eventPage}}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </ffimageloading:CachedImage.GestureRecognizers>
+                                                </ffimageloading:CachedImage>
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding BindingContext.ExpandCollapseClickCommand,Source={x:Reference eventPage}}"
+                                                        CommandParameter="{Binding .}" />
+                                                </StackLayout.GestureRecognizers>
+                                            </StackLayout>
+                                    </Frame>
+                                    <Frame CornerRadius="5" IsVisible="{Binding DetailsVisibility}"
+                                           HasShadow="False"
+                                           BorderColor="{StaticResource BorderColor}"
+                                           Padding="6" Margin="5"
+                                           IsClippedToBounds="true">
+                                        <Grid RowSpacing="4" IsVisible="{Binding DetailsVisibility}"
+                                              Padding="5">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.6*" />
+                                                <ColumnDefinition Width="0.4*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackLayout Grid.Row="0"
+                                                         Grid.Column="0"
+                                                         Grid.ColumnSpan="2"
+                                                         Orientation="Vertical"
+                                                         HorizontalOptions="StartAndExpand">
+                                                <Label LineBreakMode="WordWrap">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="{Binding EventCategoryName}"
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span
+                                                                Text="{Binding EventDescription,StringFormat=' - {0}'}"
+                                                                Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </StackLayout>
+
+                                            <Label Text="{Binding EventBrief}" Grid.Row="2"
+                                                   Grid.ColumnSpan="2" Grid.Column="0"
+                                                   IsVisible="{Binding EventBrief,Converter={StaticResource visiblityConverter}}"
+                                                   Style="{StaticResource DescriptionLabelStyle}"
+                                                   VerticalOptions="EndAndExpand" />
+
+                                            <Label Text="{Binding EventDatePeriod}"
+                                                   Grid.Row="3"
+                                                   Grid.Column="0"
+                                                   Style="{StaticResource DateLabelStyle}"
+                                                   Grid.ColumnSpan="2"
+                                                   VerticalOptions="EndAndExpand" />
+                                            <StackLayout Orientation="Horizontal"
+                                                         Spacing="0"
+                                                         HorizontalOptions="StartAndExpand"
+                                                         Grid.Row="4"
+                                                         Grid.Column="0">
+                                                <Label HorizontalOptions="StartAndExpand"
+                                                       IsVisible="{Binding AttachmentCount,Converter={StaticResource intToBoolValueConverter}}">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span
+                                                                Text="{Binding AttachmentCount,StringFormat='Attachments ({0})'}"
+                                                                TextColor="{StaticResource LightGrayColor}"
+                                                                TextDecorations="Underline"
+                                                                FontSize="Small">
+                                                            </Span>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.AttachmentClickCommand,Source={x:Reference eventPage}}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </Label.GestureRecognizers>
+                                                </Label>
+                                            </StackLayout>
+                                            <StackLayout HorizontalOptions="EndAndExpand"
+                                                         VerticalOptions="StartAndExpand" Grid.Row="4"
+                                                         Grid.Column="1">
+                                                <Label HorizontalOptions="EndAndExpand"
+                                                       VerticalOptions="StartAndExpand"
+                                                       IsVisible="{Binding WebsiteLinksCount,Converter={StaticResource intToBoolValueConverter}}">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span
+                                                                Text="{Binding WebsiteLinksCount,StringFormat='Links ({0})'}"
+                                                                TextColor="{StaticResource LightGrayColor}"
+                                                                TextDecorations="Underline"
+                                                                FontSize="Small">
+                                                            </Span>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.LinksClickCommand,Source={x:Reference eventPage}}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </Label.GestureRecognizers>
+                                                </Label>
+                                            </StackLayout>
+                                        </Grid>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding BindingContext.ListTappedCommand,Source={x:Reference eventPage}}"
+                                                CommandParameter="{Binding .}" />
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+            <StackLayout VerticalOptions="EndAndExpand" Margin="0" Grid.Row="2">
+                <Button Text="Search Events" CornerRadius="5" Margin="15,10,15,10"
+                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                        TextColor="White"
+                        VerticalOptions="EndAndExpand"
+                        Command="{Binding FilterClickCommand}"
+                        HorizontalOptions="FillAndExpand" />
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand"
+                             HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference eventPage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

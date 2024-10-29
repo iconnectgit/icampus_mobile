@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:forms="clr-namespace:iCampus.MobileApp.Forms"
+    xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+    x:Class="iCampus.MobileApp.Views.PopUpViews.OnlinePaymentTermsandConditionsPopup"
+    CanBeDismissedByTappingOutsideOfPopup="False"
+    x:Name="onlinePaymentTermsandConditionsPopup"
+    Color="Transparent">
+
+    <Frame  CornerRadius="10"
+            HasShadow="False"
+            Padding="0"
+            IsClippedToBounds="true"
+            BackgroundColor="White"
+            VerticalOptions="CenterAndExpand"
+            BorderColor="Transparent"
+            HorizontalOptions="CenterAndExpand"
+            WidthRequest="{OnPlatform iOS='380', Android='340'}"
+            HeightRequest="{OnPlatform iOS='450', Android='420'}">
+        <StackLayout Spacing="0">
+            
+            <!-- Title Bar -->
+            <StackLayout HeightRequest="45"
+                         BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                          Padding="0">
+                <Label Text="Terms And Conditions" 
+                       TextColor="White" 
+                       Margin="10" 
+                       FontAttributes="Bold"/>
+            </StackLayout>
+            
+            <!-- Content Section -->
+            <ScrollView VerticalScrollBarVisibility="Never"
+                        HorizontalScrollBarVisibility="Never"
+                        BackgroundColor="White"
+                        Padding="10"
+                        VerticalOptions="FillAndExpand">
+                <Label Text="{Binding TermsAndConditions}"
+                       TextColor="Gray"
+                       FontSize="Small"
+                       TextType="Html"/>
+            </ScrollView>
+            
+            <!-- Buttons Section -->
+            <StackLayout Orientation="Horizontal"
+                         Padding="10,5"
+                         Spacing="10"
+                         BackgroundColor="White">
+                <Button Text="Cancel"
+                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HorizontalOptions="StartAndExpand"
+                        Clicked="MenuClosedClick"/>
+                
+                <Button Text="Accept"
+                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                        TextColor="White"
+                        CornerRadius="10"
+                        HorizontalOptions="EndAndExpand"
+                        Command="{Binding AcceptCommand}"/>
+            </StackLayout>
+            
+        </StackLayout>
+        <Frame.GestureRecognizers>
+            <SwipeGestureRecognizer Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference onlinePaymentTermsandConditionsPopup}}"
+                                                                   Direction="Right" />
+        </Frame.GestureRecognizers>
+        </Frame>
+
+</toolkit:Popup>

@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="iCampus.MobileApp.Views.UserModules.BooksReservation.BooksReservationPage"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Maui"
+             xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+             xmlns:controls="clr-namespace:iCampus.MobileApp.Controls"
+             NavigationPage.HasNavigationBar="false"
+             x:Name="booksReservationPage">
+    <ContentPage.Content>
+
+        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowDefinitions="*,Auto"
+              ColumnDefinitions="*">
+            <Grid Grid.Row="0" Grid.Column="0" RowSpacing="5"
+                  RowDefinitions="Auto,Auto,Auto,Auto,*" ColumnDefinitions="*">
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <behaviours:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter" />
+                        <behaviours:VisiblityConverter x:Key="VisiblityConverter" />
+                    </ResourceDictionary>
+                </Grid.Resources>
+                <ContentView ControlTemplate="{StaticResource BeamHeader}" Grid.Row="0" Grid.Column="0"
+                             BackgroundColor="White" />
+                <StackLayout Padding="0" Margin="10,10,10,0"
+                             Grid.Row="1" Grid.Column="0">
+                    <Frame Padding="10"
+                           CornerRadius="5" 
+                           HasShadow="False"
+                           IsClippedToBounds="True"
+                           HeightRequest="40"
+                           BorderColor="{StaticResource BorderColor}"
+                           BackgroundColor="White">
+                        <Label Text="{Binding HeaderMessage}"
+                               Style="{StaticResource TitleLabelStyle}"
+                               VerticalTextAlignment="Center"
+                               TextType="Html"
+                               HorizontalTextAlignment="Start" />
+                    </Frame>
+                    <Frame Padding="10"
+                           CornerRadius="5" HasShadow="False"
+                           IsVisible="{Binding SkipButtonVisibility,Converter={StaticResource ReverseBoolValueConverter}}"
+                           IsClippedToBounds="True"
+                           BorderColor="{StaticResource BorderColor}"
+                           BackgroundColor="#f8ac54">
+                        <Label Text="Following student has been skipped by you!"
+                               Style="{StaticResource TitleLabelStyle}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Start"
+                               TextColor="White" />
+                    </Frame>
+                </StackLayout>
+                
+                <Frame Grid.Row="2" Grid.Column="0" Padding="10" HasShadow="False" IsClippedToBounds="True"
+                       BorderColor="{StaticResource BorderColor}"
+                       IsVisible="{Binding SelectedStudentForBooksReservation.AlternateId,Converter={StaticResource VisiblityConverter}}"
+                       BackgroundColor="{StaticResource BorderColor}">
+                    <Grid ColumnSpacing="12" RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                    VerticalOptions="StartAndExpand"
+                                                    WidthRequest="50"
+                                                    HeightRequest="50"
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Grid.RowSpan="2"
+                                                    Aspect="AspectFit"
+                                                    DownsampleToViewSize="True"
+                                                    Source="{Binding SelectedStudentForBooksReservation.ImageData,Converter={StaticResource ImageUrlToSourceConverter}}">
+                            <ffimageloading:CachedImage.Transformations>
+                                <transformations:CircleTransformation />
+                            </ffimageloading:CachedImage.Transformations>
+                        </ffimageloading:CachedImage>
+                        <StackLayout Grid.Row="0" Grid.Column="1" Grid.RowSpan="2" Spacing="0"
+                                     VerticalOptions="CenterAndExpand">
+                            <Label Text="{Binding SelectedStudentForBooksReservation.StudentName}"
+                                   HorizontalOptions="StartAndExpand" Style="{StaticResource TitleLabelStyle}"
+                                   TextColor="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}"
+                                   Margin="0"
+                                   Padding="0" />
+                            <Label
+                                Text="{Binding SelectedStudentForBooksReservation.AlternateId,StringFormat='ID:{0}'}"
+                                HorizontalOptions="StartAndExpand"
+                                Style="{StaticResource DescriptionLabelStyle}"
+                
+                                Margin="0"
+                                Padding="0" />
+                        </StackLayout>
+                    </Grid>
+                </Frame>
+
+                <Frame Grid.Row="3" Grid.Column="0" IsVisible="{Binding IsReserved}" Padding="5" HasShadow="False"
+                       IsClippedToBounds="True"
+                       CornerRadius="5" BorderColor="{StaticResource BorderColor}" Margin="15,5,15,0"
+                       BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}">
+                    <StackLayout>
+                        <Label Text="Reserved for collection on : " Style="{StaticResource TitleLabelStyle}"
+                               Margin="5,0,5,0" HorizontalOptions="StartAndExpand" TextColor="White" />
+                        <Label Text="{Binding SelectedDateTime}" Style="{StaticResource TitleLabelStyle}"
+                               Margin="5,5,5,0" HorizontalOptions="StartAndExpand" TextColor="White" />
+                    </StackLayout>
+                </Frame>
+                
+                <StackLayout Padding="0" Margin="10,10,10,0"
+                             IsVisible="{Binding IsNoRecordMsg}" Grid.Row="4" Grid.Column="0">
+                    <Frame Padding="10"
+                           CornerRadius="5" HasShadow="False"
+                           IsClippedToBounds="True"
+                           BorderColor="{StaticResource BorderColor}"
+                           BackgroundColor="White">
+                        <Label Text="{Binding NoDataFound,Mode=TwoWay}" Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Start" />
+                    </Frame>
+                </StackLayout>
+
+                <ScrollView Grid.Row="4" Grid.Column="0" x:Name="booksListView" VerticalOptions="FillAndExpand">
+                    <Grid RowDefinitions="Auto,*" ColumnDefinitions="*">
+                        <ListView HasUnevenRows="true" Margin="10,0,10,0"
+                                  BackgroundColor="{StaticResource ListViewBackgroundColor}" 
+                                  Grid.Row="0"
+                                  Grid.Column="0" 
+                                  x:Name="listView"
+                                  IsEnabled="{Binding IsListviewEnabled}"
+                                  ItemsSource="{Binding BooksList,Mode=TwoWay}"
+                                  HeightRequest="{Binding ListViewHeight}"
+                                  SeparatorVisibility="None" VerticalScrollBarVisibility="Never"
+                                  VerticalOptions="FillAndExpand">
+                            <x:Arguments>
+                                <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                            </x:Arguments>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Padding="0" Margin="5" VerticalOptions="FillAndExpand"
+                                                     BackgroundColor="{Binding SelectedBookBackgroundColor}">
+                                            <Frame CornerRadius="5"
+                                                   HasShadow="False"
+                                                   BackgroundColor="{Binding SelectedBookBackgroundColor}"
+                                                   BorderColor="{StaticResource BorderColor}"
+                                                   Padding="5"
+                                                   IsClippedToBounds="true">
+                                                <StackLayout BackgroundColor="{Binding SelectedBookBackgroundColor}">
+                                                    <StackLayout Orientation="Horizontal">
+                                                        <Label Text="{Binding Title}"
+                                                               Style="{StaticResource TitleLabelStyle}"
+                                                               HorizontalOptions="StartAndExpand"
+                                                               VerticalOptions="CenterAndExpand" />
+                                                        <input:CheckBox IsChecked="{Binding IsChecked}"
+                                                                        HorizontalOptions="EndAndExpand"
+                                                                        Scale="0.8"
+                                                                        HeightRequest="25" 
+                                                                        WidthRequest="25"
+                                                                        IsEnabled="{Binding BindingContext.IsListviewEnabled, Source={x:Reference listView}}"
+                                                                        Color="Gray"
+                                                                        CheckChangedCommand="{Binding BindingContext.CheckBoxCheckedCommand, Source={x:Reference listView}}"
+                                                                        CommandParameter="{Binding .}" />
+                                                    </StackLayout>
+                                                    <StackLayout Orientation="Horizontal" Margin="0,10,0,0">
+                                                        <StackLayout Orientation="Horizontal" Spacing="0" Padding="0"
+                                                                     Margin="0">
+                                                            <Label Text="Quantity : "
+                                                                   Style="{StaticResource TitleLabelStyle}"
+                                                                   VerticalOptions="CenterAndExpand" />
+                                                            <Frame HasShadow="{Binding HasShadow}" Padding="0"
+                                                                   BorderColor="{Binding QuantityBorderColor}"
+                                                                   VerticalOptions="CenterAndExpand"
+                                                                   IsClippedToBounds="True" 
+                                                                   Margin="5,0,0,0"
+                                                                   CornerRadius="5"
+                                                                   HeightRequest="40">
+                                                                <controls:NoUnderlineEntry Text="{Binding Quantity}"
+                                                                    IsEnabled="{Binding IsQuantityEditable}"
+                                                                    VerticalOptions="CenterAndExpand"
+                                                                    Style="{StaticResource EntryFontStyle}"
+                                                                    Margin="0" HorizontalOptions="CenterAndExpand"
+                                                                    VerticalTextAlignment="Center"
+                                                                    TextChanged="NoUnderlineEntry_TextChanged"
+                                                                    ReturnCommandParameter="{Binding .}"
+                                                                    WidthRequest="60" HorizontalTextAlignment="Center">
+                                                                    <Entry.Behaviors>
+                                                                        <behaviours:NumericValidationBehavior />
+                                                                    </Entry.Behaviors>
+                                                                </controls:NoUnderlineEntry>
+                                                            </Frame>
+                                                        </StackLayout>
+
+                                                        <StackLayout Orientation="Horizontal" Spacing="0" Padding="0"
+                                                                     Margin="0,10,0,0" HorizontalOptions="EndAndExpand">
+                                                            <Label
+                                                                Style="{StaticResource TitleLabelStyle}"
+                                                                LineBreakMode="TailTruncation"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                HorizontalOptions="StartAndExpand"
+                                                                VerticalTextAlignment="Center"
+                                                                Margin="0,0,5,0">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="Price" />
+                                                                        <Span Text="(" />
+                                                                        <Span Text="{Binding Currency}" />
+                                                                        <Span Text=") : " />
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+                                                            <Label Text="{Binding Price}" Margin="5,0,0,0"
+                                                                   Style="{StaticResource DescriptionLabelStyle}"
+                                                                   HorizontalOptions="StartAndExpand"
+                                                                   HorizontalTextAlignment="Start"
+                                                                   VerticalOptions="CenterAndExpand" />
+                                                        </StackLayout>
+
+                                                    </StackLayout>
+
+                                                    <StackLayout Orientation="Horizontal" Spacing="0" Padding="0"
+                                                                 Margin="0,10,0,0" HorizontalOptions="StartAndExpand">
+                                                        <Label
+                                                            VerticalOptions="CenterAndExpand"
+                                                            HorizontalOptions="CenterAndExpand"
+                                                            VerticalTextAlignment="Center">
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="Total Amount : "
+                                                                          Style="{StaticResource TitleLabelStyle}" />
+                                                                    <Span Text="{Binding Amount}"
+                                                                          Style="{StaticResource DescriptionLabelStyle}" />
+                                                                    <Span Text=" "
+                                                                          Style="{StaticResource DescriptionLabelStyle}" />
+                                                                    <Span Text="{Binding Currency}"
+                                                                          Style="{StaticResource DescriptionLabelStyle}" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                    </StackLayout>
+                                                </StackLayout>
+                                            </Frame>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <StackLayout Grid.Row="1" Grid.Column="0"
+                                     Margin="15,0,15,15" HorizontalOptions="EndAndExpand"
+                                     VerticalOptions="EndAndExpand">
+                            <Label Style="{StaticResource DescriptionLabelStyle}" VerticalOptions="EndAndExpand"
+                                   VerticalTextAlignment="Center" Margin="0,0,0,5" HorizontalOptions="EndAndExpand">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="{Binding TotalAmount, StringFormat='Total Amount : {0}'}" />
+                                        <Span Text=" " />
+                                        <Span Text="{Binding Currency}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Spacing="10"
+                                         VerticalOptions="EndAndExpand">
+                                <Button Text="{Binding StudentChangeButtontext,Mode=TwoWay}"
+                                        CornerRadius="4" IsVisible="{Binding StudentChangeButtonVisibility}"
+                                        HeightRequest="30"
+                                        Padding="5,0,5,0"
+                                        Command="{Binding StudentChangeCommand}"
+                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        TextColor="White" HorizontalOptions="EndAndExpand" />
+                                <StackLayout
+                                    IsVisible="{Binding IsReserved,Converter={StaticResource ReverseBoolValueConverter}}"
+                                    HorizontalOptions="EndAndExpand">
+                                    <Button Text="Skip Student"
+                                            BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                            TextColor="White" HorizontalOptions="EndAndExpand"
+                                            Command="{Binding SkipStudentCommand}"
+                                            IsVisible="{Binding SkipButtonVisibility}"
+                                            CornerRadius="4" WidthRequest="100"
+                                            HeightRequest="30"
+                                            Padding="5,0,5,0"
+                                            FontSize="Small" />
+                                </StackLayout>
+                            </StackLayout>
+                            <StackLayout Margin="0,10,0,0"
+                                IsVisible="{Binding IsReserved,Converter={StaticResource ReverseBoolValueConverter}}"
+                                HorizontalOptions="EndAndExpand">
+                                <Button Text="Select Collection Date"
+                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        TextColor="White" HorizontalOptions="EndAndExpand"
+                                        IsVisible="{Binding SelectCollectionDateButtonVisibility}"
+                                        Command="{Binding SelectCollectionDateCommand}"
+                                        CornerRadius="4" WidthRequest="160"
+                                        HeightRequest="30"
+                                        Padding="5,0,5,0"
+                                        FontSize="Small" />
+                            </StackLayout>
+                            <StackLayout IsVisible="{Binding SaveAndConfirmVisibility}"
+                                         Margin="0,10,0,0"
+                                         HorizontalOptions="EndAndExpand">
+                                <Button Text="Save &amp; Confirm"
+                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        TextColor="White" HorizontalOptions="EndAndExpand"
+                                        Command="{Binding SaveAndConfirmClickedCommand}"
+                                        CornerRadius="4" WidthRequest="120"
+                                        HeightRequest="30"
+                                        Padding="5,0,5,0"
+                                        FontSize="Small" />
+                            </StackLayout>
+
+                        </StackLayout>
+                    </Grid>
+                </ScrollView>
+            </Grid>
+            <!-- <StackLayout Padding="10"> -->
+            <!--     <Label Text="Select your options:" FontSize="Medium" /> -->
+            <!-- -->
+            <!--     <input:CheckBox Text="Option 1" -->
+            <!--                     IsChecked="{Binding IsOption1Checked}" -->
+            <!--                     CheckChangedCommand="{Binding CheckBoxCheckedCommand}" -->
+            <!--                     CommandParameter="{Binding IsOption1Checked}" -->
+            <!--                     Color="Green" -->
+            <!--                     TextColor="Black" /> -->
+            <!-- -->
+            <!--     <input:CheckBox Text="Option 2" -->
+            <!--                     IsChecked="{Binding IsOption2Checked}" -->
+            <!--                     CheckChangedCommand="{Binding CheckBoxCheckedCommand}" -->
+            <!--                     CommandParameter="{Binding IsOption2Checked}" -->
+            <!--                     Color="Blue" -->
+            <!--                     TextColor="Black" /> -->
+            <!-- </StackLayout> -->
+            <StackLayout VerticalOptions="EndAndExpand" Margin="0,0,0,0" Grid.Row="1" Grid.Column="0"
+                         HeightRequest="65">
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand"
+                             HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference booksReservationPage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

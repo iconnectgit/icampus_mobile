@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:forms="clr-namespace:iCampus.MobileApp.Forms"
+    xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+    x:Class="iCampus.MobileApp.Views.PopUpViews.UpdatePhotoPopup"
+    CanBeDismissedByTappingOutsideOfPopup="False"
+    x:Name="updatePhotoPopup"
+    Color="Transparent">
+
+    <Frame CornerRadius="5"
+           HasShadow="False"
+           Padding="0"
+           IsClippedToBounds="true"
+           BackgroundColor="White"
+           VerticalOptions="CenterAndExpand"
+           HorizontalOptions="CenterAndExpand"
+           WidthRequest="350"
+           HeightRequest="500">
+        <StackLayout Spacing="0" Margin="5,5,5,5">
+            <StackLayout.Resources>
+                <ResourceDictionary>
+                </ResourceDictionary>
+            </StackLayout.Resources>
+            <Grid ColumnDefinitions="*, Auto"
+                  HorizontalOptions="FillAndExpand"
+                  Margin="0,0,0,0">
+                <Label Text="Update Photo"
+                       FontAttributes="Bold"
+                       FontSize="16"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center"
+                       Margin="5,5,0,0"
+                       WidthRequest="250" />
+                <Label
+                    Text="&#xf057;"
+                    FontFamily="FontAwesomeSolid"
+                    TextColor="Red"
+                    FontSize="24"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MenuClosedClick" NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+            <StackLayout>
+                <ffimageloading:CachedImage HorizontalOptions="CenterAndExpand"
+                                            VerticalOptions="CenterAndExpand"
+                                            WidthRequest="400"
+                                            HeightRequest="400"
+                                            Aspect="AspectFit"
+                                            DownsampleToViewSize="True"
+                                            Source="{Binding ProfilePicturePath}" Scale="0.7" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand"
+                         Margin="0" IsVisible="{Binding IsChangeButtonVisible}">
+                <Button
+                    Text="Change"
+                    FontSize="Small"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    BorderColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                    CornerRadius="5"
+                    Padding="5"
+                    HeightRequest="40"
+                    WidthRequest="80"
+                    Command="{Binding ChangeCommand}" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand"
+                         Margin="0" Spacing="10" IsVisible="{Binding IsSaveButtonVisible}">
+                <Button
+                    Text="Save"
+                    FontSize="Small"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    BorderColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                    CornerRadius="5"
+                    Padding="5"
+                    HeightRequest="40"
+                    WidthRequest="80"
+                    Command="{Binding SaveCommand}" />
+                <Button
+                    Text="Cancel"
+                    FontSize="Small"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    BorderColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                    CornerRadius="5"
+                    Padding="5"
+                    HeightRequest="40"
+                    WidthRequest="80"
+                    Clicked="MenuClosedClick" />
+            </StackLayout>
+
+
+        </StackLayout>
+        <Frame.GestureRecognizers>
+            <SwipeGestureRecognizer
+                Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference updatePhotoPopup}}"
+                Direction="Right" />
+        </Frame.GestureRecognizers>
+    </Frame>
+
+</toolkit:Popup>

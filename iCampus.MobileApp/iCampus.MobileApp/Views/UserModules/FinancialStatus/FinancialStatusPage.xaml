@@ -1,0 +1,428 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="iCampus.MobileApp.Views.UserModules.FinancialStatus.FinancialStatusPage"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="financialStatusPage">
+    <ContentPage.Content>
+
+        <Grid VerticalOptions="FillAndExpand"
+              BackgroundColor="{StaticResource BorderColor}" RowDefinitions="Auto,Auto,*,Auto" ColumnDefinitions="*"
+              Margin="0,0,0,0">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <behaviours:VisiblityConverter x:Key="VisiblityConverter" />
+                </ResourceDictionary>
+            </Grid.Resources>
+
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         VerticalOptions="StartAndExpand"
+                         BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
+            <ContentView ControlTemplate="{StaticResource BeamStudentSelection}"
+                         BackgroundColor="{StaticResource BorderColor}" Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" />
+
+            <StackLayout Grid.Row="2" Grid.Column="0" VerticalOptions="FillAndExpand">
+                <StackLayout Margin="5,0,5,0">
+                    <Grid Margin="0,0,0,0" ColumnSpacing="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackLayout Spacing="0" Grid.Column="0">
+                            <Button Text="Financial Statement"
+                                    FontSize="16"
+                                    BackgroundColor="White"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                    CornerRadius="5"
+                                    Margin="0,10,0,0"
+                                    HeightRequest="40"
+                                    Padding="0"
+                                    Command="{Binding FinancialCommand}"
+                                    Opacity="{Binding FinancialButtonOpacity}" />
+                        </StackLayout>
+                        <StackLayout Spacing="0" Grid.Column="1">
+                            <Button Text="Statement History"
+                                    FontSize="16"
+                                    BackgroundColor="White"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                    CornerRadius="5"
+                                    Margin="0,10,0,0"
+                                    HeightRequest="40"
+                                    Padding="0"
+                                    Command="{Binding HistoryCommand}"
+                                    Opacity="{Binding HistoryButtonOpacity}" />
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+                <StackLayout IsVisible="{Binding IsFinancialVisible}">
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="FillAndExpand"
+                                 Padding="10,10,15,0">
+                        <Label HorizontalOptions="StartAndExpand">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Your Current Balance: " Style="{StaticResource TitleLabelStyle}" />
+                                    <Span Text="{Binding FinancialStatementData.BalanceAmount}"
+                                          Style="{StaticResource DescriptionLabelStyle}" />
+                                    <Span
+                                        Text="{Binding FinancialStatementData.CurrencyData.CurrencyCode,StringFormat=' {0}'}"
+                                        Style="{StaticResource DescriptionLabelStyle}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </StackLayout>
+                    <StackLayout Padding="10,10,10,0">
+                        <Frame CornerRadius="5"
+                               HasShadow="False"
+                               Padding="10"
+                               BorderColor="{StaticResource BorderColor}"
+                               IsClippedToBounds="True"
+                               BackgroundColor="White">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.6*" />
+                                    <ColumnDefinition Width="0.2*" />
+                                    <ColumnDefinition Width="0.2*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0"
+                                       Grid.Column="0"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       Text="Description"
+                                       FontAttributes="Bold" />
+                                <Label Grid.Row="0"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       Text="Credit"
+                                       Grid.Column="1" HorizontalOptions="EndAndExpand" />
+                                <Label Grid.Row="0"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       Text="Debit"
+                                       Grid.Column="2" HorizontalOptions="EndAndExpand" />
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+                    <StackLayout Padding="10,10,10,10"
+                                 IsVisible="{Binding IsNoFinancialStmt}">
+                        <Frame Padding="10"
+                               CornerRadius="5" HasShadow="False"
+                               IsClippedToBounds="True"
+                               BorderColor="{StaticResource BorderColor}"
+                               BackgroundColor="White">
+                            <Label VerticalOptions="CenterAndExpand"
+                                   Text="{Binding NoDataFound}"
+                                   Style="{StaticResource DescriptionLabelStyle}"
+                                   HorizontalTextAlignment="Start" />
+                        </Frame>
+                    </StackLayout>
+                    <ListView ItemsSource="{Binding FinancialStatementData.StatementList}"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              VerticalScrollBarVisibility="Never"
+                              HasUnevenRows="True" SeparatorVisibility="None"
+                              x:Name="FinancialListView">
+                        <x:Arguments>
+                            <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                        </x:Arguments>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="10,5,10,5">
+
+                                        <Frame CornerRadius="5"
+                                               IsVisible="{Binding FormattedFinancialStatementDate,Converter={StaticResource VisiblityConverter}}"
+                                               HasShadow="False"
+                                               Padding="10"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               IsClippedToBounds="True"
+                                               BackgroundColor="White">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.6*" />
+                                                    <ColumnDefinition Width="0.2*" />
+                                                    <ColumnDefinition Width="0.2*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Grid.Row="0"
+                                                       Grid.Column="0"
+                                                       FontAttributes="Bold" Padding="0" Margin="0"
+                                                       IsVisible="{Binding FormattedFinancialStatementDate,Converter={StaticResource VisiblityConverter}}"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       Text="{Binding FormattedFinancialStatementDate}" />
+                                                <ffimageloading:CachedImage Margin="10,0,0,0" Grid.Row="0"
+                                                                            Grid.Column="2"
+                                                                            Source="{Binding ArrowImageSource}"
+                                                                            HorizontalOptions="EndAndExpand"
+                                                                            VerticalOptions="Start"
+                                                                            Scale="0.8" />
+                                            </Grid>
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding BindingContext.FinancilaExpandCollapseClickCommand,Source={x:Reference financialStatusPage}}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Frame.GestureRecognizers>
+                                        </Frame>
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False" Margin="0,-5,0,0"
+                                               Padding="10" IsVisible="{Binding DetailsVisibility}"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               IsClippedToBounds="True"
+                                               BackgroundColor="White">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.6*" />
+                                                    <ColumnDefinition Width="0.2*" />
+                                                    <ColumnDefinition Width="0.2*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Grid.Row="1"
+                                                       Style="{StaticResource DescriptionLabelStyle}"
+                                                       Text="{Binding DocumentNumber,StringFormat='Doc # : {0}'}"
+                                                       Grid.Column="0" />
+                                                <Label Grid.Row="2" Style="{StaticResource DescriptionLabelStyle}"
+                                                       Text="{Binding Description}"
+                                                       Grid.Column="0"
+                                                       Margin="0,5,0,0" />
+
+                                                <Label Grid.Row="0"
+                                                       VerticalOptions="CenterAndExpand"
+                                                       Text="{Binding CreditAmount}"
+                                                       Grid.Column="1"
+                                                       Style="{StaticResource DescriptionLabelStyle}"
+                                                       VerticalTextAlignment="Center"
+                                                       Grid.RowSpan="3"
+                                                       HorizontalOptions="EndAndExpand" />
+                                                <Label Grid.Row="0"
+                                                       Text="{Binding DebitAmount}"
+                                                       Style="{StaticResource DescriptionLabelStyle}"
+                                                       Grid.Column="2"
+                                                       VerticalTextAlignment="Center"
+                                                       VerticalOptions="CenterAndExpand"
+                                                       Grid.RowSpan="3"
+                                                       HorizontalOptions="EndAndExpand" />
+                                            </Grid>
+                                        </Frame>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+
+                <StackLayout IsVisible="{Binding IsHistoryVisible}" VerticalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal"
+                                 HorizontalOptions="FillAndExpand"
+                                 Padding="10,10,15,0">
+                        <Label HorizontalOptions="StartAndExpand">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Your Current Balance: " Style="{StaticResource TitleLabelStyle}" />
+                                    <Span Text="{Binding FinancialStatementData.BalanceAmount}"
+                                          Style="{StaticResource DescriptionLabelStyle}" />
+                                    <Span
+                                        Text="{Binding FinancialStatementData.CurrencyData.CurrencyCode,StringFormat=' {0}'}"
+                                        Style="{StaticResource DescriptionLabelStyle}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </StackLayout>
+                    <StackLayout Padding="10,10,10,0">
+                        <Frame CornerRadius="5"
+                               HasShadow="False"
+                               Padding="10"
+                               BorderColor="{StaticResource BorderColor}"
+                               IsClippedToBounds="True"
+                               BackgroundColor="White">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.6*" />
+                                    <ColumnDefinition Width="0.2*" />
+                                    <ColumnDefinition Width="0.2*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Grid.Row="0"
+                                       Grid.Column="0"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       Text="Payment Details" />
+                                <Label Grid.Row="0"
+                                       Text="Amount"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       Grid.Column="1"
+                                       HorizontalOptions="EndAndExpand" />
+                                <Label Grid.Row="0"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       HorizontalTextAlignment="End"
+                                       HorizontalOptions="EndAndExpand"
+                                       Text="Payment Method"
+                                       Grid.Column="2" />
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+                    <StackLayout Padding="10,10,10,10"
+                                 IsVisible="{Binding IsNoStmtHistory}">
+                        <Frame Padding="10"
+                               CornerRadius="5" HasShadow="False"
+                               IsClippedToBounds="True"
+                               BorderColor="{StaticResource BorderColor}"
+                               BackgroundColor="White">
+                            <Label VerticalOptions="CenterAndExpand"
+                                   Text="{Binding NoDataFound}"
+                                   Style="{StaticResource DescriptionLabelStyle}"
+                                   HorizontalTextAlignment="Start" />
+                        </Frame>
+                    </StackLayout>
+
+                    <!-- ListView -->
+                    <ListView ItemsSource="{Binding StatementHistoryList, Mode=TwoWay}"
+                              VerticalScrollBarVisibility="Never"
+                              HasUnevenRows="True"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              SelectionMode="None"
+                              VerticalOptions="FillAndExpand"
+                              SelectedItem="{Binding SelectedHistoryStmt, Mode=TwoWay}"
+                              SeparatorVisibility="None"
+                              x:Name="HistoryListView">
+                        <x:Arguments>
+                            <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                        </x:Arguments>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="10,5,10,5">
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               Padding="10"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               IsClippedToBounds="True"
+                                               BackgroundColor="White">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.7*" />
+                                                    <ColumnDefinition Width="0.3*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Grid.Row="0"
+                                                       Grid.Column="0"
+                                                       FontAttributes="Bold"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       Text="{Binding FormattedReceiptDate,StringFormat='Receipt Date: {0}'}" />
+
+                                                <ffimageloading:CachedImage Margin="10,0,0,0" Grid.Row="0"
+                                                                            Grid.Column="1"
+                                                                            Source="{Binding ArrowImageSource}"
+                                                                            HorizontalOptions="EndAndExpand"
+                                                                            VerticalOptions="Start"
+                                                                            Scale="0.8" />
+                                            </Grid>
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding BindingContext.HistoryExpandCollapseClickCommand,Source={x:Reference financialStatusPage}}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Frame.GestureRecognizers>
+                                        </Frame>
+                                        <Frame CornerRadius="5" IsVisible="{Binding DetailsVisibility}"
+                                               HasShadow="False"
+                                               Padding="10" Margin="0,-5,0,0"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               IsClippedToBounds="True"
+                                               BackgroundColor="White">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.6*" />
+                                                    <ColumnDefinition Width="0.2*" />
+                                                    <ColumnDefinition Width="0.2*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Row="1"
+                                                       Style="{StaticResource DescriptionLabelStyle}"
+                                                       Text="{Binding Description}"
+                                                       Grid.Column="0"
+                                                       Margin="0,5,0,0" />
+                                                <Label Grid.Row="0"
+                                                       Style="{StaticResource DescriptionLabelStyle}"
+                                                       VerticalOptions="CenterAndExpand"
+                                                       Text="{Binding DebitAmount}"
+                                                       Grid.Column="1"
+                                                       Grid.RowSpan="2"
+                                                       VerticalTextAlignment="Center"
+                                                       HorizontalOptions="EndAndExpand" />
+                                                <StackLayout Orientation="Vertical" Spacing="0" Grid.Row="1"
+                                                             Grid.Column="2" VerticalOptions="CenterAndExpand">
+                                                    <Label
+                                                        Style="{StaticResource DescriptionLabelStyle}"
+                                                        HorizontalOptions="EndAndExpand"
+                                                        HorizontalTextAlignment="End"
+                                                        Text="{Binding PaymentMethod}"
+                                                        VerticalTextAlignment="Center"
+                                                        VerticalOptions="CenterAndExpand" />
+                                                    <Label TextDecorations="Underline" FontSize="Small"
+                                                           Style="{StaticResource DescriptionLabelStyle}"
+                                                           HorizontalOptions="EndAndExpand"
+                                                           HorizontalTextAlignment="End"
+                                                           Text="Details"
+                                                           TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current},Converter={StaticResource ColorCodeConverter}}"
+                                                           VerticalTextAlignment="End"
+                                                           VerticalOptions="EndAndExpand"
+                                                           Margin="0,5,0,0" />
+                                                </StackLayout>
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding BindingContext.HistoryStmtListTappedCommand,Source={x:Reference financialStatusPage}}"
+                                                        CommandParameter="{Binding .}" />
+                                                </Grid.GestureRecognizers>
+                                            </Grid>
+
+                                        </Frame>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+
+            </StackLayout>
+            <StackLayout VerticalOptions="EndAndExpand" Margin="0,0,0,0" Grid.Row="3" Grid.Column="0">
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand"
+                             HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference financialStatusPage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

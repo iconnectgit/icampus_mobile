@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:forms="clr-namespace:iCampus.MobileApp.Forms"
+    x:Class="iCampus.MobileApp.Views.PopUpViews.AddNewPostPopup"
+    x:Name="addNewPostPopup"
+    Color="Transparent"
+    Size="3000, 3000">
+
+    <AbsoluteLayout
+        HorizontalOptions="FillAndExpand"
+        VerticalOptions="FillAndExpand">
+        <Frame
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            CornerRadius="0"
+            HasShadow="False"
+            BackgroundColor="#99020208"
+            Padding="0"
+            IsClippedToBounds="true">
+
+            <StackLayout Spacing="0" VerticalOptions="Fill" HorizontalOptions="Fill">
+                <StackLayout.Resources>
+                    <ResourceDictionary>
+                    </ResourceDictionary>
+                </StackLayout.Resources>
+
+                <!-- Close Button -->
+                <StackLayout x:Name="closeButton" VerticalOptions="Start"
+                             HorizontalOptions="EndAndExpand" Padding="10,10,10,10">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MenuClosedClick"
+                                              NumberOfTapsRequired="1" />
+                    </StackLayout.GestureRecognizers>
+                    <Label
+                        Text="&#xf057;"
+                        FontFamily="FontAwesomeSolid"
+                        TextColor="Red"
+                        Margin="0,0,0,0"
+                        FontSize="30"
+                        VerticalOptions="CenterAndExpand" />
+                </StackLayout>
+
+                <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Spacing="10">
+                    <Grid Margin="10" HorizontalOptions="FillAndExpand" RowSpacing="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+
+                        <Button Grid.Row="0"
+                                Text="New Post +"
+                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                                TextColor="White"
+                                CornerRadius="5"
+                                Margin="0,5,0,5"
+                                FontSize="Medium"
+                                Style="{StaticResource TitleLabelStyle}"
+                                VerticalOptions="CenterAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                Padding="10"
+                                Command="{Binding NewPostClickedCommand}" />
+
+                        <Button Grid.Row="1"
+                                Text="Quick Post +"
+                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                                TextColor="White"
+                                CornerRadius="5"
+                                Margin="0,5,0,5"
+                                FontSize="Medium"
+                                Style="{StaticResource TitleLabelStyle}"
+                                VerticalOptions="CenterAndExpand"
+                                HorizontalOptions="FillAndExpand"
+                                Padding="10"
+                                IsVisible="{Binding IsQuickPostEnabled}"
+                                Command="{Binding QuickPostClickedCommand}" />
+                    </Grid>
+                </StackLayout>
+            </StackLayout>
+        </Frame>
+    </AbsoluteLayout>
+</toolkit:Popup>

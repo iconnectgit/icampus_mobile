@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+    xmlns:flowListView="clr-namespace:DLToolkit.Maui.Controls.FlowListView;assembly=DLToolkit.Maui.Controls.FlowListView"
+    x:Class="iCampus.MobileApp.Views.UserModules.BooksReservation.TimeSlotListPopup"
+    CanBeDismissedByTappingOutsideOfPopup="False"
+    x:Name="timeSlotListPopup"
+    Color="Transparent">
+
+    <Frame CornerRadius="5"
+           HasShadow="False"
+           Padding="0"
+           IsClippedToBounds="true"
+           BackgroundColor="White"
+           VerticalOptions="CenterAndExpand"
+           HorizontalOptions="CenterAndExpand"
+           BorderColor="Transparent"
+           WidthRequest="350"
+           HeightRequest="700">
+        <StackLayout Spacing="0" Margin="5,5,5,5">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                <!-- <Label Text="Booking Confirmed" HorizontalOptions="StartAndExpand" -->
+                <!--        FontAttributes="Bold" FontSize="14" Margin="5,5,0,0" /> -->
+                <Label
+                    Text="&#xf057;"
+                    FontFamily="FontAwesomeSolid"
+                    TextColor="Red"
+                    FontSize="24"
+                    HorizontalOptions="EndAndExpand"
+                    VerticalOptions="CenterAndExpand">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MenuClosedClick" NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+
+            <Frame CornerRadius="0"
+                   HasShadow="False" 
+                   Margin="5" 
+                   IsVisible="{Binding DescriptionVisibility}"
+                   Padding="5"
+                   BorderColor="Transparent"
+                   IsClippedToBounds="true">
+                    <flowListView:FlowListView
+                        FlowColumnCount="3" 
+                        FlowItemsSource="{Binding TimeSlots}" 
+                        Margin="{Binding TimeViewMargin}"
+                        SeparatorVisibility="Default" 
+                        SelectionMode="Single"
+                        HeightRequest="650"
+                        HasUnevenRows="True">
+                        <flowListView:FlowListView.FlowColumnTemplate>
+                            <DataTemplate>
+                                <Frame Padding="0" HasShadow="False" BackgroundColor="{StaticResource BorderColor}">
+
+                                    <Frame CornerRadius="5" Margin="5" Padding="0" HasShadow="false">
+                                        <StackLayout BackgroundColor="{Binding SelectedTimeSlotBackgroundColor}"
+                                                     Padding="5" Spacing="0">
+                                            <Label Text="{Binding TimeSlotString}"
+                                                   Style="{StaticResource DescriptionLabelStyle}"
+                                                   VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                                                   HorizontalTextAlignment="Center" />
+                                        </StackLayout>
+                                    </Frame>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"
+                                                              CommandParameter="{Binding TimeSlotString}" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </DataTemplate>
+                        </flowListView:FlowListView.FlowColumnTemplate>
+                    </flowListView:FlowListView>
+            </Frame>
+        </StackLayout>
+        <Frame.GestureRecognizers>
+            <SwipeGestureRecognizer
+                Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference timeSlotListPopup}}"
+                Direction="Right" />
+        </Frame.GestureRecognizers>
+    </Frame>
+
+</toolkit:Popup>

@@ -1,0 +1,738 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="iCampus.MobileApp.Views.UserModules.ChequeReplacement.ChequeReplacementPage"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="chequeReplacementPage">
+    <ContentPage.Content>
+
+        <Grid VerticalOptions="FillAndExpand"
+              BackgroundColor="{StaticResource BorderColor}" RowDefinitions="Auto,Auto,*,Auto" ColumnDefinitions="*"
+              Margin="0,0,0,0">
+            <Grid.Resources>
+                <ResourceDictionary>
+                </ResourceDictionary>
+            </Grid.Resources>
+
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         VerticalOptions="StartAndExpand"
+                         BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
+            <ContentView ControlTemplate="{StaticResource BeamStudentSelection}"
+                         BackgroundColor="{StaticResource BorderColor}" Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" />
+
+
+            <StackLayout Grid.Row="2" Grid.Column="0" VerticalOptions="FillAndExpand">
+                <StackLayout Margin="5,0,5,0">
+                    <Grid Margin="0,0,0,0" ColumnSpacing="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackLayout Spacing="0" Grid.Column="0">
+                            <Button Text="Payments" 
+                                    FontSize="16"
+                                    BackgroundColor="White"
+                                    HorizontalOptions="FillAndExpand" 
+                                    VerticalOptions="Center" 
+                                    TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                    CornerRadius="5" 
+                                    Margin="0,10,0,0"
+                                    HeightRequest="40" 
+                                    Padding="0" 
+                                    Command="{Binding PaymentsCommand}" 
+                                    Opacity="{Binding PaymentButtonOpacity}"/>
+                        </StackLayout>
+                        <StackLayout Spacing="0" Grid.Column="1">
+                            <Button Text="History" 
+                                    FontSize="16"
+                                    BackgroundColor="White"
+                                    HorizontalOptions="FillAndExpand" 
+                                    VerticalOptions="Center" 
+                                    TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                    CornerRadius="5" 
+                                    Margin="0,10,0,0"
+                                    HeightRequest="40" 
+                                    Padding="0" 
+                                    Command="{Binding HistoryCommand}" 
+                                    Opacity="{Binding HistoryButtonOpacity}"/>
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+                <StackLayout Padding="15,10,15,0"
+                             IsVisible="{Binding NoInvoiceFoundVisibility}">
+                    <Frame Padding="5,5,5,5"
+                           CornerRadius="5" HasShadow="False"
+                           IsClippedToBounds="True"
+                           BorderColor="{StaticResource BorderColor}"
+                           BackgroundColor="White">
+                        <Label Text="{Binding NoDataFound}" Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Start" />
+                    </Frame>
+                </StackLayout>
+
+                <StackLayout Padding="10,0,10,0" IsVisible="{Binding IsPayment}" VerticalOptions="FillAndExpand">
+                    <Label Text="Pending PDC" FontSize="Medium" Style="{StaticResource TitleLabelStyle}"
+                           IsVisible="{Binding PendingPdcLabel}" Margin="0,5,0,5" />
+
+                    <ListView ItemsSource="{Binding BindablePendingPdcList,Mode=TwoWay}"
+                              SelectedItem="{Binding SelectedPendingPdcList, Mode=TwoWay}"
+                              HasUnevenRows="True" VerticalScrollBarVisibility="Always"
+                              VerticalOptions="FillAndExpand"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              SeparatorVisibility="None" SelectionMode="None"
+                              x:Name="beamPendingListView"
+                              Margin="0,0,0,0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout>
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               Padding="-2"
+                                               HeightRequest="45"
+                                               IsClippedToBounds="true">
+
+
+                                            <StackLayout Orientation="Horizontal">
+                                                <StackLayout>
+                                                    <CheckBox HorizontalOptions="StartAndExpand"
+                                                              VerticalOptions="CenterAndExpand"
+                                                              HeightRequest="30"
+                                                              WidthRequest="25"
+                                                              InputTransparent="True"
+                                                              Scale="1"
+                                                              Margin="0,0,-5,0"
+                                                              IsChecked="{Binding IsPendingCheckBoxEnabled}"
+                                                              IsVisible="{Binding IsPendingCheckBoxVisible}"
+                                                              Color="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                    <StackLayout.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.CheckboxClickCommand,Source={x:Reference beamPendingListView}}"
+                                                            CommandParameter="{Binding .}"
+                                                            NumberOfTapsRequired="1" />
+
+                                                    </StackLayout.GestureRecognizers>
+
+                                                </StackLayout>
+                                                <Label HorizontalOptions="StartAndExpand" VerticalOptions="Center"
+                                                       Margin="5,0,10,0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Receipt :"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                            <Span Text=" " />
+                                                            <Span Text="{Binding ReceiptNo}"
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+
+
+                                                <StackLayout VerticalOptions="CenterAndExpand">
+                                                    <ffimageloading:CachedImage Margin="10,0,10,0"
+                                                        Source="{Binding ArrowImageSource}"
+                                                        HorizontalOptions="EndAndExpand"
+                                                        VerticalOptions="CenterAndExpand"
+                                                        Scale="0.8" IsVisible="true">
+                                                        <ffimageloading:CachedImage.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding BindingContext.PendingExpandCollapseClickCommand,Source={x:Reference chequeReplacementPage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                        </ffimageloading:CachedImage.GestureRecognizers>
+                                                    </ffimageloading:CachedImage>
+                                                    <StackLayout.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.PendingExpandCollapseClickCommand, Source={x:Reference chequeReplacementPage}}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </StackLayout.GestureRecognizers>
+                                                </StackLayout>
+
+
+                                            </StackLayout>
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding BindingContext.PendingExpandCollapseClickCommand,Source={x:Reference chequeReplacementPage}}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Frame.GestureRecognizers>
+
+
+                                        </Frame>
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False" Margin="0,-5,0,0"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               Padding="6"
+                                               IsClippedToBounds="true"
+                                               IsVisible="{Binding DetailsVisibility}">
+                                            <StackLayout VerticalOptions="Fill"
+                                                         HorizontalOptions="Fill"
+                                                         Padding="10,5,10,5">
+                                                <StackLayout Orientation="Horizontal" Spacing="0">
+                                                    <Label>
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Year :"
+                                                                      Style="{StaticResource DescriptionLabelStyle}" />
+                                                                <Span Text=" " />
+                                                                <Span Text="{Binding FinancialYearTitle}"
+                                                                      Style="{StaticResource TitleLabelStyle}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+
+                                                    <Label Text="{Binding ChequeStatus}"
+                                                           Style="{StaticResource DescriptionLabelStyle}"
+                                                           HorizontalOptions="EndAndExpand"
+                                                           HorizontalTextAlignment="End" />
+                                                </StackLayout>
+
+                                                <StackLayout Orientation="Horizontal" Spacing="0" Margin="0,5,0,0">
+                                                    <Label>
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Due Date :"
+                                                                      Style="{StaticResource DescriptionLabelStyle}" />
+                                                                <Span Text=" " />
+                                                                <Span
+                                                                    Text="{Binding DueDate, StringFormat='{0:dd-MMM-yyyy}'}"
+                                                                    Style="{StaticResource TitleLabelStyle}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </StackLayout>
+
+                                                <Label HorizontalOptions="StartAndExpand"
+                                                       HorizontalTextAlignment="Start" Margin="0,5,0,0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Amount :"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                            <Span Text=" " />
+                                                            <Span Text="{Binding Amount}"
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+
+                                                <Label HorizontalOptions="StartAndExpand"
+                                                       HorizontalTextAlignment="Start" Margin="0,5,0,0"
+                                                       IsVisible="{Binding BindingContext.IsExtraAmountEnabled,Source={x:Reference chequeReplacementPage}}">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Extra Charges :"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                            <Span Text=" " />
+                                                            <Span Text="{Binding ExtraCharge, StringFormat='{0:F2}'}"
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+
+                                                <Label HorizontalOptions="StartAndExpand"
+                                                       HorizontalTextAlignment="Start" Margin="0,5,0,0"
+                                                       IsVisible="{Binding BindingContext.IsExtraAmountVatEnabled,Source={x:Reference chequeReplacementPage}}">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="VAT :"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                            <Span Text=" " />
+                                                            <Span Text="{Binding VAT}"
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+
+                                                <Label HorizontalOptions="StartAndExpand"
+                                                       HorizontalTextAlignment="Start" Margin="0,5,0,0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Remark :"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                            <Span Text=" " />
+                                                            <Span Text="{Binding Remarks}"
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+
+
+                                            </StackLayout>
+                                        </Frame>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+
+                <StackLayout Padding="10,0,10,0" IsVisible="{Binding IsPayment}" VerticalOptions="FillAndExpand">
+                    <Label Text="Dishonoured PDC" FontSize="Medium" Style="{StaticResource TitleLabelStyle}"
+                           IsVisible="{Binding BouncedPdcLabel}" Margin="0,5,0,5" />
+                    <StackLayout VerticalOptions="Fill"
+                                 HorizontalOptions="Fill"
+                                 Margin="0,0,0,0">
+                        <ListView ItemsSource="{Binding BindableBouncePdcList,Mode=TwoWay}"
+                                  SelectedItem="{Binding SelectedBouncedPdcList, Mode=TwoWay}"
+                                  HasUnevenRows="True" VerticalScrollBarVisibility="Always"
+                                  BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                  x:Name="beamBouncedListView"
+                                  VerticalOptions="FillAndExpand"
+                                  SeparatorVisibility="None" SelectionMode="None"
+                                  Margin="0,0,0,0">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout>
+                                            <Frame CornerRadius="5"
+                                                   HasShadow="False"
+                                                   BorderColor="{StaticResource BorderColor}"
+                                                   Padding="-2"
+                                                   HeightRequest="44"
+                                                   IsClippedToBounds="true">
+
+
+                                                <StackLayout Orientation="Horizontal">
+                                                    <StackLayout>
+                                                        <CheckBox HorizontalOptions="StartAndExpand"
+                                                                  VerticalOptions="CenterAndExpand"
+                                                                  HeightRequest="30"
+                                                                  WidthRequest="25"
+                                                                  InputTransparent="True"
+                                                                  Scale="1"
+                                                                  Margin="0,0,0,0"
+                                                                  IsChecked="{Binding IsBounceCheckBoxChecked}"
+                                                                  IsVisible="{Binding IsBouncedCheckBoxVisible}"
+                                                                  IsEnabled="{Binding IsBounceCheckBoxEnabled}"
+                                                                  Opacity="{Binding CheckBoxOpacity}"
+                                                                  Color="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                        <StackLayout.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding BindingContext.CheckboxClickCommand,Source={x:Reference beamBouncedListView}}"
+                                                                CommandParameter="{Binding .}"
+                                                                NumberOfTapsRequired="1" />
+
+                                                        </StackLayout.GestureRecognizers>
+                                                    </StackLayout>
+
+                                                    <Label HorizontalOptions="StartAndExpand" VerticalOptions="Center"
+                                                           Margin="5,0,10,0">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Receipt :"
+                                                                      Style="{StaticResource DescriptionLabelStyle}" />
+                                                                <Span Text=" " />
+                                                                <Span Text="{Binding ReceiptNo}"
+                                                                      Style="{StaticResource TitleLabelStyle}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+
+
+                                                    <StackLayout VerticalOptions="CenterAndExpand">
+                                                        <ffimageloading:CachedImage Margin="10,0,10,0"
+                                                            Source="{Binding ArrowImageSource}"
+                                                            HorizontalOptions="EndAndExpand"
+                                                            VerticalOptions="CenterAndExpand"
+                                                            Scale="0.8" IsVisible="true">
+                                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.BounceExpandCollapseClickCommand,Source={x:Reference chequeReplacementPage}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                                        </ffimageloading:CachedImage>
+                                                        <StackLayout.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding BindingContext.BounceExpandCollapseClickCommand, Source={x:Reference chequeReplacementPage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                        </StackLayout.GestureRecognizers>
+                                                    </StackLayout>
+                                                </StackLayout>
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding BindingContext.BounceExpandCollapseClickCommand,Source={x:Reference chequeReplacementPage}}"
+                                                        CommandParameter="{Binding .}" />
+                                                </Frame.GestureRecognizers>
+
+
+                                            </Frame>
+                                            <Frame CornerRadius="5"
+                                                   HasShadow="False" Margin="0,-5,0,0"
+                                                   BorderColor="{StaticResource BorderColor}"
+                                                   Padding="6"
+                                                   IsClippedToBounds="true"
+                                                   IsVisible="{Binding DetailsVisibility}">
+                                                <StackLayout VerticalOptions="Fill"
+                                                             HorizontalOptions="Fill"
+                                                             Padding="10,5,10,5">
+                                                    <StackLayout Orientation="Horizontal" Spacing="0">
+                                                        <Label>
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="Year :"
+                                                                          Style="{StaticResource DescriptionLabelStyle}" />
+                                                                    <Span Text=" " />
+                                                                    <Span Text="{Binding FinancialYearTitle}"
+                                                                          Style="{StaticResource TitleLabelStyle}" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+
+                                                        <Label Text="{Binding ChequeStatus}"
+                                                               Style="{StaticResource DescriptionLabelStyle}"
+                                                               HorizontalOptions="EndAndExpand"
+                                                               HorizontalTextAlignment="End" />
+                                                    </StackLayout>
+
+                                                    <StackLayout Orientation="Horizontal" Spacing="0" Margin="0,5,0,0">
+                                                        <Label>
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="Due Date :"
+                                                                          Style="{StaticResource DescriptionLabelStyle}" />
+                                                                    <Span Text=" " />
+                                                                    <Span
+                                                                        Text="{Binding DueDate, StringFormat='{0:dd-MMM-yyyy}'}"
+                                                                        Style="{StaticResource TitleLabelStyle}" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+                                                    </StackLayout>
+
+                                                    <Label HorizontalOptions="StartAndExpand"
+                                                           HorizontalTextAlignment="Start" Margin="0,5,0,0">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Amount :"
+                                                                      Style="{StaticResource DescriptionLabelStyle}" />
+                                                                <Span Text=" " />
+                                                                <Span Text="{Binding Amount}"
+                                                                      Style="{StaticResource TitleLabelStyle}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+
+                                                    <Label HorizontalOptions="StartAndExpand"
+                                                           HorizontalTextAlignment="Start" Margin="0,5,0,0"
+                                                           IsVisible="{Binding BindingContext.IsExtraAmountEnabled,Source={x:Reference chequeReplacementPage}}">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Extra Charges :"
+                                                                      Style="{StaticResource DescriptionLabelStyle}" />
+                                                                <Span Text=" " />
+                                                                <Span
+                                                                    Text="{Binding ExtraCharge, StringFormat='{0:F2}'}"
+                                                                    Style="{StaticResource TitleLabelStyle}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+
+                                                    <Label HorizontalOptions="StartAndExpand"
+                                                           HorizontalTextAlignment="Start" Margin="0,5,0,0"
+                                                           IsVisible="{Binding BindingContext.IsExtraAmountVatEnabled,Source={x:Reference chequeReplacementPage}}">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="VAT :"
+                                                                      Style="{StaticResource DescriptionLabelStyle}" />
+                                                                <Span Text=" " />
+                                                                <Span Text="{Binding VAT}"
+                                                                      Style="{StaticResource TitleLabelStyle}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+
+                                                    <Label HorizontalOptions="StartAndExpand"
+                                                           HorizontalTextAlignment="Start" Margin="0,5,0,0">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Remark :"
+                                                                      Style="{StaticResource DescriptionLabelStyle}" />
+                                                                <Span Text=" " />
+                                                                <Span Text="{Binding Remarks}"
+                                                                      Style="{StaticResource TitleLabelStyle}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+
+
+                                                </StackLayout>
+                                            </Frame>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+                </StackLayout>
+
+                <StackLayout IsVisible="{Binding IsPayNowVisible}">
+                    <Frame CornerRadius="5"
+                           HasShadow="False" Margin="10,-5,10,0"
+                           BorderColor="{StaticResource BorderColor}"
+                           Padding="0"
+                           IsClippedToBounds="true">
+                        <StackLayout VerticalOptions="Fill"
+                                     HorizontalOptions="Fill"
+                                     Padding="10,5,10,5">
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="End" Spacing="0">
+                                <Label>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Total Amount :"
+                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                            <Span Text=" " />
+                                            <Span Text="{Binding PayAmount}"
+                                                  Style="{StaticResource TitleLabelStyle}" />
+                                            <Span Text=" " />
+                                            <Span
+                                                Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current}}"
+                                                Style="{StaticResource TitleLabelStyle}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="End" Spacing="0">
+                                <Label
+                                    IsVisible="{Binding BindingContext.IsExtraAmountEnabled,Source={x:Reference chequeReplacementPage}}">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Extra Amount :"
+                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                            <Span Text=" " />
+                                            <Span Text="{Binding PayExtraCharge}"
+                                                  Style="{StaticResource TitleLabelStyle}" />
+                                            <Span Text=" " />
+                                            <Span
+                                                Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current}}"
+                                                Style="{StaticResource TitleLabelStyle}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </StackLayout>
+
+                            <Label HorizontalOptions="End" HorizontalTextAlignment="Start"
+                                   IsVisible="{Binding BindingContext.IsExtraAmountVatEnabled,Source={x:Reference chequeReplacementPage}}">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="VAT :"
+                                              Style="{StaticResource DescriptionLabelStyle}" />
+                                        <Span Text=" " />
+                                        <Span Text="{Binding PayVAT}"
+                                              Style="{StaticResource TitleLabelStyle}" />
+                                        <Span Text=" " />
+                                        <Span
+                                            Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current}}"
+                                            Style="{StaticResource TitleLabelStyle}" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+
+                            <Label HorizontalOptions="EndAndExpand" HorizontalTextAlignment="Start">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span
+                                            Text="{Binding BindingContext.GrandTotal, Source={x:Reference chequeReplacementPage}}"
+                                            Style="{StaticResource TitleLabelStyle}" />
+                                        <Span Text=" " />
+                                        <Span
+                                            Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current}}"
+                                            Style="{StaticResource TitleLabelStyle}" />
+
+                                    </FormattedString>
+                                </Label.FormattedText>
+
+                            </Label>
+                            <Label Text="Amount that you are paying now" FontSize="Micro"
+                                   Style="{StaticResource DescriptionLabelStyle}" HorizontalOptions="End" />
+
+
+                        </StackLayout>
+                    </Frame>
+
+                    <StackLayout Spacing="0" Margin="10,5,10,5">
+                        <Button Text="Pay Now"
+                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                HorizontalOptions="EndAndExpand" TextColor="White" CornerRadius="5" Margin="0"
+                                HeightRequest="40" Padding="10" Command="{Binding PayNowCommand}" />
+
+                    </StackLayout>
+                </StackLayout>
+
+                <StackLayout IsVisible="{Binding IsHistory}" VerticalOptions="FillAndExpand">
+                    <ListView ItemsSource="{Binding PdcHistoryList,Mode=TwoWay}"
+                              SelectedItem="{Binding SelectedPdcHistoryList, Mode=TwoWay}"
+                              HasUnevenRows="True" VerticalScrollBarVisibility="Never"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              VerticalOptions="FillAndExpand"
+                              SeparatorVisibility="None" SelectionMode="None"
+                              Margin="0,10,0,0"
+                              x:Name="beamHistoryListview">
+                        <x:Arguments>
+                            <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                        </x:Arguments>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="10,5,10,5">
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               Padding="6"
+                                               IsClippedToBounds="true">
+
+
+                                            <StackLayout Orientation="Horizontal">
+                                                <CheckBox HorizontalOptions="Start" VerticalOptions="Center"
+                                                          HeightRequest="25" IsVisible="false" />
+                                                <Label HorizontalOptions="StartAndExpand" VerticalOptions="Center">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Receipt :"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                            <Span Text=" " />
+                                                            <Span Text="{Binding ReceiptNo}"
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <StackLayout VerticalOptions="CenterAndExpand">
+                                                    <ffimageloading:CachedImage Margin="10,0,10,0"
+                                                        Source="{Binding ArrowImageSource}"
+                                                        HorizontalOptions="EndAndExpand"
+                                                        VerticalOptions="CenterAndExpand"
+                                                        Scale="0.8" IsVisible="true">
+                                                        <ffimageloading:CachedImage.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding BindingContext.HistoryExpandCollapseClickCommand,Source={x:Reference chequeReplacementPage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                        </ffimageloading:CachedImage.GestureRecognizers>
+                                                    </ffimageloading:CachedImage>
+                                                    <StackLayout.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.HistoryExpandCollapseClickCommand, Source={x:Reference chequeReplacementPage}}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </StackLayout.GestureRecognizers>
+                                                </StackLayout>
+
+
+                                            </StackLayout>
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding BindingContext.HistoryExpandCollapseClickCommand,Source={x:Reference chequeReplacementPage}}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Frame.GestureRecognizers>
+
+
+                                        </Frame>
+
+
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               Padding="6"
+                                               IsVisible="{Binding DetailsVisibility}">
+                                            <StackLayout VerticalOptions="Fill"
+                                                         HorizontalOptions="Fill"
+                                                         Padding="10,5,10,5">
+                                                <StackLayout Orientation="Horizontal" Spacing="0">
+                                                    <Label>
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Year :"
+                                                                      Style="{StaticResource DescriptionLabelStyle}" />
+                                                                <Span Text=" " />
+                                                                <Span Text="{Binding FinancialYearTitle}"
+                                                                      Style="{StaticResource TitleLabelStyle}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+
+                                                    <Label Text="{Binding ChequeStatus}"
+                                                           Style="{StaticResource DescriptionLabelStyle}"
+                                                           HorizontalOptions="EndAndExpand"
+                                                           HorizontalTextAlignment="End" />
+                                                </StackLayout>
+
+                                                <StackLayout Orientation="Horizontal" Spacing="0" Margin="0,5,0,0">
+                                                    <Label>
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Due Date :"
+                                                                      Style="{StaticResource DescriptionLabelStyle}" />
+                                                                <Span Text=" " />
+                                                                <Span
+                                                                    Text="{Binding DueDate, StringFormat='{0:dd-MMM-yyyy}'}"
+                                                                    Style="{StaticResource TitleLabelStyle}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </StackLayout>
+
+                                                <Label HorizontalOptions="StartAndExpand"
+                                                       HorizontalTextAlignment="Start" Margin="0,5,0,0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Amount :"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                            <Span Text=" " />
+                                                            <Span Text="{Binding Amount}"
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text=" " />
+                                                            <Span
+                                                                Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current}}"
+                                                                Style="{StaticResource TitleLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+
+                                                <Label HorizontalOptions="StartAndExpand"
+                                                       HorizontalTextAlignment="Start" Margin="0,5,0,0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Remark :"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                            <Span Text=" " />
+                                                            <Span Text="{Binding Remarks}"
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+
+
+                                            </StackLayout>
+
+                                        </Frame>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+
+
+            </StackLayout>
+
+            <StackLayout VerticalOptions="EndAndExpand" Margin="0,0,0,0" Grid.Row="3" Grid.Column="0">
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand"
+                             HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference chequeReplacementPage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

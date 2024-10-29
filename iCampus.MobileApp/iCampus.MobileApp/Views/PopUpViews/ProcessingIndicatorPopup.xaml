@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:forms="clr-namespace:iCampus.MobileApp.Forms"
+    x:Class="iCampus.MobileApp.Views.PopUpViews.ProcessingIndicatorPopup"
+    x:Name="processingIndicatorPopup"
+    Color="Transparent">
+    
+    <AbsoluteLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <Frame BackgroundColor="Transparent" BorderColor="Transparent" HasShadow="False">
+            <StackLayout HorizontalOptions="StartAndExpand" Orientation="Horizontal">
+                <ActivityIndicator IsRunning="true"
+                                   Color="{Binding Settings.ThemeColor,Source={x:Static forms:AppSettings.Current}}">
+                    <ActivityIndicator.Scale>
+                        <OnPlatform x:TypeArguments="x:Double">
+                            <On Platform="iOS" Value="1.5" />
+                            <On Platform="Android" Value="1" />
+                        </OnPlatform>
+                    </ActivityIndicator.Scale>
+                </ActivityIndicator>
+                <Label Text="Loading..." Margin="10,0,0,0" FontAttributes="Bold"
+                       FontSize="Medium" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center"
+                       TextColor="{Binding Settings.ThemeColor,Source={x:Static forms:AppSettings.Current}}" />
+            </StackLayout>
+        </Frame>
+    </AbsoluteLayout>
+</toolkit:Popup>

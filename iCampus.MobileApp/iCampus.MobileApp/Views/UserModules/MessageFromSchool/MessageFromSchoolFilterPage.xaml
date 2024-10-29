@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             x:Class="iCampus.MobileApp.Views.UserModules.MessageFromSchool.MessageFromSchoolFilterPage"
+             xmlns:forms="clr-namespace:iCampus.MobileApp.Forms"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static forms:AppSettings.Current}}"
+             x:Name="messageFromSchoolSearchPage">
+    <ContentPage.Content>
+
+        <StackLayout VerticalOptions="FillAndExpand"
+                     BackgroundColor="{Binding BackgroundColor, Source={x:Static forms:AppSettings.Current}}">
+            <StackLayout.Resources>
+            </StackLayout.Resources>
+
+            <ContentView ControlTemplate="{StaticResource BeamHeader}" BackgroundColor="White" />
+
+            <Grid RowSpacing="10" 
+                  Padding="10" 
+                  Margin="0,10,0,0"
+                  HorizontalOptions="FillAndExpand"
+                  VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <Frame Grid.Row="0" CornerRadius="5" HasShadow="False" Padding="5" BackgroundColor="White"
+                       VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" BorderColor="Transparent">
+                    <Grid RowSpacing="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.47*" />
+                            <ColumnDefinition Width="0.06*" />
+                            <ColumnDefinition Width="0.47*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Label Text="From Date" Grid.Column="0" Style="{StaticResource TitleLabelStyle}"
+                               VerticalTextAlignment="Start" VerticalOptions="StartAndExpand" />
+                        <Label Text="To Date" Grid.Column="2" Style="{StaticResource TitleLabelStyle}"
+                               VerticalTextAlignment="Start" VerticalOptions="StartAndExpand" />
+
+                        <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.Column="0" Padding="0">
+                            <DatePicker Date="{Binding FromDate}" Style="{StaticResource DatePickerFontStyle}"
+                                        BackgroundColor="White" VerticalOptions="Center" />
+                            <ffimageloading:CachedImage Source="calendar_icon.png" VerticalOptions="Center"
+                                                        HorizontalOptions="StartAndExpand" WidthRequest="30"
+                                                        HeightRequest="30" />
+                        </StackLayout>
+
+                        <StackLayout Orientation="Horizontal" Grid.Row="1" Grid.Column="2" Padding="0">
+                            <DatePicker Date="{Binding ToDate}" Style="{StaticResource DatePickerFontStyle}"
+                                        BackgroundColor="White" VerticalOptions="Center" />
+                            <ffimageloading:CachedImage Source="calendar_icon.png" VerticalOptions="Center"
+                                                        HorizontalOptions="StartAndExpand" WidthRequest="30"
+                                                        HeightRequest="30" />
+                        </StackLayout>
+
+                        <Label Text="From Date should be less than To Date"
+                               HorizontalOptions="StartAndExpand" FontSize="10"
+                               Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3"
+                               IsVisible="{Binding DateErrorMessageVisibility}"
+                               Margin="5,0,0,0" TextColor="Red" />
+                    </Grid>
+                </Frame>
+                <Button Grid.Row="2" Text="Search" TextColor="White" CornerRadius="5" Margin="0,0,0,0"
+                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                        HorizontalOptions="FillAndExpand" Command="{Binding SearchClickCommand}" />
+            </Grid>
+
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>

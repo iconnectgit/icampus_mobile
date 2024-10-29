@@ -1,0 +1,94 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="iCampus.MobileApp.Views.UserModules.Certificates.CertificatesPage"
+             x:Name="certificatespage"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand"
+              BackgroundColor="WhiteSmoke" RowDefinitions="Auto,Auto,*,Auto" ColumnDefinitions="*" Margin="0,0,0,0">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <Style x:Key="OnlinePaymentBoldLabels" TargetType="Label"
+                           BasedOn="{StaticResource TitleLabelStyle}">
+                        <Setter Property="FontSize" Value="15" />
+                    </Style>
+                </ResourceDictionary>
+            </Grid.Resources>
+
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         VerticalOptions="StartAndExpand"
+                         BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
+            <ContentView ControlTemplate="{StaticResource BeamStudentSelection}"
+                         BackgroundColor="WhiteSmoke" Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" />
+
+            <StackLayout Grid.Row="2" Grid.Column="0" VerticalOptions="FillAndExpand" >
+                <StackLayout IsVisible="{Binding ShowErrorMessage}" Margin="10,0,10,0">
+                    <Frame CornerRadius="5"
+                           HasShadow="False"
+                           BorderColor="WhiteSmoke"
+                           Padding="0"
+                           IsClippedToBounds="true">
+                        <Label Text="{Binding NotAvailableMessage}"
+                               HorizontalOptions="StartAndExpand"
+                               VerticalOptions="StartAndExpand"
+                               LineBreakMode="WordWrap"
+                               FontSize="Medium"
+                               TextType="Html"
+                               Margin="10,5,10,5"
+                               Style="{StaticResource DescriptionLabelStyle}" />
+                    </Frame>
+                </StackLayout>
+
+                <ListView ItemsSource="{Binding CertificateDetailedList, Mode=TwoWay}"
+                          SelectedItem="{Binding SelectedCertificate, Mode=TwoWay}"
+                          HasUnevenRows="True"
+                          VerticalScrollBarVisibility="Always"
+                          BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                          VerticalOptions="FillAndExpand" 
+                          SeparatorVisibility="None"
+                          SelectionMode="None"
+                          Margin="0,10,0,0">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="10,5,10,5">
+                                    <Frame CornerRadius="5"
+                                           HasShadow="False"
+                                           BorderColor="WhiteSmoke"
+                                           Padding="6"
+                                           IsClippedToBounds="true">
+                                        <StackLayout VerticalOptions="Fill"
+                                                     HorizontalOptions="Fill"
+                                                     Padding="10,5,10,5">
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="{Binding CertificateName}"
+                                                       HorizontalOptions="StartAndExpand"
+                                                       Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding BindingContext.CertificateClickCommand, Source={x:Reference certificatespage}}"
+                                                CommandParameter="{Binding .}" />
+                                        </Frame.GestureRecognizers>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
+
+            <StackLayout VerticalOptions="EndAndExpand" Margin="0,0,0,0" Grid.Row="3" Grid.Column="0">
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand"
+                             HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference certificatespage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

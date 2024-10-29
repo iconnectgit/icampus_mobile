@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             x:Class="iCampus.MobileApp.Views.UserModules.Calendar.ViewSubmissionsPage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:controls="clr-namespace:iCampus.MobileApp.Controls"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             NavigationPage.HasNavigationBar="false"
+             x:Name="viewSubmissionPage">
+    <ContentPage.Content>
+
+        <Grid RowDefinitions="Auto,*" BackgroundColor="WhiteSmoke">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <behaviours:VisiblityConverter x:Key="VisiblityConverter" />
+                    <behaviours:AttachmentTypeToImageSourceConverter x:Key="AttachmentTypeToImageSourceConverter" />
+                    <behaviours:AttachmentFileStatusToSourceConverter x:Key="AttachmentFileStatusToSourceConverter" />
+                </ResourceDictionary>
+            </Grid.Resources>
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         BackgroundColor="White" Grid.Row="0" Grid.Column="0" HeightRequest="40" />
+            <Grid Grid.Row="1" Grid.Column="0" Margin="15,10,15,0" RowDefinitions="Auto" ColumnDefinitions="*">
+                <Grid RowSpacing="0" Grid.Row="0" Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Row="0"
+                          Grid.Column="0"
+                          Padding="0"
+                          IsClippedToBounds="True"
+                          IsVisible="{Binding IsAcademicYearsVisible}">
+                        <Picker Title="Select Class" Style="{StaticResource PickerFontStyle}"
+                                BackgroundColor="White" TextColor="Gray"
+                                ItemsSource="{Binding ClassList}"
+                                SelectedItem="{Binding SelectedClass}"
+                                ItemDisplayBinding="{Binding .}"
+                                VerticalOptions="StartAndExpand"
+                                HorizontalOptions="FillAndExpand" />
+                        <Image Source="dropdown_gray_picker" HorizontalOptions="End" VerticalOptions="Center"
+                               WidthRequest="20" HeightRequest="20" Margin="0,0,10,0" />
+                    </Grid>
+                    <StackLayout Grid.Row="2" Margin="0,10,0,0" Grid.Column="0" HorizontalOptions="StartAndExpand"
+                                 Orientation="Horizontal" Spacing="0" Padding="0">
+                        <CheckBox HorizontalOptions="StartAndExpand" IsChecked="{Binding IsSubmittedOnly,Mode=TwoWay}"
+                                  HeightRequest="25">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates11">
+                                    <VisualState x:Name="Normal11">
+                                        <VisualState.Setters>
+                                            <Setter Property="Color"
+                                                    Value="{StaticResource LightGrayColor}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+
+                                    <VisualState x:Name="IsChecked">
+                                        <VisualState.Setters>
+                                            <Setter Property="Color"
+                                                    Value="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <CheckBox.Behaviors>
+                                <toolkit:EventToCommandBehavior EventName="CheckedChanged"
+                                                                Command="{Binding IsSubmittedCheckboxChangeCommand}"
+                                                                CommandParameter="{Binding .}" />
+                            </CheckBox.Behaviors>
+                        </CheckBox>
+                        <Label Text="Submitted Only" VerticalOptions="CenterAndExpand" HeightRequest="25"
+                               VerticalTextAlignment="Center" />
+                    </StackLayout>
+
+                    <Frame CornerRadius="5" Grid.Row="1" Margin="0,10,0,0" Grid.Column="0" HasShadow="False"
+                           Padding="5" BorderColor="{StaticResource BorderColor}"
+                           HeightRequest="40">
+                        <Grid RowDefinitions="Auto" ColumnDefinitions="*,0.1*">
+                            <controls:NoUnderlineEntry HorizontalOptions="CenterAndExpand"
+                                                       VerticalOptions="FillAndExpand" Grid.Row="0" Grid.Column="0"
+                                                       HeightRequest="40" Style="{StaticResource EntryFontStyle}"
+                                                       Text="{Binding SearchText}"
+                                                       Placeholder="" />
+                            <Label
+                                Text="&#xf002;"
+                                FontFamily="FontAwesomeSolid"
+                                HorizontalOptions="EndAndExpand"
+                                VerticalOptions="CenterAndExpand"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                TextColor="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}"
+                                Margin="0,0,10,0"
+                                FontSize="23" />
+                        </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding SearchClickCommand}" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+
+                    <!--<Button Text="Search" TextColor="White" Margin="0,20,0,0" CornerRadius="5" Grid.Row="2" Grid.Column="0" 
+                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                        HorizontalOptions="FillAndExpand" Command="{Binding SearchClickCommand}"/>-->
+
+
+                    <ListView Grid.Row="3" HasUnevenRows="true" VerticalOptions="FillAndExpand"
+                              ItemsSource="{Binding AgendaClassStudentList,Mode=TwoWay}"
+                              SeparatorVisibility="None" VerticalScrollBarVisibility="Never"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}">
+                        <x:Arguments>
+                            <ListViewCachingStrategy>RetainElement</ListViewCachingStrategy>
+                        </x:Arguments>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout VerticalOptions="StartAndExpand">
+
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               Padding="6" Margin="0,10,0,0"
+                                               IsClippedToBounds="true">
+                                            <Grid RowSpacing="5">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.7*" />
+                                                    <ColumnDefinition Width="0.3*" />
+                                                </Grid.ColumnDefinitions>
+
+                                                <Label Grid.Row="0" Grid.Column="0"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="{Binding StudentName}" 
+                                                                  Style="{StaticResource TitleLabelStyle}"/>
+                                                            <Span Text=" [" 
+                                                                  Style="{StaticResource TitleLabelStyle}"/>
+                                                            <Span Text="{Binding ClassName}" 
+                                                                  Style="{StaticResource TitleLabelStyle}"/>
+                                                            <Span Text="] " 
+                                                                  Style="{StaticResource TitleLabelStyle}"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                                       IsVisible="{Binding StudentComments,Converter={StaticResource VisiblityConverter}}"
+                                                       VerticalTextAlignment="Center" VerticalOptions="CenterAndExpand">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Comments :" 
+                                                                  Style="{StaticResource DescriptionLabelStyle}"/>
+                                                            <Span Text="{Binding StudentComments}" 
+                                                                  Style="{StaticResource DescriptionLabelStyle}"/>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Text="{Binding DueDateFormatted}" Grid.Row="2"
+                                                       Style="{StaticResource DateLabelStyle}" />
+
+
+                                                <ListView HasUnevenRows="True" VerticalScrollBarVisibility="Never"
+                                                          Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                                                          ItemsSource="{Binding BindableStudentSubmittedFilesList,Mode=TwoWay}"
+                                                          SelectionMode="None"
+                                                          IsVisible="{Binding IsAttachmentsVisible}"
+                                                          SeparatorVisibility="None"
+                                                          BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                                          HeightRequest="{Binding AttachmentListViewHeight}" Margin="5">
+                                                    <x:Arguments>
+                                                        <ListViewCachingStrategy>RetainElement</ListViewCachingStrategy>
+                                                    </x:Arguments>
+                                                    <ListView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <ViewCell>
+                                                                <Grid RowDefinitions="*" ColumnDefinitions="*"
+                                                                      BackgroundColor="White"
+                                                                      IsVisible="{Binding FilePath,Converter={StaticResource VisiblityConverter}}">
+                                                                    <StackLayout Orientation="Horizontal"
+                                                                        Spacing="0"
+                                                                        HorizontalOptions="StartAndExpand"
+                                                                        VerticalOptions="CenterAndExpand" Grid.Row="0"
+                                                                        Grid.Column="0">
+                                                                        <ffimageloading:CachedImage
+                                                                            HorizontalOptions="EndAndExpand"
+                                                                            VerticalOptions="CenterAndExpand"
+                                                                            WidthRequest="25"
+                                                                            HeightRequest="25"
+                                                                            Aspect="AspectFit"
+                                                                            CacheType="None"
+                                                                            CacheDuration="0"
+                                                                            DownsampleToViewSize="True"
+                                                                            Source="{Binding FileStatus,Mode=TwoWay,Converter={StaticResource AttachmentFileStatusToSourceConverter}}">
+                                                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                                                <TapGestureRecognizer
+                                                                                    Command="{Binding BindingContext.DownloadTappedCommand,Source={x:Reference viewSubmissionPage}}"
+                                                                                    CommandParameter="{Binding .}" />
+                                                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                                                        </ffimageloading:CachedImage>
+                                                                        <ffimageloading:CachedImage
+                                                                            HorizontalOptions="StartAndExpand"
+                                                                            VerticalOptions="CenterAndExpand"
+                                                                            WidthRequest="20"
+                                                                            HeightRequest="20"
+                                                                            Aspect="AspectFit"
+                                                                            Margin="10,0,0,0"
+                                                                            DownsampleToViewSize="True"
+                                                                            Source="{Binding FileType,Converter={StaticResource AttachmentTypeToImageSourceConverter}}" />
+                                                                        <Label Text="{Binding DisplayName}"
+                                                                               HorizontalOptions="StartAndExpand"
+                                                                               VerticalOptions="CenterAndExpand"
+                                                                               Margin="10,0,0,0"
+                                                                               Style="{StaticResource AttachmentTextStyle}">
+                                                                            <Label.GestureRecognizers>
+                                                                                <TapGestureRecognizer
+                                                                                    Command="{Binding BindingContext.AttachmentListTappedCommand,Source={x:Reference viewSubmissionPage}}"
+                                                                                    CommandParameter="{Binding .}" />
+                                                                            </Label.GestureRecognizers>
+                                                                        </Label>
+                                                                        <StackLayout.GestureRecognizers>
+                                                                            <TapGestureRecognizer
+                                                                                Command="{Binding BindingContext.AttachmentListTappedCommand,Source={x:Reference viewSubmissionPage}}"
+                                                                                CommandParameter="{Binding .}" />
+                                                                        </StackLayout.GestureRecognizers>
+                                                                    </StackLayout>
+
+                                                                    <Grid.GestureRecognizers>
+                                                                        <TapGestureRecognizer
+                                                                            Command="{Binding BindingContext.AttachmentListTappedCommand,Source={x:Reference viewSubmissionPage}}"
+                                                                            CommandParameter="{Binding .}" />
+                                                                    </Grid.GestureRecognizers>
+                                                                </Grid>
+                                                            </ViewCell>
+                                                        </DataTemplate>
+                                                    </ListView.ItemTemplate>
+                                                </ListView>
+                                            </Grid>
+                                        </Frame>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+            </Grid>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

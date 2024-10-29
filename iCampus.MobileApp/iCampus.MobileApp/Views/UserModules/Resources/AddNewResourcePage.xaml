@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="iCampus.MobileApp.Views.UserModules.Resources.AddNewResourcePage"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:controls="clr-namespace:iCampus.MobileApp.Controls"
+             xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+             xmlns:flowListView="clr-namespace:DLToolkit.Maui.Controls.FlowListView;assembly=DLToolkit.Maui.Controls.FlowListView"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             NavigationPage.HasNavigationBar="false"
+             x:Name="addNewResourcePage">
+    <ContentPage.Content>
+
+        <Grid BackgroundColor="{StaticResource BorderColor}" RowDefinitions="Auto,*">
+            <ContentView ControlTemplate="{StaticResource BeamHeader}" Grid.Row="0" Grid.Column="0"
+                         BackgroundColor="White" />
+            <ScrollView Grid.Row="1" Grid.Column="0">
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                      Margin="15">
+                    <Grid.Resources>
+                        <ResourceDictionary>
+                            <behaviours:AttachmentFileToImageSourceConverter
+                                x:Key="AttachmentFileToImageSourceConverter" />
+                            <Style x:Key="EntryFontStyle"
+                                   TargetType="controls:NoUnderlineEntry">
+                                <Setter Property="FontSize"
+                                        Value="14" />
+                                <Setter Property="TextColor"
+                                        Value="Gray" />
+                            </Style>
+                        </ResourceDictionary>
+                    </Grid.Resources>
+                    <StackLayout Grid.Row="0" Grid.Column="0" Margin="0,0,0,5">
+                        <Frame CornerRadius="5" HasShadow="False" Padding="5"
+                               BorderColor="{StaticResource BorderColor}"
+                               HeightRequest="40">
+                            <controls:NoUnderlineEntry HorizontalOptions="FillAndExpand"
+                                                       VerticalOptions="FillAndExpand"
+                                                       HeightRequest="40" Style="{StaticResource EntryFontStyle}"
+                                                       Placeholder="Resource Title"
+                                                       BackgroundColor="White" Text="{Binding Title}">
+                                <controls:NoUnderlineEntry.Behaviors>
+                                    <behaviours:EventToCommandBehavior EventName="TextChanged"
+                                                                       Command="{Binding SearchCommand}" />
+                                </controls:NoUnderlineEntry.Behaviors>
+                            </controls:NoUnderlineEntry>
+                        </Frame>
+                        <Label Text="{Binding MandatoryFieldErrorMessage}"
+                               HorizontalOptions="StartAndExpand"
+                               FontSize="10"
+                               IsVisible="{Binding TitleErrorMessageVisibility}"
+                               Margin="0,0,0,10"
+                               TextColor="Red" />
+                    </StackLayout>
+
+                    <Frame Grid.Row="1" Grid.Column="0" BackgroundColor="White" HasShadow="False" Padding="5"
+                           BorderColor="{StaticResource BorderColor}">
+                        <controls:BorderlessEditor Placeholder="Resource Data" AutoSize="TextChanges"
+                                                   HeightRequest="200" Style="{StaticResource EditorFontStyle}"
+                                                   Text="{Binding Data}" />
+                    </Frame>
+                    <StackLayout Grid.Row="4" Grid.Column="0">
+                        <Label Text="Term" Style="{StaticResource TitleLabelStyle}" Margin="0,5,0,5" />
+                        <!-- <Frame HasShadow="False" Padding="5" IsClippedToBounds="True" BackgroundColor="White" -->
+                        <!--        BorderColor="{StaticResource BorderColor}" -->
+                        <!--        HeightRequest="40" -->
+                        <!--        VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" -->
+                        <!--        CornerRadius="5"> -->
+                        <!--     <custom:PickerWithBorder Image="dropdown_gray_picker" -->
+                        <!--                              Title="Select" ios:Picker.UpdateMode="WhenFinished" -->
+                        <!--                              Style="{StaticResource PickerFontStyle}" -->
+                        <!--                              TextColor="Gray" -->
+                        <!--                              ItemsSource="{Binding TermList}" -->
+                        <!--                              SelectedItem="{Binding SelectedTerm}" -->
+                        <!--                              ItemDisplayBinding="{Binding ItemName}" /> -->
+                        <!-- </Frame> -->
+                        <Grid HeightRequest="40"
+                              VerticalOptions="CenterAndExpand"
+                              HorizontalOptions="FillAndExpand">
+                            <Picker Title="Select" Style="{StaticResource PickerFontStyle}"
+                                    BackgroundColor="White"
+                                    TextColor="Gray"
+                                    ItemsSource="{Binding TermList}"
+                                    SelectedItem="{Binding SelectedTerm}"
+                                    ItemDisplayBinding="{Binding ItemName}"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="FillAndExpand" />
+                            <Image Source="dropdown_gray_picker" HorizontalOptions="End" VerticalOptions="Center"
+                                   WidthRequest="20" HeightRequest="20" Margin="0,0,10,0" />
+                        </Grid>
+                        <Label Text="{Binding MandatoryFieldErrorMessage}"
+                               HorizontalOptions="StartAndExpand"
+                               FontSize="10"
+                               IsVisible="{Binding TermErrorMessageVisibility}"
+                               Margin="5,0,0,0"
+                               TextColor="Red" />
+                    </StackLayout>
+                    <StackLayout Grid.Row="3" Grid.Column="0">
+                        <Label Text="Course" Style="{StaticResource TitleLabelStyle}" VerticalOptions="CenterAndExpand"
+                               Margin="0,5,0,5" />
+                        <!-- <Frame HasShadow="False" Padding="5" IsClippedToBounds="True" BackgroundColor="White" -->
+                        <!--        BorderColor="{StaticResource BorderColor}" -->
+                        <!--        HeightRequest="40" -->
+                        <!--        VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" -->
+                        <!--        CornerRadius="5"> -->
+                        <!--     <custom:PickerWithBorder Image="dropdown_gray_picker" -->
+                        <!--                              Title="Select" ios:Picker.UpdateMode="WhenFinished" -->
+                        <!--                              Style="{StaticResource PickerFontStyle}" -->
+                        <!--                              TextColor="Gray" -->
+                        <!--                              ItemsSource="{Binding FilterCourseList}" -->
+                        <!--                              SelectedItem="{Binding SelectedCourse}" -->
+                        <!--                              ItemDisplayBinding="{Binding CurriculumName}" /> -->
+                        <!-- </Frame> -->
+                        <Grid HeightRequest="40"
+                              VerticalOptions="CenterAndExpand"
+                              HorizontalOptions="FillAndExpand">
+                            <Picker Title="Select" Style="{StaticResource PickerFontStyle}"
+                                    BackgroundColor="White"
+                                    TextColor="Gray"
+                                    ItemsSource="{Binding FilterCourseList}"
+                                    SelectedItem="{Binding SelectedCourse}"
+                                    ItemDisplayBinding="{Binding CurriculumName}"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="FillAndExpand" />
+                            <Image Source="dropdown_gray_picker" HorizontalOptions="End" VerticalOptions="Center"
+                                   WidthRequest="20" HeightRequest="20" Margin="0,0,10,0" />
+                        </Grid>
+                        <Label Text="{Binding MandatoryFieldErrorMessage}"
+                               HorizontalOptions="StartAndExpand"
+                               FontSize="10"
+                               IsVisible="{Binding CourseErrorMessageVisibility}"
+                               Margin="5,0,0,0"
+                               TextColor="Red" />
+                    </StackLayout>
+                    <StackLayout Grid.Row="2" Grid.Column="0">
+                        <Label Text="Grade" Style="{StaticResource TitleLabelStyle}" VerticalOptions="CenterAndExpand"
+                               Margin="0,5,0,5" />
+                        <!-- <Frame HasShadow="False" Padding="5" IsClippedToBounds="True" BackgroundColor="White" -->
+                        <!--        BorderColor="{StaticResource BorderColor}" -->
+                        <!--        HeightRequest="40" -->
+                        <!--        VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" -->
+                        <!--        CornerRadius="5"> -->
+                        <!--     <custom:PickerWithBorder Image="dropdown_gray_picker" -->
+                        <!--                              Title="Select" ios:Picker.UpdateMode="WhenFinished" -->
+                        <!--                              Style="{StaticResource PickerFontStyle}" -->
+                        <!--                              TextColor="Gray" -->
+                        <!--                              ItemsSource="{Binding GradeList}" -->
+                        <!--                              SelectedItem="{Binding SelectedGrade}" -->
+                        <!--                              ItemDisplayBinding="{Binding ItemName}" /> -->
+                        <!-- </Frame> -->
+                        <Grid HeightRequest="40"
+                              VerticalOptions="CenterAndExpand"
+                              HorizontalOptions="FillAndExpand">
+                            <Picker Title="Select" Style="{StaticResource PickerFontStyle}"
+                                    BackgroundColor="White"
+                                    TextColor="Gray"
+                                    ItemsSource="{Binding GradeList}"
+                                    SelectedItem="{Binding SelectedGrade}"
+                                    ItemDisplayBinding="{Binding ItemName}"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="FillAndExpand" />
+                            <Image Source="dropdown_gray_picker" HorizontalOptions="End" VerticalOptions="Center"
+                                   WidthRequest="20" HeightRequest="20" Margin="0,0,10,0" />
+                        </Grid>
+
+                        <Label Text="{Binding MandatoryFieldErrorMessage}"
+                               HorizontalOptions="StartAndExpand"
+                               FontSize="10"
+                               IsVisible="{Binding GradeErrorMessageVisibility}"
+                               Margin="5,0,0,0"
+                               TextColor="Red" />
+                    </StackLayout>
+
+
+                    <StackLayout BackgroundColor="White" Grid.Row="5" Grid.Column="0" Margin="0,5,0,0"
+                                 IsVisible="{Binding ClassSelectionVisibility}">
+                        <Frame HasShadow="False" Padding="10" IsClippedToBounds="True"
+                               BackgroundColor="{StaticResource BorderColor}" Margin="5">
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Classes" Style="{StaticResource TitleLabelStyle}"
+                                       HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+                                    <input:CheckBox IsChecked="{Binding IsSelectAll}" VerticalOptions="CenterAndExpand"
+                                                    Text="Select All" CheckChanged="SelectAll_CheckChanged" />
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                        <!-- <CollectionView ItemsSource="{Binding ClassesList}" SelectionMode="Single" -->
+                        <!-- -->
+                        <!--                 HeightRequest="{Binding CollectionViewHeight}"> -->
+                        <!--     <CollectionView.ItemsLayout> -->
+                        <!--         <GridItemsLayout Orientation="Vertical" -->
+                        <!--                          Span="3" /> -->
+                        <!--     </CollectionView.ItemsLayout> -->
+                        <!--     <CollectionView.ItemTemplate> -->
+                        <!--         <DataTemplate> -->
+                        <!--             <Grid RowDefinitions="Auto" ColumnDefinitions="Auto" Padding="5,0,5,0" Margin="0"> -->
+                        <!--                 <VisualStateManager.VisualStateGroups> -->
+                        <!--                     <VisualStateGroup x:Name="CommonStates"> -->
+                        <!--                         <VisualState x:Name="Normal"> -->
+                        <!--                             <VisualState.Setters> -->
+                        <!--                                 <Setter Property="BackgroundColor" Value="White" /> -->
+                        <!--                             </VisualState.Setters> -->
+                        <!--                         </VisualState> -->
+                        <!--                     </VisualStateGroup> -->
+                        <!--                 </VisualStateManager.VisualStateGroups> -->
+                        <!--                 <input:CheckBox VerticalOptions="CenterAndExpand" IsChecked="{Binding IsSelected,Mode=TwoWay}" Scale="0.8" -->
+                        <!--                                 HorizontalOptions="StartAndExpand" Text="{Binding ItemName,Mode=TwoWay}"  CheckChanged="Class_CheckChanged" /> -->
+                        <!-- -->
+                        <!--             </Grid> -->
+                        <!--         </DataTemplate> -->
+                        <!--     </CollectionView.ItemTemplate> -->
+                        <!-- </CollectionView> -->
+                        <Frame CornerRadius="5" Margin="5,0,5,5" Padding="0" HasShadow="false"
+                               BorderColor="{StaticResource BorderColor}" IsClippedToBounds="True">
+                            <flowListView:FlowListView
+                                FlowColumnCount="3" FlowItemsSource="{Binding ClassesList}"
+                                SeparatorVisibility="Default" SelectionMode="Single"
+                                HeightRequest="{Binding CollectionViewHeight}"
+                                HasUnevenRows="True">
+                                <flowListView:FlowListView.FlowColumnTemplate>
+                                    <DataTemplate>
+                                        <Frame CornerRadius="5" Margin="5,0,5,5" Padding="0" HasShadow="false"
+                                               BorderColor="{StaticResource BorderColor}" IsClippedToBounds="True">
+                                            <StackLayout BackgroundColor="{Binding SelectedTimeSlotBackgroundColor}"
+                                                         Padding="5" Spacing="0" Orientation="Horizontal">
+                                                <input:CheckBox VerticalOptions="CenterAndExpand"
+                                                                IsChecked="{Binding IsSelected,Mode=TwoWay}"
+                                                                Scale="0.8" Color="Gray"
+                                                                HorizontalOptions="StartAndExpand"
+                                                                Text="{Binding ItemName,Mode=TwoWay}"
+                                                                CheckChanged="Class_CheckChanged" />
+
+                                            </StackLayout>
+                                        </Frame>
+                                    </DataTemplate>
+                                </flowListView:FlowListView.FlowColumnTemplate>
+                            </flowListView:FlowListView>
+                        </Frame>
+                        <Label Text="{Binding MandatoryFieldErrorMessage}"
+                               HorizontalOptions="StartAndExpand"
+                               FontSize="10"
+                               IsVisible="{Binding ClassErrorMessageVisibility}"
+                               Margin="0,0,0,10"
+                               TextColor="Red" />
+                    </StackLayout>
+                    <StackLayout Grid.Row="6" Grid.Column="0" Margin="0,10,0,5" VerticalOptions="StartAndExpand">
+                        <Button Text="Select File"
+                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                TextColor="White" HorizontalOptions="StartAndExpand"
+                                Command="{Binding SelectFileCommand}"
+                                CornerRadius="4"
+                                HeightRequest="25"
+                                Padding="5,0,5,0"
+                                FontSize="Small" />
+                    </StackLayout>
+                    <ListView HasUnevenRows="True" Grid.Row="7" Grid.Column="0"
+                              IsVisible="{Binding AttachmentFiles.Count, Converter={StaticResource IntToBoolValueConverter}}"
+                              HorizontalOptions="StartAndExpand"
+                              ItemsSource="{Binding AttachmentFiles,Mode=TwoWay}"
+                              SelectionMode="None"
+                              SeparatorVisibility="None"
+                              BackgroundColor="{StaticResource BorderColor}"
+                              HeightRequest="{Binding AttachmentListViewHeight}"
+                              Margin="0"
+                              x:Name="listView">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid HorizontalOptions="FillAndExpand"
+                                              Margin="0,8,0,0" RowDefinitions="Auto"
+                                              VerticalOptions="CenterAndExpand">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.8*" />
+                                                <ColumnDefinition Width="0.2*" />
+                                            </Grid.ColumnDefinitions>
+                                            <StackLayout Orientation="Horizontal"
+                                                         HorizontalOptions="StartAndExpand"
+                                                         VerticalOptions="CenterAndExpand"
+                                                         Spacing="0"
+                                                         Grid.Row="0"
+                                                         Grid.Column="0">
+                                                <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                                            VerticalOptions="CenterAndExpand"
+                                                                            WidthRequest="20"
+                                                                            HeightRequest="20"
+                                                                            Aspect="AspectFit"
+                                                                            Margin="10,0,0,0"
+                                                                            DownsampleToViewSize="True"
+                                                                            Source="{Binding FileName,Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
+                                                <Label Text="{Binding FileName}"
+                                                       TextColor="{StaticResource GrayTextColor}"
+                                                       HorizontalOptions="StartAndExpand"
+                                                       VerticalOptions="CenterAndExpand"
+                                                       Margin="5,0,0,0"
+                                                       Style="{StaticResource AttachmentTextStyle}" />
+                                            </StackLayout>
+                                            <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        WidthRequest="24"
+                                                                        HeightRequest="24"
+                                                                        Aspect="AspectFit"
+                                                                        Grid.Row="0"
+                                                                        Grid.Column="1"
+                                                                        DownsampleToViewSize="True"
+                                                                        Source="delete_bin_icon.png">
+                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding BindingContext.DeleteAttachmentClickCommand,Source={x:Reference addNewResourcePage}}"
+                                                        CommandParameter="{Binding .}" />
+                                                </ffimageloading:CachedImage.GestureRecognizers>
+                                            </ffimageloading:CachedImage>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <StackLayout Grid.Row="8" Grid.Column="0" Orientation="Horizontal" VerticalOptions="StartAndExpand" Margin="0,0,0,10">
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
+                                <input:CheckBox IsChecked="{Binding IsPublishSelected}"
+                                                VerticalOptions="CenterAndExpand" Text="Publish"
+                                                CheckChanged="Published_CheckChanged" />
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Spacing="5">
+                                <Button Text="Save"
+                                        CornerRadius="4"
+                                        WidthRequest="80"
+                                        HeightRequest="30"
+                                        Padding="5,0,5,0"
+                                        FontSize="Small"
+                                        Command="{Binding SaveCommand}"
+                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        TextColor="White" />
+                                <Button Text="Cancel"
+                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        TextColor="White"
+                                        Command="{Binding BackClickCommand}"
+                                        CornerRadius="4"
+                                        WidthRequest="80"
+                                        HeightRequest="30"
+                                        Padding="0,0,5,0"
+                                        FontSize="Small" />
+                            </StackLayout>
+                        </StackLayout>
+                </Grid>
+            </ScrollView>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

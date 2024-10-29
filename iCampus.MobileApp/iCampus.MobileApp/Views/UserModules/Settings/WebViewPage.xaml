@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             x:Class="iCampus.MobileApp.Views.UserModules.Settings.WebViewPage"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             NavigationPage.HasNavigationBar="false"
+             x:Name="webViewPagee">
+    <ContentPage.Content>
+
+        <StackLayout VerticalOptions="FillAndExpand">
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         VerticalOptions="Start" />
+            <Grid VerticalOptions="FillAndExpand">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.99*" />
+                    <RowDefinition Height="0.01*" />
+                </Grid.RowDefinitions>
+                <WebView
+                    VerticalOptions="FillAndExpand"
+                    HorizontalOptions="FillAndExpand"
+                    Source="{Binding WebViewUrl}">
+                </WebView>
+            </Grid>
+            <StackLayout.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference webViewPagee}}"
+                    Direction="Right" />
+            </StackLayout.GestureRecognizers>
+        </StackLayout>
+
+    </ContentPage.Content>
+</ContentPage>

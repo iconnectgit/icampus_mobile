@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             x:Class="iCampus.MobileApp.Views.UserModules.DataCollection.DataCollectionMainPage"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="dataCollectionMainPage">
+    <ContentPage.Content>
+            <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*"
+                  BackgroundColor="{StaticResource BorderColor}">
+                <ContentView ControlTemplate="{StaticResource BeamHeader}" BackgroundColor="White" Grid.Row="0"
+                             Grid.Column="0" />
+                <StackLayout Grid.Row="1" Grid.Column="0">
+                    <StackLayout Padding="0,10,0,0" VerticalOptions="StartAndExpand" Margin="15,10,15,0"
+                             IsVisible="{Binding NoDataExist}">
+                    <Frame Padding="10"
+                           CornerRadius="5" HasShadow="False"
+                           IsClippedToBounds="True"
+                           BorderColor="{StaticResource BorderColor}"
+                           BackgroundColor="White">
+                        <Label Text="No Data found" Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Start" />
+                    </Frame>
+                </StackLayout>
+                <ListView ItemsSource="{Binding ParentDataCollectionList}"
+                          BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                          VerticalScrollBarVisibility="Never"
+                          HasUnevenRows="True" SeparatorVisibility="None" 
+                          IsPullToRefreshEnabled="True"
+                          IsRefreshing="{Binding IsRefreshing}"
+                          RefreshCommand="{Binding RefreshedCommand}"
+                          VerticalOptions="FillAndExpand">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="10,5,10,5">
+                                    <Frame CornerRadius="5"
+                                           HasShadow="False"
+                                           Padding="10"
+                                           BorderColor="{StaticResource BorderColor}"
+                                           IsClippedToBounds="True"
+                                           BackgroundColor="White">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.7*" />
+                                                <ColumnDefinition Width="0.3*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <Label Text="{Binding FormTitle,StringFormat='Form [ {0} ]'}"
+                                                   Grid.Row="0" Grid.Column="0"
+                                                   Style="{StaticResource TitleLabelStyle}" />
+
+                                            <Label Grid.Row="1" Grid.Column="0"
+                                                   Style="{StaticResource DescriptionLabelStyle}"
+                                                   IsVisible="{Binding FillDataPerFamily,Converter={StaticResource ReverseBoolValueConverter}}">
+                                                <Label.FormattedText>
+                                                    <FormattedString>
+                                                        <Span Text="{Binding StudentName}" />
+                                                        <Span Text=" - " />
+                                                        <Span Text="{Binding StudentId}" />
+                                                    </FormattedString>
+                                                </Label.FormattedText>
+                                            </Label>
+                                            <Frame Grid.Row="0" Grid.Column="1"
+                                                   CornerRadius="5"
+                                                   HorizontalOptions="EndAndExpand"
+                                                   VerticalOptions="Start"
+                                                   WidthRequest="70"
+                                                   Padding="5"
+                                                   Margin="0,10,15,0"
+                                                   HasShadow="False"
+                                                   IsClippedToBounds="True"
+                                                   BackgroundColor="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}"
+                                                   IsVisible="{Binding IsSubmitted}">
+                                                <StackLayout Orientation="Horizontal" >
+                                                    <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                        Margin="0,0,0,0"
+                                                        Aspect="AspectFit"
+                                                        HeightRequest="18"
+                                                        WidthRequest="18"
+                                                        DownsampleToViewSize="True"
+                                                        Source="edit_white_icon.png" />
+                                                    <Label Text="Edit"
+                                                           FontSize="16"
+                                                           VerticalOptions="CenterAndExpand"
+                                                           HorizontalOptions="StartAndExpand"
+                                                           VerticalTextAlignment="Center"
+                                                           HorizontalTextAlignment="Start"
+                                                           FontAttributes="Bold"
+                                                           TextColor="White" />
+                                                </StackLayout>
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding BindingContext.EditClickCommand,Source={x:Reference dataCollectionMainPage}}"
+                                                        CommandParameter="{Binding .}" />
+                                                </Frame.GestureRecognizers>
+                                            </Frame>
+
+
+                                            <Frame Grid.Row="0" Grid.Column="1"
+                                                   CornerRadius="5"
+                                                   HorizontalOptions="EndAndExpand"
+                                                   Padding="5"
+                                                   Margin="0,10,15,0"
+                                                   HasShadow="False"
+                                                   IsClippedToBounds="True"
+                                                   BackgroundColor="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}"
+                                                   IsVisible="{Binding IsSubmitted,Converter={StaticResource ReverseBoolValueConverter}}">
+                                                <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                                                    <ffimageloading:CachedImage HorizontalOptions="Start"
+                                                        Margin="0,0,5,0"
+                                                        Aspect="AspectFit"
+                                                        HeightRequest="18"
+                                                        WidthRequest="18"
+                                                        DownsampleToViewSize="True"
+                                                        Source="edit_white_icon.png" />
+                                                    <Label Text="Submit"
+                                                           FontSize="16"
+                                                           VerticalOptions="CenterAndExpand"
+                                                           HorizontalOptions="Start"
+                                                           VerticalTextAlignment="Center"
+                                                           HorizontalTextAlignment="Start"
+                                                           FontAttributes="Bold"
+                                                           TextColor="White" />
+                                                </StackLayout>
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding BindingContext.SubmitClickCommand, Source={x:Reference dataCollectionMainPage}}"
+                                                        CommandParameter="{Binding .}" />
+                                                </Frame.GestureRecognizers>
+                                            </Frame>
+
+
+                                        </Grid>
+                                    </Frame>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+                </StackLayout>
+                <StackLayout VerticalOptions="EndAndExpand" HeightRequest="65" Grid.Row="2">
+                    <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                                 VerticalOptions="EndAndExpand"
+                                 HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+                <Grid.GestureRecognizers>
+                    <SwipeGestureRecognizer
+                        Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference dataCollectionMainPage}}"
+                        Direction="Right" />
+                </Grid.GestureRecognizers>
+            </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:controls="clr-namespace:iCampus.MobileApp.Controls"
+             x:Class="iCampus.MobileApp.Views.UserModules.Appointment.FamilyAppointmentDetail"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="familyAppointmentPage">
+    <ContentPage.Content>
+        <Grid>
+            <Grid RowDefinitions="Auto,*" ColumnDefinitions="*" BackgroundColor="{StaticResource BorderColor}">
+                <ContentView ControlTemplate="{StaticResource BeamHeader}" BackgroundColor="White" Grid.Row="0"
+                             Grid.Column="0" />
+                <ScrollView VerticalScrollBarVisibility="Never" Padding="0" VerticalOptions="StartAndExpand"
+                            Grid.Row="1" Grid.Column="0">
+                    <Frame HasShadow="False" Margin="10" Padding="10" BackgroundColor="White" BorderColor="Transparent">
+                        <Frame.Resources>
+                            <ResourceDictionary>
+                            </ResourceDictionary>
+                        </Frame.Resources>
+                        <Grid RowSpacing="10"
+                              Margin="0,0,0,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.5*" />
+                                <ColumnDefinition Width="0.5*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Column="0"
+                                   Grid.Row="0"
+                                   Style="{StaticResource TitleLabelStyle}"
+                                   Text="Teacher Name" />
+                            <Label Grid.Column="1"
+                                   Grid.Row="0"
+                                   Style="{StaticResource DescriptionLabelStyle}"
+                                   Text="{Binding FamilyAppointmentObject.TeacherName}" />
+                            <Label Grid.Column="0"
+                                   Grid.Row="1"
+                                   Style="{StaticResource TitleLabelStyle}"
+                                   Text="Student Name" />
+                            <Label Grid.Column="1"
+                                   Grid.Row="1"
+                                   Style="{StaticResource DescriptionLabelStyle}"
+                                   Text="{Binding FamilyAppointmentObject.StudentName}" />
+                            <Label Grid.Column="0"
+                                   Grid.Row="2"
+                                   Style="{StaticResource TitleLabelStyle}"
+                                   Text="Student Course" />
+                            <Label Grid.Column="1"
+                                   Grid.Row="2"
+                                   Style="{StaticResource DescriptionLabelStyle}"
+                                   Text="{Binding FamilyAppointmentObject.StudentCourses}" />
+                            <Label Grid.Column="0"
+                                   Grid.Row="3"
+                                   Style="{StaticResource TitleLabelStyle}"
+                                   Text="Appointment Booked For" />
+                            <Label Grid.Column="1"
+                                   Grid.Row="3"
+                                   Style="{StaticResource DescriptionLabelStyle}"
+                                   Text="{Binding FamilyAppointmentObject.BookingDateTimeFormatted}" />
+                            <Label Grid.Column="0"
+                                   Grid.Row="4"
+                                   Style="{StaticResource TitleLabelStyle}"
+                                   Text="Booked Date" />
+                            <Label Grid.Column="1"
+                                   Grid.Row="4"
+                                   Style="{StaticResource DescriptionLabelStyle}"
+                                   Text="{Binding FamilyAppointmentObject.BookedDateFormatted}" />
+                            <Label Grid.Column="0"
+                                   Grid.Row="5"
+                                   Style="{StaticResource TitleLabelStyle}"
+                                   Text="Status" />
+                            <Label Grid.Column="1"
+                                   Grid.Row="5"
+                                   HorizontalOptions="Start"
+                                   Style="{StaticResource DescriptionLabelStyle}"
+                                   TextColor="{Binding FamilyAppointmentObject.StatusColor,Converter={StaticResource ColorCodeConverter}}"
+                                   Text="{Binding FamilyAppointmentObject.StatusText}" />
+                            <Label Grid.Column="0"
+                                   Grid.Row="6"
+                                   Style="{StaticResource TitleLabelStyle}"
+                                   Text="Parent Comments" />
+                            <Label Grid.Column="1"
+                                   Grid.Row="6" Style="{StaticResource DescriptionLabelStyle}"
+                                   Text="{Binding FamilyAppointmentObject.ParentComments}" />
+                            <StackLayout Grid.Column="0" Spacing="0" Padding="0" Margin="0"
+                                         Grid.Row="7"
+                                         Grid.ColumnSpan="2">
+                                <Label
+                                    Style="{StaticResource TitleLabelStyle}"
+                                    VerticalOptions="EndAndExpand"
+                                    Text="Your Comments" />
+                                <Frame BorderColor="GhostWhite" Padding="0" Margin="0,10,0,0" HasShadow="False">
+                                    <controls:BorderlessEditor Placeholder="Write the message here"
+                                                               VerticalOptions="StartAndExpand"
+                                                               Text="{Binding FamilyAppointmentObject.TeacherComments, Mode=TwoWay}"
+                                                               Style="{StaticResource EditorFontStyle}" />
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal" Spacing="10" Margin="0,10,0,20" HorizontalOptions="CenterAndExpand"
+                                         VerticalOptions="Center" Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2">
+                                <Button Text="Save"
+                                        CornerRadius="4"
+                                        WidthRequest="80"
+                                        HeightRequest="30"
+                                        Padding="5,0,5,0"
+                                        FontSize="Small"
+                                        Command="{Binding SubmitClickCommand}"
+                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        TextColor="White" />
+                                <Button
+                                    IsVisible="{Binding FamilyAppointmentObject.IsActionButtonVisible}"
+                                    TextColor="White"
+                                    WidthRequest="80"
+                                    HeightRequest="30"
+                                    Padding="5,0,5,0"
+                                    FontSize="Small"
+                                    CornerRadius="4"
+                                    Command="{Binding AppointmentStatusClickCommand}"
+                                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                    Text="{Binding FamilyAppointmentObject.ActionButtonText}" HorizontalOptions="Start" />
+                            </StackLayout>
+                        </Grid>
+                    </Frame>
+                </ScrollView>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             x:Class="iCampus.MobileApp.Views.UserModules.News.NewsDetailPage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             NavigationPage.HasNavigationBar="false"
+             x:Name="newsDetailPage">
+    <ContentPage.Content>
+
+
+        <Grid
+            BackgroundColor="{Binding BackgroundColor,Source={x:Static local:AppSettings.Current}}"
+            RowDefinitions="Auto,*" ColumnDefinitions="*">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <behaviours:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
+                    <behaviours:VisiblityConverter x:Key="VisiblityConverter" />
+                    <behaviours:AttachmentFileToImageSourceConverter x:Key="attachmentFileToImageSourceConverter" />
+                    <behaviours:IntToBoolValueConverter x:Key="intToBoolValueConverter" />
+                    <behaviours:AttachmentFileStatusToSourceConverter x:Key="AttachmentFileStatusToSourceConverter" />
+                </ResourceDictionary>
+            </Grid.Resources>
+            <ContentView ControlTemplate="{StaticResource BeamHeader}" BackgroundColor="White" Grid.Row="0"
+                         Grid.Column="0" />
+            <ListView Margin="20,10,20,20" HasUnevenRows="True"
+                      BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                      SelectedItem="{Binding SelectedWebsiteLink,Mode=TwoWay}"
+                      ItemsSource="{Binding SiteNewsObject.WebsiteLinks,Mode=TwoWay}"
+                      SeparatorVisibility="None" VerticalScrollBarVisibility="Never"
+                      VerticalOptions="FillAndExpand" Grid.Row="1" Grid.Column="0">
+                <x:Arguments>
+                    <ListViewCachingStrategy>RecycleElement</ListViewCachingStrategy>
+                </x:Arguments>
+                <ListView.Header>
+                    <StackLayout BackgroundColor="White">
+                        <Grid ColumnSpacing="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Frame Padding="10,10,10,0"
+                                   CornerRadius="10"
+                                   Margin="0,0,15,0"
+                                   Grid.Row="0"
+                                   Grid.Column="0"
+                                   HasShadow="False"
+                                   BorderColor="Transparent"
+                                   IsClippedToBounds="True"
+                                   HorizontalOptions="FillAndExpand"
+                                   VerticalOptions="FillAndExpand">
+                                <ffimageloading:CachedImage HorizontalOptions="FillAndExpand"
+                                                            VerticalOptions="FillAndExpand"
+                                                            IsVisible="{Binding SiteNewsObject.NewsImageUrl,Converter={StaticResource VisiblityConverter}}"
+                                                            DownsampleToViewSize="True"
+                                                            Source="{Binding SiteNewsObject.NewsImageUrl}" />
+                            </Frame>
+                            <Label Text="{Binding SiteNewsObject.NewsTitle}" 
+                                   Padding="10,0,10,0"
+                                   Grid.Row="1" HorizontalOptions="StartAndExpand"
+                                   Grid.Column="0"
+                                   FontSize="18" TextColor="Black" 
+                                   FontAttributes="Bold" />
+                            <Label Text="{Binding SiteNewsObject.FormattedDueDateTime}"
+                                   Grid.Row="2" HorizontalOptions="StartAndExpand"
+                                   Grid.Column="0" Padding="10,0,10,0"
+                                   Style="{StaticResource DateLabelStyle}" />
+                        </Grid>
+
+                        <StackLayout BackgroundColor="White" Padding="10,0,10,0">
+                            <WebView x:Name="beamDetails" 
+                                     HeightRequest="{Binding WebViewHeight}"
+                                     HorizontalOptions="FillAndExpand"
+                                     VerticalOptions="FillAndExpand" 
+                                     Margin="0,0,0,0">
+                                <WebView.Source>
+                                    <HtmlWebViewSource Html="{Binding SiteNewsObject.NewsData}" />
+                                </WebView.Source>
+                            </WebView>
+                        </StackLayout>
+                        <Frame Padding="5" HasShadow="False" CornerRadius="5" BackgroundColor="White" BorderColor="Transparent"
+                               IsVisible="{Binding Attachment.FilePath, Converter={StaticResource VisiblityConverter}}">
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="0"
+                                         IsVisible="{Binding Attachment.FilePath, Converter={StaticResource VisiblityConverter}}"
+                                         HorizontalOptions="StartAndExpand"
+                                         VerticalOptions="CenterAndExpand">
+                                <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
+                                                            VerticalOptions="CenterAndExpand"
+                                                            WidthRequest="25"
+                                                            HeightRequest="25"
+                                                            Aspect="AspectFit"
+                                                            CacheType="None"
+                                                            CacheDuration="0"
+                                                            DownsampleToViewSize="True"
+                                                            Source="{Binding Attachment.FileStatus,Mode=TwoWay,Converter={StaticResource AttachmentFileStatusToSourceConverter}}">
+                                    <ffimageloading:CachedImage.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DonwloadTappedCommand}"
+                                                              CommandParameter="{Binding Attachment.FilePath}" />
+                                    </ffimageloading:CachedImage.GestureRecognizers>
+                                </ffimageloading:CachedImage>
+                                <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                            VerticalOptions="CenterAndExpand"
+                                                            WidthRequest="20"
+                                                            HeightRequest="20"
+                                                            Aspect="AspectFit"
+                                                            Margin="10,0,0,0"
+                                                            DownsampleToViewSize="True"
+                                                            Source="{Binding Attachment.FilePath,Converter={StaticResource attachmentFileToImageSourceConverter}}">
+
+                                </ffimageloading:CachedImage>
+                                <Label Text="{Binding Attachment.FileName}"
+                                       HorizontalOptions="StartAndExpand"
+                                       VerticalOptions="CenterAndExpand"
+                                       Margin="10,0,0,0"
+                                       Style="{StaticResource AttachmentTextStyle}">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
+                                                              CommandParameter="{Binding Attachment.FilePath}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+
+                </ListView.Header>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal"
+                                         IsVisible="{Binding Title,Converter={StaticResource VisiblityConverter}}"
+                                         Margin="0,10,0,0"
+                                         Spacing="0"
+                                         HorizontalOptions="StartAndExpand"
+                                         VerticalOptions="CenterAndExpand">
+                                <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                            VerticalOptions="CenterAndExpand"
+                                                            WidthRequest="20"
+                                                            HeightRequest="20"
+                                                            Aspect="AspectFit"
+                                                            DownsampleToViewSize="True"
+                                                            Source="attachment_icon.png">
+                                </ffimageloading:CachedImage>
+                                <Label Text="{Binding Title}"
+                                       HorizontalOptions="StartAndExpand"
+                                       VerticalOptions="CenterAndExpand"
+                                       Margin="10,0,0,0"
+                                       FontSize="14"
+                                       TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                            </StackLayout>
+
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Behaviors>
+                    <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                    Command="{Binding WebsiteLinksTappedCommand}"
+                                                    CommandParameter="{Binding SelectedWebsiteLink}" />
+                </ListView.Behaviors>
+            </ListView>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference newsDetailPage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

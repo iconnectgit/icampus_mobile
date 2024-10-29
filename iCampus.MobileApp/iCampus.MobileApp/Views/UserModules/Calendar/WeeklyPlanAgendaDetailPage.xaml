@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:individual="clr-namespace:iCampus.MobileApp.Behaviours.Individual"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             x:Class="iCampus.MobileApp.Views.UserModules.Calendar.WeeklyPlanAgendaDetailPage"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="weeklyAgendaDetailPage">
+    <ContentPage.Content>
+
+        <Grid>
+            <StackLayout BackgroundColor="WhiteSmoke">
+                <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                             BackgroundColor="White" />
+                <StackLayout BackgroundColor="White" Margin="15,10,15,0">
+
+                    <Frame CornerRadius="5" HorizontalOptions="EndAndExpand" WidthRequest="70"
+                           Padding="5" Margin="10,10,15,0" HasShadow="False" IsClippedToBounds="True"
+                           BackgroundColor="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}"
+                           IsVisible="{Binding IsEditButtonVisibleForTeacher}">
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand"
+                                     VerticalOptions="CenterAndExpand">
+                            <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                        Margin="0,0,3,0"
+                                                        Aspect="AspectFit"
+                                                        HeightRequest="18"
+                                                        WidthRequest="18"
+                                                        DownsampleToViewSize="True"
+                                                        Source="edit_white_icon.png" />
+                            <Label Text="Edit"
+                                   FontSize="16"
+                                   VerticalOptions="CenterAndExpand"
+                                   HorizontalOptions="StartAndExpand"
+                                   VerticalTextAlignment="Center"
+                                   HorizontalTextAlignment="Start"
+                                   FontAttributes="Bold"
+                                   TextColor="White" />
+                        </StackLayout>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding EditClickCommand}" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                    
+                    <ScrollView VerticalScrollBarVisibility="Never">
+                        <StackLayout BackgroundColor="White" Margin="10">
+                            <StackLayout.Resources>
+                                <ResourceDictionary>
+                                    <behaviours:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter" />
+                                    <individual:AgendaCancellationTextConverter x:Key="AgendaCancellationTextConverter" />
+                                </ResourceDictionary>
+                            </StackLayout.Resources>
+                            <Grid VerticalOptions="Fill" BackgroundColor="White" RowSpacing="5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.6*" />
+                                    <ColumnDefinition Width="0.4*" />
+                                </Grid.ColumnDefinitions>
+                                <Label
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    Grid.ColumnSpan="2">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding SelectedWeeklyAgenda.Title}"
+                                                  Style="{StaticResource TitleLabelStyle}"
+                                                  TextColor="{Binding SelectedWeeklyAgenda.AgendaTypeColor}" />
+                                            <Span Text=" - "
+                                                  Style="{StaticResource TitleLabelStyle}"
+                                                  TextColor="{Binding SelectedWeeklyAgenda.AgendaTypeColor}" />
+                                            <Span Text="{Binding SelectedWeeklyAgenda.GradeName}"
+                                                  Style="{StaticResource TitleLabelStyle}"
+                                                  TextColor="{Binding SelectedWeeklyAgenda.AgendaTypeColor}" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <Label Style="{StaticResource TitleLabelStyle}"
+                                       Grid.Row="1"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       Text="Curriculum Standard" />
+                                <Label Style="{StaticResource DescriptionLabelStyle}"
+                                       Grid.Row="2"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       IsVisible="{Binding SelectedWeeklyAgenda.IsDeleted,Converter={StaticResource ReverseBoolValueConverter}}"
+                                       TextType="Html"
+                                       Text="{Binding SelectedWeeklyAgenda.CurriculumStandards}" />
+                                <Label Style="{StaticResource DescriptionLabelStyle}"
+                                       Grid.Row="2"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       IsVisible="{Binding SelectedWeeklyAgenda.IsDeleted}"
+                                       TextColor="Red"
+                                       TextType="Html"
+                                       Text="{Binding SelectedWeeklyAgenda,Converter={StaticResource AgendaCancellationTextConverter}}" />
+                                <Label Style="{StaticResource TitleLabelStyle}"
+                                       Grid.Row="3"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       Text="Remarks" />
+                                <Label Style="{StaticResource DescriptionLabelStyle}"
+                                       Grid.Row="4"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       TextType="Html"
+                                       Text="{Binding SelectedWeeklyAgenda.Remarks}" />
+                                <Label Style="{StaticResource TitleLabelStyle}"
+                                       Grid.Row="5"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       Text="{Binding SelectedWeeklyAgenda.TeacherName}" />
+                                <Label Style="{StaticResource TitleLabelStyle}"
+                                       Grid.Row="6"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       Text="{Binding WeeklyPlanHeaderText}" />
+                                <Label Style="{StaticResource DescriptionLabelStyle}"
+                                       Grid.Row="7"
+                                       Grid.Column="0"
+                                       Grid.ColumnSpan="2"
+                                       Text="{Binding SelectedWeeklyAgenda.AgendaClassNames}" />
+                            </Grid>
+                        </StackLayout>
+                    </ScrollView>
+                </StackLayout>
+                <StackLayout.GestureRecognizers>
+                    <SwipeGestureRecognizer
+                        Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference weeklyAgendaDetailPage}}"
+                        Direction="Right" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

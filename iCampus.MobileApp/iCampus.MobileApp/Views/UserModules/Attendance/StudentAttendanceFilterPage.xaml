@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             x:Class="iCampus.MobileApp.Views.UserModules.Attendance.StudentAttendanceFilterPage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}">
+    <ContentPage.Content>
+
+        <Grid>
+            <StackLayout VerticalOptions="FillAndExpand"
+                         BackgroundColor="{StaticResource BorderColor}">
+                <StackLayout.Resources>
+                    <ResourceDictionary>
+                    </ResourceDictionary>
+                </StackLayout.Resources>
+                <StackLayout VerticalOptions="StartAndExpand">
+                    <ContentView ControlTemplate="{StaticResource BeamHeader}" BackgroundColor="White" />
+                    <Grid RowSpacing="5" ColumnSpacing="10" Padding="20,15,20,20">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.45*" />
+                            <ColumnDefinition Width="0.01*" />
+                            <ColumnDefinition Width="0.45*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Date"
+                               Style="{StaticResource TitleLabelStyle}"
+                               Grid.Row="0"
+                               Grid.Column="0"
+                               VerticalTextAlignment="End"
+                               VerticalOptions="EndAndExpand" />
+                        <StackLayout Orientation="Horizontal"
+                                     Grid.Row="1"
+                                     Grid.Column="0"
+                                     Padding="0">
+                            <DatePicker Date="{Binding SelectedDate}"
+                                        MaximumDate="{Binding MaxDate}"
+                                        Style="{StaticResource DatePickerFontStyle}"
+                                        VerticalOptions="StartAndExpand"
+                                        BackgroundColor="White" >
+                                   <DatePicker.Behaviors>
+                                          <toolkit:EventToCommandBehavior EventName="DateSelected" 
+                                                                          Command="{Binding DateSelectionChangeCommand}" 
+                                                                          CommandParameter="{Binding SelectedDate}" />
+                                   </DatePicker.Behaviors>
+                            </DatePicker>
+                            <ffimageloading:CachedImage Source="calendar_icon.png"
+                                                        VerticalOptions="Center"
+                                                        HorizontalOptions="StartAndExpand"
+                                                        WidthRequest="30"
+                                                        HeightRequest="30" />
+                        </StackLayout>
+                        <Label Text="It's Holiday today!"
+                               Margin="3,0,0,10"
+                               Grid.Row="2"
+                               Grid.Column="0"
+                               IsVisible="{Binding IsHolidayDateVisible}"
+                               VerticalOptions="StartAndExpand" VerticalTextAlignment="Start" TextColor="Red"
+                               FontSize="Small" />
+                        <StackLayout Grid.Row="0" Grid.Column="2" HorizontalOptions="StartAndExpand"
+                                     Orientation="Horizontal" Spacing="0" Padding="0">
+                            <input:CheckBox VerticalOptions="CenterAndExpand"
+                                            IsChecked="{Binding IsElective,Mode=TwoWay}" Scale="0.8"
+                                            HorizontalOptions="StartAndExpand"
+                                            Color="Gray"
+                                            CheckChangedCommand="{Binding ElectiveCheckboxChangeCommand}" 
+                                            CommandParameter="{Binding IsElective}"/>
+                            <Label Text="Elective" VerticalOptions="CenterAndExpand" HeightRequest="25"
+                                   VerticalTextAlignment="Center" />
+                        </StackLayout>
+                        <StackLayout Grid.Row="1" Grid.Column="2" HorizontalOptions="StartAndExpand"
+                                     Orientation="Horizontal"
+                                     Spacing="0" Padding="0">
+                            <input:CheckBox VerticalOptions="CenterAndExpand"
+                                            IsChecked="{Binding IsArabic,Mode=TwoWay}" Scale="0.8"
+                                            HorizontalOptions="StartAndExpand"
+                                            Color="Gray"/>
+                            <Label Text="Name In Arabic" VerticalOptions="CenterAndExpand"
+                                   VerticalTextAlignment="Center" HeightRequest="25" />
+                        </StackLayout>
+
+                        <Label Text="Grade" Style="{StaticResource TitleLabelStyle}"
+                               Grid.Row="3"
+                               Grid.Column="0"
+                               VerticalTextAlignment="End"
+                               VerticalOptions="EndAndExpand" />
+                        <!-- GradePickerChangeCommand -->
+                        <Grid Grid.Row="4"
+                              Grid.Column="0"
+                              HeightRequest="40"
+                              Margin="0,0,0,0"
+                              HorizontalOptions="FillAndExpand">
+                            <Picker Title="Select Grade"
+                                    Style="{StaticResource PickerFontStyle}"
+                                    BackgroundColor="White"
+                                    TextColor="Gray"
+                                    ItemsSource="{Binding GradeList,Mode=TwoWay}"
+                                    ItemDisplayBinding="{Binding ItemName}"
+                                    SelectedItem="{Binding SelectedGrade,Mode=TwoWay}"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="FillAndExpand" />
+                            <Image Source="dropdown_gray_picker"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="Center"
+                                   WidthRequest="20"
+                                   HeightRequest="20"
+                                   Margin="0,0,10,0" />
+                        </Grid>
+                        <Label Text="Please select grade"
+                               Margin="3,0,0,10"
+                               Grid.Row="5"
+                               Grid.Column="0"
+                               IsVisible="{Binding IsGradeErrVisible}"
+                               VerticalOptions="StartAndExpand" VerticalTextAlignment="Start" TextColor="Red"
+                               FontSize="Small" />
+                        <Label Text="Class" Style="{StaticResource TitleLabelStyle}"
+                               Grid.Row="{Binding GridClassLabelRow}"
+                               Grid.Column="{Binding GridClassColumn}"
+                               VerticalTextAlignment="End"
+                               VerticalOptions="EndAndExpand" />
+                        <!-- ClassPickerChangeCommand -->
+                        <Grid Grid.Row="{Binding GridClassPickerRow}"
+                              Grid.Column="{Binding GridClassColumn}"
+                              HeightRequest="40"
+                              Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
+                            <Picker Title="Select Class"
+                                    Style="{StaticResource PickerFontStyle}"
+                                    BackgroundColor="White"
+                                    TextColor="Gray"
+                                    ItemsSource="{Binding ClassList,Mode=TwoWay}"
+                                    ItemDisplayBinding="{Binding ItemName}"
+                                    SelectedItem="{Binding SelectedClass,Mode=TwoWay}"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="FillAndExpand" />
+                            <Image Source="dropdown_gray_picker"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="Center"
+                                   WidthRequest="20"
+                                   HeightRequest="20"
+                                   Margin="0,0,10,0" />
+                        </Grid>
+                        <Label Text="Please select class"
+                               Margin="3,0,0,10"
+                               Grid.Row="{Binding GridClassErrorRow}"
+                               Grid.Column="{Binding GridClassColumn}"
+                               IsVisible="{Binding IsClassErrVisible}"
+                               VerticalOptions="StartAndExpand" VerticalTextAlignment="Start" TextColor="Red"
+                               FontSize="Small" />
+
+                        <Label Text="Period" Style="{StaticResource TitleLabelStyle}"
+                               Grid.Row="{Binding GridPeriodLabelRow}"
+                               Grid.Column="{Binding GridPeriodColumn}"
+                               VerticalTextAlignment="End"
+                               VerticalOptions="EndAndExpand" />
+                        <Grid Grid.Row="{Binding GridPeriodPickerRow}"
+                              Grid.Column="{Binding GridPeriodColumn}"
+                              HeightRequest="40"
+                              Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
+                            <Picker Title="Select Period"
+                                    Style="{StaticResource PickerFontStyle}"
+                                    BackgroundColor="White"
+                                    TextColor="Gray"
+                                    ItemsSource="{Binding PeriodList,Mode=TwoWay}"
+                                    ItemDisplayBinding="{Binding ItemName}"
+                                    SelectedItem="{Binding SelectedPeriod,Mode=TwoWay}"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="FillAndExpand" />
+                            <Image Source="dropdown_gray_picker"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="Center"
+                                   WidthRequest="20"
+                                   HeightRequest="20"
+                                   Margin="0,0,10,0" />
+                        </Grid>
+                        <Label Text="Please select period"
+                               Margin="3,0,0,0"
+                               Grid.Row="{Binding GridPeriodErrorRow}"
+                               Grid.Column="{Binding GridPeriodColumn}"
+                               IsVisible="{Binding IsPeriodErrVisible}"
+                               VerticalOptions="StartAndExpand" VerticalTextAlignment="Start" TextColor="Red"
+                               FontSize="Small" />
+                        <Label Text="Course" Style="{StaticResource TitleLabelStyle}"
+                               Grid.Row="{Binding GridCourseLabelRow}"
+                               Grid.Column="{Binding GridCourseColumn}"
+                               VerticalTextAlignment="End"
+                               VerticalOptions="EndAndExpand" />
+                        <!-- CoursePickerChangeCommand -->
+                        <Grid Grid.Row="{Binding GridCoursePickerRow}"
+                              Grid.Column="{Binding GridCourseColumn}"
+                              HeightRequest="40"
+                              Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
+                            <Picker Title="Select Course"
+                                    Style="{StaticResource PickerFontStyle}"
+                                    BackgroundColor="White"
+                                    TextColor="Gray"
+                                    ItemsSource="{Binding CourseList,Mode=TwoWay}"
+                                    ItemDisplayBinding="{Binding ItemName}"
+                                    SelectedItem="{Binding SelectedCourse,Mode=TwoWay}"
+                                    VerticalOptions="Center"
+                                    HorizontalOptions="FillAndExpand" />
+                            <Image Source="dropdown_gray_picker"
+                                   HorizontalOptions="End"
+                                   VerticalOptions="Center"
+                                   WidthRequest="20"
+                                   HeightRequest="20"
+                                   Margin="0,0,10,0" />
+                        </Grid>
+                        <Label Text="Please select course"
+                               Margin="3,0,0,0"
+                               Grid.Row="{Binding GridCourseErrorRow}"
+                               Grid.Column="{Binding GridCourseColumn}"
+                               IsVisible="{Binding IsCourseErrVisible}"
+                               VerticalOptions="StartAndExpand" VerticalTextAlignment="Start" TextColor="Red"
+                               FontSize="Small" />
+                        <Button Text="Search"
+                                TextColor="White"
+                                Margin="0,30,0,0"
+                                Grid.Row="8"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="3"
+                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                HorizontalOptions="FillAndExpand"
+                                Command="{Binding SearchClickCommand}"
+                                CornerRadius="5" />
+                    </Grid>
+                </StackLayout>
+            </StackLayout>
+
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

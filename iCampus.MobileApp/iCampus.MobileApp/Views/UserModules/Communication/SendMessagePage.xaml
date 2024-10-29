@@ -1,0 +1,684 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:formValidation="clr-namespace:iCampus.MobileApp.Library.FormValidation"
+             xmlns:controls="clr-namespace:iCampus.MobileApp.Controls"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:iOsSpecific="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             x:Class="iCampus.MobileApp.Views.UserModules.Communication.SendMessagePage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Name="sendMessagePage"
+             NavigationPage.HasNavigationBar="false">
+    <ContentPage.Content>
+        <ScrollView VerticalScrollBarVisibility="Never"
+                    BackgroundColor="{Binding BackgroundColor,Source={x:Static local:AppSettings.Current}}">
+            <Grid RowDefinitions="*" ColumnDefinitions="*" VerticalOptions="FillAndExpand"
+                  HorizontalOptions="FillAndExpand">
+                <Grid VerticalOptions="FillAndExpand"
+                      HorizontalOptions="FillAndExpand"
+                      BackgroundColor="WhiteSmoke"
+                      Grid.Row="0"
+                      Grid.Column="0" RowDefinitions="Auto,Auto,*" ColumnDefinitions="*">
+                    <Grid.Resources>
+                        <ResourceDictionary>
+                            <behaviours:SelectedIndexChangedConverter x:Key="SelectedIndexChangedConverter" />
+                            <behaviours:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
+                            <behaviours:AttachmentFileToImageSourceConverter
+                                x:Key="AttachmentFileToImageSourceConverter" />
+                            <formValidation:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+                            <behaviours:CheckedChangedConverter x:Key="CheckedChangedConverter" />
+                            <behaviours:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter" />
+                        </ResourceDictionary>
+                        <Style x:Key="EntryFontStyle"
+                               TargetType="Entry">
+                            <Setter Property="FontSize"
+                                    Value="14" />
+                            <Setter Property="TextColor"
+                                    Value="Gray" />
+                        </Style>
+                    </Grid.Resources>
+                    <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                                 BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
+
+
+                    <StackLayout IsVisible="{Binding IsEnabledFromField}" Margin="15,0,15,0" Grid.Row="1"
+                                 Grid.Column="0"
+                                 HorizontalOptions="FillAndExpand">
+                        <Grid RowDefinitions="Auto,*" ColumnDefinitions="*" VerticalOptions="FillAndExpand"
+                              HorizontalOptions="FillAndExpand" RowSpacing="0">
+                            <Frame HasShadow="False" Padding="5,0,5,0" BackgroundColor="White"
+                                   IsVisible="{Binding IsEnabledFromField}"
+                                   VerticalOptions="CenterAndExpand"
+                                   HorizontalOptions="FillAndExpand"
+                                   Margin="0,10,0,0"
+                                   Grid.Row="0"
+                                   Grid.Column="0"
+                                   HeightRequest="40"
+                                   BorderColor="Transparent"
+                                   CornerRadius="5">
+                                
+                                <Grid RowDefinitions="Auto" ColumnDefinitions="*">
+
+                                    <controls:NoUnderlineEntry Text="{Binding SelectedText}"
+                                                               Placeholder="Regarding"
+                                                               Style="{StaticResource EntryFontStyle}"
+                                                               TextColor="Gray"
+                                                               Margin="0"
+                                                               HorizontalOptions="FillAndExpand"
+                                                               HeightRequest="{OnPlatform iOS='30', Android='40'}"
+                                                               Grid.Row="0" Grid.Column="0"
+                                                               IsEnabled="False">
+
+
+                                    </controls:NoUnderlineEntry>
+                                    <ffimageloading:CachedImage Source="dropdown_gray_picker.png"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                HorizontalOptions="EndAndExpand" Aspect="AspectFit"
+                                                                Grid.Row="0"
+                                                                Grid.Column="0" HeightRequest="18" WidthRequest="18" >
+                                        <ffimageloading:CachedImage.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding SelectionCommand}" NumberOfTapsRequired="1" />
+                                        </ffimageloading:CachedImage.GestureRecognizers>
+                                    </ffimageloading:CachedImage>
+                                </Grid>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding SelectionCommand}" NumberOfTapsRequired="1" />
+                                </Frame.GestureRecognizers>
+                            </Frame>
+
+                            <Label Text="{Binding EmptyFromErrorMessage}"
+                                   HorizontalOptions="StartAndExpand"
+                                   FontSize="Small"
+                                   IsVisible="{Binding IsFromErrorLabelVisible}"
+                                   Margin="3,0,0,0"
+                                   Grid.Row="1"
+                                   Grid.Column="0"
+                                   TextColor="Red" />
+                        </Grid>
+                        <ListView HasUnevenRows="True"
+                                  HorizontalOptions="StartAndExpand"
+                                  SelectedItem="{Binding SelectedFromText,Mode=TwoWay}"
+                                  ItemsSource="{Binding EmailFromList,Mode=TwoWay}"
+                                  SeparatorVisibility="Default"
+                                  Margin="0,0,0,0"
+                                  IsVisible="{Binding IsVisibleFromList}"
+                                  HeightRequest="{Binding FromListViewHeight}"
+                                  x:Name="listView">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout VerticalOptions="FillAndExpand"
+                                                     HorizontalOptions="FillAndExpand"
+                                                     Padding="5">
+                                            <Label Text="{Binding ItemName}" TextColor="{StaticResource GrayTextColor}"
+                                                   Style="{StaticResource DescriptionLabelStyle}" />
+                                            <StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding BindingContext.FromListTappedCommand,Source={x:Reference listView}}"
+                                                    CommandParameter="{Binding .}" />
+                                            </StackLayout.GestureRecognizers>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+
+                            <ListView.Behaviors>
+                                <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                                Command="{Binding ListChangedCommand}"
+                                                                CommandParameter="{Binding SelectedFromText}" />
+                            </ListView.Behaviors>
+                        </ListView>
+
+                    </StackLayout>
+
+
+                    <Grid VerticalOptions="FillAndExpand"
+                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,*,Auto,Auto,Auto"
+                          ColumnDefinitions="*"
+                          HorizontalOptions="Fill"
+                          Margin="15,10,15,15" Grid.Row="2" Grid.Column="0"
+                          RowSpacing="0" ColumnSpacing="0">
+
+
+                        <ListView ItemsSource="{Binding SelectedRecipientList}" HasUnevenRows="true"
+                                  SeparatorVisibility="None"
+                                  VerticalScrollBarVisibility="Never"
+                                  HeightRequest="{Binding RecipientListHeight}" Margin="0"
+                                  Grid.Row="0" Grid.Column="0">
+                            <x:Arguments>
+                                <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                            </x:Arguments>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Frame CornerRadius="5" Padding="0,0,0,10" Margin="0"
+                                               HorizontalOptions="FillAndExpand"
+                                               HasShadow="False" IsClippedToBounds="True"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               HeightRequest="35"
+                                               VerticalOptions="CenterAndExpand">
+                                            <StackLayout Orientation="Horizontal" Padding="0" Margin="5,0,5,0"
+                                                         HorizontalOptions="StartAndExpand" Spacing="0"
+                                                         VerticalOptions="CenterAndExpand">
+                                                <Label Text="x" TextColor="Red" FontSize="15" Padding="0" Margin="0"
+                                                       VerticalTextAlignment="Center"
+                                                       IsVisible="{Binding BindingContext.IsEnabledRecipientSelection,Source={x:Reference sendMessagePage}}">
+                                                </Label>
+                                                <Label Text="{Binding UserName}"
+                                                       TextColor="{StaticResource GrayTextColor}" Padding="0"
+                                                       VerticalTextAlignment="Center"
+                                                       Style="{StaticResource DescriptionLabelStyle}" Margin="0" />
+                                                <StackLayout.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding BindingContext.DeleteRecipientCommand,Source={x:Reference sendMessagePage}}"
+                                                        CommandParameter="{Binding .}" NumberOfTapsRequired="1" />
+                                                </StackLayout.GestureRecognizers>
+                                            </StackLayout>
+                                        </Frame>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        
+                        <StackLayout
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            Orientation="Horizontal"
+                            Margin="0"
+                            Padding="0"
+                            Grid.Row="1" Grid.Column="0">
+                            <Frame HorizontalOptions="FillAndExpand" Padding="5,0,5,0" HasShadow="False"
+                                   IsVisible="{Binding IsEnabledRecipientSelection}" CornerRadius="5"
+                                   BorderColor="Transparent"
+                                   Margin="0,5,0,0">
+                                
+                                <controls:NoUnderlineEntry Text="{Binding SearchedString.Value}"
+                                                           x:Name="beamSearchText"
+                                                           Placeholder="{Binding ReceipientPlaceHolder}"
+                                                           Style="{StaticResource EntryFontStyle}"
+                                                           IsEnabled="{Binding IsEnabledToField}"
+                                                           Margin="0"
+                                                           HeightRequest="{OnPlatform iOS='30', Android='40'}">
+
+                                    <controls:NoUnderlineEntry.Behaviors>
+                                        <behaviours:EventToCommandBehavior EventName="TextChanged"
+                                                                           Command="{Binding SearchRecipientCommand}" />
+                                        <behaviours:EventToCommandBehavior EventName="Focused"
+                                                                           Command="{Binding SearchRecipientCommand}" />
+
+                                    </controls:NoUnderlineEntry.Behaviors>
+                                </controls:NoUnderlineEntry>
+                            </Frame>
+
+                        </StackLayout>
+
+
+                        <Label Text="{Binding EmptyRecipientErrorMessage}"
+                               HorizontalOptions="StartAndExpand"
+                               FontSize="Small"
+                               IsVisible="{Binding IsRecipientErrorLabelVisible, Mode=TwoWay}"
+                               Margin="3,0,0,0"
+                               TextColor="Red" Grid.Row="2" Grid.Column="0" />
+                        <StackLayout IsVisible="{Binding IsVisibleRecipientList}"
+                                     Grid.Row="3" Grid.Column="0">
+                            <Grid IsVisible="{Binding IsTeacher,Source={x:Static local:AppSettings.Current}}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.45*" />
+                                    <ColumnDefinition Width="0.01*" />
+                                    <ColumnDefinition Width="0.35*" />
+                                    <ColumnDefinition Width="0.10*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="Grade" Style="{StaticResource TitleLabelStyle}"
+                                       Grid.Row="0" TextColor="{StaticResource GrayTextColor}"
+                                       Grid.Column="0" IsVisible="{Binding IsEnabledRecipientSelection}"
+                                       VerticalTextAlignment="End"
+                                       VerticalOptions="EndAndExpand"
+                                       Margin="{OnPlatform Android='3,5,0,0', iOS='0,5,0,0'}">
+
+                                </Label>
+                                <Picker TitleColor="#707070"
+                                        iOsSpecific:Picker.UpdateMode="WhenFinished"
+                                        Style="{StaticResource PickerFontStyle}"
+                                        Grid.Row="1"
+                                        Grid.Column="0"
+                                        IsVisible="{Binding IsEnabledRecipientSelection}"
+                                        ItemsSource="{Binding GradeList}"
+                                        SelectedItem="{Binding SelectedGrade}"
+                                        ItemDisplayBinding="{Binding ItemName}"
+                                        VerticalOptions="StartAndExpand"
+                                        Title="{OnPlatform iOS='All', Android='Select Grade'}">
+
+                                    <Picker.Behaviors>
+                                        <behaviours:EventToCommandBehavior EventName="SelectedIndexChanged"
+                                                                           Command="{Binding GradePickerChangeCommand}"
+                                                                           Converter="{StaticResource SelectedIndexChangedConverter}" />
+                                    </Picker.Behaviors>
+                                </Picker>
+                                <Label Text="Please select grade"
+                                       Margin="3,0,0,10"
+                                       Grid.Row="2"
+                                       Grid.Column="0"
+                                       IsVisible="{Binding IsGradeErrVisible}"
+                                       VerticalOptions="StartAndExpand" VerticalTextAlignment="Start" TextColor="Red"
+                                       FontSize="Small" />
+
+                                <Label Text="Class" Style="{StaticResource TitleLabelStyle}"
+                                       Grid.Row="0" IsVisible="{Binding IsEnabledRecipientSelection}"
+                                       Grid.Column="2" Grid.ColumnSpan="2"
+                                       VerticalTextAlignment="End" TextColor="{StaticResource GrayTextColor}"
+                                       VerticalOptions="EndAndExpand"
+                                       Margin="{OnPlatform Android='3,5,0,0', iOS='0,5,0,0'}">
+
+                                </Label>
+                                <StackLayout VerticalOptions="StartAndExpand" Grid.Column="3" Grid.Row="0"
+                                             HorizontalOptions="EndAndExpand" Padding="3,3,0,3">
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding CloseListCommand}" />
+                                    </StackLayout.GestureRecognizers>
+                                    <Button ImageSource="cross_icon_white"
+                                            TextColor="White" Command="{Binding CloseListCommand}"
+                                            Margin="0,0,10,0"
+                                            HeightRequest="24"
+                                            WidthRequest="24"
+                                            CornerRadius="12"
+                                            BackgroundColor="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}" />
+                                </StackLayout>
+                                <Picker x:Name="beamClassPicker" TitleColor="#707070"
+                                        iOsSpecific:Picker.UpdateMode="WhenFinished"
+                                        Style="{StaticResource PickerFontStyle}"
+                                        Grid.Row="1" IsVisible="{Binding IsEnabledRecipientSelection}"
+                                        Grid.Column="2" Grid.ColumnSpan="2"
+                                        ItemsSource="{Binding ClassList}"
+                                        SelectedItem="{Binding SelectedClass}"
+                                        ItemDisplayBinding="{Binding ItemName}"
+                                        VerticalOptions="StartAndExpand"
+                                        Title="{OnPlatform iOS='All', Android='Select Grade'}">
+                                    <Picker.Behaviors>
+                                        <behaviours:EventToCommandBehavior EventName="SelectedIndexChanged"
+                                                                           Command="{Binding ClassPickerChangeCommand}"
+                                                                           Converter="{StaticResource SelectedIndexChangedConverter}" />
+                                    </Picker.Behaviors>
+                                </Picker>
+                                <Label Text="Please select class"
+                                       Margin="3,0,0,10"
+                                       Grid.Row="2"
+                                       Grid.Column="2" Grid.ColumnSpan="2"
+                                       IsVisible="{Binding IsClassErrVisible}"
+                                       VerticalOptions="StartAndExpand" VerticalTextAlignment="Start" TextColor="Red"
+                                       FontSize="Small" />
+                            </Grid>
+                        </StackLayout>
+
+
+                        <Grid
+                            IsVisible="{Binding FilteredRecipientList.Count,Converter={StaticResource IntToBoolValueConverter}}"
+                            Grid.Row="4" Grid.Column="0">
+                            <Grid HorizontalOptions="FillAndExpand"
+                                  IsVisible="{Binding IsVisibleRecipientList}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.1*" />
+                                    <ColumnDefinition Width="0.5*" />
+                                    <ColumnDefinition Width="0.4*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <CheckBox HorizontalOptions="StartAndExpand"
+                                          IsChecked="{Binding IsAllSelected,Mode=TwoWay}"
+                                          HeightRequest="25" Grid.Column="0" Grid.Row="0">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates1">
+                                            <VisualState x:Name="Normal1">
+                                                <VisualState.Setters>
+                                                    <Setter Property="Color"
+                                                            Value="{StaticResource LightGrayColor}" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+
+                                            <VisualState x:Name="IsChecked">
+                                                <VisualState.Setters>
+                                                    <Setter Property="Color"
+                                                            Value="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <CheckBox.Behaviors>
+                                        <behaviours:EventToCommandBehavior EventName="CheckedChanged"
+                                                                           Command="{Binding RecipientCheckboxChangeCommand}"
+                                                                           Converter="{StaticResource CheckedChangedConverter}" />
+                                    </CheckBox.Behaviors>
+                                </CheckBox>
+                                <Label Text="Select All" TextDecorations="Underline"
+                                       VerticalOptions="CenterAndExpand" Grid.Row="0"
+                                       Grid.Column="1" TextColor="#0000EE" />
+
+                                <ffimageloading:CachedImage Source="sort_by" HeightRequest="24" WidthRequest="28"
+                                                            Grid.Row="0"
+                                                            Grid.Column="2" HorizontalOptions="EndAndExpand"
+                                                            VerticalOptions="CenterAndExpand">
+                                    <ffimageloading:CachedImage.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding SortByTapCommand}"
+                                                              NumberOfTapsRequired="1">
+                                        </TapGestureRecognizer>
+                                    </ffimageloading:CachedImage.GestureRecognizers>
+                                </ffimageloading:CachedImage>
+
+
+                                <StackLayout x:Name="closeButton" VerticalOptions="StartAndExpand" Grid.Row="0" Grid.Column="3"
+                                             HorizontalOptions="EndAndExpand" 
+                                             IsVisible="{Binding IsParent,Source={x:Static local:AppSettings.Current}}"
+                                             Padding="10,10,10,10">
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding CloseListCommand}" />
+                                    </StackLayout.GestureRecognizers>
+                                    <Label
+                                        Text="&#xf057;"
+                                        FontFamily="FontAwesomeSolid"
+                                        TextColor="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}"
+                                        Margin="0,0,0,0"
+                                        FontSize="25"
+                                        VerticalOptions="CenterAndExpand">
+                                    </Label>
+                                </StackLayout>
+                                <!-- <StackLayout VerticalOptions="StartAndExpand" Grid.Column="3" -->
+                                <!--              IsVisible="{Binding IsParent,Source={x:Static local:AppSettings.Current}}" -->
+                                <!--              HorizontalOptions="EndAndExpand" Padding="3,3,0,3"> -->
+                                <!--     <StackLayout.GestureRecognizers> -->
+                                <!--         <TapGestureRecognizer Command="{Binding CloseListCommand}" /> -->
+                                <!--     </StackLayout.GestureRecognizers> -->
+                                <!--     <Button ImageSource="cross_icon_white" -->
+                                <!--             TextColor="White" Command="{Binding CloseListCommand}" -->
+                                <!--             Margin="0,0,10,0" -->
+                                <!--             HeightRequest="24" -->
+                                <!--             WidthRequest="24" -->
+                                <!--             CornerRadius="12" -->
+                                <!--             BackgroundColor="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}" /> -->
+                                <!-- </StackLayout> -->
+
+                                <Frame BorderColor="#C0C0C0" Padding="2" IsClippedToBounds="True" CornerRadius="0"
+                                       Grid.Row="1" Grid.ColumnSpan="4"
+                                       HasShadow="False" Margin="0,10,0,10"
+                                       IsVisible="{Binding IsVisibleRecipientList}">
+                                    <ListView ItemsSource="{Binding FilteredRecipientList,Mode=TwoWay}"
+                                              HasUnevenRows="True"
+                                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                              SeparatorVisibility="None" VerticalScrollBarVisibility="Always"
+                                              SelectedItem="{Binding SelectedRecipientItem, Mode=TwoWay}"
+                                              IsVisible="{Binding IsVisibleRecipientList}"
+                                              HeightRequest="{Binding ListViewHeight}"
+                                              Margin="0">
+                                        <ListView.ItemTemplate>
+                                            <DataTemplate>
+                                                <ViewCell>
+                                                    <StackLayout VerticalOptions="FillAndExpand"
+                                                                 HorizontalOptions="FillAndExpand"
+                                                                 Padding="5">
+                                                        <Label Text="{Binding UserName}"
+                                                               TextColor="{StaticResource GrayTextColor}"
+                                                               Style="{StaticResource DescriptionLabelStyle}" />
+                                                        <BoxView HeightRequest="1"
+                                                                 BackgroundColor="{StaticResource BorderColor}"
+                                                                 HorizontalOptions="FillAndExpand" />
+                                                    </StackLayout>
+                                                </ViewCell>
+                                            </DataTemplate>
+                                        </ListView.ItemTemplate>
+                                        <ListView.Behaviors>
+                                            <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                                               Command="{Binding RecipientSelectionCommand}"
+                                                                               CommandParameter="{Binding SelectedRecipientItem}" />
+                                        </ListView.Behaviors>
+                                    </ListView>
+                                </Frame>
+
+
+                                <StackLayout Grid.Row="1" Grid.Column="2">
+                                    <Frame IsVisible="{Binding SortPickerVisible}">
+                                        <Grid HorizontalOptions="StartAndExpand">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                                <RowDefinition Height="Auto" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.7*" />
+                                                <ColumnDefinition Width="0.3*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Text="Order By" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+                                                   Style="{StaticResource TitleLabelStyle}"
+                                                   TextColor="{StaticResource GrayTextColor}" />
+
+                                            <Label Text="Name" Margin="0,10,0,0" Grid.Row="1"
+                                                   VerticalOptions="CenterAndExpand"
+                                                   Grid.Column="0" Style="{StaticResource DescriptionLabelStyle}"
+                                                   TextColor="{StaticResource GrayTextColor}" />
+                                            <CheckBox HorizontalOptions="StartAndExpand"
+                                                      VerticalOptions="CenterAndExpand"
+                                                      Margin="0,10,0,0" IsChecked="{Binding IsNameSelected}"
+                                                      HeightRequest="25" Grid.Row="1" Grid.Column="1">
+                                                <VisualStateManager.VisualStateGroups>
+                                                    <VisualStateGroup x:Name="CommonStates2">
+                                                        <VisualState x:Name="Normal2">
+                                                            <VisualState.Setters>
+                                                                <Setter Property="Color"
+                                                                        Value="{StaticResource LightGrayColor}" />
+                                                            </VisualState.Setters>
+                                                        </VisualState>
+
+                                                        <VisualState x:Name="IsChecked">
+                                                            <VisualState.Setters>
+                                                                <Setter Property="Color"
+                                                                        Value="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                            </VisualState.Setters>
+                                                        </VisualState>
+                                                    </VisualStateGroup>
+                                                </VisualStateManager.VisualStateGroups>
+                                                <CheckBox.Behaviors>
+                                                    <behaviours:EventToCommandBehavior EventName="CheckedChanged"
+                                                        Command="{Binding OrderByCheckboxChangeCommand}"
+                                                        CommandParameter="0"
+                                                        Converter="{StaticResource CheckedChangedConverter}" />
+                                                </CheckBox.Behaviors>
+                                            </CheckBox>
+
+                                            <Label Text="Class" Grid.Row="2" Grid.Column="0"
+                                                   VerticalOptions="CenterAndExpand"
+                                                   Style="{StaticResource DescriptionLabelStyle}"
+                                                   TextColor="{StaticResource GrayTextColor}" />
+
+                                            <CheckBox HorizontalOptions="StartAndExpand"
+                                                      IsChecked="{Binding IsClassSelected}"
+                                                      HeightRequest="25" Grid.Column="1" Grid.Row="2"
+                                                      VerticalOptions="CenterAndExpand">
+                                                <VisualStateManager.VisualStateGroups>
+                                                    <VisualStateGroup x:Name="CommonStates3">
+                                                        <VisualState x:Name="Normal3">
+                                                            <VisualState.Setters>
+                                                                <Setter Property="Color"
+                                                                        Value="{StaticResource LightGrayColor}" />
+                                                            </VisualState.Setters>
+                                                        </VisualState>
+
+                                                        <VisualState x:Name="IsChecked">
+                                                            <VisualState.Setters>
+                                                                <Setter Property="Color"
+                                                                        Value="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                            </VisualState.Setters>
+                                                        </VisualState>
+                                                    </VisualStateGroup>
+                                                </VisualStateManager.VisualStateGroups>
+                                                <CheckBox.Behaviors>
+                                                    <behaviours:EventToCommandBehavior EventName="CheckedChanged"
+                                                        Command="{Binding OrderByCheckboxChangeCommand}"
+                                                        CommandParameter="1"
+                                                        Converter="{StaticResource CheckedChangedConverter}" />
+                                                </CheckBox.Behaviors>
+                                            </CheckBox>
+                                        </Grid>
+                                    </Frame>
+                                </StackLayout>
+
+
+                            </Grid>
+                        </Grid>
+                        <Frame Padding="5,0,5,0" HasShadow="False" Margin="0,5,0,5"
+                               IsVisible="{Binding IsVisibleRecipientList,Converter={StaticResource ReverseBoolValueConverter}}"
+                               Grid.Row="5" Grid.Column="0" BorderColor="Transparent">
+                            <controls:NoUnderlineEntry Placeholder="Subject" HorizontalOptions="FillAndExpand"
+                                                       Text="{Binding MessageSubject.Value}"
+                                                       Style="{StaticResource EntryFontStyle}"
+                                                       IsEnabled="{Binding IsEnabledSubject}"
+                                                       Margin="0"
+                                                       HeightRequest="{OnPlatform iOS='30', Android='40'}">
+
+                                <controls:NoUnderlineEntry.Behaviors>
+                                    <behaviours:EventToCommandBehavior EventName="TextChanged"
+                                                                       Command="{Binding MessageSubjectTextChangedCommand}" />
+                                    <behaviours:EventToCommandBehavior EventName="Focused"
+                                                                       Command="{Binding CloseListCommand}" />
+                                </controls:NoUnderlineEntry.Behaviors>
+                            </controls:NoUnderlineEntry>
+                        </Frame>
+                        <Label
+                            Text="{Binding MessageSubject.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                            HorizontalOptions="StartAndExpand"
+                            FontSize="Small"
+                            IsVisible="{Binding IsMessageSubjectErrorLabelVisible}"
+                            Margin="3,0,0,0"
+                            TextColor="Red"
+                            Grid.Row="6" Grid.Column="0" />
+
+                        <Frame Padding="5" HasShadow="False"
+                               IsVisible="{Binding IsVisibleRecipientList,Converter={StaticResource ReverseBoolValueConverter}}"
+                               CornerRadius="5" Grid.Row="7" Grid.Column="0" VerticalOptions="FillAndExpand" BorderColor="Transparent">
+                            <StackLayout VerticalOptions="Start">
+                                <controls:BorderlessEditor Placeholder="Message"
+                                                           AutoSize="TextChanges"
+                                                           MaxLength="2000"
+                                                           Margin="0,0,0,0"
+                                                           VerticalOptions="FillAndExpand"
+                                                           Text="{Binding MessageBody.Value}"
+                                                           IsEnabled="{Binding IsEnabledMessage}"
+                                                           Style="{StaticResource EditorFontStyle}">
+                                    <controls:BorderlessEditor.Behaviors>
+                                        <behaviours:EventToCommandBehavior EventName="TextChanged"
+                                                                           Command="{Binding MessageBodyTextChangedCommand}" />
+                                        <behaviours:EventToCommandBehavior EventName="Focused"
+                                                                           Command="{Binding CloseListCommand}" />
+                                    </controls:BorderlessEditor.Behaviors>
+                                </controls:BorderlessEditor>
+                            </StackLayout>
+                        </Frame>
+
+
+                        <Label
+                            Text="{Binding MessageBody.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                            HorizontalOptions="StartAndExpand"
+                            FontSize="Small"
+                            IsVisible="{Binding IsMessageBodyErrorLabelVisible}"
+                            Margin="3,0,0,0"
+                            TextColor="Red"
+                            Grid.Row="8" Grid.Column="0" />
+
+
+                        <StackLayout Padding="0" Spacing="0" Margin="3,0,0,0"
+                                     IsVisible="{Binding AttachmentFiles.Count, Converter={StaticResource IntToBoolValueConverter}}"
+                                     Grid.Row="9" Grid.Column="0">
+                            <Label VerticalOptions="StartAndExpand" TextColor="{StaticResource GrayTextColor}"
+                                   HorizontalOptions="StartAndExpand">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Attachments"
+                                              TextDecorations="Underline"
+                                              Style="{StaticResource TitleLabelStyle }" />
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </StackLayout>
+                        <ListView HasUnevenRows="True"
+                                  IsVisible="{Binding AttachmentFiles.Count, Converter={StaticResource IntToBoolValueConverter}}"
+                                  HorizontalOptions="StartAndExpand"
+                                  ItemsSource="{Binding AttachmentFiles,Mode=TwoWay}"
+                                  SelectionMode="None"
+                                  SeparatorVisibility="None"
+                                  HeightRequest="{Binding AttachmentListViewHeight}"
+                                  Margin="0"
+                                  Grid.RowSpan="2"
+                                  Grid.Row="10" Grid.Column="0">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid HorizontalOptions="FillAndExpand"
+                                              Margin="0,8,0,0"
+                                              VerticalOptions="CenterAndExpand">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            
+                                                <ffimageloading:CachedImage Grid.Column="0" HorizontalOptions="StartAndExpand"
+                                                                            VerticalOptions="CenterAndExpand"
+                                                                            WidthRequest="20"
+                                                                            HeightRequest="20"
+                                                                            Aspect="AspectFit"
+                                                                            Margin="10,0,0,0"
+                                                                            DownsampleToViewSize="True"
+                                                                            Source="{Binding FileName,Converter={StaticResource AttachmentFileToImageSourceConverter}}">
+                                                </ffimageloading:CachedImage>
+                                                <Label Grid.Column="1" Text="{Binding FileName}"
+                                                       TextColor="{StaticResource GrayTextColor}"
+                                                       HorizontalOptions="StartAndExpand"
+                                                       VerticalOptions="CenterAndExpand"
+                                                       Margin="5,0,0,0"
+                                                       Style="{StaticResource AttachmentTextStyle}">
+                                                </Label>
+                                            <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        WidthRequest="24"
+                                                                        HeightRequest="24"
+                                                                        Aspect="AspectFit"
+                                                                        Grid.Row="0"
+                                                                        Grid.Column="2"
+                                                                        DownsampleToViewSize="True"
+                                                                        Source="delete_bin_icon.png">
+                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding BindingContext.DeleteAttachmentClickCommand,Source={x:Reference sendMessagePage}}"
+                                                        CommandParameter="{Binding .}" />
+                                                </ffimageloading:CachedImage.GestureRecognizers>
+                                            </ffimageloading:CachedImage>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+
+                </Grid>
+
+
+            </Grid>
+
+
+            <ScrollView.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference sendMessagePage}}"
+                    Direction="Right" />
+            </ScrollView.GestureRecognizers>
+        </ScrollView>
+
+    </ContentPage.Content>
+</ContentPage>

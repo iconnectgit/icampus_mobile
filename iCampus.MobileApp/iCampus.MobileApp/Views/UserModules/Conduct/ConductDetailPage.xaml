@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             x:Class="iCampus.MobileApp.Views.UserModules.Conduct.ConductDetailPage"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="conductDetailPage">
+    <ContentPage.Content>
+
+        <Grid>
+            <Grid BackgroundColor="{StaticResource BorderColor}" RowDefinitions="Auto,*" ColumnDefinitions="*">
+                <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                             BackgroundColor="White"
+                             Grid.Row="0" Grid.Column="0" />
+                <StackLayout Padding="10,0,10,0" Grid.Row="1" Grid.Column="0">
+                    <StackLayout.Resources>
+                        <ResourceDictionary>
+                            <behaviours:VisiblityConverter x:Key="VisiblityConverter" />
+                        </ResourceDictionary>
+                    </StackLayout.Resources>
+                    <Frame CornerRadius="10" Margin="0,10,0,10" HasShadow="False" Padding="10"
+                           VerticalOptions="FillAndExpand">
+                        <Grid VerticalOptions="FillAndExpand"
+                              RowSpacing="5"
+                              Margin="0,20,0,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.7*" />
+                                <ColumnDefinition Width="0.3*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0"
+                                   Text="{Binding SelectedConduct.ConductNatureName}"
+                                   Grid.Column="0"
+                                   Style="{StaticResource TitleLabelStyle}" />
+                            <StackLayout Grid.Row="0"
+                                         Grid.Column="1"
+                                         Orientation="Horizontal"
+                                         Spacing="0"
+                                         Padding="0,0,0,0"
+                                         HorizontalOptions="EndAndExpand">
+                                <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
+                                                            VerticalOptions="CenterAndExpand"
+                                                            WidthRequest="20"
+                                                            HeightRequest="20"
+                                                            Aspect="AspectFit"
+                                                            Margin="10,0,0,0"
+                                                            DownsampleToViewSize="True"
+                                                            Source="{Binding SelectedConduct.ConductImageType}" />
+                            </StackLayout>
+                            <Label Grid.Row="1"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="2" />
+                            <Label Grid.Row="2"
+                                   Grid.Column="0"
+                                   Style="{StaticResource DescriptionLabelStyle}"
+                                   Text="{Binding SelectedConduct.FormattedIncidentDate,StringFormat='Incident Date: {0}'}" />
+                            <Label Grid.Row="2"
+                                   Text="{Binding SelectedConduct.Points,StringFormat='Points : {0}'}"
+                                   Grid.Column="1"
+                                   Style="{StaticResource DescriptionLabelStyle}"
+                                   FontAttributes="Bold"
+                                   HorizontalTextAlignment="End" />
+                            <BoxView HeightRequest="2"
+                                     Grid.Row="3"
+                                     Grid.Column="0"
+                                     Grid.ColumnSpan="2"
+                                     Color="Red"
+                                     Margin="0,10,0,10"
+                                     BackgroundColor="{StaticResource LightGrayColor}" />
+                            <Label Grid.Row="4"
+                                   Text="{Binding SelectedConduct.ReportedBy, StringFormat='Reported By: {0}'}"
+                                   Grid.Column="0"
+                                   Style="{StaticResource DescriptionLabelStyle}"
+                                   Grid.ColumnSpan="2"
+                                   FontAttributes="Bold"
+                                   VerticalTextAlignment="Center" />
+                            <Label Grid.Row="5"
+                                   IsVisible="{Binding SelectedConduct.ConductComment,Converter={StaticResource VisiblityConverter}}"
+                                   Text="{Binding SelectedConduct.ConductComment, StringFormat='Description: {0}'}"
+                                   Grid.Column="0"
+                                   Style="{StaticResource DescriptionLabelStyle}"
+                                   Grid.ColumnSpan="2" />
+                            <Label Grid.Row="6"
+                                   IsVisible="{Binding SelectedConduct.FormattedActionTakenDateTime,Converter={StaticResource VisiblityConverter}}"
+                                   Text="{Binding SelectedConduct.FormattedActionTakenDateTime,StringFormat='Action Taken Date: {0}'}"
+                                   Grid.Column="0"
+                                   Grid.ColumnSpan="2"
+                                   Style="{StaticResource DescriptionLabelStyle}" />
+                            <Label Grid.Row="7"
+                                   IsVisible="{Binding SelectedConduct.Comments,Converter={StaticResource VisiblityConverter}}"
+                                   Text="{Binding SelectedConduct.Comments, StringFormat='Action Details: {0}'}"
+                                   Grid.Column="0"
+                                   Style="{StaticResource DescriptionLabelStyle}"
+                                   Grid.ColumnSpan="2" />
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

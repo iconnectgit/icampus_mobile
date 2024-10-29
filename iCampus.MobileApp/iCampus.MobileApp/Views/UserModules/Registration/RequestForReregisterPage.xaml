@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="iCampus.MobileApp.Views.UserModules.Registration.RequestForReregisterPage"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:formValidation="clr-namespace:iCampus.MobileApp.Library.FormValidation"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="requestForReregisterPage">
+    <ContentPage.Content>
+
+        <Grid VerticalOptions="FillAndExpand"
+              BackgroundColor="{StaticResource BorderColor}" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*"
+              Margin="0,0,0,0">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <behaviours:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter" />
+                </ResourceDictionary>
+            </Grid.Resources>
+
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         VerticalOptions="StartAndExpand"
+                         BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
+            <StackLayout Grid.Row="1" Grid.Column="0" Margin="10" BackgroundColor="White" >
+                <StackLayout VerticalOptions="Start">
+                    <ListView ItemsSource="{Binding ExistingStudents,Mode=TwoWay}"
+                              HasUnevenRows="True" VerticalScrollBarVisibility="Never"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              VerticalOptions="FillAndExpand"
+                              HeightRequest="{Binding ListViewHeight}"
+                              SeparatorVisibility="None" SelectionMode="None"
+                              x:Name="existingStudentsListview">
+                        <x:Arguments>
+                            <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                        </x:Arguments>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Orientation="Vertical" Margin="10">
+                                        <StackLayout Margin="0,5,0,0" Orientation="Horizontal">
+                                            <Label Text="Student Name : " Style="{StaticResource TitleLabelStyle}"
+                                                   VerticalTextAlignment="Center" Margin="0,0,0,0" />
+                                            <Label Text="{Binding StudentName}"
+                                                   Style="{StaticResource DescriptionLabelStyle}"
+                                                   VerticalTextAlignment="Center" Margin="0,0,0,0" />
+                                        </StackLayout>
+                                        <StackLayout Margin="0,5,0,0" Orientation="Horizontal">
+                                            <Label Text="Grade : " Style="{StaticResource TitleLabelStyle}"
+                                                   VerticalTextAlignment="Center" Margin="0,0,0,0" />
+                                            <Label Text="{Binding NextGradeName}"
+                                                   Style="{StaticResource DescriptionLabelStyle}"
+                                                   VerticalTextAlignment="Center" Margin="0,0,0,0" />
+                                        </StackLayout>
+                                        <StackLayout Margin="0,5,0,0" Orientation="Horizontal"
+                                                     IsVisible="{Binding BindingContext.IsRegistrationFeesVisible, Source={x:Reference existingStudentsListview}}">
+                                            <Label Text="Registration Fees : " Style="{StaticResource TitleLabelStyle}"
+                                                   VerticalTextAlignment="Center" Margin="0,0,0,0" />
+                                            <Label Text="{Binding FeesAmount}"
+                                                   Style="{StaticResource DescriptionLabelStyle}"
+                                                   VerticalTextAlignment="Center" Margin="0,0,0,0" />
+                                            <Label Text="{Binding CurrencyCode}"
+                                                   Style="{StaticResource DescriptionLabelStyle}"
+                                                   VerticalTextAlignment="Center" Margin="5,0,0,0" />
+                                        </StackLayout>
+                                        <StackLayout Orientation="Vertical" Margin="0,10,0,0"
+                                                     IsVisible="{Binding BindingContext.IsStudentImageUploadVisible, Source={x:Reference existingStudentsListview}}">
+                                            <Frame HasShadow="False" Padding="5" BackgroundColor="White"
+                                                   HorizontalOptions="StartAndExpand"
+                                                   BorderColor="#E8E8E8">
+                                                <StackLayout Orientation="Horizontal"
+                                                             Spacing="0" IsClippedToBounds="True"
+                                                             HorizontalOptions="Start"
+                                                             VerticalOptions="CenterAndExpand">
+                                                    <ffimageloading:CachedImage 
+                                                        HorizontalOptions="StartAndExpand"
+                                                        VerticalOptions="CenterAndExpand"
+                                                        WidthRequest="15"
+                                                        HeightRequest="15"
+                                                        Aspect="AspectFit"
+                                                        DownsampleToViewSize="True"
+                                                        Source="attachment_icon.png" />
+                                                    <Label HorizontalOptions="Start"
+                                                           VerticalOptions="CenterAndExpand"
+                                                           Margin="5,0,0,0"
+                                                           Text="Update Photo"
+                                                           Style="{StaticResource DescriptionLabelStyle }"
+                                                           IsVisible="{Binding IsStudentPictureUploaded}" />
+                                                    <Label HorizontalOptions="Start"
+                                                           VerticalOptions="CenterAndExpand"
+                                                           Margin="5,0,0,0"
+                                                           Text="Add Photo"
+                                                           Style="{StaticResource DescriptionLabelStyle }"
+                                                           IsVisible="{Binding IsStudentPictureUploaded,Converter={StaticResource ReverseBoolValueConverter}}" />
+                                                    <StackLayout.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.UpdatePhotoClickCommand,Source={x:Reference existingStudentsListview}}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </StackLayout.GestureRecognizers>
+                                                </StackLayout>
+                                            </Frame>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+                <StackLayout Margin="10,5,10,10" Orientation="Horizontal" VerticalOptions="StartAndExpand"
+                             HorizontalOptions="EndAndExpand">
+                    <Label Text="Total : " Style="{StaticResource TitleLabelStyle}" VerticalTextAlignment="Center"
+                           FontSize="Medium" />
+                    <Label Text="{Binding TotalFeesAmount, StringFormat='{}{0:F3}'}"
+                           Style="{StaticResource TitleLabelStyle}" VerticalTextAlignment="Center" FontSize="Medium" />
+                    <Label Text="{Binding CurrencyCode}" Style="{StaticResource TitleLabelStyle}"
+                           VerticalTextAlignment="Center" FontSize="Medium" Margin="5,0,0,0" />
+                </StackLayout>
+            </StackLayout>
+
+
+            <StackLayout VerticalOptions="EndAndExpand" Margin="0,0,0,0" Grid.Row="2" Grid.Column="0">
+                <StackLayout Spacing="0" Margin="10,10,10,10" VerticalOptions="End"
+                             IsVisible="{Binding IsConfirmButtonVisible}">
+                    <Button
+                        Text="Confirm"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        VerticalOptions="End"
+                        BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                        HorizontalOptions="FillAndExpand"
+                        Margin="0,0,0,0"
+                        CornerRadius="6"
+                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                        Command="{Binding ConfirmCommand}" />
+                </StackLayout>
+                <StackLayout Spacing="0" Margin="10,10,10,10" VerticalOptions="End"
+                             IsVisible="{Binding IsUploadPhotoButtonVisible}">
+                    <Button
+                        Text="Please Upload Student Photo"
+                        FontSize="16"
+                        FontAttributes="Bold"
+                        TextColor="White"
+                        VerticalOptions="End"
+                        BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                        HorizontalOptions="FillAndExpand"
+                        Margin="0,0,0,0"
+                        CornerRadius="6"
+                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                        Command="{Binding UploadStudentPhotoCommand}" />
+                </StackLayout>
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand"
+                             HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference requestForReregisterPage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,1146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="EmptyEmailError" xml:space="preserve">
+    <value>Please enter the email</value>
+  </data>
+  <data name="EmptyPasswordError" xml:space="preserve">
+    <value>Please enter the password</value>
+  </data>
+  <data name="BackTitle" xml:space="preserve">
+    <value>&lt;</value>
+  </data>
+  <data name="HomePageNewsPath" xml:space="preserve">
+    <value>api/guestuser/GetFilteredSiteNews</value>
+  </data>
+  <data name="InternetConnectionError" xml:space="preserve">
+    <value>No connection</value>
+  </data>
+  <data name="MobileAppLoginUrlDemo" xml:space="preserve">
+    <value>http://cpanel.isas.icampus.iconnect.ae/api/account</value>
+  </data>
+  <data name="PublicKey" xml:space="preserve">
+    <value>4d53bce03ec34c0a911182d4c228ee6c</value>
+  </data>
+  <data name="SecretKey" xml:space="preserve">
+    <value>A93reRTUJHsCuQSHR+L3GxqOJyDmQpCgps102ciuabc=</value>
+  </data>
+  <data name="MenuStructurePath" xml:space="preserve">
+    <value>api/home/GetMenuStructureById</value>
+  </data>
+  <data name="StudentPath" xml:space="preserve">
+    <value>api/home/GetStudentsByFamily</value>
+  </data>
+  <data name="InvalidEmailError" xml:space="preserve">
+    <value>Please enter valid email</value>
+  </data>
+  <data name="ExceptionMessage" xml:space="preserve">
+    <value>Something went wrong, please try again later.</value>
+  </data>
+  <data name="ICampusText" xml:space="preserve">
+    <value>iCampus</value>
+  </data>
+  <data name="CalendarPageHomeWorkTitle" xml:space="preserve">
+    <value>HomeWork</value>
+  </data>
+  <data name="CampusKeyPageTitle" xml:space="preserve">
+    <value>Campus Key</value>
+  </data>
+  <data name="CampusKeyApiUrl" xml:space="preserve">
+    <value>api/cashless/getcashlesscampusdata</value>
+  </data>
+  <data name="CalendarAgendaApiUrl" xml:space="preserve">
+    <value>api/calendar/getcalendaragendalist</value>
+  </data>
+  <data name="HomeWorkBackTitle" xml:space="preserve">
+    <value>HomeWork</value>
+  </data>
+  <data name="UserDataCache" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="BusTrackingPageTitle" xml:space="preserve">
+    <value>Bus Tracking</value>
+  </data>
+  <data name="CalendarPageTitle" xml:space="preserve">
+    <value>Calendar</value>
+  </data>
+  <data name="FilterAgendaTitle" xml:space="preserve">
+    <value>Search Agenda</value>
+  </data>
+  <data name="AgendaTypePath" xml:space="preserve">
+    <value>api/calendar/GetAgendaTypes</value>
+  </data>
+  <data name="CampusKeyInvoiceDetailsApiUrl" xml:space="preserve">
+    <value>api/cashless/getcashlessinvoicedetails?saleId={0}</value>
+  </data>
+  <data name="ComplaintsPageTitle" xml:space="preserve">
+    <value>Complaints</value>
+  </data>
+  <data name="ComplaintsListApiUrl" xml:space="preserve">
+    <value>api/complaints/GetUserComplaintData?loadFilterPanelLists={0}</value>
+  </data>
+  <data name="NextIcon" xml:space="preserve">
+    <value>&gt;</value>
+  </data>
+  <data name="CampusKeyDetailsAED" xml:space="preserve">
+    <value>AED</value>
+  </data>
+  <data name="CampusKeyDetailsBilNo" xml:space="preserve">
+    <value>Bill No.</value>
+  </data>
+  <data name="CampusKeyDetailsTotal" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="EventCommandErrorText" xml:space="preserve">
+    <value>EventToCommandBehavior: Can't register the '{0}' event.</value>
+  </data>
+  <data name="NewsPageTitle" xml:space="preserve">
+    <value>News</value>
+  </data>
+  <data name="BusTrackingApiUrl" xml:space="preserve">
+    <value>api/bustracking/getbustrackingdetails?studentId={0}</value>
+  </data>
+  <data name="CommunicationPageTitle" xml:space="preserve">
+    <value>Inbox</value>
+  </data>
+  <data name="DownArrowText" xml:space="preserve">
+    <value>v</value>
+  </data>
+  <data name="InboxText" xml:space="preserve">
+    <value>Inbox</value>
+  </data>
+  <data name="SentText" xml:space="preserve">
+    <value>Sent</value>
+  </data>
+  <data name="TimeTablePageTitle" xml:space="preserve">
+    <value>Timetable</value>
+  </data>
+  <data name="TimeTableApiUrl" xml:space="preserve">
+    <value>api/timetable/gettimetable?studentId={0}</value>
+  </data>
+  <data name="ExamApiUrl" xml:space="preserve">
+    <value>api/exam/getexamschedule</value>
+  </data>
+  <data name="TimeTableFilePathErrorMessage" xml:space="preserve">
+    <value>Not Available</value>
+  </data>
+  <data name="BusAttendanceDetailsAPIUrl" xml:space="preserve">
+    <value>api/bustracking/getbusattendancedetails?studentid={0}&amp;busid={1}&amp;shiftid={2}</value>
+  </data>
+  <data name="BusAttendanceHeaderTitle" xml:space="preserve">
+    <value>Bus Attendance : {0}</value>
+  </data>
+  <data name="FromSchool" xml:space="preserve">
+    <value>From School</value>
+  </data>
+  <data name="ToSchool" xml:space="preserve">
+    <value>To School</value>
+  </data>
+  <data name="DateFormatKey" xml:space="preserve">
+    <value>MMM d, yyyy</value>
+  </data>
+  <data name="PastExamText" xml:space="preserve">
+    <value>Past Exam</value>
+  </data>
+  <data name="UpcomingExamText" xml:space="preserve">
+    <value>Upcoming Exam</value>
+  </data>
+  <data name="NextText" xml:space="preserve">
+    <value>Next &gt;</value>
+  </data>
+  <data name="PreviousText" xml:space="preserve">
+    <value>&lt; Previous</value>
+  </data>
+  <data name="NoDataFound" xml:space="preserve">
+    <value>No data found</value>
+  </data>
+  <data name="ReportCardApiUrl" xml:space="preserve">
+    <value>api/reportcard/getreportcardfile?studentId={0}&amp;termId={1}&amp;reportCardOption={2}&amp;academicyear={3}</value>
+  </data>
+  <data name="ReportCardText" xml:space="preserve">
+    <value>Report Card</value>
+  </data>
+  <data name="CircularListApiUrl" xml:space="preserve">
+    <value>api/guestuser/getfilteredcircularmessages?fromDate={0}&amp;toDate={1}&amp;loadHomePageData={2}</value>
+  </data>
+  <data name="MessageFromSchoolPageTitle" xml:space="preserve">
+    <value>Message From School</value>
+  </data>
+  <data name="OkText" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="ReportIssueAlertMsg" xml:space="preserve">
+    <value>If you are facing any issues, please write to: mobile@iconnect.ae</value>
+  </data>
+  <data name="ReportIssueAlertTitle" xml:space="preserve">
+    <value>Having Trouble?</value>
+  </data>
+  <data name="AboutUrl" xml:space="preserve">
+    <value>http://iconnect.ae/icampusm/helpcenter/?st_kb=whats-new-in-icampus-mobile-1-0</value>
+  </data>
+  <data name="HelpCenterUrl" xml:space="preserve">
+    <value>http://iconnect.ae/icampusm/helpcenter.html</value>
+  </data>
+  <data name="PrivacyPolicyUrl" xml:space="preserve">
+    <value>http://iconnect.ae/icampusm/helpcenter.html</value>
+  </data>
+  <data name="CommunicationApiUrl" xml:space="preserve">
+    <value>api/communication/GetCommunicationMessages?folderType={0}&amp;searchString=</value>
+  </data>
+  <data name="CommunicationDateFormatKey" xml:space="preserve">
+    <value>MMM d yyyy, hh:mm tt</value>
+  </data>
+  <data name="ActiveTermApiUrl" xml:space="preserve">
+    <value>api/reportcard/GetReportCardsActiveTerms</value>
+  </data>
+  <data name="FilterReportCardTitle" xml:space="preserve">
+    <value>Search Report Card</value>
+  </data>
+  <data name="EventPageApiUrl" xml:space="preserve">
+    <value>api/calendar/getcalendareventlist?fromDate={0}&amp;toDate={1}</value>
+  </data>
+  <data name="EventPageTitle" xml:space="preserve">
+    <value>Events &amp; Holidays</value>
+  </data>
+  <data name="FilterEventTitle" xml:space="preserve">
+    <value>Search Events</value>
+  </data>
+  <data name="AlertsPageTitle" xml:space="preserve">
+    <value>Alerts</value>
+  </data>
+  <data name="CircularsPageTitle" xml:space="preserve">
+    <value>Circulars</value>
+  </data>
+  <data name="LogoutApiUrl" xml:space="preserve">
+    <value>api/account/logoffuser?token={0}&amp;deviceId={1}&amp;deviceType={2}</value>
+  </data>
+  <data name="FinancialStatementApiUrl" xml:space="preserve">
+    <value>api/financialstatement/getfinancialstatementdetails</value>
+  </data>
+  <data name="ClearCacheAlertMsg" xml:space="preserve">
+    <value>Are you sure want to clear cache and data for this application?</value>
+  </data>
+  <data name="ClearCacheText" xml:space="preserve">
+    <value>Clear Cache</value>
+  </data>
+  <data name="NoText" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="PushNotificationKey" xml:space="preserve">
+    <value>PushEnabled</value>
+  </data>
+  <data name="YesText" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="CommunicationDetailsAPIUrl" xml:space="preserve">
+    <value>api/communication/getmessagedetail</value>
+  </data>
+  <data name="FinancialStatementText" xml:space="preserve">
+    <value>Financial Statement</value>
+  </data>
+  <data name="DeleteConfirmationMessageText" xml:space="preserve">
+    <value>Are you sure you want to delete this message?</value>
+  </data>
+  <data name="DeleteConfirmationTitle" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DeleteMessageAPIUrl" xml:space="preserve">
+    <value>api/communication/deletemessages?messageIds={0}&amp;deleteMessagesUnderSameParent={1}</value>
+  </data>
+  <data name="SchoolContactDetailsApiUrl" xml:space="preserve">
+    <value>api/contactus/getschoolcontactdetails</value>
+  </data>
+  <data name="ContactUsPageTitle" xml:space="preserve">
+    <value>Contact Us</value>
+  </data>
+  <data name="AttendanceApiUrl" xml:space="preserve">
+    <value>api/attendance/getstudentattendance?startDate={0}&amp;endDate={1}&amp;studentId={2}&amp;type={3}&amp;termId={4}&amp;groupingPeriod={5}&amp;loadFilterPanelLists={6}</value>
+  </data>
+  <data name="BeamAttendanceApiUrl" xml:space="preserve">
+    <value>api/attendance/getstudentattendancenew?startDate={0}&amp;endDate={1}&amp;studentId={2}&amp;termId={3}&amp;groupingPeriod={4}&amp;loadFilterPanelLists={5}</value>
+  </data>
+  <data name="FilterAttendanceTitle" xml:space="preserve">
+    <value>Search Attendance</value>
+  </data>
+  <data name="SendMessagePageTitle" xml:space="preserve">
+    <value>Send Message</value>
+  </data>
+  <data name="TroubleSignInInformation" xml:space="preserve">
+    <value>If you are facing any issues, please write to: </value>
+  </data>
+  <data name="TroubleSignInTitle" xml:space="preserve">
+    <value>Having Trouble ?</value>
+  </data>
+  <data name="TeacherAppointmentApiUrl" xml:space="preserve">
+    <value>api/appointments/getteacherappointmentdata?studentId={0}</value>
+  </data>
+  <data name="TeacherAppointmentTitle" xml:space="preserve">
+    <value>Teacher Appointment</value>
+  </data>
+  <data name="AttendanceTermApiUrlPath" xml:space="preserve">
+    <value>api/attendance/getstudentterms?studentId={0}</value>
+  </data>
+  <data name="DateFormatKey1" xml:space="preserve">
+    <value>MMMM, yyyy</value>
+  </data>
+  <data name="DateFormatKey2" xml:space="preserve">
+    <value>dd/MM/yyyy</value>
+  </data>
+  <data name="DateFormatKey3" xml:space="preserve">
+    <value>dd-MMM-yyyy</value>
+  </data>
+  <data name="StudentConductDataApiUrl" xml:space="preserve">
+    <value>api/conduct/getstudentconductdata?conductType={0}&amp;fromDate={1}&amp;toDate={2}&amp;studentId={3}&amp;loadFilterPanelLists={4}</value>
+  </data>
+  <data name="RecipientListApiUrl" xml:space="preserve">
+    <value>api/communication/GetCommunicationMessageRecipients?studentId={0}&amp;searchText={1}&amp;rowStart={2}&amp;maxRowCount={3}</value>
+  </data>
+  <data name="SendMessageApiUrl" xml:space="preserve">
+    <value>api/communication/sendmessage?messageTo={0}&amp;mesageBody={1}&amp;messageSubject={2}&amp;parentId={3}&amp;isReplyToParent={4}&amp;messageStudentId={5}</value>
+  </data>
+  <data name="RaiseComplaintsTitle" xml:space="preserve">
+    <value>Raise Complaints</value>
+  </data>
+  <data name="RecipientSelectionInfoMessage" xml:space="preserve">
+    <value>Type minimum 3 characters to see student list</value>
+  </data>
+  <data name="RecipientSelectionInfoText" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="ContactUsMessageTemplate" xml:space="preserve">
+    <value>Department:{0}\nName: {1} \nEmail Id: {2}\nContact Number: {3}\nMessage: {4}</value>
+  </data>
+  <data name="ContactUsSendMessageApiUrl" xml:space="preserve">
+    <value>api/contactus/sendmessage?toEmailAddress={0}&amp;subject={1}&amp;body={2}</value>
+  </data>
+  <data name="FilterConductTitle" xml:space="preserve">
+    <value>Search Conducts</value>
+  </data>
+  <data name="FilterMedicalTitle" xml:space="preserve">
+    <value>Search Medical</value>
+  </data>
+  <data name="SendComplaintApiUrl" xml:space="preserve">
+    <value>api/Complaints/UpdateUserComplaintData</value>
+  </data>
+  <data name="DeleteText" xml:space="preserve">
+    <value>Are you sure you want to delete?</value>
+  </data>
+  <data name="EditComplaintTitle" xml:space="preserve">
+    <value>Edit Complaints</value>
+  </data>
+  <data name="CustomAlertsApiUrl" xml:space="preserve">
+    <value>api/customalerts/GetUserAllCustomAlerts?loadAlertHistory={0}</value>
+  </data>
+  <data name="DeleteComplaintApiUrl" xml:space="preserve">
+    <value>api/complaints/DeleteUserComplaintData?id={0}</value>
+  </data>
+  <data name="ContactUsEmailSubject" xml:space="preserve">
+    <value>Contact Us Form Mail</value>
+  </data>
+  <data name="EmptyContactError" xml:space="preserve">
+    <value>Please enter your contact number</value>
+  </data>
+  <data name="EmptyMessageError" xml:space="preserve">
+    <value>Please enter the message</value>
+  </data>
+  <data name="EmptyNameError" xml:space="preserve">
+    <value>Please enter your name</value>
+  </data>
+  <data name="EmptyTypeError" xml:space="preserve">
+    <value>Please select a type</value>
+  </data>
+  <data name="AttendanceDetailsApiUrl" xml:space="preserve">
+    <value>api/attendance/getstudentattendancedetails?startDate={0}&amp;endDate={1}&amp;studentId={2}&amp;type={3}&amp;termId={4}&amp;groupingPeriod={5}&amp;loadFilterPanelLists={6}</value>
+  </data>
+  <data name="CommunicationReplyApiUrl" xml:space="preserve">
+    <value>api/communication/replymessage?messageId={0}&amp;parentId={1}&amp;folderType={2}</value>
+  </data>
+  <data name="UpdateCustomAlertApiUrl" xml:space="preserve">
+    <value>api/customalerts/UpdateFeedBackAlertMessage</value>
+  </data>
+  <data name="TodaysDateTimeFormatKey" xml:space="preserve">
+    <value>hh:mm tt</value>
+  </data>
+  <data name="PleaseEnterComment" xml:space="preserve">
+    <value>Please enter comment</value>
+  </data>
+  <data name="TeacherAppointmentDeleteApiUrl" xml:space="preserve">
+    <value>api/appointments/deleteteacherappointment?appointmentBookingId={0}</value>
+  </data>
+  <data name="School" xml:space="preserve">
+    <value>School</value>
+  </data>
+  <data name="FamilyAppointmentUrl" xml:space="preserve">
+    <value>api/appointments/getfamilyappointmentlist</value>
+  </data>
+  <data name="FamilyAppointmentPageTitle" xml:space="preserve">
+    <value>Family Appointment</value>
+  </data>
+  <data name="AppointmentComments" xml:space="preserve">
+    <value>Appointment Comments</value>
+  </data>
+  <data name="LogoutPopupConfirmationText" xml:space="preserve">
+    <value>Are you sure you want to log out?</value>
+  </data>
+  <data name="LogoutPopupTitle" xml:space="preserve">
+    <value>Log Out </value>
+  </data>
+  <data name="EmptyMessageBodyError" xml:space="preserve">
+    <value>Please enter message body</value>
+  </data>
+  <data name="EmptyMessageSubjectErrror" xml:space="preserve">
+    <value>Please enter message subject</value>
+  </data>
+  <data name="EmptyRecipientError" xml:space="preserve">
+    <value>Please select recipient</value>
+  </data>
+  <data name="EmptyFromError" xml:space="preserve">
+    <value>Please select sender</value>
+  </data>
+  <data name="UpdateTeacherAppointmentApiUrl" xml:space="preserve">
+    <value>api/appointments/updateteacherappointment?appointmentBookingId={0}&amp;parentComment={1}</value>
+  </data>
+  <data name="AppointmentAvailableTimeApiUrl" xml:space="preserve">
+    <value>api/appointments/getappointmentavailabletimes?appointmentSettingsId={0}&amp;teacherId={1}&amp;studentId={2}</value>
+  </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="UpdateFamilyAppointmentCommentUrl" xml:space="preserve">
+    <value>api/appointments/UpdateFamilyAppointmentComment?appointmentBookingId={0}&amp;teacherComment={1}</value>
+  </data>
+  <data name="EmailSendingFailed" xml:space="preserve">
+    <value>Email sending failed - server unavailable</value>
+  </data>
+  <data name="DefaultButtonColor" xml:space="preserve">
+    <value>#54D08C</value>
+  </data>
+  <data name="UpdateFamilyAppointmentStatusUrl" xml:space="preserve">
+    <value>api/appointments/UpdateFamilyAppointmentStatus?appointmentBookingId={0}&amp;statusId={1}</value>
+  </data>
+  <data name="AppointmentConfirmationMessage" xml:space="preserve">
+    <value>Are you sure, your appointment date and time is {0} {1} for {2} ?</value>
+  </data>
+  <data name="BookTeacherAppointmentApiUrl" xml:space="preserve">
+    <value>api/appointments/bookteacherappointment?teacherId={0}&amp;studentId={1}&amp;bookingDate={2}&amp;bookingTime={3}&amp;appointmentSettingsId={4}&amp;teacherName={5}</value>
+  </data>
+  <data name="AppointmentUpdatedSuccess" xml:space="preserve">
+    <value>Appointment booked successfully</value>
+  </data>
+  <data name="PushNotificationDisabledMessage" xml:space="preserve">
+    <value>Push notification is disabled in Settings</value>
+  </data>
+  <data name="PushNotificationIntervalMinutes" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="PushNotificationListApiUrl" xml:space="preserve">
+    <value>api/notification/GetPushNotificationList</value>
+  </data>
+  <data name="FileTypeNotAllowed" xml:space="preserve">
+    <value>Invalid file type ({0})</value>
+  </data>
+  <data name="LargeFileSize" xml:space="preserve">
+    <value>File size can't exceed {0}MB.</value>
+  </data>
+  <data name="PushNotificationTitle" xml:space="preserve">
+    <value>Push Notifications</value>
+  </data>
+  <data name="DeviceMaxPortraitSize" xml:space="preserve">
+    <value>420</value>
+  </data>
+  <data name="SenderValueMaxLength" xml:space="preserve">
+    <value>25</value>
+  </data>
+  <data name="NoNewPushNotificationsMessage" xml:space="preserve">
+    <value>You have no new notifications</value>
+  </data>
+  <data name="EmptyPushNotificationsIcon" xml:space="preserve">
+    <value>EmptyPushNotificationIcon.png</value>
+  </data>
+  <data name="FilledPushNotificationsIcon" xml:space="preserve">
+    <value>FilledPushNotificationIcon.png</value>
+  </data>
+  <data name="PushNotificationsCountKey" xml:space="preserve">
+    <value>PushNotificationsCount</value>
+  </data>
+  <data name="SearchStudentAttendanceTitle" xml:space="preserve">
+    <value>Search Attendance</value>
+  </data>
+  <data name="SISApiConfigurationUrl" xml:space="preserve">
+    <value>api/account/getapiconfiguration</value>
+  </data>
+  <data name="StudentAttendanceApiUrl" xml:space="preserve">
+    <value>api/attendance/getattendancedata?attendanceDate={0}&amp;classId={1}&amp;attendanceMode={2}&amp;curriculumId={3}&amp;periodId={4}&amp;isElective={5}&amp;defaultSortByCode={6}&amp;showNameInArabic={7}</value>
+  </data>
+  <data name="GetStudentCourseAndClassApiUrl" xml:space="preserve">
+    <value>api/attendance/getcourseandclassesbygrade?gradeId={0}&amp;isElective={1}</value>
+  </data>
+  <data name="GetStudentPeriodApiUrl" xml:space="preserve">
+    <value>api/attendance/getperiodsbyclass?classId={0}&amp;date={1}&amp;isElectiveClassAttendance={2}&amp;checkPeriodTime={3}&amp;checkHoliday={4}</value>
+  </data>
+  <data name="VersionText" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="StudentAttendanceFilterListApiUrl" xml:space="preserve">
+    <value>api/attendance/getattendancefilterpaneldata?loadFilterPanelLists={0}</value>
+  </data>
+  <data name="UpdateAttendanceApiUrl" xml:space="preserve">
+    <value>api/attendance/updateattendancerecords</value>
+  </data>
+  <data name="StudentAttendancePageTitle" xml:space="preserve">
+    <value>Student Attendance</value>
+  </data>
+  <data name="AttendanceSaveSuccessMessage" xml:space="preserve">
+    <value>Attendance saved successfully</value>
+  </data>
+  <data name="GetTeacherRelativeClassesByCourse" xml:space="preserve">
+    <value>api/attendance/getteacherelectiveclassesbycurriculum?curriculumId={0}</value>
+  </data>
+  <data name="ExamPageTitle" xml:space="preserve">
+    <value>Exams</value>
+  </data>
+  <data name="TeacherAppointmentPageTitle" xml:space="preserve">
+    <value>Teacher Appointment</value>
+  </data>
+  <data name="MinimumCacheRecordSize" xml:space="preserve">
+    <value>500</value>
+  </data>
+  <data name="DataRefreshTimerIntervalMinutes" xml:space="preserve">
+    <value>5</value>
+  </data>
+ <data name="HomePageDataApiUrl" xml:space="preserve">
+    <value>api/account/gethomepagedata?emailId={0}&amp;fromDate={1}&amp;toDate={2}&amp;deviceType={3}&amp;password={4}&amp;clientCode={5}&amp;clientGroupCode={6}</value>
+  </data>
+  <data name="UserAppInfoUpdateApiUrl" xml:space="preserve">
+    <value>api/home/updatemobileappuserinstallations?appVersion={0}</value>
+  </data>
+  <data name="UpdateAppMessage" xml:space="preserve">
+    <value>Looks like you are running an older version. Upgrade to get a faster &amp; smoother experience on our latest app</value>
+  </data>
+  <data name="UpdateAppTitle" xml:space="preserve">
+    <value>Update your app now!</value>
+  </data>
+  <data name="UpdateLaterText" xml:space="preserve">
+    <value>Later</value>
+  </data>
+  <data name="UpdateNowText" xml:space="preserve">
+    <value>Upgrade Now</value>
+  </data>
+  <data name="UpdateNotificationSettingApiUrl" xml:space="preserve">
+    <value>api/notification/UpdateMobileNotificationSettings?status={0}&amp;token={1}&amp;deviceId={2}&amp;deviceType={3}</value>
+  </data>
+  <data name="UpdateTokenApiUrl" xml:space="preserve">
+    <value>api/notification/UpdateMobileDeviceToken?token={0}&amp;deviceId={1}&amp;deviceType={2}</value>
+  </data>
+  <data name="AgendaCancellationText" xml:space="preserve">
+    <value>( Agenda cancelled by {0} on {1} )</value>
+  </data>
+  <data name="SearchDailyMarks" xml:space="preserve">
+    <value>Search Daily Marks</value>
+  </data>
+  <data name="DailyMarksApiUrl" xml:space="preserve">
+    <value>api/dailymarks/getstudentmarksdata?studentId={0}&amp;loadFilterPanelLists={1}&amp;curriculumId={2}&amp;classId={3}&amp;termId={4}&amp;teacherId={5}&amp;monthlyTermId={6}</value>
+  </data>
+  <data name="NoAppointmentDateMessage" xml:space="preserve">
+    <value>No appointment date available.</value>
+  </data>
+  <data name="CommunicationClassListApiUrl" xml:space="preserve">
+    <value>api/communication/getclassesbygrade?gradeId={0}</value>
+  </data>
+  <data name="CommunicationGradeListApiUrl" xml:space="preserve">
+    <value>api/communication/getcommunicationfilterpaneldata</value>
+  </data>
+  <data name="IsDemoApp" xml:space="preserve">
+    <value>true</value>
+  </data>
+  <data name="MobileAppLoginUrlLive" xml:space="preserve">
+    <value>http://generic.mobile.api.iconnect.ae/api/account</value>
+  </data>
+  <data name="BeamMobileAppLoginUrlLive" xml:space="preserve">
+    <value>http://muw.mobile.api.iconnect.ae/api/account</value>
+  </data>
+  <data name="FamilyAppointmentStatusUpdateApiUrl" xml:space="preserve">
+    <value>api/appointments/UpdateFamilyAppointmentStatus?appointmentBookingId={0}&amp;statusId={1}</value>
+  </data>
+  <data name="AppointmentApproveMessage" xml:space="preserve">
+    <value>Appointment approved successfully</value>
+  </data>
+  <data name="AppointmentCompleteMessage" xml:space="preserve">
+    <value>Appointment completed successfully</value>
+  </data>
+  <data name="ApproveConfirmationMessage" xml:space="preserve">
+    <value>Are you sure you want to approve the appointment booked on {0} for {1} ?</value>
+  </data>
+  <data name="CompleteConfirmationMessage" xml:space="preserve">
+    <value>Did you complete the appointment?</value>
+  </data>
+  <data name="SendingFailedMessage" xml:space="preserve">
+    <value>Some error occured while sending message</value>
+  </data>
+  <data name="LocationAccessDeniedMessage" xml:space="preserve">
+    <value>Map will not be visible as location access to this app is denied by you</value>
+  </data>
+  <data name="LocationAccessDeniedTitle" xml:space="preserve">
+    <value>Location access denied!!!</value>
+  </data>
+  <data name="NextWeekText" xml:space="preserve">
+    <value>(Next Week)</value>
+  </data>
+  <data name="PrevWeekText" xml:space="preserve">
+    <value>(Prev Week)</value>
+  </data>
+  <data name="ThisWeekText" xml:space="preserve">
+    <value>(This Week)</value>
+  </data>
+  <data name="WeekDateFormatKey" xml:space="preserve">
+    <value>dd MMM</value>
+  </data>
+  <data name="GetAgendaColorApiUrl" xml:space="preserve">
+    <value>api/calendar/GetExpandedMonthlyOrWeeklyCalendarData?currentDate={0}&amp;calendarType={1}&amp;studentId={2}</value>
+  </data>
+  <data name="AutoLogoutMessage" xml:space="preserve">
+    <value>Please login again.</value>
+  </data>
+  <data name="AutoLogoutTitle" xml:space="preserve">
+    <value>Invalid User Session!</value>
+  </data>
+  <data name="SkillReportCardText" xml:space="preserve">
+    <value>Skill Report Card</value>
+  </data>
+  <data name="SelectRecipientText" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="BeamSelectRecipientText" xml:space="preserve">
+    <value>To</value>
+  </data>
+  <data name="RecipientDataCacheTime" xml:space="preserve">
+    <value>1800</value>
+  </data>
+  <data name="RecipientRestrictionAlertMessage" xml:space="preserve">
+    <value>Max allowed recipient count in single message is {0}</value>
+  </data>
+  <data name="SurveyDetailsApiUrl" xml:space="preserve">
+    <value>api/survey/getsurveydetails?surveyId={0}</value>
+  </data>
+  <data name="SurveyValidationMsg" xml:space="preserve">
+    <value>Please fill mandatory fields</value>
+  </data>
+  <data name="SurveySubmitApiUrl" xml:space="preserve">
+    <value>api/survey/savesurveyanswers?surveyId={0}&amp;studentId={1}&amp;surveyAnswerTextString={2}</value>
+  </data>
+  <data name="SurveySubmitMsg" xml:space="preserve">
+    <value>Survey submitted successfully</value>
+  </data>
+  <data name="SurveyPageTitle" xml:space="preserve">
+    <value>Survey</value>
+  </data>
+  <data name="GetPendingSurveysApiUrl" xml:space="preserve">
+    <value>api/survey/getsurveymodule</value>
+  </data>
+   <data name="GetPendingDataCollectionApiUrl" xml:space="preserve">
+    <value>api/datacollection/GetPendingDataCollectionFormData</value>
+  </data>
+  <data name="SaveDataCollectionApiUrl" xml:space="preserve">
+    <value>api/datacollection/savedatacollectionformdata?formId={0}&amp;dataCollectionFormData={1}&amp;studentId={2}&amp;attachmentDetailStr={3}&amp;existingAttachmentDetailStr={4}&amp;deletedAttachmentFiles={5}</value>
+  </data>
+    <data name="DataCollectionPageTitle" xml:space="preserve">
+    <value>Data Collection</value>
+  </data>
+     <data name="DataCollectionSubmitMsg" xml:space="preserve">
+    <value>Data submitted successfully</value>
+  </data>
+  <data name="PhoneValidationMsg" xml:space="preserve">
+    <value>Please enter valid phone number</value>
+  </data>
+     <data name="EmailValidationMsg" xml:space="preserve">
+    <value>Please enter valid email address</value>
+  </data>
+  <data name="GetAllDataCollectionApiUrl" xml:space="preserve">
+    <value>api/datacollection/getalldatacollectionformdata?formId={0}&amp;studentId={1}</value>
+  </data>
+  <data name="GetDataCollectionApiUrl" xml:space="preserve">
+    <value>api/datacollection/getdatacollectionformdata?formId={0}&amp;studentId={1}</value>
+  </data>
+  <data name="TroubleSignInEmailCS" xml:space="preserve">
+    <value>itsupport@cityschool.ae</value>
+  </data>
+  <data name="TroubleSignInEmailCAS" xml:space="preserve">
+    <value>itsupport@cityamericanschool.ae</value>
+  </data>
+  <data name="TroubleSignInGeneralEmail" xml:space="preserve">
+    <value>mobile@iconnect.ae</value>
+  </data>
+   <data name="OnlinePaymentDetails" xml:space="preserve">
+    <value>api/onlinepayment/getinvoicedetails?studentId={0}</value>
+  </data>
+  <data name="GetTaxReceiptDetails" xml:space="preserve">
+    <value>api/onlinepayment/getreceiptdetails?studentId={0}&amp;mode={1}&amp;isBalance={2}&amp;orderId={3}</value>
+  </data>
+  <data name="InvalidOtherAmountErrorMessage" xml:space="preserve">
+    <value>Other amount should be greater than or equal to the minimum {0}, and less than or equal to the total {1}</value>
+  </data>
+  <data name="OtherAmountEmptyErrorMessage" xml:space="preserve">
+    <value>Please enter Other Amount</value>
+  </data>
+  <data name="MandatoryFieldErrorMessage" xml:space="preserve">
+    <value>Mandatory Field</value>
+  </data>
+  <data name="GetBillingDetails" xml:space="preserve">
+    <value>api/onlinepayment/getbillingdetails</value>
+  </data>
+  <data name="InitiateNGeniusPAyment" xml:space="preserve">
+    <value>api/onlinepayment/initiatengeniuspayment</value>
+  </data>
+  <data name="GetTaxReceiptDetailsAfterSuccessfulPayment" xml:space="preserve">
+    <value>api/onlinepayment/getreceiptdetails?studentId={0}&amp;orderId={1}</value>
+  </data>
+  <data name="UpdateTransactionFailed" xml:space="preserve">
+    <value>api/onlinepayment/paymentfailure?orderId={0}</value>
+  </data>
+  <data name="UpdatePaymentCancelled" xml:space="preserve">
+    <value>api/onlinepayment/paymentcancel?orderId={0}</value>
+  </data>
+  <data name="UpdateSuccessfulPayment" xml:space="preserve">
+    <value>api/onlinepayment/updatepaymentreceiptdetails</value>
+  </data>
+  <data name="BeamTroubleSignInInformation" xml:space="preserve">
+    <value>Please provide your feedback on our virtual helpdesk, www.beam.co.ae/helpdesk or call us on 800 2326</value>
+  </data>
+  <data name="BeamReportIssueAlertMsg" xml:space="preserve">
+    <value>If you are facing any issue, please write to www.beam.co.ae/helpdesk or call us on 800 2326</value>
+  </data>
+  <data name="DeleteCovidTestDetailsConfirmationMessage" xml:space="preserve">
+    <value>Are you sure you want to delete?</value>
+  </data>
+  <data name="GetCovidTestData" xml:space="preserve">
+    <value>api/covidtest/GetCovidTestData?startDate={0}&amp;endDate={1}&amp;loadFilterPanelLists={2}</value>
+  </data>
+  <data name="UpdateCovidTestData" xml:space="preserve">
+    <value>api/covidtest/UpdateCovidTestData</value>
+  </data>
+  <data name="DeleteCovidTestData" xml:space="preserve">
+    <value>api/covidtest/DeleteCovidTestData?covidTestId={0}&amp;documentName={1}</value>
+  </data>
+  <data name="GetStudentMedicalIncidents" xml:space="preserve">
+    <value>api/medical/getstudentmedicalincidents?studentId={0}&amp;fromDate={1}&amp;toDate={2}&amp;incidentTypeId={3}&amp;loadFilterPanelLists={4}</value>
+  </data>
+  <data name="GetStudentMedicalVaccinationDetails" xml:space="preserve">
+    <value>api/medical/getstudentvaccinationdetails?studentId={0}&amp;fromDate={1}&amp;toDate={2}&amp;vaccinationPeriodId={3}&amp;loadFilterPanelLists={4}</value>
+  </data>
+  <data name="AgendasDueText" xml:space="preserve">
+    <value>Agendas Due</value>
+  </data>
+  <data name="AssignmentDashboardDataAPIUrl" xml:space="preserve">
+    <value>api/agendanotification/getassignmentdashboarddata</value>
+  </data>
+  <data name="NotificationCenterAPIUrl" xml:space="preserve">
+    <value>api/agendanotification/getnotificationcenterdata?studentId={0}</value>
+  </data>
+  <data name="ResourcesDataAPIUrl" xml:space="preserve">
+    <value>api/resources/getresourcesdata?userRefId={0}&amp;termId={1}&amp;curriculumId={2}&amp;fromDate={3}&amp;toDate={4}&amp;loadFilterPanelLists={5}</value>
+  </data>
+  <data name="ResourceDetailsApiUrl" xml:space="preserve">
+    <value>api/resources/initresourceform?id={0}</value>
+  </data>
+  <data name="GetTeacherClassesByGradeApiUrl" xml:space="preserve">
+    <value>api/resources/GetClassesForResource?gradeId={0}&amp;curriculumId={1}</value>
+  </data>
+  <data name="DeleteResourceApiUrl" xml:space="preserve">
+    <value>api/resources/DeleteResourceData?id={0}</value>
+  </data>
+  <data name="UpdateResourceDataApiUrl" xml:space="preserve">
+    <value>api/resources/UpdateResourceData</value>
+  </data>
+  <data name="FilterResourcesTitle" xml:space="preserve">
+    <value>Search Resources</value>
+  </data>
+  <data name="GetBooksReservationDataApiUrl" xml:space="preserve">
+    <value>api/booksreservation/getbooksreservationdata</value>
+  </data>
+    <data name="MandatoryBookSelectionAlert" xml:space="preserve">
+    <value>Please select all the books you needed. Highlighted books are mandatory.</value>
+  </data>
+    <data name="SkipStudentForBookReservationApiUrl" xml:space="preserve">
+    <value>api/booksreservation/skipstudentforbookreservation?studentId={0}</value>
+  </data>
+    <data name="CancelText" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+    <data name="SelectBooksCollectionDateConfirmationMessage" xml:space="preserve">
+    <value>Once collection date booked, you can't go back and edit selection. Are you sure you have selected all the books you needed?</value>
+  </data>
+    <data name="GetAppointmentAvailableTimes" xml:space="preserve">
+    <value>api/booksreservation/getappointmentavailabletimes</value>
+  </data>
+      <data name="SelectCollectionDateText" xml:space="preserve">
+    <value>Select Collection Date</value>
+  </data>
+        <data name="BooksReservationApiUrl" xml:space="preserve">
+    <value>api/booksreservation/bookappointment?bookingDate={0}&amp;bookingTime={1}&amp;reservationBookingDetailsStr={2}</value>
+  </data>
+        <data name="NewPostText" xml:space="preserve">
+    <value>New Post</value>
+  </data>
+  <data name="SkipChildConfirmationMessage" xml:space="preserve">
+    <value>Are you sure you want to skip the child?</value>
+  </data>
+  <data name="GetAddEditAgendaPostApi" xml:space="preserve">
+    <value>api/calendar/AddEditAgendaPost?id={0}&amp;isApprovalMode={1}</value>
+  </data>
+  <data name="EditAgendaText" xml:space="preserve">
+    <value>Edit Agenda</value>
+  </data>
+    <data name="GetClassesForAgendaApi" xml:space="preserve">
+    <value>api/calendar/GetClassesForAgenda?agendaId={0}&amp;isWeekly={1}&amp;curriculumGroupId={2}&amp;gradeId={3}&amp;curriculumId={4}&amp;isApprovalMode={5}</value>
+  </data>
+  <data name="GetClassStudentsApi" xml:space="preserve">
+    <value>api/calendar/GetClassStudents?agendaId={0}&amp;classId={1}&amp;isElective={2}</value>
+  </data>
+  <data name="DeleteSubmissionWarningText" xml:space="preserve">
+    <value>Warning!, changing Type/Course/Grade/Classes would subsequently delete student submission data.</value>
+  </data>
+  <data name="GetCalendarAgendaAttachmentFilesApi" xml:space="preserve">
+    <value>api/calendar/GetCalendarAgendaAttachmentFiles?studentId={0}&amp;fromDate={1}&amp;toDate={2}&amp;searchValue={3}</value>
+  </data>
+    <data name="AttachmentAlreadyAddedText" xml:space="preserve">
+    <value>Following attachments already added : </value>
+  </data>
+    <data name="SaveAgendaPostDataApi" xml:space="preserve">
+    <value>api/calendar/SaveAgendaPostData</value>
+  </data>
+<data name="OnlineLessonApiUrl" xml:space="preserve">
+    <value>api/onlinelessons/GetLessonsTreeDataByStudent?studentId={0}</value>
+  </data>
+<data name="OnlineLessonPageTitle" xml:space="preserve">
+    <value>Onlinelesson</value>
+  </data>
+<data name="TopupText" xml:space="preserve">
+    <value>Amount cannot be less than Minimum Amount </value>
+  </data>
+  <data name="SubmissionsText" xml:space="preserve">
+    <value>Submissions</value>
+  </data>
+  <data name="DashboardText" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
+<data name="TopupHistoryApiUrl" xml:space="preserve">
+    <value>api/OnlinePayment/GetPaymentHistory?studentId={0}&amp;paymentModuleId={1}</value>
+  </data>
+<data name="TopupHistoryPageTitle" xml:space="preserve">
+    <value>TopupHistory</value>
+  </data>
+<data name="AmountEmptyErrorMessage" xml:space="preserve">
+    <value>Please Enter Amount</value>
+  </data>
+<data name="EnterReasonEmptyErrorMessage" xml:space="preserve">
+    <value>Please Enter Reason for Payment</value>
+  </data>
+<data name="GetPaymentSettingsUrl" xml:space="preserve">
+    <value>api/onlinepayment/GetPaymentSettings?paymentType={0}</value>
+  </data>
+  <data name="SubmissionErrorTitle" xml:space="preserve">
+    <value>Submission Error</value>
+  </data>
+  <data name="SubmissionErrorMessage" xml:space="preserve">
+    <value>Please enter comment or upload files to proceed further</value>
+  </data>
+  <data name="SubmissionApiUrl" xml:space="preserve">
+    <value>api/calendar/SaveStudentSubmissionData</value>
+  </data>
+  <data name="SubmissionSaveTitle" xml:space="preserve">
+    <value>Submission</value>
+  </data>
+  <data name="SubmissionSaveMessage" xml:space="preserve">
+    <value>Submission added successfully</value>
+  </data>
+<data name="GetSubmittedChequeListUrl" xml:space="preserve">
+    <value>api/chequereplacement/GetSubmittedChequeList</value>
+  </data>
+  <data name="WeekendDateError" xml:space="preserve">
+      <value>Weekend dates cannot be selected</value>
+  </data>
+   <data name="SameWeekError" xml:space="preserve">
+      <value>Date should not be from same week</value>
+  </data>
+  <data name="AssignmentLabel" xml:space="preserve">
+      <value>Assignment</value>
+  </data>
+  <data name="LearningOutcomeLabel" xml:space="preserve">
+      <value>Learning Outcome</value>
+  </data>
+  <data name="PdcReplacementText" xml:space="preserve">
+    <value>You can pay in sequence only.</value>
+  </data>
+  <data name="GetCertificateDataUrl" xml:space="preserve">
+    <value>api/certificate/GetCertificateData?studentId={0}</value>
+  </data>
+  <data name="BirthdayPopupTitle" xml:space="preserve">
+    <value>Happy Birthday!</value>
+  </data>
+  <data name="GetMiscellaneousPaymentUrl" xml:space="preserve">
+    <value>api/MiscellaneousPayment/GetInvoiceDetails?studentId={0}</value>
+  </data>
+  <data name="ResourceSaveSuccessMessage" xml:space="preserve">
+    <value>saved successfully</value>
+  </data>
+  <data name="GetGetLibraryDataUrl" xml:space="preserve">
+    <value>api/library/GetLibraryData?id={0}</value>
+  </data>
+  <data name="GetTeacherFeedbackDataUrl" xml:space="preserve">
+    <value>api/TeacherFeedback/GetTeacherFeedbackData/?studentId={0}</value>
+  </data>
+  <data name="UpdateTeacherFeedbackDataUrl" xml:space="preserve">
+    <value>api/TeacherFeedback/UpdateTeacherFeedbackData?studentId={0}&amp;teacherId={1}&amp;curriculumId={2}&amp;feedbackId={3}</value>
+  </data>
+  <data name="CertificateNotAvailableMessage" xml:space="preserve">
+    <value>You have no reports available. Please contact School Administration.</value>
+  </data>
+  <data name="CacheValidityPeriodInMins" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="CancelAgendaText" xml:space="preserve">
+    <value>Are you sure you want to cancel?</value>
+  </data>
+  <data name="DeleteAgendaApiUrl" xml:space="preserve">
+    <value>api/calendar/DeleteAgendaPost?id={0}</value>
+  </data>
+  <data name="UpdateFamilyDetailsTitle" xml:space="preserve">
+    <value>Update Family Details</value>
+  </data>
+  <data name="InsertNewsLog" xml:space="preserve">
+    <value>api/guestuser/InsertNewsOpenLog?newsId={0}</value>
+  </data>
+  <data name="DailyLimitText" xml:space="preserve">
+    <value>Amount cannot be less than Minimum Amount </value>
+  </data>
+  <data name="SaveDailyLimitApiUrl" xml:space="preserve">
+    <value>api/cashless/SaveCashlessCardDailyLimit?userRefId={0}&amp;dailyLimit={1}</value>
+  </data>
+  <data name="DailyLimitSaveSuccessMessage" xml:space="preserve">
+    <value>Updated successfully</value>
+  </data>
+  <data name="GetClassesForWeeklyPlanApi" xml:space="preserve">
+    <value>api/calendarquickpost/GetClassesForWeeklyPlan?curriculumId={0}</value>
+  </data>
+  <data name="SaveAgendaQuickPostDataApi" xml:space="preserve">
+    <value>api/calendarquickpost/SaveAgendaQuickPostData</value>
+  </data>
+  <data name="AddNewAgendaQuickPostDataApi" xml:space="preserve">
+    <value>api/calendarquickpost/AddNewAgendaQuickPost</value>
+  </data>
+  <data name="LoadAgendaWeeklyPostFormApi" xml:space="preserve">
+    <value>api/calendarquickpost/LoadAgendaWeeklyPostForm?agendaWeeklyGroupId={0}&amp;weekRangeId={1}</value>
+  </data>
+  <data name="GetAgendaWeeklyPlanDataApi" xml:space="preserve">
+    <value>api/calendarquickpost/GetAgendaWeeklyPlanData?weekStartDate={0}&amp;monthStartDate={1}&amp;monthEndDate={2}&amp;agendaWeeklyGroupId={3}</value>
+  </data>
+  <data name="UploadAgendaQuickPostAttachmentFilesApi" xml:space="preserve">
+    <value>api/calendarquickpost/UploadAgendaQuickPostAttachmentFiles?agendaId={0}</value>
+  </data>
+  <data name="LoadAgendaWeeklyPostPageInEditModeApi" xml:space="preserve">
+    <value>api/calendarquickpost/LoadAgendaWeeklyPostPageInEditMode?agendaWeeklyGroupId={0}</value>
+  </data>
+  <data name="GetAgendaWeeklyGroupDataApi" xml:space="preserve">
+    <value>api/calendarquickpost/GetAgendaWeeklyGroupData?curriculumId={0}</value>
+  </data>
+  <data name="DeleteAgendaWeeklyPlanApi" xml:space="preserve">
+    <value>api/calendarquickpost/DeleteAgendaWeeklyPlan?id={0}</value>
+  </data>
+  <data name="ChangePasswordApi" xml:space="preserve">
+    <value>api/account/IsChangePasswordAllowed?userName={0}</value>
+  </data>
+  <data name="ChangePasswordNotAllowMsg" xml:space="preserve">
+    <value>You are not allowed to change the password. Please contact the system administrator.</value>
+  </data>
+  <data name="ChangePasswordSaveApi" xml:space="preserve">
+    <value>api/Account/ChangePassword?userName={0}&amp;oldPassword={1}&amp;newPassword={2}&amp;confirmPassword={3}</value>
+  </data>
+  <data name="GetRegistrationPageDataApi" xml:space="preserve">
+    <value>api/Registration/GetRegistrationPageData?newFamilyId={0}</value>
+  </data>
+  <data name="RequestForReregistrationApi" xml:space="preserve">
+    <value>api/Registration/RequestForReregistration?studentIds={0}</value>
+  </data>
+  <data name="SaveExisitingStudentsReRegistrationApi" xml:space="preserve">
+    <value>api/registration/SaveExisitingStudentsReRegistration?familyId={0}&amp;studentIds={1}&amp;actionCode={2}</value>
+  </data>
+  <data name="GetProfilePhotoViewApi" xml:space="preserve">
+    <value>api/profile/GetProfilePhotoView?studentId={0}</value>
+  </data>
+  <data name="UploadStudentImageApi" xml:space="preserve">
+    <value>api/profile/UploadStudentImage?imageDataJsonString={0}</value>
+  </data>
+  <data name="CancelRegistrationText" xml:space="preserve">
+    <value>Are you sure you want to cancel re-register request?</value>
+  </data>
+  <data name="RegistrationSaveMessage" xml:space="preserve">
+    <value>Updated successfully</value>
+  </data>
+  <data name="GetRegistrationFormFamilyDetailsApi" xml:space="preserve">
+    <value>api/Registration/GetRegistrationFormFamilyDetails?newFamilyId={0}</value>
+  </data>
+  <data name="SaveRegistrationFormFamilyDetailsApi" xml:space="preserve">
+    <value>api/registration/SaveRegistrationFormFamilyDetails?jsonString={0}&amp;primayKeyValue={1}&amp;familyId={2}</value>
+  </data>
+  <data name="SaveRegistrationFamilyAttachmentDataApi" xml:space="preserve">
+    <value>api/registration/SaveRegistrationFamilyAttachmentData?familyId={0}&amp;attachmentDetailStr={1}&amp;existingAttachmentDetailStr={2}&amp;deletedAttachmentFiles={3}</value>
+  </data>
+  <data name="UploadRegistrationFamilyAttachmentFileApi" xml:space="preserve">
+    <value>api/registration/UploadRegistrationFamilyAttachmentFile?familyId={0}</value>
+  </data>
+  <data name="GetRegistrationAvailableTimesApi" xml:space="preserve">
+    <value>api/registration/GetRegistrationAvailableTimes?familyId={0}</value>
+  </data>
+  <data name="RegistrationAppointmentConfirmationMessage" xml:space="preserve">
+    <value>Are you sure? Your appointment date and time is: {0}</value>
+  </data>
+  <data name="BookStudentRegistrationAppointmentApi" xml:space="preserve">
+    <value>api/Registration/BookStudentRegistrationAppointment?familyId={0}&amp;registrationBookingUId={1}&amp;registrationId={2}&amp;registrationDateId={3}&amp;bookingDate={4}&amp;bookingTime={5}&amp;registrationBookingId={6}&amp;action={7}</value>
+  </data>
+  <data name="RegistrationAppointmentCancelMessage" xml:space="preserve">
+    <value>Are you sure want to cancel this appointment?</value>
+  </data>
+  <data name="GetRegistrationFormStudentDetailsApi" xml:space="preserve">
+    <value>api/Registration/GetRegistrationFormStudentDetails?registrationId={0}&amp;isCurrentYear={1}</value>
+  </data>
+  <data name="SaveStudentRegistrationFormDetailsApi" xml:space="preserve">
+    <value>api/registration/SaveStudentRegistrationFormDetails?registrationId={0}&amp;jsonString={1}&amp;extFieldValuesJsonString={2}</value>
+  </data>
+  <data name="DeleteRegistrationDataApi" xml:space="preserve">
+    <value>api/registration/DeleteRegistrationData?registrationUId={0}&amp;registrationId={1}</value>
+  </data>
+  <data name="GetRegistrationAvailableTimesPerStudentApi" xml:space="preserve">
+    <value>api/registration/GetRegistrationAvailableTimes?familyId={0}&amp;registrationId={1}</value>
+  </data>
+  <data name="UploadRegistrationStudentAttachmentFileApi" xml:space="preserve">
+    <value>api/registration/UploadRegistrationStudentAttachmentFile?registrationId={0}&amp;imageDataString={1}</value>
+  </data>
+  <data name="SaveRegistrationStudentAttachmentDataApi" xml:space="preserve">
+    <value>api/registration/SaveRegistrationStudentAttachmentData?registrationId={0}&amp;attachmentDetailStr={1}&amp;existingAttachmentDetailStr={2}&amp;deletedAttachmentFiles={3}</value>
+  </data>
+  <data name="GetRegistrationFormKgStudentInformationApi" xml:space="preserve">
+    <value>api/registration/GetRegistrationFormKgStudentInformation?registrationId={0}</value>
+  </data>
+  <data name="SaveKgStudentRegistrationFormDetailsApi" xml:space="preserve">
+    <value>api/registration/SaveKgStudentRegistrationFormDetails?registrationId={0}&amp;jsonString={1}</value>
+  </data>
+  <data name="LogRegistrationFamilyTermsAndConditionApi" xml:space="preserve">
+    <value>api/registration/LogRegistrationFamilyTermsAndCondition</value>
+  </data>
+</root>

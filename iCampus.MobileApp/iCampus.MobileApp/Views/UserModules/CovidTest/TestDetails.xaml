@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             x:Class="iCampus.MobileApp.Views.UserModules.CovidTest.TestDetails"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             NavigationPage.HasNavigationBar="false"
+             x:Name="TestDetailsPage">
+    <ContentPage.Content>
+
+        <Grid>
+            <AbsoluteLayout BackgroundColor="{StaticResource BorderColor}">
+                <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*" AbsoluteLayout.LayoutBounds="1,1,1,1"
+                      AbsoluteLayout.LayoutFlags="All">
+                    <Grid.Resources>
+                        <ResourceDictionary>
+                        </ResourceDictionary>
+                    </Grid.Resources>
+                    <ContentView ControlTemplate="{StaticResource BeamHeader}" Grid.Row="0" Grid.Column="0"
+                                 BackgroundColor="White" />
+
+                    <StackLayout Padding="0" Margin="10,5,10,0"
+                                 IsVisible="{Binding IsNoRecordMsg}" Grid.Row="1" Grid.Column="0">
+                        <Frame Padding="10"
+                               CornerRadius="5" HasShadow="False"
+                               IsClippedToBounds="True"
+                               BorderColor="{StaticResource BorderColor}"
+                               BackgroundColor="White">
+                            <Label Text="{Binding NoDataFound,Mode=TwoWay}"
+                                   Style="{StaticResource DescriptionLabelStyle}"
+                                   VerticalTextAlignment="Center"
+                                   HorizontalTextAlignment="Start" />
+                        </Frame>
+                    </StackLayout>
+
+                    <ListView HasUnevenRows="true" 
+                              Margin="10,5,10,0"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              ItemsSource="{Binding TestDetailsList,Mode=TwoWay}"
+                              SeparatorVisibility="None" VerticalScrollBarVisibility="Always"
+                              VerticalOptions="FillAndExpand"
+                              Grid.Row="1" Grid.Column="0"
+                              SelectedItem="{Binding SelectedDetails,Mode=TwoWay}"
+                              x:Name="listview">
+                        <x:Arguments>
+                            <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                        </x:Arguments>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="5" VerticalOptions="FillAndExpand">
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               Padding="5"
+                                               IsClippedToBounds="true">
+
+                                            <Grid RowSpacing="4"
+                                                  Padding="5,2,5,0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.5*" />
+                                                    <ColumnDefinition Width="0.5*" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackLayout Orientation="Horizontal" Grid.Row="0" Grid.Column="0"
+                                                             Grid.ColumnSpan="2">
+                                                    <Label Text="{Binding PersonName}"
+                                                           HorizontalOptions="StartAndExpand"
+                                                           Style="{StaticResource TitleLabelStyle}"
+                                                           VerticalOptions="CenterAndExpand" />
+                                                    <StackLayout HorizontalOptions="EndAndExpand" Padding="0,0,10,0">
+                                                        <ffimageloading:CachedImage Margin="10,0,0,0"
+                                                            Source="{Binding ArrowImageSource}"
+                                                            HorizontalOptions="EndAndExpand"
+                                                            VerticalOptions="CenterAndExpand"
+                                                            Scale="0.8" />
+                                                        <StackLayout.GestureRecognizers>
+                                                            <TapGestureRecognizer Command="{Binding BindingContext.ListViewTabbedCommand, Source={x:Reference TestDetailsPage}}" 
+                                                                CommandParameter="{Binding .}"/>
+                                                        </StackLayout.GestureRecognizers>
+                                                    </StackLayout>
+
+                                                </StackLayout>
+                                                <Label
+                                                    Text="{Binding FormattedTestStatus,StringFormat='Test Result : {0}'}"
+                                                    Grid.Row="1"
+                                                    Margin="0,5,0,0"
+                                                    Style="{StaticResource DescriptionLabelStyle}"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="2"
+                                                    VerticalOptions="StartAndExpand" />
+                                                <Label Text="{Binding FormattedTestDate}"
+                                                       Grid.Row="2"
+                                                       Grid.Column="0"
+                                                       Style="{StaticResource DateLabelStyle}"
+                                                       VerticalOptions="EndAndExpand" />
+                                            </Grid>
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding BindingContext.ListViewTabbedCommand, Source={x:Reference TestDetailsPage}}" 
+                                                                      CommandParameter="{Binding .}"/>
+                                            </Frame.GestureRecognizers>
+                                        </Frame>
+                                        <Frame CornerRadius="5" IsVisible="{Binding DetailsVisibility}"
+                                               HasShadow="False" 
+                                               Margin="0,5,0,0"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               Padding="5"
+                                               IsClippedToBounds="true">
+                                            <Grid RowSpacing="4"
+                                                  Padding="5,2,5,5">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.5*" />
+                                                    <ColumnDefinition Width="0.5*" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackLayout Orientation="Horizontal"
+                                                             Grid.Row="0"
+                                                             Grid.Column="1"
+                                                             HorizontalOptions="FillAndExpand" Spacing="0">
+                                                    <StackLayout HorizontalOptions="EndAndExpand" HeightRequest="20"
+                                                                 WidthRequest="40" Spacing="0"
+                                                                 IsVisible="false">
+                                                        <ffimageloading:CachedImage
+                                                            Margin="10,0,0,0"
+                                                            Aspect="AspectFit"
+                                                            HeightRequest="20"
+                                                            WidthRequest="20"
+                                                            DownsampleToViewSize="True"
+                                                            Source="edit.png"
+
+                                                            HorizontalOptions="CenterAndExpand">
+                                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.EditClickCommand,Source={x:Reference TestDetailsPage}}"
+                                                                    CommandParameter="{Binding .}"
+                                                                    NumberOfTapsRequired="1" />
+                                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                                        </ffimageloading:CachedImage>
+                                                        <StackLayout.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding BindingContext.EditClickCommand,Source={x:Reference TestDetailsPage}}"
+                                                                CommandParameter="{Binding .}" NumberOfTapsRequired="1" />
+                                                        </StackLayout.GestureRecognizers>
+                                                    </StackLayout>
+                                                    <StackLayout HorizontalOptions="EndAndExpand" HeightRequest="20"
+                                                                 WidthRequest="40" Spacing="0">
+                                                        <ffimageloading:CachedImage
+                                                            HorizontalOptions="CenterAndExpand"
+                                                            Margin="10,0,0,0"
+                                                            HeightRequest="20"
+                                                            WidthRequest="20"
+                                                            Aspect="AspectFit"
+                                                            DownsampleToViewSize="True"
+                                                            Source="delete_bin_icon.png">
+                                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.DeleteClickCommand,Source={x:Reference TestDetailsPage}}"
+                                                                    CommandParameter="{Binding .}"
+                                                                    NumberOfTapsRequired="1" />
+                                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                                        </ffimageloading:CachedImage>
+                                                        <StackLayout.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding BindingContext.DeleteClickCommand,Source={x:Reference TestDetailsPage}}"
+                                                                CommandParameter="{Binding .}" NumberOfTapsRequired="1" />
+                                                        </StackLayout.GestureRecognizers>
+                                                    </StackLayout>
+                                                </StackLayout>
+                                                <Label HorizontalOptions="StartAndExpand"
+                                                       Grid.Row="0"
+                                                       Grid.Column="0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Document"
+                                                                  TextColor="{StaticResource LightGrayColor}"
+                                                                  TextDecorations="Underline"
+                                                                  FontSize="Small">
+                                                                <Span.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.DocumentClickCommand,Source={x:Reference TestDetailsPage}}"
+                                                                        CommandParameter="{Binding .}" NumberOfTapsRequired="1"/>
+                                                                </Span.GestureRecognizers>
+                                                            </Span>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </Grid>
+                                        </Frame>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                    <StackLayout VerticalOptions="EndAndExpand" Grid.Row="2">
+                        <Button Text="Search" CornerRadius="5"
+                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                TextColor="White"
+                                VerticalOptions="EndAndExpand"
+                                Margin="20,10,20,10"
+                                Command="{Binding FilterClickCommand}"
+                                HorizontalOptions="FillAndExpand" />
+
+                        <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                                     VerticalOptions="EndAndExpand"
+                                     HorizontalOptions="FillAndExpand" />
+
+                    </StackLayout>
+
+                </Grid>
+                <Button ImageSource="plus_icon.png"
+                        VerticalOptions="EndAndExpand"
+                        HorizontalOptions="EndAndExpand"
+                        Margin="0,0,20,125"
+                        HeightRequest="50"
+                        WidthRequest="50"
+                        Padding="10"
+                        Command="{Binding AddCovidTestDetailsCommand}"
+                        CornerRadius="25"
+                        AbsoluteLayout.LayoutFlags="All"
+                        AbsoluteLayout.LayoutBounds="1,1,50,50"
+                        BackgroundColor="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}" />
+
+            </AbsoluteLayout>
+
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

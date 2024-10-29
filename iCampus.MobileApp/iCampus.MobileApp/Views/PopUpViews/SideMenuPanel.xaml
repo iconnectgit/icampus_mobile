@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:local="clr-namespace:iCampus.MobileApp"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+    xmlns:forms="clr-namespace:iCampus.MobileApp.Forms"
+    xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+    x:Class="iCampus.MobileApp.Views.PopUpViews.SideMenuPanel"
+    x:Name="menuPage"
+    HorizontalOptions="Start"
+    CanBeDismissedByTappingOutsideOfPopup="true">
+
+    <Frame BackgroundColor="White" CornerRadius="0" HasShadow="False" Padding="0" WidthRequest="350">
+        <Grid Padding="20,10,0,0" BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="StartAndExpand" 
+              RowDefinitions="Auto,Auto,Auto,*,Auto" ColumnDefinitions="*">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <behaviours:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
+                    <!-- <Behaviors:VisiblityConverter x:Key="VisiblityConverter"/> -->
+                    <behaviours:ImageUrlToSourceConverter x:Key="ImageUrlToSourceConverter"/>
+                    <Style x:Key="MenuLabelStyle" TargetType="Label" BasedOn="{StaticResource DescriptionLabelStyle}">
+                        <Setter Property="FontAttributes" Value="Bold"></Setter>
+                        <Setter Property="HorizontalOptions" Value="StartAndExpand"></Setter>
+                        <Setter Property="VerticalOptions" Value="CenterAndExpand"></Setter>
+                    </Style>
+                    <Style x:Key="MenuImageStyle" TargetType="ffimageloading:CachedImage">
+                        <Setter Property="HorizontalOptions" Value="CenterAndExpand"></Setter>
+                        <Setter Property="VerticalOptions" Value="CenterAndExpand"></Setter>
+                        <Setter Property="HeightRequest" Value="25"></Setter>
+                        <Setter Property="WidthRequest" Value="25"></Setter>
+                    </Style>
+                </ResourceDictionary>
+            </Grid.Resources>
+            
+            <!-- Close Button -->
+            <StackLayout x:Name="closeButton" VerticalOptions="FillAndExpand" Grid.Row="0" Grid.Column="0"
+                         HorizontalOptions="EndAndExpand" Padding="10,10,10,10">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="MenuClosedClick" 
+                                          NumberOfTapsRequired="1"/>
+                    </StackLayout.GestureRecognizers>
+                <Label
+                    Text="&#xf057;"
+                    FontFamily="FontAwesomeSolid"
+                    TextColor="{Binding Settings.ThemeColor,Source={x:Static forms:AppSettings.Current}}"
+                    Margin="0,0,0,0"
+                    FontSize="30"
+                    VerticalOptions="CenterAndExpand">
+                  
+                </Label>
+            </StackLayout>
+
+            <!-- Logo -->
+            <Grid Grid.Row="1" Grid.Column="0" ColumnSpacing="12" Padding="10,2,10,10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.9*" />
+                    <ColumnDefinition Width="0.1*" />
+                </Grid.ColumnDefinitions>
+                <ffimageloading:CachedImage Source="{Binding LogoData, Source={x:Static forms:AppSettings.Current},Converter={StaticResource ImageUrlToSourceConverter}}"
+                                            RetryCount="10" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" HeightRequest="35" WidthRequest="35"
+                                            Aspect="AspectFit" Scale="1" />
+            </Grid>
+
+            <!-- Display Name and ID -->
+            <Frame BorderColor="WhiteSmoke" VerticalOptions="StartAndExpand"
+                   Padding="5" HasShadow="False" Margin="0,0,30,0" Grid.Row="2" Grid.Column="0">
+                <Label VerticalTextAlignment="Start" FontSize="18" Style="{StaticResource TitleLabelStyle}" MaxLines="4"
+                       HorizontalOptions="StartAndExpand" Margin="10,0,0,0" VerticalOptions="StartAndExpand" FontAttributes="Bold">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{Binding DisplayName, Source={x:Static forms:AppSettings.Current}}"/>
+                            <Span Text="&#10;"/>
+                            <Span Text="{Binding DisplayId, Source={x:Static forms:AppSettings.Current},StringFormat='[ {0} ]'}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+            </Frame>
+
+            <!-- Menu Items -->
+            <ListView x:Name="SwipeGestureListview" Margin="0,10,30,0" HasUnevenRows="True" ItemsSource="{Binding MenuStructureList,Mode=TwoWay,Source={x:Static forms:AppSettings.Current}}"
+                      SeparatorVisibility="None" VerticalScrollBarVisibility="Never" SelectedItem="{Binding SelectedMenu,Mode=TwoWay}"
+                      BackgroundColor="{StaticResource ListViewBackgroundColor}" VerticalOptions="FillAndExpand"
+                      Grid.Row="3" Grid.Column="0">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid RowSpacing="10" ColumnSpacing="10" VerticalOptions="CenterAndExpand" Padding="15,10,0,10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <ffimageloading:CachedImage Grid.Row="0" Grid.Column="0" IsVisible="{Binding ShowIcon}"
+                                                            DownsampleToViewSize="true" Source="{Binding ModuleImageUrl}"
+                                                            BackgroundColor="Transparent" HeightRequest="25" WidthRequest="25" Style="{StaticResource MenuImageStyle}"/>
+                                <Label Text="{Binding ModuleName}" Style="{StaticResource MenuLabelStyle}"
+                                       LineBreakMode="TailTruncation" MaxLines="2" VerticalOptions="CenterAndExpand"
+                                       Grid.Row="0" Grid.Column="1"/>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Behaviors>
+                    <toolkit:EventToCommandBehavior EventName="ItemSelected" 
+                                                      Command="{Binding MenuListTappedCommand}"
+                                                      CommandParameter="{Binding SelectedMenu}"/>
+                </ListView.Behaviors>
+            </ListView>
+            <!-- Converter="{StaticResource SelectedItemConverter}" -->
+
+            <!-- Divider -->
+            <BoxView Grid.Row="4" Margin="15,0,0,0" Grid.Column="0" BackgroundColor="LightGray" HeightRequest="1" VerticalOptions="StartAndExpand"/>
+
+            <!-- Logout Button -->
+            <Grid RowSpacing="0" ColumnSpacing="10" VerticalOptions="CenterAndExpand" Padding="15,10,0,10" Grid.Row="4" Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ffimageloading:CachedImage Grid.Row="0" Grid.Column="0"
+                                            DownsampleToViewSize="true" Source="{Binding LogoutItem.ModuleImageUrl,Source={x:Static forms:AppSettings.Current}}"
+                                            BackgroundColor="Transparent" HeightRequest="25" WidthRequest="25" Style="{StaticResource MenuImageStyle}"/>
+                <Label Text="{Binding LogoutItem.ModuleName,Source={x:Static forms:AppSettings.Current}}"
+                       MaxLines="2" VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="1"
+                       Style="{StaticResource MenuLabelStyle}"/>
+                <Grid.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding LogoutClickCommand}"/>
+                </Grid.GestureRecognizers>
+            </Grid>
+
+            <!-- Swipe Gesture -->
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer Command="{Binding MenuCloseClickCommand}" Direction="Left" />
+            </Grid.GestureRecognizers>
+        </Grid>
+    </Frame>
+</toolkit:Popup>

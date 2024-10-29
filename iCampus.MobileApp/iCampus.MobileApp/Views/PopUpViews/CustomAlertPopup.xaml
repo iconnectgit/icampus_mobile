@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:forms="clr-namespace:iCampus.MobileApp.Forms"
+    xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+    xmlns:formValidation="clr-namespace:iCampus.MobileApp.Library.FormValidation"
+    xmlns:controls="clr-namespace:iCampus.MobileApp.Controls"
+    x:Class="iCampus.MobileApp.Views.PopUpViews.CustomAlertPopup"
+    CanBeDismissedByTappingOutsideOfPopup="False"
+    x:Name="customAlertPopup"
+    Color="Transparent">
+
+    <Frame CornerRadius="5" BackgroundColor="White"
+           HasShadow="False"
+           Margin="20,0,20,0"
+           Padding="0"
+           VerticalOptions="Center"
+           HeightRequest="250"
+           WidthRequest="400"
+           IsClippedToBounds="true">
+        <Grid Padding="10" RowDefinitions="Auto,Auto,*,Auto,Auto">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <behaviours:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter" />
+                    <formValidation:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+                    <behaviours:ColorCodeConverter x:Key="ColorCodeConverter" />
+                </ResourceDictionary>
+            </Grid.Resources>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Grid.Row="0">
+                <Label Text="{Binding CustomAlertObject.CustomAlertsName}"
+                       HorizontalOptions="Center"
+                       Margin="5"
+                       FontAttributes="Bold"
+                       FontSize="18"
+                       TextColor="{Binding TitleColor,Converter={StaticResource ColorCodeConverter}}" />
+                <Label
+                    Text="&#xf057;"
+                    FontFamily="FontAwesomeSolid"
+                    TextColor="Red"
+                    FontSize="24"
+                    IsVisible="{Binding IsCloseOption}"
+                    HorizontalOptions="EndAndExpand"
+                    VerticalOptions="CenterAndExpand">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MenuClosedClick" NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+            <Label Text="{Binding CustomAlertObject.CustomAlertsMessage}" 
+                   Grid.Row="1" 
+                   Margin="5"
+                   TextType="Html"
+                   HorizontalOptions="FillAndExpand" 
+                   VerticalOptions="FillAndExpand">
+            </Label>
+            <!-- <WebView x:Name="Details" HeightRequest="100" -->
+            <!--          Grid.Row="1" -->
+            <!--          HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"> -->
+            <!--     <WebView.Source> -->
+            <!--         <HtmlWebViewSource Html="{Binding CustomAlertObject.CustomAlertsMessage}" x:Name="webViewRenderer" /> -->
+            <!--     </WebView.Source> -->
+            <!-- </WebView> -->
+            <StackLayout Padding="1" Grid.Row="2">
+                <StackLayout IsVisible="{Binding ShowFeedBackField, Mode=TwoWay}">
+                    <Frame Padding="0" HasShadow="False" BackgroundColor="White" BorderColor="WhiteSmoke">
+                        <controls:BorderlessEditor TextColor="Black"
+                                                   Text="{Binding FeedBackMessage.Value, Mode=TwoWay}"
+                                                   Placeholder="Please enter feedback"
+                                                   FontSize="Small"
+                                                   AutoSize="TextChanges">
+                            <controls:BorderlessEditor.Behaviors>
+                                <behaviours:EventToCommandBehavior EventName="TextChanged"
+                                                                   Command="{Binding FeedBackTextChangedEventCommand}" />
+                            </controls:BorderlessEditor.Behaviors>
+                        </controls:BorderlessEditor>
+                    </Frame>
+                </StackLayout>
+                <Label
+                    Text="{Binding FeedBackMessage.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                    HorizontalOptions="StartAndExpand"
+                    FontSize="Small"
+                    IsVisible="{Binding IsFeedBackErrorLableVisible}"
+                    Margin="3,0,0,0"
+                    TextColor="Red" />
+            </StackLayout>
+            <ListView HasUnevenRows="True" Grid.Row="3"
+                      ItemsSource="{Binding CustomAlertObject.CustomAlertUserButtonList}"
+                      SeparatorVisibility="None"
+                      VerticalScrollBarVisibility="Never" BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                      VerticalOptions="FillAndExpand"
+                      IsVisible="{Binding ShowFeedBackField,Converter={StaticResource ReverseBoolValueConverter}}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Frame Padding="5" HasShadow="False" BackgroundColor="White" CornerRadius="5" Margin="2" BorderColor="Transparent">
+                                <Button CornerRadius="5"
+                                        HeightRequest="30"
+                                        Padding="5,0,5,0"
+                                        FontSize="Small"
+                                        Text="{Binding ButtonText}"
+                                        Command="{Binding BindingContext.AlertButtonOptionClicked, Source={x:Reference customAlertPopup}}"
+                                        CommandParameter="{Binding ButtonId}"
+                                        TextColor="White"
+                                        HorizontalOptions="FillAndExpand"
+                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}" />
+                            </Frame>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackLayout HorizontalOptions="End" Grid.Row="4">
+                <Button CornerRadius="5"
+                        HeightRequest="30"
+                        WidthRequest="60"
+                        Padding="5,0,5,0"
+                        IsVisible="{Binding ShowFeedBackField}"
+                        FontSize="Small"
+                        Command="{Binding OnSaveButtonTapped}"
+                        Text="Save"
+                        TextColor="White"
+                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}" />
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference customAlertPopup}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+    </Frame>
+
+</toolkit:Popup>

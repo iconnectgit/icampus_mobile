@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:treeView="clr-namespace:iCampus.MobileApp.Forms.UserModules.OnlineLesson.TreeView"
+             x:Class="iCampus.MobileApp.Views.UserModules.OnlineLesson.OnlineLessonPage"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="onlinelessonpage">
+    <ContentPage.Content>
+
+        <Grid VerticalOptions="FillAndExpand"
+              BackgroundColor="{StaticResource BorderColor}"
+              RowDefinitions="Auto,Auto,*,Auto"
+              ColumnDefinitions="*">
+            <Grid.Resources>
+                <ResourceDictionary>
+                </ResourceDictionary>
+            </Grid.Resources>
+
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         VerticalOptions="StartAndExpand"
+                         BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
+            <ContentView ControlTemplate="{StaticResource BeamStudentSelection}"
+                         BackgroundColor="{StaticResource BorderColor}" Grid.Row="1" Grid.Column="0" />
+
+            <StackLayout Grid.Row="2" Grid.Column="0" VerticalOptions="FillAndExpand">
+                <Frame CornerRadius="5" Padding="10" Margin="10,10,10,0" HeightRequest="310" IsVisible="{Binding IsFileAvailable}"
+                       BorderColor="Gray">
+                    <ScrollView VerticalScrollBarVisibility="Always">
+                        <StackLayout BackgroundColor="White" VerticalOptions="FillAndExpand">
+                            <Label Text="Required Courses" FontAttributes="Bold" FontSize="16" />
+                            <treeView:TreeView BackgroundColor="White" x:Name="TheTreeViewRequired" Margin="4"  VerticalOptions="FillAndExpand"/>
+                        </StackLayout>
+                    </ScrollView>
+                </Frame>
+
+                <Frame CornerRadius="5" Padding="10" Margin="10,10,10,0" HeightRequest="310" IsVisible="{Binding IsFileAvailable}"
+                       BorderColor="Gray">
+                    <ScrollView VerticalScrollBarVisibility="Always" VerticalOptions="FillAndExpand">
+                        <StackLayout BackgroundColor="White">
+                            <Label Text="Elective Courses" FontAttributes="Bold" FontSize="16" />
+                            <treeView:TreeView BackgroundColor="White" x:Name="TheTreeViewElective" Margin="4" VerticalOptions="FillAndExpand"/>
+                        </StackLayout>
+                    </ScrollView>
+                </Frame>
+            </StackLayout>
+
+            <StackLayout VerticalOptions="EndAndExpand" Margin="0" Grid.Row="3" Grid.Column="0">
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand"
+                             HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference onlinelessonpage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

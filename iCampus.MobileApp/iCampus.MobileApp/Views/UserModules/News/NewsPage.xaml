@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             x:Class="iCampus.MobileApp.Views.UserModules.News.NewsPage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             NavigationPage.HasNavigationBar="false"
+             x:Name="newsPage">
+    <ContentPage.Content>
+
+        <Grid Grid.Row="0" Grid.Column="0" x:Name="BeamAppView" Margin="0"
+              RowDefinitions="Auto,Auto,Auto,Auto,*,Auto"
+              BackgroundColor="{StaticResource BorderColor}" VerticalOptions="FillAndExpand">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <behaviours:VisiblityConverter x:Key="VisiblityConverter" />
+                </ResourceDictionary>
+            </Grid.Resources>
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         BackgroundColor="White"
+                         Grid.Row="0" />
+            <StackLayout Grid.Row="4" IsVisible="{Binding IsNewsSelectedFromFooter}" Margin="10,10,10,0">
+                <Label Text="News &amp; Events" 
+                       Style="{StaticResource TitleLabelStyle}" 
+                       FontSize="16"
+                       FontAttributes="Bold"/>
+                <ListView HasUnevenRows="true" IsVisible="{Binding NewsStatus}"
+                          ItemsSource="{Binding NewsList,Mode=TwoWay}"
+                          SelectedItem="{Binding SelectedNews,Mode=TwoWay}"
+                          BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                          SeparatorVisibility="None" VerticalScrollBarVisibility="Never"
+                          IsPullToRefreshEnabled="True"
+                          IsRefreshing="{Binding IsRefreshing}"
+                          RefreshCommand="{Binding RefreshedCommand}"
+                          Margin="10,10,10,0">
+                    <x:Arguments>
+                        <ListViewCachingStrategy>RetainElement</ListViewCachingStrategy>
+                    </x:Arguments>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid RowSpacing="2"
+                                      ColumnSpacing="15"
+                                      Margin="0,10,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Frame Padding="0"
+                                           CornerRadius="10"
+                                           HasShadow="False">
+                                        <Image HorizontalOptions="CenterAndExpand"
+                                               VerticalOptions="CenterAndExpand"
+                                               IsVisible="{Binding NewsImageUrl,Converter={StaticResource VisiblityConverter}}"
+                                               Aspect="Fill"
+                                               WidthRequest="100"
+                                               HeightRequest="80"
+                                               Source="{Binding NewsImageUrl}" />
+                                    </Frame>
+                                    <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" RowDefinitions="Auto,Auto,Auto">
+                                        <Label Text="{Binding NewsTitle}"
+                                               VerticalTextAlignment="Start" Grid.Row="0" Grid.Column="0"
+                                               MaxLines="1"
+                                               LineBreakMode="TailTruncation"
+                                               FontSize="18"
+                                               TextColor="Black"
+                                               FontAttributes="Bold" />
+                                        <Grid
+                                            IsVisible="{Binding NewsData,Converter={StaticResource VisiblityConverter}}"
+                                            Grid.Row="1" Grid.Column="0">
+                                            <Label Text="{Binding NewsBrief}"
+                                                   FontSize="12"
+                                                   TextColor="black"
+                                                   LineBreakMode="TailTruncation" 
+                                                   BackgroundColor="Transparent"
+                                                   MaxLines="2" />
+                                            <Grid BackgroundColor="Transparent">
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding BindingContext.ListTappedCommand, Source={x:Reference newsPage}}"
+                                                        CommandParameter="{Binding .}" NumberOfTapsRequired="1" />
+                                                </Grid.GestureRecognizers>
+                                            </Grid>
+                                        </Grid>
+                                        <Label Text="{Binding FormattedDueDateTime}" Grid.Row="2" Grid.Column="0"
+                                               Style="{StaticResource DateLabelStyle}" />
+                                    </Grid>
+
+                                    <BoxView HeightRequest="10"
+                                             Grid.Row="3"
+                                             Grid.Column="0"
+                                             Grid.ColumnSpan="2"
+                                             BackgroundColor="Transparent" />
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.Behaviors>
+                        <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                        Command="{Binding ListTappedCommand}"
+                                                        CommandParameter="{Binding SelectedNews}" />
+                    </ListView.Behaviors>
+                </ListView>
+            </StackLayout>
+
+            <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                         VerticalOptions="EndAndExpand" Grid.Row="5"
+                         HorizontalOptions="FillAndExpand"
+                         HeightRequest="60" />
+
+
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

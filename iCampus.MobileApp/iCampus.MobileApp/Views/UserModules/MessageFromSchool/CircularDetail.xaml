@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             x:Class="iCampus.MobileApp.Views.UserModules.MessageFromSchool.CircularDetail"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             NavigationPage.HasNavigationBar="false"
+             x:Name="cirularDetailsPage">
+    <ContentPage.Content>
+
+        <Grid>
+            <StackLayout BackgroundColor="{Binding BackgroundColor,Source={x:Static local:AppSettings.Current}}">
+                <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                             BackgroundColor="White" />
+                <StackLayout>
+                    <StackLayout.Resources>
+                        <ResourceDictionary>
+                            <behaviours:AttachmentTypeToImageSourceConverter
+                                x:Key="AttachmentTypeToImageSourceConverter" />
+                            <behaviours:AttachmentFileStatusToSourceConverter
+                                x:Key="AttachmentFileStatusToSourceConverter" />
+                            <behaviours:VisiblityConverter x:Key="visiblityConverter" />
+                        </ResourceDictionary>
+                    </StackLayout.Resources>
+                    <ScrollView VerticalScrollBarVisibility="Never" VerticalOptions="FillAndExpand"
+                                HorizontalOptions="FillAndExpand">
+                        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="5"
+                              Margin="10" BackgroundColor="White" Padding="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.6*" />
+                                <ColumnDefinition Width="0.4*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding CircularObject.CircularTitle}" 
+                                   Grid.Row="0"
+                                   Grid.Column="0" 
+                                   Grid.ColumnSpan="2"
+                                   HorizontalOptions="StartAndExpand"
+                                   Style="{StaticResource TitleLabelStyle}" VerticalOptions="StartAndExpand" />
+                            <Label Text="{Binding CircularObject.CircularData}" 
+                                   Grid.Row="1"
+                                   Grid.Column="0" 
+                                   Grid.ColumnSpan="2"
+                                   TextType="Html"
+                                   HorizontalOptions="StartAndExpand"
+                                   Style="{StaticResource TitleLabelStyle}" 
+                                   VerticalOptions="StartAndExpand" />
+
+                            <!-- <WebView x:Name="beamDetails"  -->
+                            <!--          HeightRequest="100" -->
+                            <!--          Grid.Row="1"  -->
+                            <!--          Grid.Column="0"  -->
+                            <!--          Grid.ColumnSpan="2" -->
+                            <!--          Margin="0,0,0,0"> -->
+                            <!--     <WebView.Source> -->
+                            <!--         <HtmlWebViewSource Html="{Binding CircularObject.CircularData}" /> -->
+                            <!--     </WebView.Source> -->
+                            <!-- </WebView> -->
+                            <ListView HasUnevenRows="True" VerticalScrollBarVisibility="Never" BackgroundColor="White"
+                                      ItemsSource="{Binding AttachmentList,Mode=TwoWay}"
+                                      IsVisible="{Binding CircularObject.AttachmentCount,Converter={StaticResource IntToBoolValueConverter},ConverterParameter=attachmentVisiblityConverter}"
+                                      SelectionMode="None"
+                                      Grid.Row="2"
+                                      Grid.Column="0"
+                                      Grid.ColumnSpan="2"
+                                      SeparatorVisibility="None"
+                                      VerticalOptions="FillAndExpand"
+                                      HorizontalOptions="FillAndExpand"
+                                      HeightRequest="{Binding AttachmentListViewHeight}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <Grid RowDefinitions="*" ColumnDefinitions="Auto,Auto,*">
+                                                    <ffimageloading:CachedImage Grid.Column="0" HorizontalOptions="EndAndExpand"
+                                                        VerticalOptions="CenterAndExpand"
+                                                        WidthRequest="25"
+                                                        HeightRequest="25"
+                                                        Aspect="AspectFit"
+                                                        CacheType="None"
+                                                        CacheDuration="0"
+                                                        DownsampleToViewSize="True"
+                                                        Source="{Binding FileStatus,Mode=TwoWay,Converter={StaticResource AttachmentFileStatusToSourceConverter}}">
+                                                        <ffimageloading:CachedImage.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding BindingContext.DownloadTappedCommand,Source={x:Reference cirularDetailsPage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                        </ffimageloading:CachedImage.GestureRecognizers>
+                                                    </ffimageloading:CachedImage>
+                                                    <ffimageloading:CachedImage Grid.Column="1" HorizontalOptions="StartAndExpand"
+                                                        VerticalOptions="CenterAndExpand"
+                                                        WidthRequest="20"
+                                                        HeightRequest="20"
+                                                        Aspect="AspectFit"
+                                                        Margin="10,0,0,0"
+                                                        DownsampleToViewSize="True"
+                                                        Source="{Binding FileType,Converter={StaticResource AttachmentTypeToImageSourceConverter}}" />
+                                                    <Label Text="{Binding DisplayName}"
+                                                           Grid.Column="2"
+                                                           HorizontalOptions="StartAndExpand"
+                                                           VerticalOptions="CenterAndExpand"
+                                                           Margin="10,0,0,0"
+                                                           Style="{StaticResource AttachmentTextStyle}">
+                                                        <Label.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding BindingContext.AttachmentListTappedCommand,Source={x:Reference cirularDetailsPage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                        </Label.GestureRecognizers>
+                                                    </Label>
+
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding BindingContext.AttachmentListTappedCommand,Source={x:Reference cirularDetailsPage}}"
+                                                        CommandParameter="{Binding .}" />
+                                                </Grid.GestureRecognizers>
+                                            </Grid>
+
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                            <ListView HasUnevenRows="True" VerticalScrollBarVisibility="Never"
+                                      ItemsSource="{Binding CircularObject.WebsiteLinks,Mode=TwoWay}"
+                                      SelectedItem="{Binding CurrentWebsiteLink, Mode=TwoWay}"
+                                      BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                      Grid.Row="3"
+                                      Grid.Column="0"
+                                      Grid.ColumnSpan="2"
+                                      SeparatorVisibility="None"
+                                      HeightRequest="{Binding LinkListViewHeight}">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout Orientation="Horizontal"
+                                                         Margin="0,10,0,0"
+                                                         Spacing="0"
+                                                         IsVisible="{Binding Title,Converter={StaticResource visiblityConverter}}"
+                                                         HorizontalOptions="StartAndExpand"
+                                                         VerticalOptions="CenterAndExpand">
+                                                <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                                            VerticalOptions="CenterAndExpand"
+                                                                            WidthRequest="20"
+                                                                            HeightRequest="20"
+                                                                            Aspect="AspectFit"
+                                                                            Margin="4,0,0,0"
+                                                                            DownsampleToViewSize="True"
+                                                                            Source="attachment_icon.png" />
+                                                <Label Text="{Binding Title}"
+                                                       HorizontalOptions="StartAndExpand"
+                                                       VerticalOptions="CenterAndExpand"
+                                                       Margin="10,0,0,0" Style="{StaticResource AttachmentTextStyle}" />
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                                <ListView.Behaviors>
+                                    <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                                    Command="{Binding WebsiteLinksTappedCommand}"
+                                                                    CommandParameter="{Binding CurrentWebsiteLink}" />
+                                </ListView.Behaviors>
+                            </ListView>
+                            <Label
+                                Text="{Binding CircularObject.FormattedCircularDate,StringFormat='Circular Date : {0}'}"
+                                Grid.Row="4"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="2"
+                                Margin="0,0,0,10"
+                                TextColor="{StaticResource LightGrayColor}"
+                                VerticalOptions="StartAndExpand"
+                                BackgroundColor="White" Padding="0,0,0,5" />
+                        </Grid>
+                    </ScrollView>
+                </StackLayout>
+                <StackLayout.GestureRecognizers>
+                    <SwipeGestureRecognizer
+                        Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference cirularDetailsPage}}"
+                        Direction="Right" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

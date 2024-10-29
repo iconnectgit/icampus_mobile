@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:individual="clr-namespace:iCampus.MobileApp.Behaviours.Individual"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             x:Class="iCampus.MobileApp.Views.UserModules.DailyMarks.DailyMarksPage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             NavigationPage.HasNavigationBar="false"
+             x:Name="dailyMarksPage">
+    <ContentPage.Content>
+
+        <Grid>
+            <Grid VerticalOptions="FillAndExpand" RowSpacing="0"
+                  BackgroundColor="{StaticResource BorderColor}">
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <behaviours:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter" />
+                        <individual:LevelNoToColorConverter x:Key="LevelNoToColorConverter" />
+                        <individual:LevelNoToIntendConverter x:Key="LevelNoToIntendConverter" />
+                    </ResourceDictionary>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackLayout VerticalOptions="FillAndExpand" Margin="0,0,0,0" Spacing="0" Grid.Row="0">
+                    <ContentView ControlTemplate="{StaticResource BeamHeader}" BackgroundColor="White" />
+                    <StackLayout Padding="0,20,0,0" Margin="15,0,15,0" VerticalOptions="StartAndExpand"
+                                 IsVisible="{Binding IsNoRecordMsg}">
+                        <Frame Padding="5,5,5,5"
+                               CornerRadius="5" HasShadow="False"
+                               IsClippedToBounds="True"
+                               BorderColor="{StaticResource BorderColor}"
+                               BackgroundColor="White">
+                            <Label Text="{Binding NoDataFound}" Style="{StaticResource DescriptionLabelStyle}"
+                                   VerticalTextAlignment="Center"
+                                   HorizontalTextAlignment="Start" />
+                        </Frame>
+                    </StackLayout>
+
+                    <ListView HasUnevenRows="true" 
+                              VerticalOptions="FillAndExpand"
+                              IsVisible="{Binding IsNoRecordMsg,Converter={StaticResource ReverseBoolValueConverter}}"
+                              ItemsSource="{Binding DailyMarksParentChildList,Mode=TwoWay}" 
+                              Margin="0"
+                              SelectedItem="{Binding SelectedMarks, Mode=TwoWay}"
+                              SeparatorVisibility="None" 
+                              VerticalScrollBarVisibility="Never"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}">
+                        <x:Arguments>
+                            <ListViewCachingStrategy>RetainElement</ListViewCachingStrategy>
+                        </x:Arguments>
+                        <ListView.Header>
+                            <Grid BackgroundColor="WhiteSmoke" HeightRequest="50" Margin="5,0,5,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="0.6*" />
+                                    <ColumnDefinition Width="0.15*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="Course" Grid.Row="0" Style="{StaticResource TitleLabelStyle}"
+                                       Grid.Column="1"
+                                       Margin="10,0,0,0"
+                                       VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" />
+                                <Label Text="Marks" Grid.Row="0" Grid.Column="2"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" />
+                                <Label Text="Efforts" Grid.Row="0" Grid.Column="3"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       IsVisible="{Binding IsEffortVisible}" Margin="0,0,10,0"
+                                       VerticalOptions="CenterAndExpand" HorizontalOptions="StartAndExpand" />
+                            </Grid>
+
+                        </ListView.Header>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="5,5,5,0" Spacing="0" VerticalOptions="StartAndExpand">
+                                        <Frame CornerRadius="5" Margin="5,0,5,0" 
+                                               HasShadow="False" Padding="5,0,5,0" VerticalOptions="CenterAndExpand"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               IsClippedToBounds="True">
+                                            <Grid VerticalOptions="CenterAndExpand">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="50" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="0.6*" />
+                                                    <ColumnDefinition Width="0.25*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Row="0" Grid.Column="1"
+                                                       HorizontalOptions="StartAndExpand"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       VerticalOptions="CenterAndExpand">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="{Binding ParentMarksData.CurriculumName}" />
+                                                            <Span Text=" ( " />
+                                                            <Span
+                                                                Text="{Binding ParentMarksData.ElementPropertiesModel.LowerBound}" />
+                                                            <Span Text=" - " />
+                                                            <Span
+                                                                Text="{Binding ParentMarksData.ElementPropertiesModel.HigherBound}" />
+                                                            <Span Text=" )" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Grid Grid.Row="0" Grid.Column="2" ColumnSpacing="-5"
+                                                      HorizontalOptions="CenterAndExpand"
+                                                      VerticalOptions="CenterAndExpand">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Label
+                                                        Text="{Binding ParentMarksData.ResultModel.Result, StringFormat='{0:F2}'}"
+                                                        Margin="10,0,0,0"
+                                                        Style="{StaticResource TitleLabelStyle}"
+                                                        VerticalOptions="CenterAndExpand" />
+
+                                                    <Label Text="{Binding ParentMarksData.ResultModel.Letter}"
+                                                           Grid.Column="1" Margin="10,0,0,0"
+                                                           Style="{StaticResource TitleLabelStyle}"
+                                                           IsVisible="{Binding MarksEntryModel.UseTextBox}"
+                                                           BackgroundColor="LightGreen"
+                                                           VerticalOptions="CenterAndExpand" />
+
+                                                    <ffimageloading:CachedImage
+                                                        Source="{Binding ParentMarksData.ArrowImageSource}"
+                                                        Grid.Column="2"
+                                                        IsVisible="{Binding SubCourseList.Count, Converter={StaticResource IntToBoolValueConverter}}"
+                                                        HorizontalOptions="EndAndExpand"
+                                                        VerticalOptions="CenterAndExpand" Margin="10,0,0,0" Scale="0.8" />
+                                                </Grid>
+                                                <Label Text="{Binding ParentMarksData.ResultModel.Result}" Grid.Row="0"
+                                                       Grid.Column="3"
+                                                       IsVisible="{Binding BindingContext.IsEffortVisible,Source={x:Reference dailyMarksPage}}"
+                                                       Margin="0,0,10,0"
+                                                       HorizontalOptions="StartAndExpand"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       VerticalOptions="CenterAndExpand" />
+                                            </Grid>
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding BindingContext.ExpandClickCommand,Source={x:Reference dailyMarksPage}}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Frame.GestureRecognizers>
+                                        </Frame>
+                                        <ListView HasUnevenRows="True" RowHeight="50" Margin="6,0,6,0"
+                                                  ItemsSource="{Binding SubCourseList,Mode=TwoWay}"
+                                                  VerticalScrollBarVisibility="Never"
+                                                  VerticalOptions="FillAndExpand"
+                                                  BackgroundColor="White" 
+                                                  SelectionMode="None"
+                                                  HeightRequest="{Binding ListViewHeight}"
+                                                  IsVisible="{Binding ParentMarksData.IsExpandMode}">
+                                            <x:Arguments>
+                                                <ListViewCachingStrategy>RetainElement</ListViewCachingStrategy>
+                                            </x:Arguments>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ViewCell>
+                                                        <Grid VerticalOptions="CenterAndExpand">
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="15" />
+                                                                <ColumnDefinition Width="0.55*" />
+                                                                <ColumnDefinition Width="0.15*" />
+                                                                <ColumnDefinition Width="Auto" />
+                                                            </Grid.ColumnDefinitions>
+                                                            <Label
+                                                                Margin="{Binding LevelNo,Converter={StaticResource LevelNoToIntendConverter}}"
+                                                                Grid.Row="0" Grid.Column="1"
+                                                                HorizontalOptions="StartAndExpand"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                Style="{StaticResource DescriptionLabelStyle}"
+                                                                TextColor="{Binding LevelNo,Converter={StaticResource LevelNoToColorConverter}}">
+                                                                <Label.FormattedText>
+                                                                    <FormattedString>
+                                                                        <Span Text="{Binding ElementName}" />
+                                                                        <Span Text=" ( " />
+                                                                        <Span
+                                                                            Text="{Binding ElementPropertiesModel.LowerBound}" />
+                                                                        <Span Text=" - " />
+                                                                        <Span
+                                                                            Text="{Binding ElementPropertiesModel.HigherBound}" />
+                                                                        <Span Text=" )" />
+                                                                    </FormattedString>
+                                                                </Label.FormattedText>
+                                                            </Label>
+                                                            <Label Grid.Row="0" Grid.Column="2"
+                                                                   HorizontalOptions="StartAndExpand"
+                                                                   VerticalOptions="CenterAndExpand"
+                                                                   Style="{StaticResource DescriptionLabelStyle}">
+                                                                <Label.Triggers>
+                                                                    <DataTrigger TargetType="Label"
+                                                                        Binding="{Binding MarksEntryModel.UseTextBox}"
+                                                                        Value="True">
+                                                                        <Setter Property="Text"
+                                                                            Value="{Binding ResultModel.Result, StringFormat='{0:F2}'}" />
+                                                                    </DataTrigger>
+                                                                    <DataTrigger TargetType="Label"
+                                                                        Binding="{Binding MarksEntryModel.UseTextBox}"
+                                                                        Value="False">
+                                                                        <Setter Property="Text"
+                                                                            Value="{Binding ResultModel.Letter}" />
+                                                                    </DataTrigger>
+                                                                </Label.Triggers>
+                                                            </Label>
+                                                            <Label Text="{Binding EffortsResultModel.Result}"
+                                                                   IsVisible="{Binding BindingContext.IsEffortVisible,Source={x:Reference dailyMarksPage}}"
+                                                                   Grid.Row="0" Grid.Column="3"
+                                                                   HorizontalOptions="StartAndExpand"
+                                                                   VerticalOptions="CenterAndExpand"
+                                                                   Style="{StaticResource DescriptionLabelStyle}"
+                                                                   Margin="0,0,10,0" />
+                                                        </Grid>
+                                                    </ViewCell>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.Behaviors>
+                            <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                            Command="{Binding ListTappedCommand}" />
+                        </ListView.Behaviors>
+                    </ListView>
+                </StackLayout>
+                <StackLayout VerticalOptions="EndAndExpand" Margin="0,5,0,0" Grid.Row="1">
+                    <Button Text="Search Daily Marks" Margin="15,5,15,5"
+                            BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                            TextColor="White" 
+                            FontAttributes="Bold"
+                            VerticalOptions="EndAndExpand"
+                            IsVisible="{Binding SearchOptionVisibility}"
+                            Command="{Binding SearchClickCommand}"
+                            HorizontalOptions="FillAndExpand" CornerRadius="5" />
+                    <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                                 VerticalOptions="EndAndExpand"
+                                 HorizontalOptions="FillAndExpand" />
+                </StackLayout>
+                <Grid.GestureRecognizers>
+                    <SwipeGestureRecognizer
+                        Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference dailyMarksPage}}"
+                        Direction="Right" />
+                </Grid.GestureRecognizers>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

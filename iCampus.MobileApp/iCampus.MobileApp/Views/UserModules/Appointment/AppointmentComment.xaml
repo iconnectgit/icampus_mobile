@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:controls="clr-namespace:iCampus.MobileApp.Controls"
+             x:Class="iCampus.MobileApp.Views.UserModules.Appointment.AppointmentComment"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="appointmentCommentPage">
+    <ContentPage.Content>
+
+        <Grid>
+            <StackLayout BackgroundColor="{StaticResource BorderColor}">
+                <StackLayout.Resources>
+                    <ResourceDictionary>
+                    </ResourceDictionary>
+                </StackLayout.Resources>
+                <ContentView ControlTemplate="{StaticResource BeamHeader}" BackgroundColor="White" />
+                <ScrollView Padding="20,10,20,0" VerticalOptions="StartAndExpand" VerticalScrollBarVisibility="Never">
+                    <Grid RowSpacing="10"
+                          Margin="0,0,0,10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.5*" />
+                            <ColumnDefinition Width="0.5*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="0"
+                               Grid.Row="0"
+                               Style="{StaticResource TitleLabelStyle}"
+                               Text="Appointment Id " />
+                        <Label Grid.Column="1"
+                               Grid.Row="0"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               Text="{Binding SelectedTeacherAppointment.AppointmentBookingId}" />
+                        <Label Grid.Column="0"
+                               Grid.Row="1"
+                               Style="{StaticResource TitleLabelStyle}"
+                               Text="Appointment Booked for " />
+                        <Label Grid.Column="1"
+                               Grid.Row="1"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               Text="{Binding SelectedTeacherAppointment.BookingDateTimeFormatted}" />
+                        <Label Grid.Column="0"
+                               Grid.Row="2"
+                               Style="{StaticResource TitleLabelStyle}"
+                               Text="Teacher Name" />
+                        <Label Grid.Column="1"
+                               Grid.Row="2"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               Text="{Binding SelectedTeacherAppointment.TeacherName}" />
+                        <Label Grid.Column="0"
+                               Grid.Row="3"
+                               Style="{StaticResource TitleLabelStyle}"
+                               Text="Student Name" />
+                        <Label Grid.Column="1"
+                               Grid.Row="3"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               Text="{Binding SelectedTeacherAppointment.StudentName}" />
+                        <Label Grid.Column="0"
+                               Grid.Row="4"
+                               Style="{StaticResource TitleLabelStyle}"
+                               Text="Course" />
+                        <Label Grid.Column="1"
+                               Grid.Row="4"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               Text="{Binding SelectedTeacherAppointment.StudentCourses}" />
+                        <StackLayout Grid.Column="0" Spacing="0"
+                                     Grid.Row="5"
+                                     Grid.ColumnSpan="2">
+                            <Label Margin="2,0,0,0"
+                                   Style="{StaticResource TitleLabelStyle}"
+                                   VerticalOptions="EndAndExpand"
+                                   Text="Your Comments" />
+                            <OnPlatform x:TypeArguments="Frame">
+                                <On Platform="Android">
+                                    <Frame BackgroundColor="Transparent" 
+                                           HasShadow="False" 
+                                           Padding="0" 
+                                           Margin="0,10,0,0"
+                                           CornerRadius="0"
+                                           BorderColor="Transparent">
+                                        <controls:NoUnderlineEntry BackgroundColor="White"
+                                                                   Placeholder="Write the message here"
+                                                                   VerticalOptions="CenterAndExpand" Margin="0,0,0,0"
+                                                                   Text="{Binding ParentComments}"
+                                                                   Style="{StaticResource EditorFontStyle}" />
+                                    </Frame>
+                                </On>
+                                <On Platform="iOS">
+                                    <Frame BackgroundColor="White" 
+                                           CornerRadius="2" 
+                                           HasShadow="False" 
+                                           Padding="10"
+                                           Margin="0,10,0,0"
+                                           BorderColor="Transparent">
+                                        <controls:NoUnderlineEntry BackgroundColor="White"
+                                                                   Placeholder="Write the message here"
+                                                                   VerticalOptions="CenterAndExpand" Margin="0,0,0,0"
+                                                                   Text="{Binding ParentComments}"
+                                                                   Style="{StaticResource EditorFontStyle}" />
+                                    </Frame>
+                                </On>
+                            </OnPlatform>
+                            <Label Text="Please enter comments"
+                                   Margin="3,0,0,0"
+                                   IsVisible="{Binding IsCommentsErrVisible}"
+                                   VerticalOptions="StartAndExpand"
+                                   VerticalTextAlignment="Start"
+                                   FontSize="Small"
+                                   TextColor="Red" />
+                        </StackLayout>
+
+                        <Button Text="Submit"
+                                CornerRadius="4"
+                                Grid.ColumnSpan="2" WidthRequest="80"
+                                HeightRequest="30"
+                                Padding="5,0,5,0"
+                                FontSize="Small"
+                                Grid.Row="7" Margin="0,50,0,10"
+                                VerticalOptions="EndAndExpand" HorizontalOptions="CenterAndExpand"
+                                Command="{Binding SubmitClickCommand}"
+                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                TextColor="White" />
+                    </Grid>
+                </ScrollView>
+                <StackLayout.GestureRecognizers>
+                    <SwipeGestureRecognizer
+                        Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference appointmentCommentPage}}"
+                        Direction="Right" />
+                </StackLayout.GestureRecognizers>
+            </StackLayout>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

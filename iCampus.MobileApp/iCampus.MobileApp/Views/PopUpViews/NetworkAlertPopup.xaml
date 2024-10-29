@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:forms="clr-namespace:iCampus.MobileApp.Forms"
+    x:Class="iCampus.MobileApp.Views.PopUpViews.NetworkAlertPopup"
+    x:Name="networkAlertPopup"
+    Color="Transparent">
+    
+    <Frame CornerRadius="10"
+           VerticalOptions="CenterAndExpand"
+           HorizontalOptions="CenterAndExpand"
+           BackgroundColor="White"
+           Margin="5"
+           HeightRequest="120"
+           WidthRequest="{OnPlatform iOS='350', Android='340'}">
+        <StackLayout>
+            <StackLayout Orientation="Horizontal"
+                         HorizontalOptions="CenterAndExpand"
+                         Margin="0">
+                <Image Source="internet_error" 
+                       HeightRequest="25" 
+                       WidthRequest="25">
+                </Image>
+                <Label Text="No Internet Connection"
+                       TextColor="Black"
+                       Margin="10,0,0,0"
+                       HorizontalTextAlignment="Center"
+                       VerticalTextAlignment="Center" />
+            </StackLayout>
+            <Button Text="OK"
+                    Clicked="OKButton_Clicked"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Center"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    BackgroundColor="#54D08C">
+                <Button.Scale>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS" Value="1" />
+                        <On Platform="Android" Value="0.8" />
+                    </OnPlatform>
+                </Button.Scale>
+                
+                
+                <Button.Padding>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="iOS" Value="20,0,20,0" />
+                        <On Platform="Android" Value="20,0,20,0" />
+                    </OnPlatform>
+                </Button.Padding>
+                <Button.Margin>
+                    <OnPlatform x:TypeArguments="Thickness">
+                        <On Platform="iOS" Value="0,15,0,10" />
+                        <On Platform="Android" Value="0,15,0,10" />
+                    </OnPlatform>
+                </Button.Margin>
+                <Button.FontSize>
+                    <OnPlatform x:TypeArguments="x:Double">
+                        <On Platform="iOS" Value="12" />
+                        <On Platform="Android" Value="14" />
+                    </OnPlatform>
+                </Button.FontSize>
+            </Button>
+        </StackLayout>
+    </Frame>
+    
+</toolkit:Popup>

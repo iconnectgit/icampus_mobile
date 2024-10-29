@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             x:Class="iCampus.MobileApp.Views.UserModules.Exam.ExamPage"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="exam">
+    <ContentPage.Content>
+
+        <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*" VerticalOptions="FillAndExpand"
+              BackgroundColor="{StaticResource BorderColor}">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <behaviours:VisiblityConverter x:Key="VisiblityConverter" />
+                    <behaviours:IntToBoolValueConverter x:Key="intToBoolValueConverter" />
+                    <behaviours:DateTimeFormatConverter x:Key="dateTimeFormatConverter" />
+                    <behaviours:AttachmentFileStatusToSourceConverter x:Key="AttachmentFileStatusToSourceConverter" />
+                    <behaviours:AttachmentFileToImageSourceConverter x:Key="attachmentFileToImageSourceConverter" />
+                </ResourceDictionary>
+            </Grid.Resources>
+
+            <ContentView ControlTemplate="{StaticResource BeamHeader}" Grid.Row="0" VerticalOptions="Start"
+                         BackgroundColor="White" />
+            <StackLayout VerticalOptions="FillAndExpand" Grid.Row="1">
+                <StackLayout Padding="15,10,15,0"
+                             IsVisible="{Binding IsNoRecordMsg}">
+                    <Frame Padding="10" HasShadow="False"
+                           CornerRadius="5"
+                           IsClippedToBounds="True"
+                           BorderColor="{StaticResource BorderColor}"
+                           BackgroundColor="White">
+                        <Label Text="No exams assigned" Style="{StaticResource DescriptionLabelStyle}" />
+                    </Frame>
+                </StackLayout>
+                <Grid RowDefinitions="Auto,*" VerticalOptions="FillAndExpand">
+                    <StackLayout Spacing="0" VerticalOptions="StartAndExpand" Grid.Row="0">
+                        <Frame BackgroundColor="White"
+                               Padding="10,5,10,5"
+                               IsVisible="{Binding ExamScheduleList.Count,Converter={StaticResource intToBoolValueConverter}}"
+                               BorderColor="{StaticResource BorderColor}"
+                               HasShadow="False">
+                            <StackLayout Padding="2,2,2,2">
+                                <Label Text="{Binding DefaultExamSchedule.ExamName}"
+                                       VerticalOptions="Start"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       FontSize="18"
+                                       FontAttributes="Bold" />
+                                <Label Text="{Binding DefaultExamSchedule.Description}"
+                                       VerticalOptions="StartAndExpand"
+                                       Style="{StaticResource DescriptionLabelStyle}"
+                                       TextColor="{StaticResource LightGrayColor}"
+                                       Margin="0,5,0,0" />
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                    
+                    <ListView HasUnevenRows="true"
+                              Grid.Row="1"
+                              VerticalOptions="FillAndExpand"
+                              VerticalScrollBarVisibility="Never"
+                              HorizontalOptions="FillAndExpand" SelectionMode="None"
+                              ItemsSource="{Binding ExamScheduleList,Mode=TwoWay}" x:Name="listView"
+                              SelectedItem="{Binding SelectedExamSchedule, Mode=TwoWay}"
+                              SeparatorVisibility="None"
+                              IsVisible="{Binding ExamScheduleList.Count,Converter={StaticResource intToBoolValueConverter}}"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="10,5,10,0" HorizontalOptions="FillAndExpand">
+                                        <Frame CornerRadius="5" BackgroundColor="White"
+                                               HasShadow="False"
+                                               Padding="10"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               IsClippedToBounds="True">
+                                            <Frame.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding BindingContext.ArrowClickedCommand,Source={x:Reference exam}}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Frame.GestureRecognizers>
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.8*" />
+                                                    <ColumnDefinition Width="0.2*" />
+                                                </Grid.ColumnDefinitions>
+                                                <StackLayout Orientation="Horizontal"
+                                                             Spacing="0"
+                                                             Grid.Row="0"
+                                                             Grid.Column="0"
+                                                             HorizontalOptions="StartAndExpand">
+                                                    <Label
+                                                        Text="{Binding ExamDate,Converter={StaticResource dateTimeFormatConverter}}"
+                                                        MaxLines="1"
+                                                        Style="{StaticResource TitleLabelStyle}" />
+                                                    <Label Text="{Binding ExamTime}"
+                                                           MaxLines="1"
+                                                           Style="{StaticResource TitleLabelStyle}"
+                                                           Margin="5,0,0,0" />
+                                                </StackLayout>
+                                                <StackLayout Orientation="Horizontal"
+                                                             Grid.Row="1"
+                                                             Grid.Column="0"
+                                                             Spacing="0"
+                                                             HorizontalOptions="StartAndExpand">
+                                                    <Label Text="{Binding CurriculumName}"
+                                                           Style="{StaticResource DescriptionLabelStyle}" />
+                                                    <Label
+                                                        Text="{Binding CurriculumShortName,StringFormat='[{0}]'}"
+                                                        Margin="5,0,0,0"
+                                                        Style="{StaticResource DescriptionLabelStyle}" />
+                                                    <Label Text="Elective"
+                                                           Margin="5,0,0,0"
+                                                           TextColor="Red"
+                                                           Style="{StaticResource DescriptionLabelStyle}"
+                                                           IsVisible="{Binding IsElective}" />
+                                                </StackLayout>
+                                                <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
+                                                                            VerticalOptions="CenterAndExpand"
+                                                                            Scale="0.8"
+                                                                            IsVisible="{Binding ArrowImageSourceVisibility}"
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="1"
+                                                                            Grid.RowSpan="2"
+                                                                            Source="{Binding ArrowImageSource}">
+                                                    <!--<ffimageloading:CachedImage.GestureRecognizers>
+                                                                <TapGestureRecognizer Command="{Binding BindingContext.ExpandCollapseClickCommand,Source={x:Reference exam}}"
+                                                                                      CommandParameter="{Binding .}" />
+                                                            </ffimageloading:CachedImage.GestureRecognizers>-->
+                                                </ffimageloading:CachedImage>
+                                            </Grid>
+
+                                        </Frame>
+                                        <Frame HasShadow="False" Padding="10"
+                                               IsVisible="{Binding DetailsVisibility}"
+                                               BorderColor="Transparent">
+
+                                            <ScrollView VerticalOptions="StartAndExpand" Padding="0"
+                                                        x:Name="scrollview" VerticalScrollBarVisibility="Never"
+                                                        Orientation="Vertical">
+                                                <StackLayout VerticalOptions="StartAndExpand">
+                                                    <Label Text="{Binding ExamRequirements}"
+                                                           VerticalOptions="StartAndExpand"
+                                                           TextType="Html"
+                                                           TextColor="{StaticResource TextColor}"
+                                                           IsVisible="{Binding ExamRequirements,Converter={StaticResource VisiblityConverter}}"
+                                                           HorizontalOptions="StartAndExpand" />
+                                                    <ListView HasUnevenRows="True"
+                                                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                                              CachingStrategy="RecycleElementAndDataTemplate"
+                                                              SelectedItem="{Binding SelectedAttachment}"
+                                                              VerticalScrollBarVisibility="Never"
+                                                              ItemsSource="{Binding ExamFiles}"
+                                                              SeparatorVisibility="None"
+                                                              HeightRequest="{Binding ListViewHeight}">
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <ViewCell>
+                                                                    <Grid RowDefinitions="*" ColumnDefinitions="*">
+                                                                        <StackLayout Orientation="Horizontal"
+                                                                            Margin="0,10,0,0"
+                                                                            Spacing="0"
+                                                                            HorizontalOptions="StartAndExpand"
+                                                                            VerticalOptions="CenterAndExpand"
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="0">
+                                                                            <ffimageloading:CachedImage
+                                                                                HorizontalOptions="EndAndExpand"
+                                                                                VerticalOptions="CenterAndExpand"
+                                                                                WidthRequest="25"
+                                                                                HeightRequest="25"
+                                                                                Aspect="AspectFit"
+                                                                                CacheType="None"
+                                                                                CacheDuration="0"
+                                                                                DownsampleToViewSize="True"
+                                                                                Source="{Binding FileStatus,Mode=TwoWay,Converter={StaticResource AttachmentFileStatusToSourceConverter}}">
+                                                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                                                                    <TapGestureRecognizer
+                                                                                        Command="{Binding BindingContext.DonwloadTappedCommand,Source={x:Reference exam}}"
+                                                                                        CommandParameter="{Binding .}" />
+                                                                                </ffimageloading:CachedImage.GestureRecognizers>
+                                                                            </ffimageloading:CachedImage>
+                                                                            <ffimageloading:CachedImage
+                                                                                HorizontalOptions="StartAndExpand"
+                                                                                VerticalOptions="CenterAndExpand"
+                                                                                WidthRequest="20"
+                                                                                HeightRequest="20"
+                                                                                Aspect="AspectFit"
+                                                                                Margin="10,0,0,0"
+                                                                                DownsampleToViewSize="True"
+                                                                                Source="{Binding FileName,Converter={StaticResource attachmentFileToImageSourceConverter}}" />
+                                                                            <Label Text="{Binding FileName}"
+                                                                                HorizontalOptions="StartAndExpand"
+                                                                                VerticalOptions="CenterAndExpand"
+                                                                                Margin="10,0,0,0"
+                                                                                Style="{StaticResource AttachmentTextStyle}">
+                                                                                <Label.GestureRecognizers>
+                                                                                    <TapGestureRecognizer
+                                                                                        Command="{Binding BindingContext.AttachmentListTappedCommand,Source={x:Reference exam}}"
+                                                                                        CommandParameter="{Binding .}" />
+                                                                                </Label.GestureRecognizers>
+                                                                            </Label>
+
+                                                                        </StackLayout>
+                                                                        <Grid.GestureRecognizers>
+                                                                            <TapGestureRecognizer
+                                                                                Command="{Binding BindingContext.AttachmentListTappedCommand,Source={x:Reference exam}}"
+                                                                                CommandParameter="{Binding .}" />
+                                                                        </Grid.GestureRecognizers>
+                                                                    </Grid>
+                                                                </ViewCell>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                </StackLayout>
+
+                                            </ScrollView>
+
+                                        </Frame>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                </Grid>
+            </StackLayout>
+            <StackLayout VerticalOptions="EndAndExpand" HeightRequest="65" Grid.Row="2">
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand"
+                             HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference exam}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

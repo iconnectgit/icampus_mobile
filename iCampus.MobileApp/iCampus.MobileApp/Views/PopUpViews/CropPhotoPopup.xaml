@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:forms="clr-namespace:iCampus.MobileApp.Forms"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+    x:Class="iCampus.MobileApp.Views.PopUpViews.CropPhotoPopup"
+    CanBeDismissedByTappingOutsideOfPopup="False"
+    x:Name="cropPhotoPopup"
+    Color="Transparent">
+
+    <Frame CornerRadius="5"
+           HasShadow="False"
+           Padding="0"
+           IsClippedToBounds="true"
+           BackgroundColor="White"
+           VerticalOptions="CenterAndExpand"
+           HorizontalOptions="CenterAndExpand"
+           WidthRequest="350"
+           HeightRequest="500">
+        <StackLayout Spacing="0" Margin="5,5,5,5">
+            <StackLayout.Resources>
+                <ResourceDictionary />
+            </StackLayout.Resources>
+            <Grid ColumnDefinitions="*, Auto"
+                  HorizontalOptions="FillAndExpand"
+                  Margin="0,0,0,0">
+                <Label Text="Upload and Crop Image"
+                       FontAttributes="Bold"
+                       FontSize="16"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center"
+                       Margin="5,5,0,0"
+                       WidthRequest="250" />
+                <Label
+                    Text="&#xf057;"
+                    FontFamily="FontAwesomeSolid"
+                    TextColor="Red"
+                    FontSize="24"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MenuClosedClick" NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+            <Grid>
+                <ffimageloading:CachedImage x:Name="imageToCrop"
+                                            Margin="0,10,0,0"
+                                            Source="{Binding ProfilePicturePath}"
+                                            HorizontalOptions="CenterAndExpand"
+                                            VerticalOptions="CenterAndExpand"
+                                            WidthRequest="380"
+                                            HeightRequest="380"
+                                            Aspect="AspectFit"
+                                            DownsampleToViewSize="True"
+                                            Scale="1" />
+
+                <Frame x:Name="cropBox"
+                       BackgroundColor="Transparent"
+                       BorderColor="Transparent"
+                       VerticalOptions="Center"
+                       HorizontalOptions="Center"
+                       HeightRequest="350"
+                       WidthRequest="350"
+                       IsVisible="{Binding IsCropBoxVisible}">
+                    <Grid>
+                        <!-- Top Border -->
+                        <BoxView Color="Red" HorizontalOptions="FillAndExpand" VerticalOptions="Start"
+                                 HeightRequest="5" />
+
+                        <!-- Bottom Border -->
+                        <BoxView Color="Red" HorizontalOptions="FillAndExpand" VerticalOptions="End" HeightRequest="5" />
+
+                        <!-- Left Border -->
+                        <BoxView Color="Red" HorizontalOptions="Start" VerticalOptions="FillAndExpand" WidthRequest="5" />
+
+                        <!-- Right Border -->
+                        <BoxView Color="Red" HorizontalOptions="End" VerticalOptions="FillAndExpand" WidthRequest="5" />
+                    </Grid>
+                    <Frame.GestureRecognizers>
+                        <PanGestureRecognizer PanUpdated="OnPanUpdated" />
+                    </Frame.GestureRecognizers>
+                </Frame>
+            </Grid>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand"
+                         Margin="0" IsVisible="{Binding IsChangeButtonVisible}">
+                <Button
+                    Text="Browse"
+                    FontSize="Small"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    BorderColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                    CornerRadius="6"
+                    Padding="5"
+                    HeightRequest="40"
+                    WidthRequest="80"
+                    Command="{Binding BrowseCommand}" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="CenterAndExpand"
+                         VerticalOptions="EndAndExpand" Margin="0" IsVisible="{Binding IsSaveButtonVisible}">
+                <Button
+                    Text="Save Cropped Image"
+                    FontSize="Small"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    BorderColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                    CornerRadius="6"
+                    Padding="5"
+                    HeightRequest="40"
+
+                    Command="{Binding SaveCropedCommand}" />
+                <Button
+                    Text="Cancel"
+                    FontSize="Small"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    BorderColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                    CornerRadius="6"
+                    Padding="5"
+                    HeightRequest="40"
+                    WidthRequest="80"
+                    Clicked="MenuClosedClick" />
+            </StackLayout>
+
+        </StackLayout>
+        <Frame.GestureRecognizers>
+            <SwipeGestureRecognizer
+                Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference cropPhotoPopup}}"
+                Direction="Right" />
+        </Frame.GestureRecognizers>
+    </Frame>
+
+</toolkit:Popup>

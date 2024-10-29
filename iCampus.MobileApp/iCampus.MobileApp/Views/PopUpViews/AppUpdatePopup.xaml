@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:forms="clr-namespace:iCampus.MobileApp.Forms"
+    x:Class="iCampus.MobileApp.Views.PopUpViews.AppUpdatePopup"
+    x:Name="appUpdatePopup"
+    Color="Transparent">
+    
+    <Frame CornerRadius="10"
+           VerticalOptions="CenterAndExpand"
+           HorizontalOptions="CenterAndExpand"
+           BackgroundColor="White"
+           Margin="5"
+           HeightRequest="180"
+           WidthRequest="{OnPlatform iOS='360', Android='350'}">
+        <StackLayout>
+            <StackLayout Spacing="0">
+                <Label Text="{Binding UpdateTitle}" FontSize="18" TextColor="Black" FontAttributes="Bold"/>
+                <Label Text="{Binding UpdateMessage}" Style="{StaticResource DescriptionLabelStyle}"
+                       Margin="0,15,0,0"/>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand"
+                             Spacing="10" Padding="0">
+                    <Button Text="Later" Clicked="LaterButton_Clicked" TextColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current},Converter={StaticResource ColorCodeConverter}}"
+                            CornerRadius="4" BackgroundColor="White" 
+                            IsVisible="{Binding IsForceUpdate,Converter={StaticResource ReverseBoolValueConverter}}"/>
+                    <Button Text="Upgrade Now" Command="{Binding UpdateNowClickCommand}" CornerRadius="4" BackgroundColor="White" Margin="20,0,0,0"
+                            TextColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current},Converter={StaticResource ColorCodeConverter}}"/>
+                </StackLayout>
+            </StackLayout>
+            
+        </StackLayout>
+    </Frame>
+    
+</toolkit:Popup>

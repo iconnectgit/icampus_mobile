@@ -1,0 +1,1181 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:controls="clr-namespace:iCampus.MobileApp.Controls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+             xmlns:flowListView="clr-namespace:DLToolkit.Maui.Controls.FlowListView;assembly=DLToolkit.Maui.Controls.FlowListView"
+             x:Class="iCampus.MobileApp.Views.UserModules.Calendar.QuickPostPage"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             NavigationPage.HasNavigationBar="{Binding IsNavigationBarVisible}"
+             x:Name="quickPostPage">
+    <ContentPage.Content>
+
+        <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*" BackgroundColor="WhiteSmoke">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <behaviours:AttachmentFileToImageSourceConverter x:Key="AttachmentFileToImageSourceConverter" />
+                </ResourceDictionary>
+            </Grid.Resources>
+
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         BackgroundColor="White" Grid.Row="0" Grid.Column="0" HeightRequest="40" />
+            <StackLayout Grid.Row="1" Grid.Column="0" VerticalOptions="FillAndExpand">
+                <ScrollView VerticalOptions="FillAndExpand">
+                    <Grid Margin="10"
+                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                          ColumnDefinitions="0.4*,0.6*"
+                          VerticalOptions="FillAndExpand"
+                          HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal"
+                                     Margin="5"
+                                     Grid.Row="0"
+                                     Grid.Column="0"
+                                     Grid.ColumnSpan="2"
+                                     Spacing="5">
+                            <ffimageloading:CachedImage
+                                Source="{Binding NewPostRadioButtonImage}"
+                                Scale="0.4">
+                                <ffimageloading:CachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding NewPostRadioButtonCommand}"
+                                                          NumberOfTapsRequired="1" />
+                                </ffimageloading:CachedImage.GestureRecognizers>
+                            </ffimageloading:CachedImage>
+                            <Label Text="New Post" Style="{StaticResource TitleLabelStyle}" Margin="0,0,0,0"
+                                   VerticalOptions="Center" />
+                            <ffimageloading:CachedImage
+                                Source="{Binding EditPostRadioButtonImage}"
+                                Scale="0.4">
+                                <ffimageloading:CachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding EditPostRadioButtonCommand}"
+                                                          NumberOfTapsRequired="1" />
+                                </ffimageloading:CachedImage.GestureRecognizers>
+                            </ffimageloading:CachedImage>
+                            <Label Text="Edit Post" Style="{StaticResource TitleLabelStyle}" Margin="0,0,0,0"
+                                   VerticalOptions="Center" />
+                        </StackLayout>
+                        <StackLayout Grid.Row="1"
+                                     Grid.Column="0"
+                                     Grid.ColumnSpan="2"
+                                     VerticalOptions="FillAndExpand"
+                                     IsVisible="{Binding IsNewPostVisible}">
+                            <StackLayout>
+                                <Label Text="Date Range"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       Margin="0,5,0,5" />
+                                <Frame HasShadow="False"
+                                       Padding="5,0,5,0" IsClippedToBounds="True"
+                                       BackgroundColor="White"
+                                       BorderColor="{StaticResource BorderColor}"
+                                       HeightRequest="40"
+                                       VerticalOptions="CenterAndExpand"
+                                       HorizontalOptions="FillAndExpand"
+                                       CornerRadius="5">
+                                    <Grid RowDefinitions="Auto"
+                                          ColumnDefinitions="*">
+                                        <controls:NoUnderlineEntry Text="{Binding SelectedDateRangeText}"
+                                                                   Placeholder="Select"
+                                                                   Margin="0" FontSize="Small"
+                                                                   TextColor="Gray"
+                                                                   HorizontalOptions="FillAndExpand"
+                                                                   HeightRequest="40"
+                                                                   Grid.Row="0"
+                                                                   Grid.Column="0"
+                                                                   IsEnabled="False" />
+                                        <ffimageloading:CachedImage Source="dropdown_gray_picker.png"
+                                                                    VerticalOptions="CenterAndExpand"
+                                                                    HorizontalOptions="EndAndExpand"
+                                                                    Aspect="AspectFit"
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    HeightRequest="18"
+                                                                    WidthRequest="18" />
+                                    </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding DateRangeSelectionCommand}" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                                <Frame BorderColor="#C0C0C0"
+                                       Padding="2"
+                                       IsClippedToBounds="True"
+                                       CornerRadius="0"
+                                       HasShadow="False"
+                                       Margin="0,10,0,10"
+                                       IsVisible="{Binding DateRangeListVisibility}">
+                                    <StackLayout>
+                                        <StackLayout Padding="10,10,10,10"
+                                                     IsVisible="{Binding NoDataExistDateRange}">
+                                            <Frame Padding="10,10,10,10"
+                                                   CornerRadius="5" HasShadow="False"
+                                                   IsClippedToBounds="True"
+                                                   BorderColor="{StaticResource BorderColor}"
+                                                   BackgroundColor="White">
+                                                <Label VerticalOptions="CenterAndExpand"
+                                                       Style="{StaticResource DescriptionLabelStyle}"
+                                                       Text="{Binding NoDataFound}"
+                                                       FontSize="Default"
+                                                       HorizontalTextAlignment="Start" />
+                                            </Frame>
+                                        </StackLayout>
+
+                                        <ListView HasUnevenRows="True"
+                                                  HorizontalOptions="StartAndExpand"
+                                                  SelectedItem="{Binding SelectedDateRange,Mode=TwoWay}"
+                                                  ItemsSource="{Binding DateRangeList,Mode=TwoWay}"
+                                                  SeparatorVisibility="Default"
+                                                  Margin="0"
+                                                  VerticalOptions="FillAndExpand"
+                                                  HeightRequest="{Binding DateRangeListViewHeight}"
+                                                  x:Name="dateRangeView">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ViewCell>
+                                                        <StackLayout VerticalOptions="FillAndExpand"
+                                                                     HorizontalOptions="FillAndExpand"
+                                                                     Padding="5">
+                                                            <Label Text="{Binding ItemName}"
+                                                                   TextColor="{StaticResource GrayTextColor}"
+                                                                   Style="{StaticResource DescriptionLabelStyle}" />
+                                                            <StackLayout.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.DateRangeListTappedCommand,Source={x:Reference dateRangeView}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            </StackLayout.GestureRecognizers>
+                                                        </StackLayout>
+                                                    </ViewCell>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                            <ListView.Behaviors>
+                                                <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                    Command="{Binding DateRangeChangedCommand}"
+                                                    CommandParameter="{Binding SelectedDateRange}" />
+                                            </ListView.Behaviors>
+                                        </ListView>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout>
+                                <Label Text="Agenda For"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       Margin="0,5,0,5" />
+                                <Frame HasShadow="False"
+                                       Padding="5,0,5,0" IsClippedToBounds="True"
+                                       BackgroundColor="White"
+                                       BorderColor="{StaticResource BorderColor}"
+                                       HeightRequest="40"
+                                       VerticalOptions="CenterAndExpand"
+                                       HorizontalOptions="FillAndExpand"
+                                       CornerRadius="5">
+                                    <Grid RowDefinitions="Auto"
+                                          ColumnDefinitions="*">
+                                        <controls:NoUnderlineEntry Text="{Binding SelectedAgendaForText}"
+                                                                   Placeholder="Select a Course"
+                                                                   Margin="0" FontSize="Small"
+                                                                   TextColor="Gray"
+                                                                   HorizontalOptions="FillAndExpand"
+                                                                   HeightRequest="40"
+                                                                   Grid.Row="0"
+                                                                   Grid.Column="0"
+                                                                   IsEnabled="False" />
+                                        <ffimageloading:CachedImage Source="dropdown_gray_picker.png"
+                                                                    VerticalOptions="CenterAndExpand"
+                                                                    HorizontalOptions="EndAndExpand"
+                                                                    Aspect="AspectFit"
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    HeightRequest="18"
+                                                                    WidthRequest="18" />
+                                    </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding CourseSelectionCommand}" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                                <Frame BorderColor="#C0C0C0"
+                                       Padding="2"
+                                       IsClippedToBounds="True"
+                                       CornerRadius="0"
+                                       HasShadow="False"
+                                       Margin="0,10,0,10"
+                                       IsVisible="{Binding CourseListVisibility}">
+                                    <StackLayout>
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               Padding="5,0,5,0"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               HeightRequest="40" Margin="5">
+                                            <Grid RowDefinitions="Auto"
+                                                  ColumnDefinitions="*,0.1*">
+                                                <controls:NoUnderlineEntry
+                                                    HorizontalOptions="FillAndExpand"
+                                                    VerticalOptions="FillAndExpand"
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    HeightRequest="40"
+                                                    Style="{StaticResource EntryFontStyle}"
+                                                    Text="{Binding SearchText}">
+                                                    <controls:NoUnderlineEntry.Behaviors>
+                                                        <toolkit:EventToCommandBehavior EventName="TextChanged"
+                                                            Command="{Binding SearchCourseCommand}" />
+                                                    </controls:NoUnderlineEntry.Behaviors>
+                                                </controls:NoUnderlineEntry>
+                                                <Label
+                                                    Text="&#xf002;"
+                                                    FontFamily="FontAwesomeSolid"
+                                                    HorizontalOptions="EndAndExpand"
+                                                    VerticalOptions="CenterAndExpand"
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    TextColor="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}"
+                                                    Margin="0,0,10,4"
+                                                    FontSize="23" />
+                                            </Grid>
+                                        </Frame>
+
+                                        <StackLayout Padding="10,10,10,10"
+                                                     IsVisible="{Binding NoDataExist}">
+                                            <Frame Padding="10,10,10,10"
+                                                   CornerRadius="5" HasShadow="False"
+                                                   IsClippedToBounds="True"
+                                                   BorderColor="{StaticResource BorderColor}"
+                                                   BackgroundColor="White">
+                                                <Label VerticalOptions="CenterAndExpand"
+                                                       Style="{StaticResource DescriptionLabelStyle}"
+                                                       Text="{Binding NoDataFound}"
+                                                       FontSize="Default"
+                                                       HorizontalTextAlignment="Start" />
+                                            </Frame>
+                                        </StackLayout>
+
+                                        <ListView HasUnevenRows="True"
+                                                  HorizontalOptions="StartAndExpand"
+                                                  SelectedItem="{Binding SelectedCourse,Mode=TwoWay}"
+                                                  ItemsSource="{Binding FilteredCourseList,Mode=TwoWay}"
+                                                  SeparatorVisibility="Default"
+                                                  Margin="0"
+                                                  HeightRequest="{Binding CourseListViewHeight}"
+                                                  x:Name="listView">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ViewCell>
+                                                        <StackLayout VerticalOptions="FillAndExpand"
+                                                                     HorizontalOptions="FillAndExpand"
+                                                                     Padding="5">
+                                                            <Label Text="{Binding ItemName}"
+                                                                   TextColor="{StaticResource GrayTextColor}"
+                                                                   Style="{StaticResource DescriptionLabelStyle}" />
+                                                            <StackLayout.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.CourseListTappedCommand,Source={x:Reference listView}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            </StackLayout.GestureRecognizers>
+                                                        </StackLayout>
+                                                    </ViewCell>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                            <ListView.Behaviors>
+                                                <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                    Command="{Binding AgendaForChangedCommand}"
+                                                    CommandParameter="{Binding SelectedCourse}" />
+                                            </ListView.Behaviors>
+                                        </ListView>
+                                    </StackLayout>
+                                </Frame>
+                                <Label Text="Please select a Agenda For"
+                                       Margin="3,0,0,0"
+                                       IsVisible="{Binding IsAgendaForErrorVisible}" VerticalOptions="StartAndExpand"
+                                       VerticalTextAlignment="Start"
+                                       FontSize="Small"
+                                       TextColor="Red" />
+                            </StackLayout>
+                            <StackLayout IsVisible="{Binding IsTitleVisible}">
+                                <Label Text="Title"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       Margin="0,5,0,0" />
+                                <Frame HasShadow="False"
+                                       Padding="5" IsClippedToBounds="True"
+                                       BackgroundColor="White"
+                                       BorderColor="{StaticResource BorderColor}"
+                                       HeightRequest="40"
+                                       VerticalOptions="CenterAndExpand"
+                                       HorizontalOptions="FillAndExpand"
+                                       CornerRadius="5">
+                                    <Entry Text="{Binding GroupTitle, Mode=TwoWay}"
+                                           Margin="0" FontSize="Small"
+                                           TextColor="Gray"
+                                           HorizontalOptions="FillAndExpand"
+                                           HeightRequest="40" />
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout Orientation="Vertical"
+                                         Spacing="0"
+                                         VerticalOptions="FillAndExpand"
+                                         IsVisible="{Binding ClassesVisibility}">
+                                <Frame HasShadow="False" Padding="10" IsClippedToBounds="True"
+                                       IsVisible="{Binding ClassesVisibility}"
+                                       BackgroundColor="{StaticResource BorderColor}" Margin="5,5,5,10">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Classes" Style="{StaticResource TitleLabelStyle}"
+                                               HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+                                            <input:CheckBox IsChecked="{Binding IsClassesSelected, Mode=TwoWay}"
+                                                            VerticalOptions="CenterAndExpand"
+                                                            Text="Select All"
+                                                            Color="Gray"
+                                                            CheckChangedCommand="{Binding ClassesSelectionCommand}"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                                <Frame Padding="0"
+                                       HasShadow="False"
+                                       Margin="5,5,5,0"
+                                       BorderColor="Transparent"
+                                       IsClippedToBounds="True"
+                                       VerticalOptions="FillAndExpand"
+                                       IsVisible="{Binding ClassesVisibility}">
+                                    <StackLayout VerticalOptions="CenterAndExpand" Margin="0,20,0,0"
+                                                 IsVisible="{Binding ClassesVisibility}">
+                                        <flowListView:FlowListView FlowColumnCount="3"
+                                                                   FlowItemsSource="{Binding ClassList}"
+                                                                   x:Name="classList"
+                                                                   SeparatorVisibility="Default"
+                                                                   SelectionMode="Single"
+                                                                   HeightRequest="{Binding ClassListViewHeight}"
+                                                                   HasUnevenRows="True"
+                                                                   Margin="{Binding FlowListViewMargin}">
+                                            <flowListView:FlowListView.FlowColumnTemplate>
+                                                <DataTemplate>
+                                                    <Frame CornerRadius="5"
+                                                           Margin="5,5,5,5"
+                                                           Padding="0"
+                                                           HasShadow="false"
+                                                           BorderColor="{StaticResource BorderColor}"
+                                                           IsClippedToBounds="True">
+                                                        <StackLayout
+                                                            BackgroundColor="{Binding SelectedTimeSlotBackgroundColor}"
+                                                            Padding="5"
+                                                            Spacing="0"
+                                                            Orientation="Horizontal">
+                                                            <input:CheckBox VerticalOptions="CenterAndExpand"
+                                                                            IsChecked="{Binding IsChecked,Mode=TwoWay}"
+                                                                            Scale="0.8"
+                                                                            Color="Gray"
+                                                                            HorizontalOptions="StartAndExpand"
+                                                                            Text="{Binding ClassName}"
+                                                                            CheckChangedCommand="{Binding BindingContext.ClassSelectionCommand,Source={x:Reference classList}}"
+                                                                            CommandParameter="{Binding .}" />
+                                                        </StackLayout>
+                                                    </Frame>
+                                                </DataTemplate>
+                                            </flowListView:FlowListView.FlowColumnTemplate>
+                                        </flowListView:FlowListView>
+                                        <Label Text="No class selected"
+                                               Margin="3,0,0,0"
+                                               IsVisible="{Binding ClassSelectionErrorVisibility}"
+                                               VerticalOptions="StartAndExpand"
+                                               VerticalTextAlignment="Start"
+                                               FontSize="Small"
+                                               TextColor="Red" />
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </StackLayout>
+                        <StackLayout Grid.Row="1"
+                                     Grid.Column="0"
+                                     Grid.ColumnSpan="2"
+                                     VerticalOptions="FillAndExpand"
+                                     IsVisible="{Binding IsEditPostVisible}">
+                            <StackLayout>
+                                <Label Text="Agenda For"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       Margin="0,5,0,5" />
+                                <Frame HasShadow="False"
+                                       Padding="5,0,5,0" IsClippedToBounds="True"
+                                       BackgroundColor="White"
+                                       BorderColor="{StaticResource BorderColor}"
+                                       HeightRequest="40"
+                                       VerticalOptions="CenterAndExpand"
+                                       HorizontalOptions="FillAndExpand"
+                                       CornerRadius="5">
+                                    <Grid RowDefinitions="Auto"
+                                          ColumnDefinitions="*">
+                                        <controls:NoUnderlineEntry Text="{Binding SelectedAgendaForText}"
+                                                                   Placeholder="Select a Course"
+                                                                   Margin="0" FontSize="Small"
+                                                                   TextColor="Gray"
+                                                                   HorizontalOptions="FillAndExpand"
+                                                                   HeightRequest="40"
+                                                                   Grid.Row="0"
+                                                                   Grid.Column="0"
+                                                                   IsEnabled="False" />
+                                        <ffimageloading:CachedImage Source="dropdown_gray_picker.png"
+                                                                    VerticalOptions="CenterAndExpand"
+                                                                    HorizontalOptions="EndAndExpand"
+                                                                    Aspect="AspectFit"
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    HeightRequest="18"
+                                                                    WidthRequest="18" />
+                                    </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding CourseSelectionCommand}" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                                <Frame BorderColor="#C0C0C0"
+                                       Padding="2"
+                                       IsClippedToBounds="True"
+                                       CornerRadius="0"
+                                       HasShadow="False"
+                                       Margin="0,10,0,10"
+                                       IsVisible="{Binding CourseListVisibility}">
+                                    <StackLayout>
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               Padding="5,0,5,0"
+                                               VerticalOptions="CenterAndExpand"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               HeightRequest="40" Margin="5">
+                                            <Grid RowDefinitions="Auto"
+                                                  ColumnDefinitions="*,0.1*">
+                                                <controls:NoUnderlineEntry
+                                                    HorizontalOptions="FillAndExpand"
+                                                    VerticalOptions="FillAndExpand"
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    HeightRequest="40"
+                                                    Style="{StaticResource EntryFontStyle}"
+                                                    Text="{Binding SearchText}">
+                                                    <controls:NoUnderlineEntry.Behaviors>
+                                                        <toolkit:EventToCommandBehavior EventName="TextChanged"
+                                                            Command="{Binding SearchCourseCommand}" />
+                                                    </controls:NoUnderlineEntry.Behaviors>
+                                                </controls:NoUnderlineEntry>
+                                                <Label
+                                                    Text="&#xf002;"
+                                                    IsVisible="{Binding NewsIconVisibility}"
+                                                    FontFamily="FontAwesomeSolid"
+                                                    HorizontalOptions="EndAndExpand"
+                                                    VerticalOptions="CenterAndExpand"
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
+                                                    TextColor="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}"
+                                                    Margin="0,0,10,4"
+                                                    FontSize="23" />
+                                            </Grid>
+                                        </Frame>
+
+                                        <StackLayout Padding="10,10,10,10"
+                                                     IsVisible="{Binding NoDataExist}">
+                                            <Frame Padding="10,10,10,10"
+                                                   CornerRadius="5" HasShadow="False"
+                                                   IsClippedToBounds="True"
+                                                   BorderColor="{StaticResource BorderColor}"
+                                                   BackgroundColor="White">
+                                                <Label VerticalOptions="CenterAndExpand"
+                                                       Style="{StaticResource DescriptionLabelStyle}"
+                                                       Text="{Binding NoDataFound}"
+                                                       FontSize="Default"
+                                                       HorizontalTextAlignment="Start" />
+                                            </Frame>
+                                        </StackLayout>
+
+                                        <ListView HasUnevenRows="True"
+                                                  HorizontalOptions="StartAndExpand"
+                                                  SelectedItem="{Binding SelectedCourse,Mode=TwoWay}"
+                                                  ItemsSource="{Binding FilteredCourseList,Mode=TwoWay}"
+                                                  SeparatorVisibility="Default"
+                                                  Margin="0"
+                                                  HeightRequest="{Binding CourseListViewHeight}"
+                                                  x:Name="listViewedit">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ViewCell>
+                                                        <StackLayout VerticalOptions="FillAndExpand"
+                                                                     HorizontalOptions="FillAndExpand"
+                                                                     Padding="5">
+                                                            <Label Text="{Binding ItemName}"
+                                                                   TextColor="{StaticResource GrayTextColor}"
+                                                                   Style="{StaticResource DescriptionLabelStyle}" />
+                                                            <StackLayout.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.CourseListTappedCommand,Source={x:Reference listViewedit}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            </StackLayout.GestureRecognizers>
+                                                        </StackLayout>
+                                                    </ViewCell>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                            <ListView.Behaviors>
+                                                <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                    Command="{Binding AgendaForChangedCommand}"
+                                                    CommandParameter="{Binding SelectedCourse}" />
+                                            </ListView.Behaviors>
+                                        </ListView>
+                                    </StackLayout>
+                                </Frame>
+                                <Label Text="Please select a Agenda For"
+                                       Margin="3,0,0,0"
+                                       IsVisible="{Binding IsAgendaForErrorVisible}" VerticalOptions="StartAndExpand"
+                                       VerticalTextAlignment="Start"
+                                       FontSize="Small"
+                                       TextColor="Red" />
+                            </StackLayout>
+                            <StackLayout>
+                                <Label Text="Month"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       Margin="0,5,0,5" />
+                                <Frame HasShadow="False"
+                                       Padding="5,0,5,0" IsClippedToBounds="True"
+                                       BackgroundColor="White"
+                                       BorderColor="{StaticResource BorderColor}"
+                                       HeightRequest="40"
+                                       VerticalOptions="CenterAndExpand"
+                                       HorizontalOptions="FillAndExpand"
+                                       CornerRadius="5">
+                                    <Grid RowDefinitions="Auto"
+                                          ColumnDefinitions="*">
+                                        <controls:NoUnderlineEntry Text="{Binding MonthSelectedText}"
+                                                                   Placeholder="Select a Month"
+                                                                   Margin="0" FontSize="Small"
+                                                                   TextColor="Gray"
+                                                                   HorizontalOptions="FillAndExpand"
+                                                                   HeightRequest="40"
+                                                                   Grid.Row="0"
+                                                                   Grid.Column="0"
+                                                                   IsEnabled="False" />
+                                        <ffimageloading:CachedImage Source="dropdown_gray_picker.png"
+                                                                    VerticalOptions="CenterAndExpand"
+                                                                    HorizontalOptions="EndAndExpand"
+                                                                    Aspect="AspectFit"
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    HeightRequest="18"
+                                                                    WidthRequest="18" />
+                                    </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding MonthSelectionCommand}" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                                <Frame BorderColor="#C0C0C0"
+                                       Padding="2"
+                                       IsClippedToBounds="True"
+                                       CornerRadius="0"
+                                       HasShadow="False"
+                                       Margin="0,10,0,10"
+                                       IsVisible="{Binding MonthListVisibility}">
+                                    <StackLayout>
+
+                                        <StackLayout Padding="10,10,10,10"
+                                                     IsVisible="{Binding NoDataExist}">
+                                            <Frame Padding="10,10,10,10"
+                                                   CornerRadius="5" HasShadow="False"
+                                                   IsClippedToBounds="True"
+                                                   BorderColor="{StaticResource BorderColor}"
+                                                   BackgroundColor="White">
+                                                <Label VerticalOptions="CenterAndExpand"
+                                                       Style="{StaticResource DescriptionLabelStyle}"
+                                                       Text="{Binding NoDataFound}"
+                                                       FontSize="Default"
+                                                       HorizontalTextAlignment="Start" />
+                                            </Frame>
+                                        </StackLayout>
+
+                                        <ListView HasUnevenRows="True"
+                                                  HorizontalOptions="StartAndExpand"
+                                                  SelectedItem="{Binding SelectedMonthList,Mode=TwoWay}"
+                                                  ItemsSource="{Binding MonthList,Mode=TwoWay}"
+                                                  SeparatorVisibility="Default"
+                                                  Margin="0"
+                                                  HeightRequest="{Binding MonthListViewHeight}"
+                                                  x:Name="listViewmonth">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ViewCell>
+                                                        <StackLayout VerticalOptions="FillAndExpand"
+                                                                     HorizontalOptions="FillAndExpand"
+                                                                     Padding="5">
+                                                            <Label Text="{Binding ItemName}"
+                                                                   TextColor="{StaticResource GrayTextColor}"
+                                                                   Style="{StaticResource DescriptionLabelStyle}" />
+                                                            <StackLayout.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.MonthListTappedCommand,Source={x:Reference listViewmonth}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            </StackLayout.GestureRecognizers>
+                                                        </StackLayout>
+                                                    </ViewCell>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                            <ListView.Behaviors>
+                                                <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                    Command="{Binding MonthChangedCommand}"
+                                                    CommandParameter="{Binding SelectedMonthList}" />
+                                            </ListView.Behaviors>
+                                        </ListView>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout>
+                                <Label Text="Group"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       Margin="0,5,0,5" />
+                                <Frame HasShadow="False"
+                                       Padding="5,0,5,0" IsClippedToBounds="True"
+                                       BackgroundColor="White"
+                                       BorderColor="{StaticResource BorderColor}"
+                                       HeightRequest="40"
+                                       VerticalOptions="CenterAndExpand"
+                                       HorizontalOptions="FillAndExpand"
+                                       CornerRadius="5">
+                                    <Grid RowDefinitions="Auto"
+                                          ColumnDefinitions="*">
+                                        <controls:NoUnderlineEntry Text="{Binding GroupSelectedText}"
+                                                                   Placeholder="Select a Group"
+                                                                   Margin="0" FontSize="Small"
+                                                                   TextColor="Gray"
+                                                                   HorizontalOptions="FillAndExpand"
+                                                                   HeightRequest="40"
+                                                                   Grid.Row="0"
+                                                                   Grid.Column="0"
+                                                                   IsEnabled="False" />
+                                        <ffimageloading:CachedImage Source="dropdown_gray_picker.png"
+                                                                    VerticalOptions="CenterAndExpand"
+                                                                    HorizontalOptions="EndAndExpand"
+                                                                    Aspect="AspectFit"
+                                                                    Grid.Row="0"
+                                                                    Grid.Column="0"
+                                                                    HeightRequest="18"
+                                                                    WidthRequest="18" />
+                                    </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding GroupSelectionCommand}" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                                <Frame BorderColor="#C0C0C0"
+                                       Padding="2"
+                                       IsClippedToBounds="True"
+                                       CornerRadius="0"
+                                       HasShadow="False"
+                                       Margin="0,10,0,10"
+                                       IsVisible="{Binding GroupListVisibility}">
+                                    <StackLayout>
+
+                                        <StackLayout Padding="10,10,10,10"
+                                                     IsVisible="{Binding NoDataExist}">
+                                            <Frame Padding="10,10,10,10"
+                                                   CornerRadius="5" HasShadow="False"
+                                                   IsClippedToBounds="True"
+                                                   BorderColor="{StaticResource BorderColor}"
+                                                   BackgroundColor="White">
+                                                <Label VerticalOptions="CenterAndExpand"
+                                                       Style="{StaticResource DescriptionLabelStyle}"
+                                                       Text="{Binding NoDataFound}"
+                                                       FontSize="Default"
+                                                       HorizontalTextAlignment="Start" />
+                                            </Frame>
+                                        </StackLayout>
+
+                                        <ListView HasUnevenRows="True"
+                                                  HorizontalOptions="StartAndExpand"
+                                                  SelectedItem="{Binding SelectedGroupList,Mode=TwoWay}"
+                                                  ItemsSource="{Binding GroupList,Mode=TwoWay}"
+                                                  SeparatorVisibility="Default"
+                                                  Margin="0"
+                                                  HeightRequest="{Binding GroupListViewHeight}"
+                                                  x:Name="listViewGroup">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ViewCell>
+                                                        <StackLayout VerticalOptions="FillAndExpand"
+                                                                     HorizontalOptions="FillAndExpand"
+                                                                     Padding="5">
+                                                            <Label Text="{Binding ItemName}"
+                                                                   TextColor="{StaticResource GrayTextColor}"
+                                                                   Style="{StaticResource DescriptionLabelStyle}" />
+                                                            <StackLayout.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.GroupListTappedCommand,Source={x:Reference listViewGroup}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            </StackLayout.GestureRecognizers>
+                                                        </StackLayout>
+                                                    </ViewCell>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                            <ListView.Behaviors>
+                                                <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                    Command="{Binding GroupChangedCommand}"
+                                                    CommandParameter="{Binding SelectedGroupList}" />
+                                            </ListView.Behaviors>
+                                        </ListView>
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout IsVisible="{Binding IsTitleVisible}">
+                                <Label Text="Title"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       Margin="0,5,0,5" />
+                                <Frame HasShadow="False"
+                                       Padding="5" IsClippedToBounds="True"
+                                       BackgroundColor="White"
+                                       BorderColor="{StaticResource BorderColor}"
+                                       HeightRequest="40"
+                                       VerticalOptions="CenterAndExpand"
+                                       HorizontalOptions="FillAndExpand"
+                                       CornerRadius="5">
+                                    <Entry Text="{Binding GroupTitle, Mode=TwoWay}"
+                                           Margin="0" FontSize="Small"
+                                           TextColor="Gray"
+                                           HorizontalOptions="FillAndExpand"
+                                           HeightRequest="40" />
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout IsVisible="{Binding IsDateRangeVisible}">
+                                <Label Text="Date Range"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       Margin="0,5,0,5" />
+                                <Frame HasShadow="False"
+                                       Padding="5" IsClippedToBounds="True"
+                                       BackgroundColor="White"
+                                       BorderColor="{StaticResource BorderColor}"
+                                       HeightRequest="40"
+                                       VerticalOptions="CenterAndExpand"
+                                       HorizontalOptions="FillAndExpand"
+                                       CornerRadius="5">
+                                    <Entry Text="{Binding DateRangeText, Mode=TwoWay}"
+                                           Margin="0" FontSize="Small"
+                                           TextColor="Gray"
+                                           HorizontalOptions="FillAndExpand"
+                                           HeightRequest="40"
+                                           IsEnabled="False" />
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout Orientation="Vertical"
+                                         Spacing="0"
+                                         VerticalOptions="FillAndExpand"
+                                         IsVisible="{Binding ClassesVisibility}">
+                                
+                                <Frame HasShadow="False" Padding="10" IsClippedToBounds="True"
+                                       IsVisible="{Binding ClassesVisibility}"
+                                       BackgroundColor="{StaticResource BorderColor}" Margin="5,5,5,10">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="Classes" Style="{StaticResource TitleLabelStyle}"
+                                               HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
+                                            <input:CheckBox IsChecked="{Binding IsClassesSelected, Mode=TwoWay}"
+                                                            VerticalOptions="CenterAndExpand"
+                                                            Text="Select All"
+                                                            Color="Gray"
+                                                            CheckChangedCommand="{Binding ClassesSelectionCommand}"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                </Frame>
+                                <Frame Padding="0"
+                                       HasShadow="False"
+                                       Margin="5,5,5,0"
+                                       BorderColor="Transparent"
+                                       IsClippedToBounds="True"
+                                       VerticalOptions="FillAndExpand"
+                                       IsVisible="{Binding ClassesVisibility}">
+                                    <StackLayout VerticalOptions="CenterAndExpand" Margin="0,20,0,0"
+                                                 IsVisible="{Binding ClassesVisibility}">
+                                        <flowListView:FlowListView FlowColumnCount="3"
+                                                                   FlowItemsSource="{Binding ClassList}"
+                                                                   x:Name="editclassList"
+                                                                   SeparatorVisibility="Default"
+                                                                   SelectionMode="Single"
+                                                                   HeightRequest="{Binding ClassListViewHeight}"
+                                                                   HasUnevenRows="True"
+                                                                   Margin="{Binding FlowListViewMargin}">
+                                            <flowListView:FlowListView.FlowColumnTemplate>
+                                                <DataTemplate>
+                                                    <Frame CornerRadius="5"
+                                                           Margin="5,5,5,5"
+                                                           Padding="0"
+                                                           HasShadow="false"
+                                                           BorderColor="{StaticResource BorderColor}"
+                                                           IsClippedToBounds="True">
+                                                        <StackLayout
+                                                            BackgroundColor="{Binding SelectedTimeSlotBackgroundColor}"
+                                                            Padding="5"
+                                                            Spacing="0"
+                                                            Orientation="Horizontal">
+                                                            <input:CheckBox VerticalOptions="CenterAndExpand"
+                                                                            IsChecked="{Binding IsChecked,Mode=TwoWay}"
+                                                                            Scale="0.8"
+                                                                            Color="Gray"
+                                                                            HorizontalOptions="StartAndExpand"
+                                                                            Text="{Binding ClassName}"
+                                                                            CheckChangedCommand="{Binding BindingContext.ClassSelectionCommand,Source={x:Reference classList}}"
+                                                                            CommandParameter="{Binding .}" />
+                                                        </StackLayout>
+                                                    </Frame>
+                                                </DataTemplate>
+                                            </flowListView:FlowListView.FlowColumnTemplate>
+                                        </flowListView:FlowListView>
+                                        <Label Text="No class selected"
+                                               Margin="3,0,0,0"
+                                               IsVisible="{Binding ClassSelectionErrorVisibility}"
+                                               VerticalOptions="StartAndExpand"
+                                               VerticalTextAlignment="Start"
+                                               FontSize="Small"
+                                               TextColor="Red" />
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </StackLayout>
+
+
+                        <StackLayout Orientation="Vertical"
+                                     Grid.Row="2"
+                                     Grid.Column="0" Grid.ColumnSpan="2">
+                            <StackLayout IsVisible="{Binding CurriculumStandardsVisibility}">
+                                <StackLayout Orientation="Horizontal" Margin="0,15,0,5">
+                                    <Label Text="Curriculum Standards"
+                                           Style="{StaticResource TitleLabelStyle}"
+                                           VerticalOptions="EndAndExpand"
+                                           VerticalTextAlignment="End" />
+                                    <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
+                                                                Aspect="AspectFit"
+                                                                HeightRequest="20"
+                                                                WidthRequest="20"
+                                                                DownsampleToViewSize="True"
+                                                                Source="edit.png">
+                                        <ffimageloading:CachedImage.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding CurriculamStandardsEditCommand}" />
+                                        </ffimageloading:CachedImage.GestureRecognizers>
+                                    </ffimageloading:CachedImage>
+                                </StackLayout>
+                                <Frame HasShadow="False"
+                                       Padding="5,0,5,0"
+                                       BorderColor="{StaticResource BorderColor}"
+                                       IsClippedToBounds="True"
+                                       HeightRequest="100"
+                                       HorizontalOptions="FillAndExpand"
+                                       VerticalOptions="FillAndExpand">
+                                    <WebView x:Name="curriculumview"
+                                             HeightRequest="100"
+                                             HorizontalOptions="FillAndExpand"
+                                             VerticalOptions="FillAndExpand">
+                                        <WebView.Source>
+                                            <HtmlWebViewSource Html="{Binding CurriculamStandardsText}" />
+                                        </WebView.Source>
+                                    </WebView>
+                                </Frame>
+                                <Label Text="Please enter text"
+                                       Margin="3,0,0,0"
+                                       IsVisible="false"
+                                       VerticalOptions="StartAndExpand"
+                                       VerticalTextAlignment="Start"
+                                       FontSize="Small"
+                                       TextColor="Red" />
+                            </StackLayout>
+                            <StackLayout IsVisible="{Binding RemarkVisibility}">
+                                <StackLayout Orientation="Horizontal" Margin="0,15,0,5">
+                                    <Label Text="Remarks"
+                                           Style="{StaticResource TitleLabelStyle}"
+                                           VerticalOptions="EndAndExpand"
+                                           VerticalTextAlignment="End" />
+                                    <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
+                                                                Aspect="AspectFit"
+                                                                HeightRequest="20"
+                                                                WidthRequest="20"
+                                                                IsVisible="{Binding IsResolved}"
+                                                                DownsampleToViewSize="True"
+                                                                Source="edit.png">
+                                        <ffimageloading:CachedImage.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding RemarkEditCommand}" />
+                                        </ffimageloading:CachedImage.GestureRecognizers>
+                                    </ffimageloading:CachedImage>
+                                </StackLayout>
+
+                                <Frame HasShadow="False"
+                                       Padding="5,0,5,0"
+                                       BorderColor="{StaticResource BorderColor}"
+                                       IsClippedToBounds="True"
+                                       HeightRequest="100"
+                                       HorizontalOptions="FillAndExpand"
+                                       VerticalOptions="FillAndExpand">
+                                    <WebView x:Name="remarkview"
+                                             HeightRequest="100"
+                                             HorizontalOptions="FillAndExpand"
+                                             VerticalOptions="FillAndExpand">
+                                        <WebView.Source>
+                                            <HtmlWebViewSource Html="{Binding RemarkText}" />
+                                        </WebView.Source>
+                                    </WebView>
+                                </Frame>
+                                <Label Text="Please enter text"
+                                       Margin="3,0,0,0"
+                                       IsVisible="false"
+                                       VerticalOptions="StartAndExpand"
+                                       VerticalTextAlignment="Start"
+                                       FontSize="Small"
+                                       TextColor="Red" />
+                            </StackLayout>
+                            <ListView HasUnevenRows="true"
+                                      BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                      ItemsSource="{Binding DateWiseQuickPost,Mode=TwoWay}"
+                                      SelectedItem="{Binding SelectedAgendaWeeklyData, Mode=TwoWay}"
+                                      SeparatorVisibility="None" VerticalScrollBarVisibility="Never"
+                                      VerticalOptions="FillAndExpand"
+                                      x:Name="listview">
+                                <x:Arguments>
+                                    <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                                </x:Arguments>
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout Margin="0,0,0,0">
+                                                <StackLayout>
+                                                    <Frame HasShadow="False"
+                                                           Padding="5" IsClippedToBounds="True"
+                                                           BackgroundColor="White"
+                                                           BorderColor="{StaticResource BorderColor}"
+                                                           HeightRequest="40"
+                                                           VerticalOptions="CenterAndExpand"
+                                                           HorizontalOptions="FillAndExpand"
+                                                           CornerRadius="5"
+                                                           Margin="0,10,0,0">
+                                                        <Label Text="{Binding AgendaWeekDatesFormatted}"
+                                                               FontSize="Medium"
+                                                               FontAttributes="Bold"
+                                                               HorizontalOptions="StartAndExpand"
+                                                               VerticalOptions="CenterAndExpand" />
+                                                    </Frame>
+                                                    <StackLayout Orientation="Vertical"
+                                                                 IsVisible="{Binding BindingContext.IsEnableLearningOutcomes,Source={x:Reference listview}}">
+                                                        <StackLayout Orientation="Horizontal" Margin="0,0,0,5">
+                                                            <Label Text="{Binding LearningOutcomesLabel}"
+                                                                   Margin="0,15,0,0"
+                                                                   Style="{StaticResource TitleLabelStyle}"
+                                                                   VerticalOptions="EndAndExpand"
+                                                                   VerticalTextAlignment="End" />
+                                                            <ffimageloading:CachedImage
+                                                                HorizontalOptions="EndAndExpand"
+                                                                Margin="10,15,0,0"
+                                                                Aspect="AspectFit"
+                                                                HeightRequest="20"
+                                                                WidthRequest="20"
+                                                                DownsampleToViewSize="True"
+                                                                Source="edit.png">
+                                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.LearningOutcomesEditCommand,Source={x:Reference listview}}"
+                                                                        CommandParameter="{Binding .}" />
+                                                                </ffimageloading:CachedImage.GestureRecognizers>
+                                                            </ffimageloading:CachedImage>
+                                                        </StackLayout>
+                                                        <Frame HasShadow="False"
+                                                               Padding="5,0,5,0"
+                                                               BorderColor="{StaticResource BorderColor}"
+                                                               IsClippedToBounds="True"
+                                                               HeightRequest="100"
+                                                               HorizontalOptions="FillAndExpand"
+                                                               VerticalOptions="FillAndExpand">
+                                                            <WebView x:Name="learningoutcomesview"
+                                                                     HeightRequest="100"
+                                                                     HorizontalOptions="FillAndExpand"
+                                                                     VerticalOptions="FillAndExpand">
+                                                                <WebView.Source>
+                                                                    <HtmlWebViewSource
+                                                                        Html="{Binding LearningOutcomes}" />
+                                                                </WebView.Source>
+                                                            </WebView>
+                                                        </Frame>
+                                                    </StackLayout>
+
+                                                    <StackLayout Orientation="Horizontal" Margin="0,0,0,5">
+                                                        <Label Text="{Binding AssignmentsLabel}"
+                                                               Margin="0,10,0,0"
+                                                               Style="{StaticResource TitleLabelStyle}"
+                                                               VerticalOptions="EndAndExpand"
+                                                               VerticalTextAlignment="End" />
+                                                        <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
+                                                            Margin="10,15,0,0"
+                                                            Aspect="AspectFit"
+                                                            HeightRequest="20"
+                                                            WidthRequest="20"
+                                                            IsVisible="{Binding IsResolved}"
+                                                            DownsampleToViewSize="True"
+                                                            Source="edit.png">
+                                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.AssignmentEditedCommand,Source={x:Reference listview}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                                        </ffimageloading:CachedImage>
+                                                    </StackLayout>
+                                                    <Frame HasShadow="False"
+                                                           Padding="5,0,5,0"
+                                                           BorderColor="{StaticResource BorderColor}"
+                                                           IsClippedToBounds="True"
+                                                           HeightRequest="100"
+                                                           HorizontalOptions="FillAndExpand"
+                                                           VerticalOptions="FillAndExpand">
+                                                        <WebView x:Name="assignmentview"
+                                                                 HeightRequest="100"
+                                                                 HorizontalOptions="FillAndExpand"
+                                                                 VerticalOptions="FillAndExpand">
+                                                            <WebView.Source>
+                                                                <HtmlWebViewSource Html="{Binding AgendaDescription}" />
+                                                            </WebView.Source>
+                                                        </WebView>
+                                                    </Frame>
+                                                    <Label Text="Please enter text"
+                                                           Margin="3,0,0,0"
+                                                           IsVisible="false"
+                                                           VerticalOptions="StartAndExpand"
+                                                           VerticalTextAlignment="Start"
+                                                           FontSize="Small"
+                                                           TextColor="Red" />
+                                                </StackLayout>
+                                                <StackLayout Orientation="Horizontal" Margin="0,8,0,5">
+                                                    <Label HorizontalOptions="StartAndExpand" Text="Attachments: "
+                                                           Style="{StaticResource TitleLabelStyle}"
+                                                           VerticalOptions="Center" />
+                                                    <Frame HasShadow="False" Padding="5"
+                                                           BackgroundColor="White"
+                                                           HorizontalOptions="StartAndExpand"
+                                                           BorderColor="#E8E8E8"
+                                                           VerticalOptions="CenterAndExpand">
+                                                        <StackLayout Orientation="Horizontal"
+                                                                     Spacing="0" IsClippedToBounds="True"
+                                                                     HorizontalOptions="Start"
+                                                                     VerticalOptions="CenterAndExpand">
+                                                            <ffimageloading:CachedImage
+                                                                HorizontalOptions="StartAndExpand"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                WidthRequest="15"
+                                                                HeightRequest="15"
+                                                                Aspect="AspectFit"
+                                                                DownsampleToViewSize="True"
+                                                                Source="attachment_icon.png" />
+                                                            <Label HorizontalOptions="Start"
+                                                                   VerticalOptions="CenterAndExpand"
+                                                                   Margin="5,0,0,0"
+                                                                   Text="Select File "
+                                                                   Style="{StaticResource DescriptionLabelStyle }" />
+                                                            <StackLayout.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.AttachmentCommand,Source={x:Reference listview}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            </StackLayout.GestureRecognizers>
+                                                        </StackLayout>
+                                                    </Frame>
+                                                </StackLayout>
+                                                <StackLayout>
+                                                    <ListView HasUnevenRows="True"
+                                                              IsVisible="{Binding AttachmentFiles.Count, Converter={StaticResource IntToBoolValueConverter}}"
+                                                              HorizontalOptions="StartAndExpand"
+                                                              ItemsSource="{Binding AttachmentFiles, Mode=TwoWay}"
+                                                              SelectionMode="None"
+                                                              BackgroundColor="Transparent"
+                                                              VerticalOptions="FillAndExpand"
+                                                              SeparatorVisibility="None"
+                                                              x:Name="attachmentListView"
+                                                              HeightRequest="{Binding AttachmentListViewHeight}"
+                                                              Margin="0">
+                                                        <ListView.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <ViewCell>
+                                                                    <StackLayout>
+                                                                        <Grid HorizontalOptions="FillAndExpand"
+                                                                              Margin="0,8,0,0" RowDefinitions="Auto"
+                                                                              VerticalOptions="CenterAndExpand"
+                                                                              BackgroundColor="Transparent">
+                                                                            <Grid.ColumnDefinitions>
+                                                                                <ColumnDefinition Width="0.8*" />
+                                                                                <ColumnDefinition Width="0.2*" />
+                                                                            </Grid.ColumnDefinitions>
+                                                                            <StackLayout Orientation="Horizontal"
+                                                                                HorizontalOptions="StartAndExpand"
+                                                                                VerticalOptions="CenterAndExpand"
+                                                                                Spacing="0"
+                                                                                Grid.Row="0"
+                                                                                Grid.Column="0">
+                                                                                <ffimageloading:CachedImage
+                                                                                    HorizontalOptions="StartAndExpand"
+                                                                                    VerticalOptions="CenterAndExpand"
+                                                                                    WidthRequest="20"
+                                                                                    HeightRequest="20"
+                                                                                    Aspect="AspectFit"
+                                                                                    Margin="10,0,0,0"
+                                                                                    DownsampleToViewSize="True"
+                                                                                    Source="{Binding FileName,Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
+                                                                                <Label Text="{Binding FileName}"
+                                                                                    TextColor="{StaticResource GrayTextColor}"
+                                                                                    HorizontalOptions="StartAndExpand"
+                                                                                    VerticalOptions="CenterAndExpand"
+                                                                                    Margin="5,0,0,0"
+                                                                                    Style="{StaticResource AttachmentTextStyle}" />
+                                                                            </StackLayout>
+                                                                            <ffimageloading:CachedImage
+                                                                                HorizontalOptions="EndAndExpand"
+                                                                                VerticalOptions="CenterAndExpand"
+                                                                                WidthRequest="24"
+                                                                                HeightRequest="24"
+                                                                                Aspect="AspectFit"
+                                                                                Grid.Row="0"
+                                                                                Grid.Column="1"
+                                                                                DownsampleToViewSize="True"
+                                                                                Source="delete_bin_icon.png">
+                                                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                                                                    <TapGestureRecognizer
+                                                                                        Command="{Binding BindingContext.DeleteAttachmentClickCommand,Source={x:Reference quickPostPage}}"
+                                                                                        CommandParameter="{Binding .}" />
+                                                                                </ffimageloading:CachedImage.GestureRecognizers>
+                                                                            </ffimageloading:CachedImage>
+                                                                        </Grid>
+                                                                    </StackLayout>
+                                                                </ViewCell>
+                                                            </DataTemplate>
+                                                        </ListView.ItemTemplate>
+                                                    </ListView>
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                        </StackLayout>
+
+
+                    </Grid>
+                </ScrollView>
+            </StackLayout>
+            <StackLayout Margin="5" Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+                <Button Text="Cancel"
+                        IsVisible="{Binding IsCancelButtonVisibleForTeacher}"
+                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                        HorizontalOptions="CenterAndExpand"
+                        TextColor="White"
+                        CornerRadius="5"
+                        Padding="10"
+                        VerticalOptions="EndAndExpand"
+                        WidthRequest="80"
+                        Command="{Binding CancelCommand}" />
+                <Button Text="Save"
+                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                        HorizontalOptions="CenterAndExpand"
+                        TextColor="White"
+                        CornerRadius="5"
+                        Padding="10"
+                        VerticalOptions="EndAndExpand"
+                        WidthRequest="80"
+                        IsVisible="{Binding SaveButtonVisibility}"
+                        Command="{Binding SaveCommand}" />
+            </StackLayout>
+
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference quickPostPage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             x:Class="iCampus.MobileApp.Views.UserModules.MessageFromSchool.MessageFromSchool"
+             NavigationPage.HasNavigationBar="false"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="MessagePage">
+    <ContentPage.Content>
+        
+        <Grid VerticalOptions="FillAndExpand"
+              BackgroundColor="{StaticResource BorderColor}" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*"
+              Margin="0,0,0,0">
+            <Grid.Resources>
+                <behaviours:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter" />
+                <behaviours:VisiblityConverter x:Key="VisiblityConverter" />
+                <behaviours:IntToBoolValueConverter x:Key="intToBoolValueConverter" />
+                <behaviours:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
+                <behaviours:ColorCodeConverter x:Key="ColorCodeConverter"/>
+            </Grid.Resources>
+
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         VerticalOptions="StartAndExpand"
+                         BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
+            
+            <StackLayout Grid.Row="1" Grid.Column="0" VerticalOptions="FillAndExpand">
+                <StackLayout Margin="5,0,5,0">
+                    <Grid Margin="0,0,0,0" ColumnSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackLayout Spacing="0" Grid.Column="0">
+                            <Button Text="Circulars"
+                                    FontSize="16"
+                                    BackgroundColor="White"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                    CornerRadius="0"
+                                    Margin="0,5,0,0"
+                                    HeightRequest="40"
+                                    Padding="0"
+                                    Command="{Binding CircularsTabbedCommand}"
+                                    Opacity="{Binding CircularsButtonOpacity}" />
+                        </StackLayout>
+                        <StackLayout Spacing="0" Grid.Column="1">
+                            <Button Text="Alerts"
+                                    FontSize="16"
+                                    BackgroundColor="White"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                    CornerRadius="0"
+                                    Margin="0,5,0,0"
+                                    HeightRequest="40"
+                                    Padding="0"
+                                    Command="{Binding AlertsTabbedCommand}"
+                                    Opacity="{Binding AlertsButtonOpacity}" />
+                        </StackLayout>
+                        <StackLayout Spacing="0" Grid.Column="2">
+                            <Button Text="Alert History"
+                                    FontSize="16"
+                                    BackgroundColor="White"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                    CornerRadius="0"
+                                    Margin="0,5,0,0"
+                                    HeightRequest="40"
+                                    Padding="0"
+                                    Command="{Binding AlertHistoryTabbedCommand}"
+                                    Opacity="{Binding AlertHistoryButtonOpacity}" />
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+
+
+                <StackLayout IsVisible="{Binding IsCircularsVisible}" VerticalOptions="FillAndExpand">
+                    <StackLayout Padding="10,10,10,10"
+                                 IsVisible="{Binding IsCircularDataAvailable}">
+                        <Frame Padding="10" HasShadow="False"
+                               CornerRadius="5"
+                               IsClippedToBounds="True"
+                               BorderColor="{StaticResource BorderColor}"
+                               BackgroundColor="White">
+                            <Label VerticalOptions="CenterAndExpand"
+                                   Text="{Binding NoDataFound}"
+                                   Style="{StaticResource DescriptionLabelStyle}"
+                                   HorizontalTextAlignment="Start" />
+                        </Frame>
+                    </StackLayout>
+                    <ListView HasUnevenRows="true" VerticalScrollBarVisibility="Never"
+                              ItemsSource="{Binding CircularList,Mode=TwoWay}"
+                              SeparatorVisibility="None"
+                              Margin="5"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              SelectedItem="{Binding SelectedCircular, Mode=TwoWay}"
+                              VerticalOptions="FillAndExpand">
+                        <x:Arguments>
+                            <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                        </x:Arguments>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="5,5,5,5">
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               Padding="10,5,10,5"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               IsClippedToBounds="True"
+                                               BackgroundColor="White">
+                                            <Grid RowSpacing="2"
+                                                  ColumnSpacing="15"
+                                                  Margin="0,5,5,0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.6*" />
+                                                    <ColumnDefinition Width="0.4*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Text="{Binding CircularTitle}"
+                                                       VerticalTextAlignment="Start"
+                                                       MaxLines="1"
+                                                       LineBreakMode="TailTruncation"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       Grid.Row="0"
+                                                       Grid.Column="0"
+                                                       Grid.ColumnSpan="2" />
+                                                <Label Text="{Binding CircularBrief}"
+                                                       MaxLines="3"
+                                                       LineBreakMode="TailTruncation"
+                                                       Style="{StaticResource DescriptionLabelStyle}"
+                                                       Grid.Row="1"
+                                                       IsVisible="{Binding CircularBrief,Converter={StaticResource VisiblityConverter}}"
+                                                       Grid.Column="0"
+                                                       Grid.ColumnSpan="2" />
+                                                <Label Text="{Binding FormattedCircularDate}"
+                                                       Grid.Row="2"
+                                                       Grid.Column="0"
+                                                       Grid.ColumnSpan="2"
+                                                       Style="{StaticResource DateLabelStyle}" />
+
+                                                <Label HorizontalOptions="StartAndExpand" Grid.Row="3" Grid.Column="0"
+                                                       IsVisible="{Binding AttachmentList.Count,Converter={StaticResource intToBoolValueConverter}}">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span
+                                                                Text="{Binding AttachmentList.Count,StringFormat='Attachments ({0})'}"
+                                                                TextColor="{StaticResource LightGrayColor}"
+                                                                TextDecorations="Underline"
+                                                                FontSize="Small">
+                                                                <Span.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.AttachmentClickCommand,Source={x:Reference MessagePage}}"
+                                                                        CommandParameter="{Binding .}" />
+                                                                </Span.GestureRecognizers>
+                                                            </Span>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label HorizontalOptions="EndAndExpand"
+                                                       VerticalOptions="StartAndExpand"
+                                                       Grid.Row="3"
+                                                       Grid.Column="1"
+                                                       IsVisible="{Binding WebsiteLinksCount,Converter={StaticResource intToBoolValueConverter}}">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span
+                                                                Text="{Binding WebsiteLinksCount,StringFormat='Links ({0})'}"
+                                                                TextColor="{StaticResource LightGrayColor}"
+                                                                TextDecorations="Underline"
+                                                                FontSize="Small">
+                                                                <Span.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.LinksClickCommand,Source={x:Reference MessagePage}}"
+                                                                        CommandParameter="{Binding .}" />
+                                                                </Span.GestureRecognizers>
+                                                            </Span>
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </Grid>
+                                        </Frame>
+                                    </StackLayout>
+
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.Behaviors>
+                            <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                            Command="{Binding CircularListTappedCommand}"
+                                                            CommandParameter="{Binding SelectedCircular}" />
+                        </ListView.Behaviors>
+                    </ListView>
+                </StackLayout>
+
+                <StackLayout IsVisible="{Binding IsAlertsVisible}" VerticalOptions="FillAndExpand">
+                    <StackLayout Padding="10,10,10,10"
+                                 IsVisible="{Binding IsAlertsAvailable}">
+                        <Frame Padding="10"
+                               CornerRadius="5" HasShadow="False"
+                               IsClippedToBounds="True"
+                               BorderColor="{StaticResource BorderColor}"
+                               BackgroundColor="White">
+                            <Label VerticalOptions="CenterAndExpand"
+                                   Text="{Binding NoDataFound}"
+                                   Style="{StaticResource DescriptionLabelStyle}"
+                                   HorizontalTextAlignment="Start" />
+                        </Frame>
+                    </StackLayout>
+
+                    <ListView HasUnevenRows="true" VerticalScrollBarVisibility="Never"
+                              ItemsSource="{Binding BindableCustomAlertList,Mode=TwoWay}"
+                              SeparatorVisibility="None"
+                              Margin="5" BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              SelectedItem="{Binding SelectedAlert, Mode=TwoWay}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="5,5,5,5">
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               Padding="10,8,10,8"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               IsClippedToBounds="True"
+                                               BackgroundColor="White">
+                                            <Grid RowSpacing="0"
+                                                  Margin="0,0,5,0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Text="{Binding CustomAlertsName}" Margin="0,0,0,7"
+                                                       VerticalTextAlignment="Start"
+                                                       MaxLines="1"
+                                                       LineBreakMode="TailTruncation"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       Grid.Row="0"
+                                                       Grid.Column="0"
+                                                       TextColor="{Binding CategoryColor,Converter={StaticResource ColorCodeConverter}}" />
+                                                <Label Text="{Binding CustomAlertsBrief}" Margin="0,0,0,7"
+                                                       VerticalTextAlignment="Start"
+                                                       MaxLines="2"
+                                                       LineBreakMode="TailTruncation"
+                                                       Style="{StaticResource DescriptionLabelStyle}"
+                                                       Grid.Row="1"
+                                                       Grid.Column="0" />
+                                                <Label Text="{Binding FormattedExpiryDate}"
+                                                       Grid.Row="2"
+                                                       Grid.Column="0"
+                                                       Style="{StaticResource DateLabelStyle}"
+                                                       TextColor="{StaticResource LightGrayColor}" />
+                                            </Grid>
+                                        </Frame>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.Behaviors>
+                            <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                            Command="{Binding AlertsListTappedCommand}"
+                                                            CommandParameter="{Binding SelectedAlert}" />
+                        </ListView.Behaviors>
+                    </ListView>
+
+                </StackLayout>
+
+                <StackLayout IsVisible="{Binding IsAlertHistoryVisible}" VerticalOptions="FillAndExpand">
+                    <StackLayout Padding="10,10,10,10"
+                                 IsVisible="{Binding IsHistoryAlertsAvailable}">
+                        <Frame Padding="10"
+                               CornerRadius="5" HasShadow="False"
+                               IsClippedToBounds="True"
+                               BorderColor="{StaticResource BorderColor}"
+                               BackgroundColor="White">
+                            <Label VerticalOptions="CenterAndExpand"
+                                   Text="{Binding NoDataFound}"
+                                   Style="{StaticResource DescriptionLabelStyle}"
+                                   HorizontalTextAlignment="Start" />
+                        </Frame>
+                    </StackLayout>
+
+                    <ListView HasUnevenRows="true" VerticalScrollBarVisibility="Never"
+                              ItemsSource="{Binding FilteredHistoryAlertsList,Mode=TwoWay}"
+                              SeparatorVisibility="None"
+                              Margin="5" BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              SelectedItem="{Binding SelectedHistoryAlert, Mode=TwoWay}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="5,5,5,5">
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               Padding="10,8,10,8"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               IsClippedToBounds="True"
+                                               BackgroundColor="White">
+                                            <Grid RowSpacing="0"
+                                                  Margin="0,0,5,0">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Text="{Binding CustomAlertsName}"
+                                                       VerticalTextAlignment="Start"
+                                                       MaxLines="1"
+                                                       IsVisible="{Binding CustomAlertsName,Converter={StaticResource VisiblityConverter}}"
+                                                       LineBreakMode="TailTruncation"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       Grid.Row="0"
+                                                       Grid.Column="0" />
+                                                <Label Text="{Binding CustomAlertsCheckedDate}"
+                                                       Grid.Row="1"
+                                                       Grid.Column="0"
+                                                       Style="{StaticResource DateLabelStyle}"
+                                                       TextColor="{StaticResource LightGrayColor}" />
+                                            </Grid>
+                                        </Frame>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        <ListView.Behaviors>
+                            <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                            Command="{Binding HistoryListTappedCommand}"
+                                                            CommandParameter="{Binding SelectedHistoryAlert}" />
+                        </ListView.Behaviors>
+                    </ListView>
+
+                </StackLayout>
+            </StackLayout>
+            <StackLayout VerticalOptions="EndAndExpand" Margin="0,0,0,0" Grid.Row="2" Grid.Column="0">
+                <Button Text="Search"
+                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                        TextColor="White"
+                        Margin="10,5,10,5"
+                        Command="{Binding FilterClickCommand}"
+                        HorizontalOptions="FillAndExpand"
+                        CornerRadius="5"/>
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand"
+                             HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference MessagePage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+        
+    </ContentPage.Content>
+</ContentPage>

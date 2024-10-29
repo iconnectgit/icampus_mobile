@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             x:Class="iCampus.MobileApp.Views.UserModules.BusTracking.BusTrackingDetailPage"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             NavigationPage.HasNavigationBar="False"
+             x:Name="busTrackingDetailPage">
+    <ContentPage.Content>
+
+        <Grid>
+            <Grid RowDefinitions="Auto,*" ColumnDefinitions="*"
+                  BackgroundColor="{StaticResource BorderColor}">
+                <ContentView ControlTemplate="{StaticResource BeamHeader}" Grid.Row="0" Grid.Column="0"
+                             BackgroundColor="White" />
+                <StackLayout Margin="0,10,0,0"
+                             Spacing="0"
+                             VerticalOptions="FillAndExpand"
+                             HorizontalOptions="FillAndExpand"
+                             Grid.Row="1" Grid.Column="0">
+                    <StackLayout.Resources>
+                        <ResourceDictionary>
+                        </ResourceDictionary>
+                    </StackLayout.Resources>
+                    <Frame CornerRadius="5"
+                           HasShadow="False"
+                           BorderColor="{StaticResource BorderColor}"
+                           Padding="10"
+                           VerticalOptions="StartAndExpand"
+                           IsClippedToBounds="true"
+                           Margin="15,10,15,2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0"
+                                   Grid.Column="0"
+                                   FontSize="16"
+                                   Text="Pickup Date"
+                                   HorizontalOptions="StartAndExpand"
+                                   Style="{StaticResource TitleLabelStyle}"
+                                   VerticalTextAlignment="Center"
+                                   HorizontalTextAlignment="Start" />
+                            <Label Grid.Row="0"
+                                   Grid.Column="1"
+                                   FontSize="16"
+                                   Text="Pickup Time"
+                                   HorizontalOptions="EndAndExpand"
+                                   Style="{StaticResource TitleLabelStyle}"
+                                   VerticalTextAlignment="Center"
+                                   HorizontalTextAlignment="End" />
+                        </Grid>
+                    </Frame>
+                    <ListView ItemsSource="{Binding BusAttendanceList,Mode=TwoWay}" VerticalScrollBarVisibility="Never"
+                              HasUnevenRows="True" BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              SeparatorVisibility="None"
+                              Margin="15,0,15,0">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Frame Padding="5,0,5,0" HasShadow="False" CornerRadius="5">
+                                        <Grid Padding="5">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Label Grid.Row="0"
+                                                   Grid.Column="0"
+                                                   Text="{Binding PickUpDate}"
+                                                   Style="{StaticResource DescriptionLabelStyle}"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalOptions="StartAndExpand"
+                                                   HorizontalTextAlignment="Start"
+                                                   Margin="0,5,0,5" />
+                                            <Label Grid.Row="0"
+                                                   Grid.Column="1"
+                                                   Text="{Binding PickUpTime}"
+                                                   Style="{StaticResource DescriptionLabelStyle}"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalOptions="EndAndExpand"
+                                                   HorizontalTextAlignment="End"
+                                                   Margin="0,5,0,5" />
+                                        </Grid>
+                                    </Frame>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+                <Grid.GestureRecognizers>
+                    <SwipeGestureRecognizer
+                        Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference busTrackingDetailPage}}"
+                        Direction="Right" />
+                </Grid.GestureRecognizers>
+            </Grid>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

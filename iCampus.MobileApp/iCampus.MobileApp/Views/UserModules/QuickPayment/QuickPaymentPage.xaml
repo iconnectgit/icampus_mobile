@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="iCampus.MobileApp.Views.UserModules.QuickPayment.QuickPaymentPage"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             NavigationPage.HasNavigationBar="False"
+             x:Name="quickpayment">
+    <ContentPage.Content>
+
+        <Grid VerticalOptions="FillAndExpand">
+            <Grid
+                BackgroundColor="{StaticResource BorderColor}"
+                VerticalOptions="FillAndExpand">
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <Style x:Key="OnlinePaymentBoldLabels" TargetType="Label" BasedOn="{StaticResource TitleLabelStyle}">
+                            <Setter Property="FontSize" Value="15" />
+                        </Style>
+                    </ResourceDictionary>
+                </Grid.Resources>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <StackLayout VerticalOptions="FillAndExpand" Grid.Row="0" Spacing="0">
+                    <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                                 VerticalOptions="Start"
+                                 BackgroundColor="White" />
+                    <ContentView ControlTemplate="{StaticResource BeamStudentSelection}"
+                                 VerticalOptions="Start"
+                                 BackgroundColor="White" />
+                </StackLayout>
+                <StackLayout VerticalOptions="FillAndExpand" Grid.Row="1" Spacing="0">
+                    <Frame CornerRadius="0" Margin="10,10,10,0" Padding="20,10,20,10" BorderColor="Transparent">
+                        <StackLayout>
+                            <Grid HorizontalOptions="FillAndExpand" 
+                                  VerticalOptions="FillAndExpand"
+                                  RowSpacing="8">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+
+                                </Grid.ColumnDefinitions>
+
+                                <Label Text="Reason for Payment"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       Grid.Row="0"
+                                       FontSize="Small"
+                                       FontAttributes="Bold"
+                                       VerticalTextAlignment="Center"
+                                       HorizontalTextAlignment="Start" />
+                                <Frame HasShadow="False"
+                                       BorderColor="LightGray" Margin="0,0,0,0"
+                                       Padding="10,0,0,0"
+                                       Grid.Row="1"
+                                       HorizontalOptions="FillAndExpand">
+                                    <Entry
+                                        Text="{Binding ReasonForPayment}"
+                                        FontSize="Small"
+                                        HeightRequest="35"
+                                        Margin="0,0,0,0"
+                                        Placeholder="Enter Reason"
+                                        Keyboard="Text"
+                                        FontAttributes="Bold"
+                                        VerticalOptions="FillAndExpand"
+                                        HorizontalOptions="FillAndExpand"
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Start" />
+                                </Frame>
+                                <Label Text="Amount"
+                                       Style="{StaticResource TitleLabelStyle}"
+                                       Grid.Row="2"
+                                       FontSize="Small"
+                                       FontAttributes="Bold"
+                                       VerticalTextAlignment="Center"
+                                       HorizontalTextAlignment="Start" />
+                                <Frame HasShadow="False"
+                                       BorderColor="LightGray"
+                                       Margin="0,0,0,0"
+                                       Padding="10,0,0,0"
+                                       Grid.Row="3"
+                                       HorizontalOptions="FillAndExpand">
+                                    <Entry
+                                        Text="{Binding Amount}"
+                                        HeightRequest="35"
+                                        Keyboard="Numeric"
+                                        MaxLength="6"
+                                        Placeholder="Enter Amount"
+                                        FontSize="Small"
+                                        FontAttributes="Bold"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="FillAndExpand"
+                                        VerticalTextAlignment="Center"
+                                        HorizontalTextAlignment="Start" />
+                                </Frame>
+                            </Grid>
+                            <Grid Margin="0,0,0,0" ColumnSpacing="10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <StackLayout Spacing="0" Grid.Column="0">
+                                    <Button Text="Payment History"
+                                            BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                            HorizontalOptions="FillAndExpand" 
+                                            VerticalOptions="Center"
+                                            TextColor="White" 
+                                            CornerRadius="5" 
+                                            FontAttributes="Bold"
+                                            FontSize="16"
+                                            Margin="0,10,0,0"
+                                            HeightRequest="40" 
+                                            Padding="0" 
+                                            Command="{Binding ShowHistoryCommand}" />
+                                </StackLayout>
+                                <StackLayout Spacing="0" Grid.Column="1">
+                                    <Button Text="Pay Now"
+                                            BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                            HorizontalOptions="FillAndExpand" 
+                                            VerticalOptions="Center"
+                                            TextColor="White" 
+                                            CornerRadius="5" 
+                                            FontAttributes="Bold"
+                                            FontSize="16"
+                                            Margin="0,10,0,0"
+                                            HeightRequest="40" 
+                                            Padding="0" 
+                                            Command="{Binding PayNowCommand}" />
+                                </StackLayout>
+                            </Grid>
+                        </StackLayout>
+                    </Frame>
+
+                    <StackLayout IsVisible="{Binding IsHistoryShow}" VerticalOptions="FillAndExpand">
+                        <ListView ItemsSource="{Binding PaymentHistoryList,Mode=TwoWay}"
+                                  SelectedItem="{Binding SelectedPaymentHistory, Mode=TwoWay}"
+                                  HasUnevenRows="True" VerticalScrollBarVisibility="Never"
+                                  BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                  SeparatorVisibility="None" SelectionMode="None"
+                                  VerticalOptions="FillAndExpand"
+                                  Margin="0,10,0,0"
+                                  x:Name="beamHistoryListview">
+                            <x:Arguments>
+                                <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                            </x:Arguments>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Padding="10,5,10,5" IsVisible="{Binding PickUpDataAvailable}">
+                                            <Frame CornerRadius="5"
+                                                   HasShadow="False"
+                                                   BorderColor="{StaticResource BorderColor}"
+                                                   Padding="6"
+                                                   IsClippedToBounds="true"
+                                                   IsVisible="{Binding PickUpDataAvailable}">
+
+
+                                                <StackLayout VerticalOptions="Fill"
+                                                             HorizontalOptions="Fill"
+                                                             Padding="10,5,10,5">
+                                                    <StackLayout Orientation="Horizontal">
+
+                                                        <Label Text="{Binding OrderId}"
+                                                               HorizontalOptions="StartAndExpand"
+                                                               Style="{StaticResource OnlinePaymentBoldLabels}" />
+
+                                                        <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
+                                                            VerticalOptions="CenterAndExpand"
+                                                            WidthRequest="25"
+                                                            HeightRequest="25"
+                                                            Aspect="AspectFit"
+                                                            DownsampleToViewSize="True"
+                                                            Source="download.png"
+                                                            IsVisible="{Binding DownloadIconVisibility}">
+                                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.DownloadCommand,Source={x:Reference beamHistoryListview}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                                        </ffimageloading:CachedImage>
+                                                        <StackLayout VerticalOptions="CenterAndExpand">
+                                                            <ffimageloading:CachedImage Margin="10,0,0,0"
+                                                                Source="{Binding ArrowImageSource}"
+                                                                HorizontalOptions="EndAndExpand"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                Scale="0.8" IsVisible="true">
+                                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.ExpandCollapseClickCommand,Source={x:Reference quickpayment}}"
+                                                                        CommandParameter="{Binding .}" />
+                                                                </ffimageloading:CachedImage.GestureRecognizers>
+                                                            </ffimageloading:CachedImage>
+                                                            <StackLayout.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.ExpandCollapseClickCommand, Source={x:Reference quickpayment}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            </StackLayout.GestureRecognizers>
+                                                        </StackLayout>
+
+                                                    </StackLayout>
+                                                </StackLayout>
+                                                <Frame.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding BindingContext.ExpandCollapseClickCommand, Source={x:Reference quickpayment}}"
+                                                        CommandParameter="{Binding .}" />
+                                                </Frame.GestureRecognizers>
+                                            </Frame>
+                                            <Frame CornerRadius="5"
+                                                   HasShadow="False"
+                                                   BorderColor="{StaticResource BorderColor}"
+                                                   Padding="6"
+                                                   IsVisible="{Binding DetailsVisibility}">
+                                                <StackLayout VerticalOptions="Fill"
+                                                             HorizontalOptions="Fill"
+                                                             Padding="10,5,10,5">
+                                                    <StackLayout Orientation="Horizontal" Spacing="0">
+                                                        <Label>
+                                                            <Label.FormattedText>
+                                                                <FormattedString>
+                                                                    <Span Text="{Binding PaymentModule}"
+                                                                          Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                                </FormattedString>
+                                                            </Label.FormattedText>
+                                                        </Label>
+
+
+                                                        <Label Text="{Binding PaymentStatus}"
+                                                               Style="{StaticResource DescriptionLabelStyle}"
+                                                               HorizontalOptions="EndAndExpand"
+                                                               HorizontalTextAlignment="End" />
+                                                    </StackLayout>
+
+
+                                                    <Label Text="{Binding FormattedTransactionDate}"
+                                                           HorizontalOptions="StartAndExpand"
+                                                           Style="{StaticResource DescriptionLabelStyle}"
+                                                           HorizontalTextAlignment="Start" 
+                                                           Margin="0,5,0,0"/>
+                                                    <Label HorizontalOptions="StartAndExpand"
+                                                           HorizontalTextAlignment="Start"
+                                                           Margin="0,5,0,0">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Total "
+                                                                      Style="{StaticResource DescriptionLabelStyle}" />
+                                                                <Span Text=" " />
+                                                                <Span Text="(" />
+                                                                <Span
+                                                                    Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current}}" />
+                                                                <Span Text=") : " />
+                                                                <Span Text="{Binding Amount}"
+                                                                      Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                </StackLayout>
+                                            </Frame>
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+
+                </StackLayout>
+                    <StackLayout Grid.Row="2" VerticalOptions="EndAndExpand" HeightRequest="65">
+                        <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                                     VerticalOptions="EndAndExpand"
+                                     HorizontalOptions="FillAndExpand" />
+                    </StackLayout>
+                    <Grid.GestureRecognizers>
+                        <SwipeGestureRecognizer
+                            Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference quickpayment}}"
+                            Direction="Right" />
+                    </Grid.GestureRecognizers>
+
+            </Grid>
+
+
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

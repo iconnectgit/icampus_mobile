@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:individual="clr-namespace:iCampus.MobileApp.Behaviours.Individual"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
+             x:Class="iCampus.MobileApp.Views.UserModules.Survey.SurveyPage"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="surveyPage">
+    <ContentPage.Content>
+
+        <Grid>
+            <Grid BackgroundColor="{StaticResource BorderColor}"
+                  RowDefinitions="Auto,*,Auto"
+                  ColumnDefinitions="*">
+                <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                             BackgroundColor="White"
+                             Grid.Row="0" Grid.Column="0" />
+                <ScrollView VerticalOptions="FillAndExpand" Grid.Row="1" Grid.Column="0">
+                    <StackLayout VerticalOptions="FillAndExpand">
+                        <StackLayout.Resources>
+                            <Style TargetType="RadioButton">
+                                <Setter Property="VisualStateManager.VisualStateGroups">
+                                    <VisualStateGroupList>
+                                        <VisualStateGroup x:Name="CommonStates1">
+                                            <VisualState x:Name="Normal1">
+                                                <VisualState.Setters>
+                                                    <Setter Property="TextColor"
+                                                            Value="{StaticResource TextColor}" />
+                                                    <Setter Property="Opacity"
+                                                            Value="1" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                            <VisualState x:Name="IsChecked">
+                                                <VisualState.Setters>
+                                                    <Setter Property="TextColor"
+                                                            Value="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                    <Setter Property="Opacity"
+                                                            Value="1" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateGroupList>
+                                </Setter>
+                            </Style>
+                            <ResourceDictionary>
+                                <individual:QuestionTypeConverter x:Key="QuestionTypeConverter" />
+                                <behaviours:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter" />
+                                <behaviours:VisiblityConverter x:Key="VisiblityConverter" />
+                            </ResourceDictionary>
+                        </StackLayout.Resources>
+                        <StackLayout Spacing="0"
+                                     IsVisible="{Binding NoRecordVisibility,Converter={StaticResource ReverseBoolValueConverter}}"
+                                     VerticalOptions="Start">
+                            <Frame BackgroundColor="White"
+                                   Padding="18,5,5,5"
+                                   BorderColor="{StaticResource BorderColor}"
+                                   HasShadow="False">
+                                <StackLayout Padding="2,2,2,2" HorizontalOptions="FillAndExpand">
+                                    <Label Text="{Binding FirstSurvey.SurveyName}" 
+                                           HorizontalOptions="FillAndExpand"
+                                           VerticalOptions="StartAndExpand" 
+                                           FontSize="16"
+                                           FontAttributes="Bold"
+                                           Style="{StaticResource TitleLabelStyle}" />
+                                    <Label Text="{Binding FirstSurvey.SurveyDescription}" 
+                                           TextType="Html"
+                                           Margin="0,-10,0,0"
+                                           VerticalOptions="StartAndExpand"
+                                           Style="{StaticResource DescriptionLabelStyle}"
+                                           TextColor="{StaticResource LightGrayColor}"
+                                           HorizontalOptions="FillAndExpand" />
+                                    <Label VerticalOptions="EndAndExpand" Style="{StaticResource TitleLabelStyle}"
+                                           HorizontalOptions="FillAndExpand"
+                                           IsVisible="{Binding UserSurvey.StudentName,Converter={StaticResource VisiblityConverter}}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding UserSurvey.StudentId}" />
+                                                <Span Text=" - " />
+                                                <Span Text="{Binding UserSurvey.StudentName}" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </StackLayout>
+                            </Frame>
+                            <Label Margin="10,5,0,5" Text="{Binding ValidationMessage}" TextColor="Red"
+                                   IsVisible="{Binding IsError}" />
+                        </StackLayout>
+                        <StackLayout Padding="10,10,10,10" IsVisible="{Binding NoRecordVisibility}">
+                            <Frame Padding="10" HasShadow="False"
+                                   CornerRadius="5"
+                                   IsClippedToBounds="True"
+                                   BorderColor="{StaticResource BorderColor}"
+                                   BackgroundColor="White">
+                                <Label VerticalOptions="CenterAndExpand"
+                                       Text="{Binding NoDataFound}"
+                                       Style="{StaticResource DescriptionLabelStyle}"
+                                       HorizontalTextAlignment="Start" />
+                            </Frame>
+                        </StackLayout>
+
+                        <StackLayout BindableLayout.ItemsSource="{Binding UserSurveyList}" Orientation="Vertical"
+                                     BackgroundColor="{StaticResource ListViewBackgroundColor}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout Orientation="Horizontal"
+                                                 IsVisible="{Binding IsVisible}"
+                                                 Margin="10,5,10,0" Padding="2"
+                                                 HorizontalOptions="FillAndExpand"
+                                                 Spacing="0">
+                                        <Frame CornerRadius="5" HorizontalOptions="FillAndExpand"
+                                               HasShadow="False"
+                                               IsClippedToBounds="true"
+                                               VerticalOptions="StartAndExpand"
+                                               Padding="10"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               BackgroundColor="{Binding MessageBackgroundColor}">
+                                            <StackLayout HorizontalOptions="FillAndExpand">
+                                                <StackLayout Orientation="Horizontal" Margin="5,0,0,-10"
+                                                             HorizontalOptions="StartAndExpand">
+                                                    <Label Text="*" TextColor="Red" VerticalOptions="CenterAndExpand"
+                                                           IsVisible="{Binding IsRequiredQuestion}" />
+                                                    <Label Text="{Binding QuestionText}"
+                                                           TextType="Html"
+                                                           Margin="5,0,0,0"
+                                                           Style="{StaticResource TitleLabelStyle}"
+                                                           VerticalOptions="CenterAndExpand"
+                                                           HorizontalOptions="StartAndExpand" />
+                                                </StackLayout>
+
+
+                                                <Editor Placeholder="Enter here"
+                                                        Margin="0,0,0,0"
+                                                        Style="{StaticResource EditorFontStyle}"
+                                                        Text="{Binding AnswerText}"
+                                                        IsVisible="{Binding QuestionTypeId,Converter={StaticResource QuestionTypeConverter},ConverterParameter=1}" />
+
+                                                <StackLayout BindableLayout.ItemsSource="{Binding SurveyAnswerList}"
+                                                             Orientation="Vertical"
+                                                             IsVisible="{Binding QuestionTypeId,Converter={StaticResource QuestionTypeConverter},ConverterParameter=2}">
+                                                    <BindableLayout.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackLayout Orientation="Horizontal"
+                                                                         VerticalOptions="StartAndExpand">
+                                                                <OnPlatform x:TypeArguments="StackLayout">
+                                                                    <On Platform="iOS">
+                                                                        <StackLayout Orientation="Horizontal"
+                                                                            VerticalOptions="FillAndExpand">
+                                                                            <ScrollView Orientation="Horizontal">
+                                                                                <RadioButton
+                                                                                    Content="{Binding AnswerText}"
+                                                                                    IsChecked="{Binding IsSelected}"
+                                                                                    GroupName="{Binding SurveyQuestionId}"
+                                                                                    VerticalOptions="CenterAndExpand"
+                                                                                    TextColor="{StaticResource TextColor}">
+                                                                                    <RadioButton.Behaviors>
+                                                                                        <toolkit:EventToCommandBehavior
+                                                                                            EventName="CheckedChanged"
+                                                                                            Command="{Binding BindingContext.RadioChangeCommand,Source={x:Reference surveyPage}}"
+                                                                                            CommandParameter="{Binding .}" />
+                                                                                    </RadioButton.Behaviors>
+                                                                                </RadioButton>
+                                                                            </ScrollView>
+                                                                        </StackLayout>
+                                                                    </On>
+                                                                    <On Platform="Android">
+                                                                        <StackLayout Orientation="Horizontal"
+                                                                            VerticalOptions="StartAndExpand">
+
+                                                                            <RadioButton Content=""
+                                                                                IsChecked="{Binding IsSelected}"
+                                                                                VerticalOptions="CenterAndExpand"
+                                                                                GroupName="{Binding SurveyQuestionId}">
+                                                                                <RadioButton.Behaviors>
+                                                                                    <toolkit:EventToCommandBehavior
+                                                                                        EventName="CheckedChanged"
+                                                                                        Command="{Binding BindingContext.RadioChangeCommand,Source={x:Reference surveyPage}}"
+                                                                                        CommandParameter="{Binding .}" />
+                                                                                </RadioButton.Behaviors>
+                                                                            </RadioButton>
+                                                                            <Label Text="{Binding AnswerText}"
+                                                                                VerticalOptions="CenterAndExpand"
+                                                                                HorizontalOptions="StartAndExpand" />
+                                                                        </StackLayout>
+                                                                    </On>
+
+                                                                </OnPlatform>
+                                                            </StackLayout>
+                                                        </DataTemplate>
+                                                    </BindableLayout.ItemTemplate>
+                                                </StackLayout>
+
+                                                <StackLayout BindableLayout.ItemsSource="{Binding SurveyAnswerList}"
+                                                             IsVisible="{Binding QuestionTypeId,Converter={StaticResource QuestionTypeConverter},ConverterParameter=3}">
+                                                    <BindableLayout.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackLayout Orientation="Horizontal"
+                                                                         Margin="0,5,0,0"
+                                                                         HorizontalOptions="StartAndExpand">
+                                                                <input:CheckBox VerticalOptions="StartAndExpand"
+                                                                    IsChecked="{Binding IsSelected,Mode=TwoWay}" 
+                                                                    Scale="0.8"
+                                                                    HorizontalOptions="StartAndExpand"
+                                                                    Color="Gray"
+                                                                    CheckChangedCommand="{Binding BindingContext.CheckboxChangeCommand,Source={x:Reference surveyPage}}" 
+                                                                    CommandParameter="{Binding .}"/>
+                                                                <Label Text="{Binding AnswerText}"
+                                                                       VerticalOptions="CenterAndExpand"
+                                                                       VerticalTextAlignment="Center" />
+                                                            </StackLayout>
+                                                        </DataTemplate>
+                                                    </BindableLayout.ItemTemplate>
+                                                </StackLayout>
+
+                                                <StackLayout Orientation="Vertical"
+                                                             IsVisible="{Binding QuestionTypeId,Converter={StaticResource QuestionTypeConverter},ConverterParameter=4}">
+                                                    <OnPlatform x:TypeArguments="StackLayout">
+                                                        <On Platform="Android">
+                                                            <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand">
+                                                                <RadioButton Content="" GroupName="TrueOrFalse"
+                                                                             IsChecked="{Binding IsTrue}"
+                                                                             VerticalOptions="StartAndExpand">
+                                                                    <RadioButton.Behaviors>
+                                                                        <toolkit:EventToCommandBehavior
+                                                                            EventName="CheckedChanged"
+                                                                            Command="{Binding BindingContext.TrueFalseChangeCommand,Source={x:Reference surveyPage}}"
+                                                                            CommandParameter="{Binding .}" />
+                                                                    </RadioButton.Behaviors>
+                                                                </RadioButton>
+                                                                <Label Text="True" VerticalOptions="CenterAndExpand" />
+
+                                                            </StackLayout>
+                                                        </On>
+                                                        <On Platform="iOS">
+                                                            <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand">
+                                                                <RadioButton Content="True" GroupName="TrueOrFalse"
+                                                                             IsChecked="{Binding IsTrue}"
+                                                                             VerticalOptions="StartAndExpand">
+                                                                    <RadioButton.Behaviors>
+                                                                        <toolkit:EventToCommandBehavior
+                                                                            EventName="CheckedChanged"
+                                                                            Command="{Binding BindingContext.TrueFalseChangeCommand,Source={x:Reference surveyPage}}"
+                                                                            CommandParameter="{Binding .}" />
+                                                                    </RadioButton.Behaviors>
+                                                                </RadioButton>
+                                                            </StackLayout>
+                                                        </On>
+                                                    </OnPlatform>
+                                                    <OnPlatform x:TypeArguments="StackLayout">
+                                                        <On Platform="Android">
+                                                            <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand">
+                                                                <RadioButton Content="" GroupName="TrueOrFalse"
+                                                                             IsChecked="{Binding IsFalse}"
+                                                                             VerticalOptions="StartAndExpand">
+                                                                    <RadioButton.Behaviors>
+                                                                        <toolkit:EventToCommandBehavior
+                                                                            EventName="CheckedChanged"
+                                                                            Command="{Binding BindingContext.TrueFalseChangeCommand,Source={x:Reference surveyPage}}"
+                                                                            CommandParameter="{Binding .}" />
+                                                                    </RadioButton.Behaviors>
+                                                                </RadioButton>
+                                                                <Label Text="False" VerticalOptions="CenterAndExpand" />
+                                                            </StackLayout>
+                                                        </On>
+                                                        <On Platform="iOS">
+                                                            <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand">
+                                                                <RadioButton Content="False" GroupName="TrueOrFalse"
+                                                                             IsChecked="{Binding IsFalse}"
+                                                                             VerticalOptions="StartAndExpand">
+                                                                    <RadioButton.Behaviors>
+                                                                        <toolkit:EventToCommandBehavior
+                                                                            EventName="CheckedChanged"
+                                                                            Command="{Binding BindingContext.TrueFalseChangeCommand,Source={x:Reference surveyPage}}"
+                                                                            CommandParameter="{Binding .}" />
+                                                                    </RadioButton.Behaviors>
+                                                                </RadioButton>
+                                                            </StackLayout>
+                                                        </On>
+                                                    </OnPlatform>
+                                                </StackLayout>
+
+                                                <Picker Title="Select" TextColor="Gray"
+                                                        Margin="0,0,0,0"
+                                                        VerticalOptions="StartAndExpand"
+                                                        Style="{StaticResource PickerFontStyle}"
+                                                        ItemsSource="{Binding SurveyAnswerList,Mode=TwoWay}"
+                                                        ItemDisplayBinding="{Binding AnswerText}"
+                                                        SelectedItem="{Binding SelecedSurveyAnswer}"
+                                                        IsVisible="{Binding QuestionTypeId,Converter={StaticResource QuestionTypeConverter},ConverterParameter=5}">
+                                                    <Picker.Behaviors>
+                                                        <toolkit:EventToCommandBehavior
+                                                            EventName="SelectedIndexChanged"
+                                                            CommandParameter="{Binding .}"
+                                                            Command="{Binding BindingContext.PickerChangedEventCommand,Source={x:Reference surveyPage}}" />
+                                                    </Picker.Behaviors>
+                                                </Picker>
+                                            </StackLayout>
+
+                                        </Frame>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+
+                        <StackLayout.GestureRecognizers>
+                            <SwipeGestureRecognizer
+                                Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference surveyPage}}"
+                                Direction="Right" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+                </ScrollView>
+                <StackLayout VerticalOptions="EndAndExpand" Grid.Row="2">
+                    <Button Text="Submit" CornerRadius="5"
+                            BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                            TextColor="White" Command="{Binding SubmitCommand}"
+                            Margin="15,5,15,5"
+                            IsVisible="{Binding NoRecordVisibility,Converter={StaticResource ReverseBoolValueConverter}}"
+                            HorizontalOptions="FillAndExpand" />
+                    <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                                 VerticalOptions="EndAndExpand"
+                                 HorizontalOptions="FillAndExpand" />
+                    <StackLayout.GestureRecognizers>
+                        <SwipeGestureRecognizer
+                            Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference surveyPage}}"
+                            Direction="Right" />
+                    </StackLayout.GestureRecognizers>
+                </StackLayout>
+                <Grid.GestureRecognizers>
+                    <SwipeGestureRecognizer
+                        Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference surveyPage}}"
+                        Direction="Right" />
+                </Grid.GestureRecognizers>
+            </Grid>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference surveyPage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

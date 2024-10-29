@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+    x:Class="iCampus.MobileApp.Views.PopUpViews.RegistrationInstructionPopup"
+    CanBeDismissedByTappingOutsideOfPopup="False"
+    x:Name="registrationInstructionPopup"
+    Color="Transparent">
+
+    <Frame CornerRadius="5"
+           HasShadow="False"
+           Padding="0"
+           IsClippedToBounds="true"
+           BackgroundColor="White"
+           VerticalOptions="CenterAndExpand"
+           HorizontalOptions="CenterAndExpand"
+           WidthRequest="350"
+           HeightRequest="600">
+        <StackLayout Spacing="0" Margin="5,5,5,5" >
+            <Grid ColumnDefinitions="*, Auto"
+                  HorizontalOptions="FillAndExpand"
+                  Margin="0,0,0,0">
+                <Label Text="Registration Instructions"
+                       FontAttributes="Bold"
+                       FontSize="16"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center"
+                       Margin="5,5,0,0"
+                       WidthRequest="250" />
+                <Label
+                    Text="&#xf057;"
+                    FontFamily="FontAwesomeSolid"
+                    TextColor="Red"
+                    FontSize="24"
+                    HorizontalOptions="End"
+                    VerticalOptions="Center">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MenuClosedClick" NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </Grid>
+
+            <Label Text="{Binding RegistrationInstructions}"
+                   Style="{StaticResource DescriptionLabelStyle}"
+                   TextType="Html"
+                   Margin="5,20,5,5" />
+
+        </StackLayout>
+        <Frame.GestureRecognizers>
+            <SwipeGestureRecognizer
+                Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference registrationInstructionPopup}}"
+                Direction="Right" />
+        </Frame.GestureRecognizers>
+    </Frame>
+
+</toolkit:Popup>

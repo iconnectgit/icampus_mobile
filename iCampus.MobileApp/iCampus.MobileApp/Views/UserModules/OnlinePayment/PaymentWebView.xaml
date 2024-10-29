@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="iCampus.MobileApp.Views.UserModules.OnlinePayment.PaymentWebView"
+             NavigationPage.HasNavigationBar="False">
+    <ContentPage.Content>
+        
+        <StackLayout
+            VerticalOptions="FillAndExpand"
+            HorizontalOptions="FillAndExpand">
+            <ContentView ControlTemplate="{StaticResource BeamHeader}" Grid.Row="0" Grid.Column="0" BackgroundColor="White" />
+            <WebView VerticalOptions="FillAndExpand"
+                     HorizontalOptions="FillAndExpand"
+                     Source="{Binding WebViewUrl}">
+            </WebView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

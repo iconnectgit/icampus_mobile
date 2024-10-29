@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="iCampus.MobileApp.Views.HomePage"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             NavigationPage.HasNavigationBar="false"
+             x:Name="homePage">
+    <ContentPage.Content>
+        <Grid RowDefinitions="*" ColumnDefinitions="*">
+        <StackLayout>
+            <Grid
+                RowDefinitions="Auto,Auto,Auto,Auto,*,Auto"
+                BackgroundColor="WhiteSmoke" VerticalOptions="FillAndExpand">
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <behaviours:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
+                        <!-- <behaviours:VisibilityConverter></behaviours:VisibilityConverter> -->
+                        <behaviours:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter"/>
+                        <behaviours:HtmlTagRemoverConverter x:Key="HtmlTagRemoverConverter"/>
+                    </ResourceDictionary>
+                </Grid.Resources>
+                <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                             BackgroundColor="White"
+                             Grid.Row="0" />
+                <ContentView ControlTemplate="{StaticResource BeamStudentSelection}"
+                             Grid.Row="1"/>
+                <Image HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="CenterAndExpand"
+                       Grid.Row="2"
+                       Aspect="AspectFit"
+                       Source="{Binding BeamHeaderImage, Source={x:Static local:AppSettings.Current}}"
+                       Margin="15,0,15,0" />
+
+
+                <CollectionView ItemsSource="{Binding LandingPageMenuList,Source={x:Static local:AppSettings.Current}}"
+                                SelectionMode="None"
+                                SelectedItem="{Binding SelectedLandingScreenMenu,Source={x:Static local:AppSettings.Current}}"
+                                Grid.Row="4" Margin="10,0,10,0"
+                                IsVisible="{Binding IsNewsSelectedFromFooter,Converter={StaticResource ReverseBoolValueConverter}}"
+                                x:Name="landingPageMenuList"
+                                >
+                    <CollectionView.ItemsLayout>
+                        <GridItemsLayout Orientation="Vertical" Span="3" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Padding="0"  HasShadow="False" BackgroundColor="WhiteSmoke" BorderColor="Transparent">
+                                <Frame.HeightRequest>
+                                    <OnPlatform x:TypeArguments="x:Double">
+                                        <On Platform="iOS" Value="95" />
+                                        <On Platform="Android" Value="-1" />
+                                    </OnPlatform>
+                                </Frame.HeightRequest>
+                                <Frame CornerRadius="5" Margin="5" Padding="0" HasShadow="false" BorderColor="Transparent" BackgroundColor="{StaticResource BorderColor}">
+                                    <StackLayout BackgroundColor="{Binding ModuleBackgroundColor}" Padding="5"
+                                                 Spacing="0">
+                                        <ffimageloading:CachedImage IsVisible="{Binding ShowIcon}"
+                                                                    DownsampleToViewSize="true"
+                                                                    Source="{Binding ModuleImageUrl}"
+                                                                    HorizontalOptions="CenterAndExpand"
+                                                                    HeightRequest="25" WidthRequest="25"
+                                                                    BackgroundColor="Transparent" />
+                                        <Label
+                                            Text="{Binding ModuleName,Converter={StaticResource HtmlTagRemoverConverter}}"
+                                            LineBreakMode="TailTruncation"
+                                            Style="{StaticResource DescriptionLabelStyle}"
+                                            MaxLines="2" VerticalOptions="CenterAndExpand"
+                                            HorizontalOptions="CenterAndExpand"
+                                            HorizontalTextAlignment="Center"
+                                            TextColor="{Binding MenuLabelTextColor}" />
+                                    </StackLayout>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding BindingContext.LandingPageMenuClickCommand, Source={x:Reference landingPageMenuList}}"
+                                            CommandParameter="{Binding .}" NumberOfTapsRequired="1" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding BindingContext.LandingPageMenuClickCommand, Source={x:Reference landingPageMenuList}}"
+                                        CommandParameter="{Binding .}" NumberOfTapsRequired="1" />
+                                </Frame.GestureRecognizers>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <StackLayout Grid.Row="4" IsVisible="{Binding IsNewsSelectedFromFooter}" Margin="10,0,10,0">
+                    <!-- <Label Text="News &amp; Events" Style="{StaticResource TitleLabelStyle}" /> -->
+                    <!-- <controls:SwipeGestureListView HasUnevenRows="true" IsVisible="{Binding NewsStatus}" -->
+                    <!--                                ItemsSource="{Binding NewsList,Mode=TwoWay}" -->
+                    <!--                                SelectedItem="{Binding SelectedNews,Mode=TwoWay}" -->
+                    <!--                                BackgroundColor="{StaticResource ListViewBackgroundColor}" -->
+                    <!--                                SeparatorVisibility="None" VerticalScrollBarVisibility="Never" -->
+                    <!--                                IsPullToRefreshEnabled="True" -->
+                    <!--                                IsRefreshing="{Binding IsRefreshing}" -->
+                    <!--                                RefreshCommand="{Binding RefreshedCommand}" -->
+                    <!--                                Margin="15,10,20,0"> -->
+                    <!--     <x:Arguments> -->
+                    <!--         <ListViewCachingStrategy>RetainElement</ListViewCachingStrategy> -->
+                    <!--     </x:Arguments> -->
+                    <!--     <ListView.ItemTemplate> -->
+                    <!--     </ListView.ItemTemplate> -->
+                    <!--     <ListView.Behaviors> -->
+                    <!--         <toolkit:EventToCommandBehavior EventName="ItemSelected" -->
+                    <!--                                           Command="{Binding ListTappedCommand}" -->
+                    <!--                                           Converter="{StaticResource SelectedItemConverter}" /> -->
+                    <!--     </ListView.Behaviors> -->
+                    <!-- </controls:SwipeGestureListView> -->
+                </StackLayout>
+
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand" Grid.Row="5"
+                             HorizontalOptions="FillAndExpand"
+                             HeightRequest="60" />
+            </Grid>
+        </StackLayout>
+    </Grid>
+    </ContentPage.Content>
+</ContentPage>

@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             x:Class="iCampus.MobileApp.Views.UserModules.Medical.MedicalPage"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="medicalPage">
+    <ContentPage.Content>
+
+        <Grid VerticalOptions="FillAndExpand"
+              BackgroundColor="{StaticResource BorderColor}" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*"
+              Margin="0,0,0,0">
+            <Grid.Resources>
+                <behaviours:VisiblityConverter x:Key="VisibilityConverter" />
+                <behaviours:ReverseVisiblityConverter x:Key="ReverseVisiblityConverter" />
+            </Grid.Resources>
+
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         VerticalOptions="StartAndExpand"
+                         BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
+
+            <StackLayout Grid.Row="1" Grid.Column="0" VerticalOptions="FillAndExpand">
+                <StackLayout Margin="5,0,5,0">
+                    <Grid Margin="0,0,0,0" ColumnSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="50" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <StackLayout Spacing="0" Grid.Column="0">
+                            <Button Text="Incidents &amp; Ailments"
+                                    FontSize="16"
+                                    BackgroundColor="White"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                    CornerRadius="0"
+                                    Margin="0,10,0,0"
+                                    HeightRequest="40"
+                                    Padding="0"
+                                    Command="{Binding IncidentsTabbedCommand}"
+                                    Opacity="{Binding IncidentstButtonOpacity}" />
+                        </StackLayout>
+                        <StackLayout Spacing="0" Grid.Column="1">
+                            <Button Text="Vaccination Records"
+                                    FontSize="16"
+                                    BackgroundColor="White"
+                                    HorizontalOptions="FillAndExpand"
+                                    VerticalOptions="Center"
+                                    TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                    CornerRadius="0"
+                                    Margin="0,10,0,0"
+                                    HeightRequest="40"
+                                    Padding="0"
+                                    Command="{Binding VaccinationTabbedCommand}"
+                                    Opacity="{Binding VaccinationButtonOpacity}" />
+                        </StackLayout>
+                    </Grid>
+                </StackLayout>
+
+                <StackLayout IsVisible="{Binding IsIncidentsVisible}" VerticalOptions="FillAndExpand">
+                    <StackLayout Padding="15,10,15,0" IsVisible="{Binding IsIncidentsAndAilmentsNoDataFoundVisibility}">
+                        <Frame Padding="5,5,5,5"
+                               CornerRadius="5" HasShadow="False"
+                               IsClippedToBounds="True"
+                               BorderColor="{StaticResource BorderColor}"
+                               BackgroundColor="White">
+                            <Label Text="{Binding NoDataFound}" Style="{StaticResource DescriptionLabelStyle}"
+                                   VerticalTextAlignment="Center"
+                                   HorizontalTextAlignment="Start" />
+                        </Frame>
+                    </StackLayout>
+                    <ListView ItemsSource="{Binding IncidantsAndAilmentsDataList,Mode=TwoWay}"
+                              HasUnevenRows="True" VerticalScrollBarVisibility="Never"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              VerticalOptions="FillAndExpand"
+                              SeparatorVisibility="None"
+                              Margin="0,10,0,0">
+                        <x:Arguments>
+                            <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                        </x:Arguments>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout>
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               Padding="10"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               IsClippedToBounds="True"
+                                               BackgroundColor="White"
+                                               Margin="10,5,10,0">
+                                            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" RowSpacing="5"
+                                                  ColumnDefinitions="0.5*,0.5*">
+                                                <Label Grid.Row="0" Grid.ColumnSpan="2"
+                                                       Text="{Binding MedicalIncidentGroupName}"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       Grid.Column="0"
+                                                       FontSize="18"
+                                                       FontAttributes="Bold" />
+                                                <Label Grid.Row="1" Grid.ColumnSpan="2"
+                                                       Grid.Column="0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Treatment : "
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text="{Binding IncidentDetails}"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Grid.Row="2"
+                                                       Grid.Column="0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Type : "
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text="{Binding MedicalIncidentTypeName}"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Grid.Row="2"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       Grid.Column="1">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Date : "
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text="{Binding IncidentDate}"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Grid.Row="3" Grid.ColumnSpan="2"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       Grid.Column="0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Action(s) Taken : "
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text="{Binding PrimaryActionTitle}"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Grid.Row="4" Grid.ColumnSpan="2"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       IsVisible="{Binding IncidentComments,Converter={StaticResource VisibilityConverter}}"
+                                                       Grid.Column="0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Comment : "
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text="{Binding IncidentComments}"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Grid.Row="4" Grid.ColumnSpan="2"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       IsVisible="{Binding IncidentComments,Converter={StaticResource ReverseVisiblityConverter}}"
+                                                       Grid.Column="0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Comment : "
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text="No comments available"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </Grid>
+                                        </Frame>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+
+                <StackLayout IsVisible="{Binding IsVaccinationVisible}" VerticalOptions="FillAndExpand">
+                    <StackLayout Padding="15,10,15,0" IsVisible="{Binding IsVaccinationNoDataFoundVisibility}">
+                        <Frame Padding="5,5,5,5"
+                               CornerRadius="5" HasShadow="False"
+                               IsClippedToBounds="True"
+                               BorderColor="{StaticResource BorderColor}"
+                               BackgroundColor="White">
+                            <Label Text="{Binding NoDataFound}" Style="{StaticResource DescriptionLabelStyle}"
+                                   VerticalTextAlignment="Center"
+                                   HorizontalTextAlignment="Start" />
+                        </Frame>
+                    </StackLayout>
+                    <ListView ItemsSource="{Binding VaccinationRecordsList,Mode=TwoWay}"
+                              HasUnevenRows="True" VerticalScrollBarVisibility="Never"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              VerticalOptions="FillAndExpand"
+                              SeparatorVisibility="None"
+                              Margin="0,10,0,0">
+                        <x:Arguments>
+                            <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                        </x:Arguments>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid>
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               Padding="10"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               IsClippedToBounds="True"
+                                               BackgroundColor="White"
+                                               Margin="10,5,10,0">
+                                            <Grid RowSpacing="5">
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition Height="Auto" />
+                                                </Grid.RowDefinitions>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="0.5*" />
+                                                    <ColumnDefinition Width="0.5*" />
+                                                </Grid.ColumnDefinitions>
+                                                <Label Grid.Row="0" Grid.ColumnSpan="2"
+                                                       Grid.Column="0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Vaccination Period : "
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text="{Binding VaccinationPeriodName}"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Grid.Row="1"
+                                                       Grid.Column="0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Vaccines : "
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text="{Binding VaccineName}"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Grid.Row="1"
+                                                       Grid.Column="1">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Dosage : "
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text="{Binding Dosage}"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Grid.Row="2"
+                                                       Grid.Column="0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Due On : "
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text="{Binding DueDate}"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Grid.Row="2"
+                                                       Grid.Column="1">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Given On : "
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text="{Binding VaccinationDate}"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Grid.Row="3" Grid.ColumnSpan="2"
+                                                       Grid.Column="0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Is Exempted : "
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text="{Binding IsExempted}"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Grid.Row="4" Grid.ColumnSpan="2"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       IsVisible="{Binding Comments,Converter={StaticResource VisibilityConverter}}"
+                                                       Grid.Column="0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Comment : "
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text="{Binding Comments}"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                                <Label Grid.Row="4" Grid.ColumnSpan="2"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       IsVisible="{Binding Comments,Converter={StaticResource ReverseVisiblityConverter}}"
+                                                       Grid.Column="0">
+                                                    <Label.FormattedText>
+                                                        <FormattedString>
+                                                            <Span Text="Comment : "
+                                                                  Style="{StaticResource TitleLabelStyle}" />
+                                                            <Span Text="No comments available"
+                                                                  Style="{StaticResource DescriptionLabelStyle}" />
+                                                        </FormattedString>
+                                                    </Label.FormattedText>
+                                                </Label>
+                                            </Grid>
+                                        </Frame>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout VerticalOptions="EndAndExpand" Margin="0,5,0,0" Grid.Row="2" Grid.Column="0">
+                <Button Text="Search" CornerRadius="5"
+                        IsVisible="{Binding IsSearchButtonVisible}"
+                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                        TextColor="White"
+                        VerticalOptions="EndAndExpand"
+                        Margin="20,0,20,10"
+                        Command="{Binding FilterClickCommand}"
+                        HorizontalOptions="FillAndExpand" />
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand"
+                             HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference medicalPage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

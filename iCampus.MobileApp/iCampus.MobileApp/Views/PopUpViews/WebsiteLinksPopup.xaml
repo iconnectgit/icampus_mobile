@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+    x:Class="iCampus.MobileApp.Views.PopUpViews.WebsiteLinksPopup"
+    x:Name="websiteLinksPopup"
+    Color="Transparent"
+    VerticalOptions="Start"
+    HorizontalOptions="Center">
+
+    <!-- Background Frame with padding for popup -->
+    <Frame CornerRadius="10"
+           HasShadow="False"
+           Padding="0"
+           Margin="0,200,0,0"
+           IsClippedToBounds="True"
+           BackgroundColor="White"
+           HeightRequest="150"
+           WidthRequest="360">
+        <StackLayout Spacing="0" VerticalOptions="StartAndExpand" Padding="10">
+            <StackLayout.Resources>
+                <ResourceDictionary>
+                    <behaviours:AttachmentFileStatusToSourceConverter x:Key="AttachmentFileStatusToSourceConverter" />
+                    <behaviours:AttachmentTypeToImageSourceConverter x:Key="AttachmentTypeToImageSourceConverter" />
+                    <behaviours:VisiblityConverter x:Key="VisiblityConverter" />
+                </ResourceDictionary>
+            </StackLayout.Resources>
+            <!-- Title and Close Button Row -->
+            <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand" Padding="5">
+                <Label Text="Links" FontAttributes="Bold" FontSize="Medium" VerticalOptions="CenterAndExpand"
+                       HorizontalOptions="StartAndExpand" />
+
+                <!-- Close button as icon -->
+                <Label
+                    Text="&#xf057;"
+                    FontFamily="FontAwesomeSolid"
+                    TextColor="Red"
+                    FontSize="24"
+                    HorizontalOptions="EndAndExpand"
+                    VerticalOptions="CenterAndExpand">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MenuClosedClick" NumberOfTapsRequired="1" />
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+
+            <!-- Attachment List -->
+            <ListView HasUnevenRows="True" 
+                      ItemsSource="{Binding SelectedWebsiteLinks,Mode=TwoWay}"
+                      SelectedItem="{Binding CurrentWebsiteLink, Mode=TwoWay}"
+                      SelectionMode="None"
+                      VerticalOptions="StartAndExpand"
+                      VerticalScrollBarVisibility="Never" BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                      SeparatorVisibility="None" HeightRequest="80">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid IsVisible="{Binding FileName,Converter={StaticResource VisiblityConverter}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.08*" />
+                                    <ColumnDefinition Width="0.84*" />
+                                    <ColumnDefinition Width="0.08*" />
+                                </Grid.ColumnDefinitions>
+                                <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                            VerticalOptions="CenterAndExpand"
+                                                            WidthRequest="20"
+                                                            HeightRequest="20"
+                                                            Aspect="AspectFit"
+                                                            DownsampleToViewSize="True"
+                                                            Grid.Column="0"
+                                                            Source="attachment_icon.png">
+                                </ffimageloading:CachedImage>
+                                    <Label Text="{Binding Title}"
+                                           HorizontalOptions="StartAndExpand"
+                                           VerticalOptions="CenterAndExpand"
+                                           FontSize="Small"
+                                           Grid.Column="1">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding BindingContext.AttachmentListTappedCommand,Source={x:Reference websiteLinksPopup}}"
+                                            CommandParameter="{Binding .}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <ffimageloading:CachedImage HorizontalOptions="CenterAndExpand"
+                                                            VerticalOptions="CenterAndExpand"
+                                                            WidthRequest="25"
+                                                            HeightRequest="25"
+                                                            Grid.Column="2"
+                                                            Aspect="AspectFit"
+                                                            CacheType="None"
+                                                            CacheDuration="0"
+                                                            DownsampleToViewSize="True"
+                                                            Source="{Binding FileStatus,Mode=TwoWay,Converter={StaticResource AttachmentFileStatusToSourceConverter}}">
+                                    <ffimageloading:CachedImage.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding BindingContext.DownloadTappedCommand,Source={x:Reference websiteLinksPopup}}"
+                                            CommandParameter="{Binding .}" />
+                                    </ffimageloading:CachedImage.GestureRecognizers>
+                                </ffimageloading:CachedImage>
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding BindingContext.AttachmentListTappedCommand,Source={x:Reference websiteLinksPopup}}"
+                                        CommandParameter="{Binding .}" />
+                                </Grid.GestureRecognizers>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </Frame>
+</toolkit:Popup>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="iCampus.MobileApp.Views.UserModules.TeacherEvaluation.TeacherEvaluationPage"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             x:Name="teacherEvaluationPage">
+    <ContentPage.Content>
+
+        <Grid VerticalOptions="FillAndExpand"
+              BackgroundColor="{StaticResource BorderColor}" RowDefinitions="Auto,Auto,*,Auto" ColumnDefinitions="*"
+              Margin="0,0,0,0">
+            <Grid.Resources>
+                <ResourceDictionary>
+                </ResourceDictionary>
+            </Grid.Resources>
+
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         VerticalOptions="StartAndExpand"
+                         BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
+            <ContentView ControlTemplate="{StaticResource BeamStudentSelection}"
+                         BackgroundColor="{StaticResource BorderColor}" Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" />
+            
+            <StackLayout Grid.Row="2" Grid.Column="0" Margin="0,0,0,0">
+                <StackLayout Padding="0" Margin="10,0,10,0"
+                             IsVisible="{Binding IsNoRecordFound}">
+                    <Frame Padding="10"
+                           CornerRadius="5" HasShadow="False"
+                           IsClippedToBounds="True"
+                           BorderColor="{StaticResource BorderColor}"
+                           BackgroundColor="White">
+                        <Label Text="{Binding NoDataFound}" Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Start" />
+                    </Frame>
+                </StackLayout>
+                <StackLayout VerticalOptions="FillAndExpand">
+                    <ListView ItemsSource="{Binding FeedbackDataList,Mode=TwoWay}"
+                              SelectedItem="{Binding SelectedFeedbackDataList, Mode=TwoWay}"
+                              HasUnevenRows="True" VerticalScrollBarVisibility="Always"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              SeparatorVisibility="Default" SelectionMode="None"
+                              Margin="0,0,0,0"
+                              x:Name="beamListview">
+                        <x:Arguments>
+                            <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                        </x:Arguments>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout Padding="10,5,10,0">
+                                        <Frame CornerRadius="5"
+                                               HasShadow="False"
+                                               BorderColor="{StaticResource BorderColor}"
+                                               Padding="5">
+                                            <StackLayout VerticalOptions="Fill"
+                                                         HorizontalOptions="Fill"
+                                                         Padding="5,5,5,5">
+                                                <StackLayout Orientation="Horizontal">
+                                                    <Label HorizontalOptions="StartAndExpand" VerticalOptions="Center">
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="{Binding TeacherName}"
+                                                                      Style="{StaticResource TitleLabelStyle}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <StackLayout Orientation="Horizontal"
+                                                                 HorizontalOptions="EndAndExpand"
+                                                                 VerticalOptions="CenterAndExpand">
+                                                        <ffimageloading:CachedImage HeightRequest="25"
+                                                            WidthRequest="25" Source="{Binding StarImageSource1}"
+                                                            IsVisible="true" Aspect="AspectFit">
+                                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.SelectStarCommandI, Source={x:Reference teacherEvaluationPage}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                                        </ffimageloading:CachedImage>
+                                                        <ffimageloading:CachedImage HeightRequest="25"
+                                                            WidthRequest="25" Source="{Binding StarImageSource2}"
+                                                            IsVisible="true" Aspect="AspectFit">
+                                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.SelectStarCommandII, Source={x:Reference teacherEvaluationPage}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                                        </ffimageloading:CachedImage>
+                                                        <ffimageloading:CachedImage HeightRequest="25"
+                                                            WidthRequest="25" Source="{Binding StarImageSource3}"
+                                                            IsVisible="true" Aspect="AspectFit">
+                                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.SelectStarCommandIII, Source={x:Reference teacherEvaluationPage}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                                        </ffimageloading:CachedImage>
+                                                        <ffimageloading:CachedImage HeightRequest="25"
+                                                            WidthRequest="25" Source="{Binding StarImageSource4}"
+                                                            IsVisible="true" Aspect="AspectFit">
+                                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.SelectStarCommandIV, Source={x:Reference teacherEvaluationPage}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                                        </ffimageloading:CachedImage>
+                                                        <ffimageloading:CachedImage HeightRequest="25"
+                                                            WidthRequest="25" Source="{Binding StarImageSource5}"
+                                                            IsVisible="true" Aspect="AspectFit">
+                                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.SelectStarCommandV, Source={x:Reference teacherEvaluationPage}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                                        </ffimageloading:CachedImage>
+                                                    </StackLayout>
+                                                </StackLayout>
+                                                <StackLayout Orientation="Horizontal" Spacing="0" Margin="0,5,0,0">
+                                                    <Label>
+                                                        <Label.FormattedText>
+                                                            <FormattedString>
+                                                                <Span Text="Course :"
+                                                                      Style="{StaticResource TitleLabelStyle}" />
+                                                                <Span Text=" " />
+                                                                <Span Text="{Binding TeacherCourse}"
+                                                                      Style="{StaticResource DescriptionLabelStyle}" />
+                                                            </FormattedString>
+                                                        </Label.FormattedText>
+                                                    </Label>
+                                                    <Label Text="{Binding FeedBackText}"
+                                                           FontSize="Small"
+                                                           HorizontalOptions="EndAndExpand"
+                                                           VerticalOptions="CenterAndExpand"
+                                                           Margin="0,0,20,0"
+                                                           Style="{StaticResource TitleLabelStyle}" />
+                                                </StackLayout>
+                                                <StackLayout Orientation="Horizontal"
+                                                             Margin="0,5,0,0"
+                                                             IsVisible="{Binding SubmitButtonVisibility}">
+                                                    <Button Text="Submit" FontSize="Small"
+                                                            BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                                            HorizontalOptions="EndAndExpand" VerticalOptions="Center"
+                                                            TextColor="White" CornerRadius="5" Margin="0,0,0,0"
+                                                            HeightRequest="30" WidthRequest="140" Padding="5"
+                                                            Command="{Binding BindingContext.SubmitCommand, Source={x:Reference teacherEvaluationPage}}"
+                                                            CommandParameter="{Binding .}" />
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Frame>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </StackLayout>
+            <StackLayout VerticalOptions="EndAndExpand" Margin="0,0,0,0" Grid.Row="3" Grid.Column="0">
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand"
+                             HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference teacherEvaluationPage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

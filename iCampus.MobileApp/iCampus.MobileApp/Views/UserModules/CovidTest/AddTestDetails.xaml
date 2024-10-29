@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:controls="clr-namespace:iCampus.MobileApp.Controls"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             x:Class="iCampus.MobileApp.Views.UserModules.CovidTest.AddTestDetails"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             NavigationPage.HasNavigationBar="false"
+             x:Name="AddTestDetailsPage">
+    <ContentPage.Content>
+
+        <Grid>
+            <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*" AbsoluteLayout.LayoutBounds="1,1,1,1"
+                  AbsoluteLayout.LayoutFlags="All" 
+                  BackgroundColor="{StaticResource BorderColor}">
+                <Grid.Resources>
+                    <ResourceDictionary>
+                        <behaviours:AttachmentFileToImageSourceConverter x:Key="AttachmentFileToImageSourceConverter" />
+                    </ResourceDictionary>
+                </Grid.Resources>
+                <ContentView ControlTemplate="{StaticResource BeamHeader}" Grid.Row="0" Grid.Column="0"
+                             BackgroundColor="White" />
+                <ScrollView Grid.Row="1" Grid.Column="0" Margin="10" VerticalOptions="FillAndExpand">
+
+                    <Grid ColumnDefinitions="*" RowDefinitions="Auto,*" Margin="0,0,0,0">
+                        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto" VerticalOptions="FillAndExpand" ColumnDefinitions="*" RowSpacing="5">
+                            <StackLayout VerticalOptions="StartAndExpand" Grid.Row="0" Grid.Column="0" Margin="0,0,0,0">
+                                <Label Text="Person Tested" FontAttributes="Bold" />
+                                <Grid RowDefinitions="Auto,Auto" Margin="0,5,0,0" RowSpacing="5" ColumnSpacing="5"
+                                      ColumnDefinitions="0.5*,0.5*">
+                                    <Grid HeightRequest="40"
+                                          Grid.Row="0"
+                                          Grid.Column="0"
+                                          IsVisible="{Binding IsPersonTypeListVisible}"
+                                          Margin="0,0,0,0"
+                                          HorizontalOptions="FillAndExpand">
+                                        <Picker Title="Select"
+                                                Style="{StaticResource PickerFontStyle}"
+                                                BackgroundColor="White" TextColor="Gray"
+                                                ItemsSource="{Binding PersonTypeList,Mode=TwoWay}"
+                                                ItemDisplayBinding="{Binding ItemName}"
+                                                SelectedItem="{Binding SelectedPersonTested,Mode=TwoWay}"
+                                                VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                                        <Image Source="dropdown_gray_picker"
+                                               HorizontalOptions="End"
+                                               VerticalOptions="Center"
+                                               WidthRequest="20"
+                                               HeightRequest="20"
+                                               Margin="0,0,10,0" />
+                                    </Grid>
+                                    <Grid HeightRequest="40"
+                                          Grid.Row="0"
+                                          Grid.Column="1"
+                                          IsVisible="{Binding IsChildListVisible}"
+                                          Margin="0,0,0,0"
+                                          HorizontalOptions="FillAndExpand">
+                                        <Picker Title="Select"
+                                                Style="{StaticResource PickerFontStyle}"
+                                                BackgroundColor="White" TextColor="Gray"
+                                                ItemsSource="{Binding StudentList, Source={x:Static local:AppSettings.Current}}"
+                                                ItemDisplayBinding="{Binding ItemName}"
+                                                SelectedItem="{Binding SelectedChild,Mode=TwoWay}"
+                                                VerticalOptions="Center" HorizontalOptions="FillAndExpand" />
+                                        <Image Source="dropdown_gray_picker"
+                                               HorizontalOptions="End"
+                                               VerticalOptions="Center"
+                                               WidthRequest="20"
+                                               HeightRequest="20"
+                                               Margin="0,0,10,0" />
+                                    </Grid>
+                                </Grid>
+                                <Frame Padding="5"
+                                       CornerRadius="5"
+                                       Margin="0,5,0,0"
+                                       HeightRequest="40"
+                                       HasShadow="false"
+                                       BorderColor="Transparent">
+                                    <controls:NoUnderlineEntry Placeholder="Person Name"
+                                                               FontSize="Small"
+                                                               TextColor="Gray"
+                                                               Text="{Binding PersonTested}" IsEnabled="False" />
+                                </Frame>
+                                <Label Text="{Binding MandatoryFieldErrorMessage}"
+                                       HorizontalOptions="StartAndExpand"
+                                       FontSize="10"
+                                       IsVisible="{Binding IsPersonTestedErrorMessageVisible}"
+                                       Margin="0,0,0,10"
+                                       TextColor="Red" />
+                            </StackLayout>
+                            <StackLayout VerticalOptions="StartAndExpand" Grid.Row="1" Grid.Column="0"
+                                         Margin="0,10,0,5">
+                                <Label Text="Test Result" FontAttributes="Bold" />
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                                    <StackLayout Orientation="Horizontal">
+                                        <ffimageloading:CachedImage Source="{Binding PositiveRadioButtonImage}"
+                                                                    Scale="0.4">
+                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding PositiveCheckedChangedCommand}"
+                                                                      NumberOfTapsRequired="1" />
+                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                        </ffimageloading:CachedImage>
+                                        <Label Text="Positive" VerticalOptions="CenterAndExpand"
+                                               VerticalTextAlignment="Center" />
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding PositiveCheckedChangedCommand}" />
+                                        </StackLayout.GestureRecognizers>
+                                    </StackLayout>
+
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                                        <ffimageloading:CachedImage Source="{Binding NegativeRadioButtonImage}"
+                                                                    Scale="0.4">
+                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding NegativeCheckedChangedCommand}"
+                                                                      NumberOfTapsRequired="1" />
+                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                        </ffimageloading:CachedImage>
+
+                                        <Label Text="Negative" VerticalOptions="CenterAndExpand"
+                                               VerticalTextAlignment="Center" />
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding NegativeCheckedChangedCommand}" />
+                                        </StackLayout.GestureRecognizers>
+                                    </StackLayout>
+                                </StackLayout>
+                            </StackLayout>
+                            <StackLayout VerticalOptions="StartAndExpand" Grid.Row="2" Grid.Column="0"
+                                         Margin="0,0,0,15">
+                                <Label Text="Test Date" FontAttributes="Bold" />
+                                <StackLayout Orientation="Horizontal" Padding="0" Margin="0,5,0,0">
+                                    <Frame HasShadow="False" Padding="0" IsClippedToBounds="True" BorderColor="Transparent">
+                                        <DatePicker Date="{Binding TestDate}" BackgroundColor="White"
+                                                    VerticalOptions="StartAndExpand"
+                                                    Style="{StaticResource DatePickerFontStyle}"
+                                                    MaximumDate="{Binding CurrentDate}" />
+                                    </Frame>
+                                    <ffimageloading:CachedImage Source="calendar_icon.png"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                HorizontalOptions="StartAndExpand" Aspect="AspectFit"
+                                                                WidthRequest="30" HeightRequest="30" />
+                                </StackLayout>
+                            </StackLayout>
+                            <StackLayout VerticalOptions="StartAndExpand" Grid.Row="3" Grid.Column="0"
+                                         Margin="0,0,0,25">
+                                <Label Text="Test Location" FontAttributes="Bold"  Margin="0,0,0,5"/>
+
+                                <OnPlatform x:TypeArguments="Frame" >
+                                    <On Platform="Android">
+                                        <Frame Padding="5"
+                                               CornerRadius="5"
+                                               Margin="0,0,0,0"
+                                               HeightRequest="40"
+                                               HasShadow="false"
+                                               BorderColor="Transparent">
+                                            <controls:NoUnderlineEntry Placeholder="Test Location"
+                                                                       FontSize="Small"
+                                                                       Text="{Binding TestLocation}">
+                                                <controls:NoUnderlineEntry.Behaviors>
+                                                    <behaviours:EventToCommandBehavior EventName="TextChanged" />
+                                                </controls:NoUnderlineEntry.Behaviors>
+                                            </controls:NoUnderlineEntry>
+                                        </Frame>
+                                    </On>
+                                    <On Platform="iOS">
+                                        <Frame Padding="5"
+                                               CornerRadius="5"
+                                               Margin="0,0,0,0"
+                                               HeightRequest="40"
+                                               HasShadow="false"
+                                               BorderColor="Transparent">
+                                            <Entry Placeholder="Test Location"
+                                                   FontSize="Small"
+                                                   Text="{Binding TestLocation}" />
+                                        </Frame>
+                                    </On>
+                                </OnPlatform>
+                                <Label Text="{Binding MandatoryFieldErrorMessage}"
+                                       HorizontalOptions="StartAndExpand"
+                                       FontSize="10"
+                                       IsVisible="{Binding IsLocationErrorMessageVisible}"
+                                       Margin="0,0,0,10"
+                                       TextColor="Red" />
+                            </StackLayout>
+                            <StackLayout VerticalOptions="StartAndExpand" Grid.Row="4" Grid.Column="0"
+                                         Margin="0,0,0,10">
+                                <Label Text="Upload Test Result" FontAttributes="Bold" />
+                                <Button Text="Select File" Margin="0,5,0,0"
+                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        TextColor="White"
+                                        Command="{Binding SelectFileCommand}"
+                                        HorizontalOptions="StartAndExpand"
+                                        CornerRadius="5"
+                                        Padding="10" />
+
+                                <Label Text="{Binding MandatoryFieldErrorMessage}"
+                                       HorizontalOptions="StartAndExpand"
+                                       FontSize="10"
+                                       IsVisible="{Binding IsTestResultErrorMessageVisible}"
+                                       Margin="0,0,0,10"
+                                       TextColor="Red" />
+                                <ListView HasUnevenRows="True"
+                                          BackgroundColor="{StaticResource BorderColor}"
+                                          HorizontalOptions="StartAndExpand"
+                                          ItemsSource="{Binding AttachmentFiles,Mode=TwoWay}"
+                                          SelectionMode="None"
+                                          SeparatorVisibility="None"
+                                          HeightRequest="{Binding AttachmentListViewHeight}"
+                                          VerticalOptions="FillAndExpand"
+                                          Margin="0,5,0,0">
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <Grid HorizontalOptions="FillAndExpand"
+                                                      Margin="0,8,0,0"
+                                                      VerticalOptions="CenterAndExpand">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="0.8*" />
+                                                        <ColumnDefinition Width="0.2*" />
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackLayout Orientation="Horizontal"
+                                                                 HorizontalOptions="StartAndExpand"
+                                                                 Spacing="0"
+                                                                 Grid.Row="0"
+                                                                 Grid.Column="0">
+                                                        <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                            VerticalOptions="CenterAndExpand"
+                                                            WidthRequest="20"
+                                                            HeightRequest="20"
+                                                            Aspect="AspectFit"
+                                                            Margin="10,0,0,0"
+                                                            DownsampleToViewSize="True"
+                                                            Source="{Binding FileName,Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
+                                                        <Label Text="{Binding FileName}"
+                                                               TextColor="{StaticResource GrayTextColor}"
+                                                               HorizontalOptions="StartAndExpand"
+                                                               VerticalOptions="CenterAndExpand"
+                                                               Margin="5,0,0,0"
+                                                               Style="{StaticResource AttachmentTextStyle}" />
+                                                    </StackLayout>
+                                                </Grid>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                            </StackLayout>
+                        </Grid>
+
+                        <Grid.GestureRecognizers>
+                            <SwipeGestureRecognizer
+                                Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference AddTestDetailsPage}}"
+                                Direction="Right" />
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                </ScrollView>
+                <StackLayout Grid.Row="2" Orientation="Horizontal"
+                             HorizontalOptions="CenterAndExpand" Spacing="0" Margin="10,0,10,10"
+                             VerticalOptions="EndAndExpand">
+                    <Button Text="Cancel"
+                            BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                            HorizontalOptions="CenterAndExpand" TextColor="White" CornerRadius="5" Margin="5"
+                            Padding="10" VerticalOptions="StartAndExpand" WidthRequest="80"
+                            Command="{Binding BackClickCommand}"
+                            CommandParameter="{TemplateBinding Parent.BindingContext.IsPopUpPage }" />
+                    <Button Text="Save"
+                            BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                            HorizontalOptions="CenterAndExpand" TextColor="White" CornerRadius="5" Margin="5"
+                            Padding="10" VerticalOptions="StartAndExpand" WidthRequest="80"
+                            Command="{Binding SaveClickedCommand}" />
+                </StackLayout>
+                <Grid.GestureRecognizers>
+                    <SwipeGestureRecognizer
+                        Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference AddTestDetailsPage}}"
+                        Direction="Right" />
+                </Grid.GestureRecognizers>
+            </Grid>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

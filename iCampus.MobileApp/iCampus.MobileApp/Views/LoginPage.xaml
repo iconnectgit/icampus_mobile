@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="iCampus.MobileApp.Views.LoginPage"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:Converters="clr-namespace:iCampus.MobileApp.Library.FormValidation"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:controls="clr-namespace:iCampus.MobileApp.Controls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             NavigationPage.HasNavigationBar="false">
+    <ContentPage.Content>
+        <ScrollView>
+        <Grid Margin="0"
+              VerticalOptions="FillAndExpand"
+              RowDefinitions="*"
+              ColumnDefinitions="*"
+              HorizontalOptions="FillAndExpand">
+
+            <!-- OtherAppView -->
+            <Grid IsVisible="{Binding IsOtherAppsLoginViewVisible, Source={x:Static local:AppSettings.Current}}"
+                  x:Name="OtherAppView">
+                <ffimageloading:CachedImage Source="{Binding CustomLoginScreenBackground}"
+                                            Aspect="AspectFit"
+                                            VerticalOptions="EndAndExpand"
+                                            HorizontalOptions="FillAndExpand" />
+                <StackLayout VerticalOptions="StartAndExpand"
+                             HorizontalOptions="FillAndExpand"
+                             Margin="20,80,20,0">
+                    <StackLayout.Resources>
+                        <ResourceDictionary>
+                            <Converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+                        </ResourceDictionary>
+                    </StackLayout.Resources>
+
+                    <StackLayout Spacing="0"
+                                 Margin="0,20,0,0"
+                                 VerticalOptions="CenterAndExpand">
+                        <ffimageloading:CachedImage Source="icampus_icon_logo.png"
+                                                    Margin="0,0,0,0"
+                                                    HorizontalOptions="FillAndExpand"
+                                                    VerticalOptions="FillAndExpand"
+                                                    Scale="1" 
+                                                    HeightRequest="80"
+                                                    WidthRequest="80"/>
+                        <Label Text="{Binding ICampusText}"
+                               IsVisible="{Binding IsTitleVisible}"
+                               Style="{StaticResource TimesNewRomanFontStyle}"
+                               FontSize="35"
+                               HorizontalOptions="CenterAndExpand"
+                               TextColor="#3D3E7A"
+                               HorizontalTextAlignment="Center"
+                               Margin="0" />
+                        <Label Text="powered by interconnect"
+                               FontSize="10"
+                               HorizontalOptions="CenterAndExpand"
+                               TextColor="#3D3E7A"
+                               HorizontalTextAlignment="Center"
+                               IsVisible="{Binding PoweredByInterconnectVisibility}" />
+                        <Label Text="Please login to continue using our app"
+                               HorizontalOptions="CenterAndExpand"
+                               HorizontalTextAlignment="Center"
+                               Margin="0,80,0,0"
+                               FontFamily="MontserratLight" />
+                        <StackLayout Margin="20,20,20,0"
+                                     VerticalOptions="FillAndExpand"
+                                     Spacing="0">
+                            <Frame Padding="10, 5, 10, 5"
+                                   HasShadow="False"
+                                   BorderColor="LightGray">
+                                <Grid ColumnDefinitions="50,*"
+                                      RowDefinitions="40">
+                                    <ffimageloading:CachedImage Source="envelope.png"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                HorizontalOptions="CenterAndExpand"
+                                                                Scale="0.6" />
+                                    <controls:NoUnderlineEntry Placeholder="Email"
+                                                               FontSize="Small"
+                                                               Text="{Binding Email.Value}"
+                                                               BackgroundColor="Transparent"
+                                                               PlaceholderColor="{Binding PlaceholderColor}"
+                                                               Grid.Row="0"
+                                                               Grid.Column="1"
+                                                               VerticalOptions="CenterAndExpand"
+                                                               VerticalTextAlignment="Center"
+                                                               FontFamily="MontserratLight">
+                                        <controls:NoUnderlineEntry.Behaviors>
+                                            <toolkit:EventToCommandBehavior EventName="TextChanged"
+                                                                              Command="{Binding EmailTextChangedEventCommand}" />
+                                        </controls:NoUnderlineEntry.Behaviors>
+                                    </controls:NoUnderlineEntry>
+                                </Grid>
+                            </Frame>
+                            <Label Text="{Binding Email.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                                   HorizontalOptions="EndAndExpand"
+                                   FontSize="10"
+                                   IsVisible="{Binding IsEmailErrorLableVisible}"
+                                   Margin="0,0,0,10"
+                                   TextColor="Red" />
+                            <Frame Padding="10, 5, 10, 5"
+                                   HasShadow="False"
+                                   BorderColor="LightGray"
+                                   Margin="0,20,0,0">
+                                <Grid ColumnDefinitions="50,*"
+                                      RowDefinitions="40">
+                                    <ffimageloading:CachedImage Source="lock.png"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                HorizontalOptions="CenterAndExpand"
+                                                                Scale="0.6" />
+                                    <controls:NoUnderlineEntry Placeholder="Password"
+                                                             FontSize="Small"
+                                                             Text="{Binding Password.Value}"
+                                                             IsPassword="true"
+                                                             BackgroundColor="Transparent"
+                                                             TextColor="{Binding PlaceholderColor}"
+                                                             Grid.Row="0"
+                                                             Grid.Column="1"
+                                                             VerticalOptions="CenterAndExpand"
+                                                             VerticalTextAlignment="Center"
+                                                             FontFamily="MontserratLight">
+                                        <controls:NoUnderlineEntry.Behaviors>
+                                            <toolkit:EventToCommandBehavior EventName="TextChanged"
+                                                                              Command="{Binding PasswordTextChangedEventCommand}" />
+                                        </controls:NoUnderlineEntry.Behaviors>
+                                    </controls:NoUnderlineEntry>
+                                </Grid>
+                            </Frame>
+                            <Label Text="{Binding Password.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                                   HorizontalOptions="EndAndExpand"
+                                   FontSize="10"
+                                   IsVisible="{Binding PasswordErrorEntryColorNew}"
+                                   Margin="0,0,0,10"
+                                   TextColor="Red" />
+                            <StackLayout>
+                                <Button HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="StartAndExpand"
+                                        Text="Login"
+                                        Margin="0,20,0,10"
+                                        HeightRequest="40"
+                                        Padding="5,0,5,0"
+                                        FontSize="Small"
+                                        Command="{Binding SignInButtonCommand}"
+                                        CornerRadius="4"
+                                        TextColor="White"
+                                        BackgroundColor="#007ac2"
+                                        FontFamily="MontserratSemiBold" />
+                                <Label Text="{Binding LblValidationMessage}"
+                                       HorizontalOptions="CenterAndExpand"
+                                       FontSize="10"
+                                       IsVisible="{Binding IsLoginFailedLabelVisible}"
+                                       Margin="0,0,0,10"
+                                       TextColor="Red"
+                                       FontFamily="MontserratLight" />
+                                <Label HorizontalOptions="CenterAndExpand"
+                                       FontFamily="MontserratLight"
+                                       VerticalOptions="StartAndExpand"
+                                       VerticalTextAlignment="Start">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Trouble signing in?"
+                                                  TextDecorations="Underline">
+                                                <Span.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding TroubleSignInCommand}" />
+                                                </Span.GestureRecognizers>
+                                            </Span>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout HorizontalOptions="EndAndExpand"
+                             VerticalOptions="EndAndExpand"
+                             Margin="5">
+                    <Label Text="Demo"
+                           IsVisible="{Binding IsDemo}"
+                           TextColor="Red"
+                           Style="{StaticResource TitleLabelStyle}" />
+                </StackLayout>
+            </Grid>
+
+            <!-- BeamAppView -->
+            <Grid Margin="0"
+                  x:Name="BeamAppView"
+                  IsVisible="{Binding IsBeamLoginViewVisible, Source={x:Static local:AppSettings.Current}}">
+                <ffimageloading:CachedImage Source="{Binding CustomLoginScreenBackground}"
+                                            VerticalOptions="FillAndExpand"
+                                            Aspect="AspectFit"
+                                            Scale="1.05"
+                                            HorizontalOptions="FillAndExpand" />
+                <Grid VerticalOptions="FillAndExpand"
+                      HorizontalOptions="FillAndExpand"
+                      Margin="20,40,20,0"
+                      RowDefinitions="Auto,Auto,Auto,Auto,Auto,*">
+                    <Grid.Resources>
+                        <ResourceDictionary>
+                            <Converters:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter" />
+                        </ResourceDictionary>
+                    </Grid.Resources>
+                    <StackLayout Spacing="0"
+                                 Margin="0,25,0,0"
+                                 VerticalOptions="FillAndExpand"
+                                 Grid.Row="0">
+                        <StackLayout WidthRequest="90"
+                                     HeightRequest="150">
+                            <ffimageloading:CachedImage Source="iCampusIconLogo.png"
+                                                        Margin="0,0,0,10"
+                                                        HorizontalOptions="FillAndExpand"
+                                                        VerticalOptions="FillAndExpand"
+                                                        Scale="1" />
+                        </StackLayout>
+                        <Label Text="{Binding ICampusText}"
+                               IsVisible="{Binding IsTitleVisible}"
+                               Style="{StaticResource TimesNewRomanFontStyle}"
+                               FontSize="35"
+                               HorizontalOptions="CenterAndExpand"
+                               TextColor="#3D3E7A"
+                               HorizontalTextAlignment="Center"
+                               Margin="0" />
+                        <Label Text="powered by interconnect"
+                               FontSize="10"
+                               HorizontalOptions="CenterAndExpand"
+                               TextColor="#3D3E7A"
+                               HorizontalTextAlignment="Center"
+                               IsVisible="{Binding PoweredByInterconnectVisibility}" />
+                        <Label Text="Please login to continue using our app"
+                               HorizontalOptions="CenterAndExpand"
+                               HorizontalTextAlignment="Center"
+                               Margin="0,80,0,0"
+                               FontFamily="MontserratLight" />
+                        <StackLayout Margin="20,20,20,0"
+                                     VerticalOptions="FillAndExpand"
+                                     Spacing="0">
+                            <Frame Padding="10, 5, 10, 5"
+                                   HasShadow="False"
+                                   BorderColor="LightGray">
+                                <Grid ColumnDefinitions="50,*"
+                                      RowDefinitions="40">
+                                    <ffimageloading:CachedImage Source="envelope.png"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                HorizontalOptions="CenterAndExpand"
+                                                                Scale="0.6" />
+                                    <controls:NoUnderlineEntry Placeholder="Email"
+                                                               FontSize="Small"
+                                                               Text="{Binding Email.Value}"
+                                                               BackgroundColor="Transparent"
+                                                               PlaceholderColor="{Binding PlaceholderColor}"
+                                                               Grid.Row="0"
+                                                               Grid.Column="1"
+                                                               VerticalOptions="CenterAndExpand"
+                                                               VerticalTextAlignment="Center"
+                                                               FontFamily="MontserratLight">
+                                        <controls:NoUnderlineEntry.Behaviors>
+                                            <toolkit:EventToCommandBehavior EventName="TextChanged"
+                                                                              Command="{Binding EmailTextChangedEventCommand}" />
+                                        </controls:NoUnderlineEntry.Behaviors>
+                                    </controls:NoUnderlineEntry>
+                                </Grid>
+                            </Frame>
+                            <Label Text="{Binding Email.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                                   HorizontalOptions="EndAndExpand"
+                                   FontSize="10"
+                                   IsVisible="{Binding IsEmailErrorLableVisible}"
+                                   Margin="0,0,0,10"
+                                   TextColor="Red" />
+                            <Frame Padding="10, 5, 10, 5"
+                                   HasShadow="False"
+                                   BorderColor="LightGray"
+                                   Margin="0,20,0,0">
+                                <Grid ColumnDefinitions="50,*"
+                                      RowDefinitions="40">
+                                    <ffimageloading:CachedImage Source="lock.png"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                HorizontalOptions="CenterAndExpand"
+                                                                Scale="0.6" />
+                                    <controls:NoUnderlineEntry Placeholder="Password"
+                                                               FontSize="Small"
+                                                               Text="{Binding Password.Value}"
+                                                               IsPassword="true"
+                                                               BackgroundColor="Transparent"
+                                                               PlaceholderColor="{Binding PlaceholderColor}"
+                                                               Grid.Row="0"
+                                                               Grid.Column="1"
+                                                               VerticalOptions="CenterAndExpand"
+                                                               VerticalTextAlignment="Center"
+                                                               FontFamily="MontserratLight">
+                                        <controls:NoUnderlineEntry.Behaviors>
+                                            <toolkit:EventToCommandBehavior EventName="TextChanged"
+                                                                              Command="{Binding PasswordTextChangedEventCommand}" />
+                                        </controls:NoUnderlineEntry.Behaviors>
+                                    </controls:NoUnderlineEntry>
+                                </Grid>
+                            </Frame>
+                            <Label Text="{Binding Password.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                                   HorizontalOptions="EndAndExpand"
+                                   FontSize="10"
+                                   IsVisible="{Binding PasswordErrorEntryColorNew}"
+                                   Margin="0,0,0,10"
+                                   TextColor="Red" />
+                            <StackLayout>
+                                <Button HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="StartAndExpand"
+                                        Text="Login"
+                                        Margin="0,20,0,10"
+                                        WidthRequest="80"
+                                        HeightRequest="40"
+                                        Padding="5,0,5,0"
+                                        FontSize="Small"
+                                        Command="{Binding SignInButtonCommand}"
+                                        CornerRadius="4"
+                                        TextColor="White"
+                                        BackgroundColor="#007ac2"
+                                        FontFamily="MontserratSemiBold" />
+                                <Label Text="{Binding LblValidationMessage}"
+                                       HorizontalOptions="CenterAndExpand"
+                                       FontSize="10"
+                                       IsVisible="{Binding IsLoginFailedLabelVisible}"
+                                       Margin="0,0,0,10"
+                                       TextColor="Red"
+                                       FontFamily="MontserratLight" />
+                                <Label HorizontalOptions="CenterAndExpand"
+                                       FontFamily="MontserratLight"
+                                       VerticalOptions="StartAndExpand"
+                                       VerticalTextAlignment="Start">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Trouble signing in?"
+                                                  TextDecorations="Underline">
+                                                <Span.GestureRecognizers>
+                                                    <TapGestureRecognizer Command="{Binding TroubleSignInCommand}" />
+                                                </Span.GestureRecognizers>
+                                            </Span>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </StackLayout>
+                        </StackLayout>
+                    </StackLayout>
+                </Grid>
+            </Grid>
+        </Grid>
+    </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

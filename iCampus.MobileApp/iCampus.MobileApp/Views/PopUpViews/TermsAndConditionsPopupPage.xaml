@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:forms="clr-namespace:iCampus.MobileApp.Forms"
+    xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+    x:Class="iCampus.MobileApp.Views.PopUpViews.TermsAndConditionsPopupPage"
+    CanBeDismissedByTappingOutsideOfPopup="False"
+    x:Name="termsAndConditionsPopupPage"
+    Color="Transparent">
+
+    <Frame CornerRadius="5"
+           HasShadow="False"
+           Padding="0"
+           IsClippedToBounds="true"
+           BackgroundColor="White"
+           VerticalOptions="CenterAndExpand"
+           HorizontalOptions="CenterAndExpand"
+           WidthRequest="350"
+           HeightRequest="500">
+        <StackLayout Spacing="0" Margin="5,5,5,5">
+            <StackLayout.Resources>
+                <ResourceDictionary>
+                </ResourceDictionary>
+            </StackLayout.Resources>
+            <Grid ColumnDefinitions="*, Auto"
+                  HorizontalOptions="FillAndExpand"
+                  Margin="0,0,0,0">
+                <Label Text="Terms and Conditions"
+                       FontAttributes="Bold"
+                       FontSize="16"
+                       HorizontalOptions="Start"
+                       VerticalOptions="Center"
+                       Margin="5,5,0,0"
+                       WidthRequest="250" />
+            </Grid>
+            
+            <StackLayout>
+                <Label Text="{Binding TermsConditionMessage}"
+                       Style="{StaticResource DescriptionLabelStyle}"
+                       TextType="Html"
+                       Margin="5,20,5,5">
+
+                </Label>
+            </StackLayout>
+            
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" VerticalOptions="EndAndExpand"
+                         Margin="0" IsVisible="{Binding IsChangeButtonVisible}">
+                <Button
+                    Text="Accept"
+                    FontSize="Small"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Start"
+                    BorderColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                    CornerRadius="5"
+                    Padding="5"
+                    HeightRequest="40"
+                    WidthRequest="80"
+                    Command="{Binding AcceptCommand}" />
+            </StackLayout>
+        </StackLayout>
+        <Frame.GestureRecognizers>
+            <SwipeGestureRecognizer
+                Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference termsAndConditionsPopupPage}}"
+                Direction="Right" />
+        </Frame.GestureRecognizers>
+    </Frame>
+
+</toolkit:Popup>

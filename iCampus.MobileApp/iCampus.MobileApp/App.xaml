@@ -1,0 +1,914 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:iCampus.MobileApp"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Maui"
+             xmlns:forms="clr-namespace:iCampus.MobileApp.Forms;assembly=iCampus.MobileApp"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:vm="clr-namespace:iCampus.MobileApp.Forms;assembly=iCampus.MobileApp"
+             xmlns:individual="clr-namespace:iCampus.MobileApp.Behaviours.Individual"
+             x:Class="iCampus.MobileApp.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
+                <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <Color x:Key="AppThemeColor">#54D08C</Color>
+            <Color x:Key="SignInAndOKButtonBackgroundColor">#54D08C</Color>
+            <Color x:Key="LightGrayColor">#808080</Color>
+            <Color x:Key="ListViewBackgroundColor">Transparent</Color>
+            <Color x:Key="TextColor">#707070</Color>
+            <Color x:Key="GrayTextColor">Gray</Color>
+            <Color x:Key="ApprovedTextColor">#95B75C</Color>
+            <Color x:Key="PendingTextColor">#fea223</Color>
+            <OnPlatform x:TypeArguments="Color" x:Key="BorderColor">
+                <On Platform="Android"
+                    Value="WhiteSmoke" />
+                <On Platform="iOS"
+                    Value="#E8E8E8" />
+            </OnPlatform>
+            <!-- <OnPlatform x:TypeArguments="Color" x:Key="BorderColor" -->
+            <!--       Android="WhiteSmoke" iOS="#E8E8E8"/> -->
+            <behaviours:StringToColorConverter x:Key="StringToColorConverter" />
+            <behaviours:IntToBoolValueConverter x:Key="IntToBoolValueConverter" />
+            <behaviours:ImageUrlToSourceConverter x:Key="ImageUrlToSourceConverter"/>
+            <behaviours:ColorCodeConverter x:Key="ColorCodeConverter"/>
+            <behaviours:HtmlTagRemoverConverter x:Key="HtmlTagRemoverConverter"/>
+            <behaviours:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter"/>
+            <individual:FooterMenuTitleColorConverter x:Key="FooterMenuTitleColorConverter"/>
+            <Style x:Key="MenuImageStyle" TargetType="ffimageloading:CachedImage">
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
+                <Setter Property="VerticalOptions" Value="CenterAndExpand" />
+                <Setter Property="HeightRequest" Value="25" />
+                <Setter Property="WidthRequest" Value="25" />
+            </Style>
+            <Style x:Key="TitleLabelStyle"
+                   TargetType="Label">
+                <Setter Property="FontSize"
+                        Value="14" />
+                <Setter Property="TextColor"
+                        Value="#707070" />
+                <Setter Property="FontAttributes"
+                        Value="Bold" />
+            </Style>
+            <Style x:Key="DescriptionLabelStyle"
+                   TargetType="Label">
+                <Setter Property="FontSize"
+                        Value="14" />
+                <Setter Property="TextColor"
+                        Value="#707070" />
+            </Style>
+            <Style x:Key="AttachmentTextStyle"
+                   TargetType="Label">
+                <Setter Property="FontSize"
+                        Value="14" />
+                <Setter Property="TextColor"
+                        Value="#707070" />
+            </Style>
+            <Style x:Key="DateLabelStyle"
+                   TargetType="Label">
+                <Setter Property="FontSize"
+                        Value="14" />
+                <Setter Property="TextColor"
+                        Value="{StaticResource LightGrayColor}" />
+            </Style>
+            <Style x:Key="BarTextStyle"
+                   TargetType="Label">
+                <Setter Property="FontSize"
+                        Value="18" />
+                <Setter Property="FontAttributes"
+                        Value="Bold" />
+                <Setter Property="VerticalOptions"
+                        Value="CenterAndExpand" />
+            </Style>
+            <OnPlatform x:TypeArguments="x:String"
+                        x:Key="Arvo-Italic">
+                <On Platform="Android"
+                    Value="Arvo-Italic.ttf#Arvo Italic" />
+                <On Platform="iOS"
+                    Value="Arvo-Italic" />
+            </OnPlatform>
+            <OnPlatform x:TypeArguments="x:String"
+                        x:Key="TimesNewRoman">
+                <On Platform="Android"
+                    Value="times-new-roman.ttf#times-new-roman" />
+                <On Platform="iOS"
+                    Value="times-new-roman" />
+            </OnPlatform>
+            <Style x:Key="TimesNewRomanFontStyle"
+                   TargetType="Label">
+                <Setter Property="FontFamily"
+                        Value="{StaticResource TimesNewRoman}" />
+            </Style>
+            <OnPlatform x:Key="HeightValue" x:TypeArguments="x:Double">
+                <On Platform="iOS" Value="30" />
+                <On Platform="Android" Value="40" />
+            </OnPlatform>
+
+            <Style x:Key="PickerFontStyle"
+                   TargetType="Picker">
+                <Setter Property="HeightRequest"
+                        Value="{StaticResource HeightValue}" />
+                <Setter Property="FontSize"
+                        Value="14" />
+                <Setter Property="TextColor"
+                        Value="#707070" />
+            </Style>
+            <Style x:Key="EntryFontStyle"
+                   TargetType="Entry">
+                <Setter Property="FontSize"
+                        Value="14" />
+                <Setter Property="TextColor"
+                        Value="#707070" />
+            </Style>
+            <Style x:Key="DatePickerFontStyle"
+                   TargetType="DatePicker">
+                <Setter Property="FontSize"
+                        Value="14" />
+                <Setter Property="TextColor"
+                        Value="#707070" />
+                <Setter Property="HeightRequest"
+                        Value="{StaticResource HeightValue}" />
+                <Setter Property="Format" Value="dd-MMM-yyyy" />
+            </Style>
+            <Style x:Key="TimePickerFontStyle"
+                   TargetType="TimePicker">
+                <Setter Property="FontSize"
+                        Value="14" />
+                <Setter Property="TextColor"
+                        Value="#707070" />
+                <Setter Property="HeightRequest"
+                        Value="{StaticResource HeightValue}" />
+                <Setter Property="Format" Value="hh:mm tt" />
+            </Style>
+            <Style x:Key="EditorFontStyle"
+                   TargetType="Editor">
+                <Setter Property="FontSize"
+                        Value="14" />
+                <Setter Property="TextColor"
+                        Value="#707070" />
+            </Style>
+            <Style TargetType="RadioButton">
+                <Setter Property="VisualStateManager.VisualStateGroups">
+                    <VisualStateGroupList>
+                        <VisualStateGroup x:Name="CommonStates">
+                            <VisualState x:Name="Normal">
+                                <VisualState.Setters>
+                                    <Setter Property="TextColor"
+                                            Value="{StaticResource LightGrayColor}" />
+                                    <Setter Property="Opacity"
+                                            Value="0.5" />
+                                </VisualState.Setters>
+                            </VisualState>
+                            <VisualState x:Name="IsChecked">
+                                <VisualState.Setters>
+                                    <Setter Property="TextColor"
+                                            Value="Red" />
+                                    <Setter Property="Opacity"
+                                            Value="1" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateGroupList>
+                </Setter>
+            </Style>
+            <ControlTemplate x:Key="HeaderTemplate">
+                <Grid VerticalOptions="Fill"
+                      HorizontalOptions="FillAndExpand"
+                      ColumnSpacing="0"
+                      RowSpacing="0"
+                      HeightRequest="60">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" HorizontalOptions="FillAndExpand"
+                          Grid.Column="0"
+                          BackgroundColor="{TemplateBinding Parent.BindingContext.ThemeColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackLayout Grid.Row="0" Spacing="0" HorizontalOptions="StartAndExpand"
+                                     BackgroundColor="{TemplateBinding Parent.BindingContext.HighlightColor}"
+                                     IsVisible="{TemplateBinding Parent.BindingContext.MenuVisible}"
+                                     Grid.Column="0">
+                            <ffimageloading:CachedImage Margin="15,0,10,0"
+                                                        Source="MenuIcon.png" BackgroundColor="Transparent"
+                                                        HorizontalOptions="StartAndExpand"
+                                                        WidthRequest="25"
+                                                        VerticalOptions="CenterAndExpand"
+                                                        HeightRequest="25" />
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{TemplateBinding Parent.BindingContext.SideMenuClickCommand}"
+                                    NumberOfTapsRequired="1" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                        <StackLayout Grid.Row="0" Spacing="0" HorizontalOptions="StartAndExpand"
+                                     IsVisible="{TemplateBinding Parent.BindingContext.BackVisible}"
+                                     Grid.Column="0">
+                            <Label
+                                Text="{TemplateBinding Parent.BindingContext.BackTitle, Converter={StaticResource HtmlTagRemoverConverter}}"
+                                FontSize="25"
+                                Margin="15,0,10,0"
+                                FontAttributes="Bold"
+                                VerticalTextAlignment="Center"
+                                HorizontalTextAlignment="Center"
+                                HorizontalOptions="CenterAndExpand"
+                                VerticalOptions="CenterAndExpand"
+                                TextColor="White" />
+                            <StackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{TemplateBinding Parent.BindingContext.BackClickCommand}"
+                                    CommandParameter="{TemplateBinding Parent.BindingContext.IsPopUpPage }"
+                                    NumberOfTapsRequired="1" />
+                            </StackLayout.GestureRecognizers>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal"
+                                     Spacing="0" HorizontalOptions="StartAndExpand"
+                                     Grid.Row="0"
+                                     Grid.Column="1">
+
+                            <Label
+                                Text="{TemplateBinding Parent.BindingContext.PageTitle, Converter={StaticResource HtmlTagRemoverConverter}}"
+                                HorizontalOptions="StartAndExpand"
+                                VerticalOptions="CenterAndExpand"
+                                Style="{StaticResource BarTextStyle}"
+                                TextColor="White"
+                                FontAttributes="Bold">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{TemplateBinding Parent.BindingContext.CommunicationMessageTypeClickedEvent}"
+                                        NumberOfTapsRequired="1" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                            <ffimageloading:CachedImage Margin="5,0,0,-4"
+                                                        HorizontalOptions="StartAndExpand"
+                                                        Source="dropdown.png"
+                                                        Scale="1.4"
+                                                        VerticalOptions="CenterAndExpand"
+                                                        IsVisible="{TemplateBinding Parent.BindingContext.IsVisibleDropDownIcon}" />
+                        </StackLayout>
+
+                        <StackLayout Spacing="0"
+                                     Orientation="Horizontal"
+                                     Grid.Row="0"
+                                     Grid.Column="2"
+                                     HorizontalOptions="EndAndExpand">
+                            <ffimageloading:CachedImage Source="WhiteBackArrowIcon.png"
+                                                        Scale="2" Margin="20,0,20,0"
+                                                        HorizontalOptions="StartAndExpand"
+                                                        IsVisible="{TemplateBinding Parent.BindingContext.IsVisibleBackIcon}">
+                                <ffimageloading:CachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{TemplateBinding Parent.BindingContext.CommunicationHeaderBackArrowTappedCommand}"
+                                        NumberOfTapsRequired="1" />
+                                </ffimageloading:CachedImage.GestureRecognizers>
+                            </ffimageloading:CachedImage>
+
+
+                            <StackLayout VerticalOptions="CenterAndExpand"
+                                         Orientation="Horizontal"
+                                         Spacing="0"
+                                         Margin="20,0,10,0"
+                                         HorizontalOptions="EndAndExpand">
+                                <ffimageloading:CachedImage Source="WhiteDeleteIcon.png"
+                                                            HeightRequest="20"
+                                                            WidthRequest="20"
+                                                            VerticalOptions="CenterAndExpand"
+
+                                                            HorizontalOptions="EndAndExpand"
+                                                            IsVisible="{TemplateBinding Parent.BindingContext.IsVisibleCommunicationHeaderDeleteIcon}">
+                                    <ffimageloading:CachedImage.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{TemplateBinding Parent.BindingContext.CommunicationHeaderDeleteTappedCommand}"
+                                            NumberOfTapsRequired="1" />
+                                    </ffimageloading:CachedImage.GestureRecognizers>
+                                </ffimageloading:CachedImage>
+                                <Label HorizontalOptions="EndAndExpand"
+                                       FontSize="15"
+                                       VerticalOptions="EndAndExpand"
+                                       VerticalTextAlignment="End"
+                                       IsVisible="{TemplateBinding Parent.BindingContext.IsVisibleSelectedMessageCount}"
+                                       Text="{TemplateBinding Parent.BindingContext.SelectedMessageCount,StringFormat=' ({0})'}"
+                                       TextColor="White" />
+                            </StackLayout>
+                            <ffimageloading:CachedImage Source="save_icon.png" HeightRequest="20" WidthRequest="20"
+                                                        HorizontalOptions="EndAndExpand" Margin="20,0,10,0" Scale="1.5"
+                                                        IsVisible="{TemplateBinding Parent.BindingContext.IsVisibleSaveHeaderIcon}">
+                                <ffimageloading:CachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{TemplateBinding Parent.BindingContext.AttendanceSaveTapCommand}"
+                                        NumberOfTapsRequired="1" />
+                                </ffimageloading:CachedImage.GestureRecognizers>
+                            </ffimageloading:CachedImage>
+
+                            <StackLayout Spacing="0" HorizontalOptions="StartAndExpand"
+                                         IsVisible="{TemplateBinding Parent.BindingContext.IsComposeAttachmentVisible}">
+                                <ffimageloading:CachedImage Margin="10,0,10,0" BackgroundColor="Transparent"
+                                                            Source="attachment_white_icon.png"
+                                                            HorizontalOptions="EndAndExpand"
+                                                            WidthRequest="35"
+                                                            VerticalOptions="CenterAndExpand"
+                                                            HeightRequest="35">
+                                    <ffimageloading:CachedImage.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{TemplateBinding Parent.BindingContext.ComposeAttachmentClickCommand}"
+                                            NumberOfTapsRequired="1" />
+                                    </ffimageloading:CachedImage.GestureRecognizers>
+                                </ffimageloading:CachedImage>
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{TemplateBinding Parent.BindingContext.ComposeAttachmentClickCommand}"
+                                        NumberOfTapsRequired="1" />
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+
+                            <StackLayout Spacing="0" HorizontalOptions="StartAndExpand"
+                                         IsVisible="{TemplateBinding Parent.BindingContext.IsComposeSendVisible}">
+                                <ffimageloading:CachedImage Margin="10,0,10,0" BackgroundColor="Transparent"
+                                                            Source="send_white_icon.png"
+                                                            HorizontalOptions="EndAndExpand"
+                                                            WidthRequest="30"
+                                                            VerticalOptions="CenterAndExpand"
+                                                            HeightRequest="30">
+                                    <ffimageloading:CachedImage.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{TemplateBinding Parent.BindingContext.ComposeSendClickCommand}"
+                                            NumberOfTapsRequired="1" />
+                                    </ffimageloading:CachedImage.GestureRecognizers>
+                                </ffimageloading:CachedImage>
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{TemplateBinding Parent.BindingContext.ComposeSendClickCommand}"
+                                        NumberOfTapsRequired="1" />
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+
+
+                            <StackLayout Spacing="0" HorizontalOptions="StartAndExpand"
+                                         BackgroundColor="{TemplateBinding Parent.BindingContext.RightHighlightColor}"
+                                         IsVisible="{TemplateBinding Parent.BindingContext.IsSettingMenuHidden,Converter={StaticResource ReverseBoolValueConverter}}">
+                                <ffimageloading:CachedImage Margin="10,0,10,0" BackgroundColor="Transparent"
+                                                            Source="WhiteVerticalDotsIcon.png"
+                                                            HorizontalOptions="EndAndExpand"
+                                                            WidthRequest="20"
+                                                            VerticalOptions="CenterAndExpand"
+                                                            HeightRequest="20">
+                                    <ffimageloading:CachedImage.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{TemplateBinding Parent.BindingContext.RightSideMenuClickCommand}"
+                                            NumberOfTapsRequired="1" />
+                                    </ffimageloading:CachedImage.GestureRecognizers>
+                                </ffimageloading:CachedImage>
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{TemplateBinding Parent.BindingContext.RightSideMenuClickCommand}"
+                                        NumberOfTapsRequired="1" />
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </StackLayout>
+                    </Grid>
+                    <ContentPresenter Grid.Row="1"
+                                      Grid.Column="0"
+                                      BackgroundColor="White" />
+                </Grid>
+            </ControlTemplate>
+            <ControlTemplate x:Key="FooterTemplate">
+                <Frame IsVisible="{Binding IsStudentFooterVisible,Source={x:Static forms:AppSettings.Current}}"
+                       HasShadow="False"
+                       BackgroundColor="White"
+                       Padding="20,10,20,10"
+                       BorderColor="WhiteSmoke"
+                       IsClippedToBounds="true">
+                    <Grid ColumnSpacing="12">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.2*" />
+                            <ColumnDefinition Width="0.7*" />
+                            <ColumnDefinition Width="0.1*" />
+                        </Grid.ColumnDefinitions>
+                        <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                    VerticalOptions="CenterAndExpand"
+                                                    WidthRequest="50"
+                                                    HeightRequest="50"
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Grid.RowSpan="2"
+                                                    Aspect="AspectFit"
+                                                    DownsampleToViewSize="True"
+                                                    Source="{Binding SelectedStudent.AvatarImagePath, Source={x:Static forms:AppSettings.Current}}">
+                            <ffimageloading:CachedImage.Transformations>
+                                <fftransformations:CircleTransformation />
+                            </ffimageloading:CachedImage.Transformations>
+                        </ffimageloading:CachedImage>
+                        <Label Text="{Binding SelectedStudent.ItemName,Source={x:Static forms:AppSettings.Current}}"
+                               HorizontalOptions="StartAndExpand" Style="{StaticResource TitleLabelStyle}"
+                               Grid.Row="0"
+                               Grid.Column="1" />
+                        <Label
+                            Text="{Binding SelectedStudent.AlternateId,StringFormat='ID:{0}',Source={x:Static forms:AppSettings.Current}}"
+                            HorizontalOptions="StartAndExpand"
+                            Grid.Row="1" Style="{StaticResource DescriptionLabelStyle}"
+                            Grid.Column="1"
+                            FontAttributes="Bold" />
+                        <ffimageloading:CachedImage HorizontalOptions="FillAndExpand"
+                                                    VerticalOptions="FillAndExpand"
+                                                    Margin="10,0,0,0"
+                                                    Grid.Row="0"
+                                                    Grid.Column="2"
+                                                    Grid.RowSpan="2"
+                                                    Aspect="AspectFit"
+                                                    DownsampleToViewSize="True"
+                                                    Source="DropDown_Arrow.png">
+                            <ffimageloading:CachedImage.Transformations>
+                                <fftransformations:CircleTransformation />
+                            </ffimageloading:CachedImage.Transformations>
+                        </ffimageloading:CachedImage>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{TemplateBinding Parent.BindingContext.StudentTapCommand}"
+                                                  NumberOfTapsRequired="1" />
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                </Frame>
+            </ControlTemplate>
+
+            <ControlTemplate x:Key="BeamFooterMenuTemplate">
+                <Frame HasShadow="False" BackgroundColor="White"
+                       BorderColor="WhiteSmoke" Padding="5"
+                       IsClippedToBounds="true">
+                    <CollectionView ItemsSource="{Binding FooterMenuList,Source={x:Static forms:AppSettings.Current}}"
+                                    SelectionMode="Single"
+                                    SelectedItem="{Binding SelectedFooterMenu,Source={x:Static forms:AppSettings.Current}}"
+                                    SelectionChangedCommand="{TemplateBinding Parent.BindingContext.FooterMenuClickCommand}"
+                                    SelectionChangedCommandParameter="{Binding SelectedFooterMenu,Source={x:Static forms:AppSettings.Current}}"
+                                    HeightRequest="50">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical"
+                                             Span="{Binding FooterMenuListCount,Source={x:Static forms:AppSettings.Current}}" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <StackLayout Orientation="Vertical">
+                                    <VisualStateManager.VisualStateGroups>
+                                        <VisualStateGroup x:Name="CommonStates">
+                                            <VisualState x:Name="Normal">
+                                                <VisualState.Setters>
+                                                    <Setter Property="BackgroundColor" Value="White" />
+                                                </VisualState.Setters>
+                                            </VisualState>
+                                        </VisualStateGroup>
+                                    </VisualStateManager.VisualStateGroups>
+                                    <ffimageloading:CachedImage HorizontalOptions="CenterAndExpand"
+                                                                IsVisible="{Binding FooterIconVisibilityExceptHomeAndNews}"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                Aspect="AspectFit"
+                                                                DownsampleToViewSize="True"
+                                                                Source="{Binding ModuleImageUrl}"
+                                                                Style="{StaticResource MenuImageStyle}"
+                                                                BackgroundColor="Transparent" />
+                                    <Label HorizontalOptions="CenterAndExpand"
+                                           VerticalOptions="CenterAndExpand"
+                                           IsVisible="{Binding NewsIconVisibility}"
+                                           FontFamily="FontAwesomeRegular" 
+                                           FontSize="22"
+                                           Text="&#xf1ea;" 
+                                           HeightRequest="25"
+                                           BackgroundColor="Transparent"
+                                           TextColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                                           Style="{StaticResource MenuImageStyle}"></Label>
+                                    <!-- <Image HorizontalOptions="CenterAndExpand" IsVisible="{Binding NewsIconVisibility}" -->
+                                    <!--        VerticalOptions="CenterAndExpand" -->
+                                    <!--        Aspect="AspectFit" -->
+                                    <!--        Style="{StaticResource MenuImageStyle}" -->
+                                    <!--        BackgroundColor="Transparent"> -->
+                                    <!--     <Image.Source> -->
+                                    <!--         <bootstrapIcon:IconSource Icon="Newspaper" -->
+                                    <!--                                   Color="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}" /> -->
+                                    <!--     </Image.Source> -->
+                                    <!-- </Image> -->
+                                    <Image HorizontalOptions="CenterAndExpand" IsVisible="{Binding HomeIconVisibility}"
+                                           VerticalOptions="CenterAndExpand"
+                                           Aspect="AspectFit"
+                                           Source="{Binding HomeMenuImageUrl,Source={x:Static forms:AppSettings.Current}}"
+                                           Style="{StaticResource MenuImageStyle}"
+                                           BackgroundColor="Transparent" />
+                                    <Label Text="{Binding ModuleShortName}" HorizontalOptions="CenterAndExpand"
+                                           LineBreakMode="TailTruncation" MaxLines="1"
+                                           Style="{StaticResource DescriptionLabelStyle}"
+                                           VerticalOptions="StartAndExpand"
+                                           TextColor="{Binding IsSelected, Converter={StaticResource FooterMenuTitleColorConverter}}" />
+                                </StackLayout>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </Frame>
+            </ControlTemplate>
+
+            <ControlTemplate x:Key="FooterTemplateForAllStudentsDisplay">
+                <Frame
+                    IsVisible="{Binding IsStudentFooterVisibleForAllStudentList,Source={x:Static forms:AppSettings.Current}}"
+                    HasShadow="False"
+                    BackgroundColor="White"
+                    Padding="20,10,20,10"
+                    BorderColor="WhiteSmoke"
+                    IsClippedToBounds="true">
+                    <Grid ColumnSpacing="12">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.2*" />
+                            <ColumnDefinition Width="0.7*" />
+                            <ColumnDefinition Width="0.1*" />
+                        </Grid.ColumnDefinitions>
+                        <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                    VerticalOptions="CenterAndExpand"
+                                                    WidthRequest="50"
+                                                    HeightRequest="50"
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    Grid.RowSpan="2"
+                                                    Aspect="AspectFit"
+                                                    DownsampleToViewSize="True"
+                                                    Source="{Binding SelectedStudentFromAllStudentList.AvatarImagePath,Converter={StaticResource ImageUrlToSourceConverter}, Source={x:Static forms:AppSettings.Current}}">
+                            <ffimageloading:CachedImage.Transformations>
+                                <fftransformations:CircleTransformation />
+                            </ffimageloading:CachedImage.Transformations>
+                        </ffimageloading:CachedImage>
+                        <Label
+                            Text="{Binding SelectedStudentFromAllStudentList.ItemName,Source={x:Static forms:AppSettings.Current}}"
+                            HorizontalOptions="StartAndExpand" Style="{StaticResource TitleLabelStyle}"
+                            Grid.Row="0"
+                            Grid.Column="1" />
+                        <Label
+                            Text="{Binding SelectedStudentFromAllStudentList.AlternateId,StringFormat='ID:{0}',Source={x:Static forms:AppSettings.Current}}"
+                            HorizontalOptions="StartAndExpand"
+                            Grid.Row="1" Style="{StaticResource DescriptionLabelStyle}"
+                            Grid.Column="1"
+                            FontAttributes="Bold" />
+                        <ffimageloading:CachedImage HorizontalOptions="FillAndExpand"
+                                                    VerticalOptions="FillAndExpand"
+                                                    Margin="10,0,0,0"
+                                                    Grid.Row="0"
+                                                    Grid.Column="2"
+                                                    Grid.RowSpan="2"
+                                                    Aspect="AspectFit"
+                                                    DownsampleToViewSize="True"
+                                                    Source="DropDown_Arrow.png">
+                            <ffimageloading:CachedImage.Transformations>
+                                <fftransformations:CircleTransformation />
+                            </ffimageloading:CachedImage.Transformations>
+                        </ffimageloading:CachedImage>
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Command="{TemplateBinding Parent.BindingContext.StudentTapCommand}"
+                                                  NumberOfTapsRequired="1" />
+                        </Grid.GestureRecognizers>
+                    </Grid>
+                </Frame>
+            </ControlTemplate>
+
+            <ControlTemplate x:Key="BeamHeader">
+                <Grid ColumnDefinitions="Auto,*,0.2*,0.2*,0.2*" RowDefinitions="*" Padding="15,0,15,0"
+                      BackgroundColor="Transparent"  VerticalOptions="CenterAndExpand" >
+                    <StackLayout WidthRequest="35" VerticalOptions="CenterAndExpand">
+                        <!-- Three bars icon -->
+                        <Label
+                            Text="&#xf0c9;"
+                            FontFamily="FontAwesomeSolid"
+                            TextColor="{Binding Settings.ThemeColor,Source={x:Static forms:AppSettings.Current}}"
+                            Margin="0,0,0,0"
+                            FontSize="23"
+                            VerticalOptions="CenterAndExpand"
+                            IsVisible="{TemplateBinding Parent.BindingContext.MenuVisible}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding BeamMenuClickCommand}"
+                                    NumberOfTapsRequired="1" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <!-- Left arrow icon -->
+                        <Label
+                            Text="&#xf104;"
+                            FontFamily="FontAwesomeSolid"
+                            TextColor="{Binding Settings.ThemeColor,Source={x:Static forms:AppSettings.Current}}"
+                            Margin="0,0,0,0"
+                            FontSize="25"
+                            VerticalOptions="CenterAndExpand"
+                            IsVisible="{TemplateBinding Parent.BindingContext.BackVisible}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{TemplateBinding Parent.BindingContext.BackClickCommand}"
+                                    NumberOfTapsRequired="1" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+                    <StackLayout Grid.Row="0" Grid.Column="1" Spacing="0" Orientation="Horizontal"
+                                 HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand">
+                        <Label
+                            Text="{TemplateBinding Parent.BindingContext.PageTitle, Converter={StaticResource HtmlTagRemoverConverter}}"
+                            TextColor="{Binding Settings.ThemeColor,Source={x:Static forms:AppSettings.Current}}"
+                            FontFamily="MontserratSemiBold"
+                            VerticalTextAlignment="Center"
+                            HorizontalOptions="StartAndExpand"
+                            VerticalOptions="CenterAndExpand"
+                            Style="{StaticResource BarTextStyle}"
+                            Margin="0,0,0,0">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{TemplateBinding Parent.BindingContext.CommunicationMessageTypeClickedEvent}"
+                                    NumberOfTapsRequired="1" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <!-- Down arrow icon -->
+                        <Label
+                            Text="&#xf107;"
+                            FontFamily="FontAwesomeSolid"
+                            TextColor="{Binding Settings.ThemeColor,Source={x:Static forms:AppSettings.Current}}"
+                            Margin="20,0,0,-4"
+                            HorizontalOptions="StartAndExpand"
+                            Scale="1.4"
+                            VerticalOptions="CenterAndExpand"
+                            IsVisible="{TemplateBinding Parent.BindingContext.IsVisibleDropDownIcon}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{TemplateBinding Parent.BindingContext.CommunicationMessageTypeClickedEvent}"
+                                    NumberOfTapsRequired="1" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </StackLayout>
+
+                    <StackLayout VerticalOptions="CenterAndExpand"
+                        IsVisible="{Binding BeamCommunicationAndBellIconVisibility,Source={x:Static forms:AppSettings.Current}}"
+                        Grid.Row="0" Grid.Column="2">
+                        <!-- Communication icon -->
+                        <Label VerticalOptions="CenterAndExpand" Margin="0,0,10,0" Scale="0.8"
+                               IsVisible="{TemplateBinding Parent.BindingContext.BeamHeaderMessageIconVisibility}"
+                               FontFamily="FontAwesomeRegular"
+                               FontSize="27" 
+                               Text="&#xf4ad;" 
+                               TextColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}">
+        
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{TemplateBinding Parent.BindingContext.BeamHeaderMessageIconClickCommand}"
+                                    NumberOfTapsRequired="1" />
+                            </Label.GestureRecognizers>
+        
+                        </Label>
+                    </StackLayout>
+                    <!-- Paper clip icon -->
+                    <Label Margin="0,0,0,0" BackgroundColor="Transparent"
+                           HorizontalOptions="EndAndExpand"
+                           VerticalOptions="CenterAndExpand"
+                           Grid.Row="0" Grid.Column="2"
+                           IsVisible="{TemplateBinding Parent.BindingContext.BeamCommunicationHeaderAttachmentIconVisibility}"
+                           FontFamily="FontAwesomeSolid"
+                           FontSize="23" 
+                           Text="&#xf0c6;" 
+                           TextColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}">
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{TemplateBinding Parent.BindingContext.ComposeAttachmentClickCommand}"
+                                NumberOfTapsRequired="1" />
+                        </Label.GestureRecognizers>
+
+                    </Label>
+                    
+                    <!-- Trash icon -->
+                    <Label Margin="0,0,10,0" BackgroundColor="Transparent"
+                           HorizontalOptions="EndAndExpand"
+                           VerticalOptions="CenterAndExpand"
+                           Grid.Row="0" Grid.Column="2"
+                           IsVisible="{TemplateBinding Parent.BindingContext.BeamCommunicationHeaderDeleteIconVisibility}"
+                           FontFamily="FontAwesomeRegular" 
+                           FontSize="25"
+                           Text="&#xf2ed;" 
+                           TextColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}">
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{TemplateBinding Parent.BindingContext.CommunicationHeaderDeleteTappedCommand}"
+                                NumberOfTapsRequired="1" />
+                        </Label.GestureRecognizers>
+
+                    </Label>
+
+                    <StackLayout VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3"
+                                 Orientation="Horizontal"
+                                 Spacing="0"
+                                 Margin="20,0,20,0"
+                                 HorizontalOptions="StartAndExpand">
+                        <!-- Trash icon -->
+                        <Label VerticalOptions="CenterAndExpand"
+                               HorizontalOptions="StartAndExpand"
+                               IsVisible="{TemplateBinding Parent.BindingContext.IsVisibleCommunicationHeaderDeleteIcon}"
+                               FontFamily="FontAwesomeRegular" 
+                               FontSize="25"
+                               Text="&#xf2ed;" 
+                               TextColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}">
+
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{TemplateBinding Parent.BindingContext.CommunicationHeaderDeleteTappedCommand}"
+                                    NumberOfTapsRequired="1" />
+                            </Label.GestureRecognizers>
+
+                        </Label>
+                        <Label HorizontalOptions="StartAndExpand"
+                               FontSize="Small"
+                               VerticalOptions="CenterAndExpand"
+                               VerticalTextAlignment="Center"
+                               IsVisible="{TemplateBinding Parent.BindingContext.IsVisibleSelectedMessageCount}"
+                               Text="{TemplateBinding Parent.BindingContext.SelectedMessageCount,StringFormat=' ({0})'}"
+                               TextColor="{Binding Settings.ThemeColor,Source={x:Static forms:AppSettings.Current}}" />
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{TemplateBinding Parent.BindingContext.CommunicationHeaderDeleteTappedCommand}"
+                                NumberOfTapsRequired="1" />
+                        </StackLayout.GestureRecognizers>
+                    </StackLayout>
+
+                    <!-- Bullhorn icon -->
+                    <StackLayout VerticalOptions="CenterAndExpand"
+                        IsVisible="{Binding BeamCommunicationAndBellIconVisibility,Source={x:Static forms:AppSettings.Current}}"
+                        Grid.Row="0" Grid.Column="3">
+                        <Label VerticalOptions="CenterAndExpand"
+                               Margin="0,0,10,0"
+                               IsVisible="{TemplateBinding Parent.BindingContext.BeamHeaderMessageIconVisibility}"
+                               FontFamily="FontAwesomeSolid" 
+                               FontSize="23"
+                               Text="&#xf0a1;" 
+                               TextColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}">
+
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{TemplateBinding Parent.BindingContext.BeamHeaderNotificationIconClickCommand}"
+                                    NumberOfTapsRequired="1" />
+                            </Label.GestureRecognizers>
+
+                        </Label>
+                    </StackLayout>
+                    <!-- Paper plane icon -->
+                    <Label Margin="0,0,0,0"
+                           BackgroundColor="Transparent"
+                           HorizontalOptions="CenterAndExpand"
+                           VerticalOptions="CenterAndExpand"
+                           Grid.Row="0"
+                           Grid.Column="3"
+                           IsVisible="{TemplateBinding Parent.BindingContext.BeamCommunicationHeaderSendMessageIconVisibility}"
+                           FontFamily="FontAwesomeSolid" 
+                           FontSize="24"
+                           Text="&#xf1d8;" 
+                           TextColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}">
+
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{TemplateBinding Parent.BindingContext.ComposeSendClickCommand}"
+                                NumberOfTapsRequired="1" />
+                        </Label.GestureRecognizers>
+                    </Label>
+
+
+                    <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                VerticalOptions="CenterAndExpand"
+                                                WidthRequest="50"
+                                                HeightRequest="50"
+                                                Grid.Row="0" Grid.Column="4"
+                                                Aspect="AspectFit"
+                                                DownsampleToViewSize="True"
+                                                Source="{Binding SelectedStudent.AvatarImagePath, Source={x:Static forms:AppSettings.Current}}"
+                                                Scale="0.7"
+                                                IsVisible="{Binding IsRegisteredStudentListVisible,Source={x:Static forms:AppSettings.Current}}">
+                        <ffimageloading:CachedImage.Transformations>
+                            <fftransformations:CircleTransformation
+                                BorderSize="2" BorderHexColor="#000000" />
+                        </ffimageloading:CachedImage.Transformations>
+                        <ffimageloading:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{TemplateBinding Parent.BindingContext.BeamHeaderStudentImageClickCommand}"
+                                NumberOfTapsRequired="1" />
+                        </ffimageloading:CachedImage.GestureRecognizers>
+                    </ffimageloading:CachedImage>
+
+                    <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                VerticalOptions="CenterAndExpand"
+                                                WidthRequest="50"
+                                                HeightRequest="50"
+                                                Grid.Row="0" Grid.Column="4"
+                                                Aspect="AspectFit"
+                                                DownsampleToViewSize="True"
+                                                Source="{Binding SelectedStudentFromAllStudentList.AvatarImagePath, Source={x:Static forms:AppSettings.Current}}"
+                                                Scale="0.8"
+                                                IsVisible="{Binding IsAllStudentListVisible,Source={x:Static forms:AppSettings.Current}}">
+                        <ffimageloading:CachedImage.Transformations>
+                            <fftransformations:CircleTransformation
+                                BorderSize="2" BorderHexColor="#000000" />
+                        </ffimageloading:CachedImage.Transformations>
+                        <ffimageloading:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{TemplateBinding Parent.BindingContext.BeamHeaderStudentImageClickCommand}"
+                                NumberOfTapsRequired="1" />
+                        </ffimageloading:CachedImage.GestureRecognizers>
+                    </ffimageloading:CachedImage>
+
+
+                </Grid>
+
+            </ControlTemplate>
+            <ControlTemplate x:Key="BeamStudentSelection">
+                <Frame
+                    HasShadow="False"
+                    Padding="10,10,10,10"
+                    BorderColor="WhiteSmoke"
+                    IsClippedToBounds="true"
+                    BackgroundColor="WhiteSmoke">
+                    <Grid ColumnSpacing="12" RowSpacing="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+
+                        </Grid.ColumnDefinitions>
+                        
+                        <!-- Circle icon -->
+                        <Label HorizontalOptions="StartAndExpand"
+                               VerticalOptions="CenterAndExpand"
+                               Grid.Row="0"
+                               Grid.Column="0"
+                               Grid.RowSpan="2"
+                               FontFamily="FontAwesomeRegular" 
+                               FontSize="24"
+                               Text="&#xf111;" 
+                               TextColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                               HorizontalTextAlignment="Center"
+                               VerticalTextAlignment="Center">
+                        </Label>
+                        <Label Text="{Binding SelectedStudent.StudentName,Source={x:Static forms:AppSettings.Current}}"
+                               HorizontalOptions="StartAndExpand" Style="{StaticResource TitleLabelStyle}"
+                               Grid.Row="0"
+                               Grid.Column="1"
+                               TextColor="{Binding Settings.ThemeColor,Source={x:Static forms:AppSettings.Current}}"
+                               Margin="0"
+                               Padding="0" IsVisible="{Binding IsParent,Source={x:Static forms:AppSettings.Current}}" />
+                        <Label
+                            Text="{Binding SelectedStudent.AlternateId,StringFormat='ID:{0}',Source={x:Static forms:AppSettings.Current}}"
+                            HorizontalOptions="StartAndExpand"
+                            Grid.Row="1" Style="{StaticResource DescriptionLabelStyle}"
+                            Grid.Column="1"
+                            Margin="0"
+                            Padding="0" IsVisible="{Binding IsParent,Source={x:Static forms:AppSettings.Current}}" />
+
+
+                        <Label Text="{Binding DisplayName,Source={x:Static forms:AppSettings.Current}}"
+                               HorizontalOptions="StartAndExpand" Style="{StaticResource TitleLabelStyle}"
+                               Grid.Row="0"
+                               Grid.Column="1"
+                               TextColor="{Binding Settings.ThemeColor,Source={x:Static forms:AppSettings.Current}}"
+                               Margin="0"
+                               Padding="0"
+                               IsVisible="{Binding IsTeacher,Source={x:Static forms:AppSettings.Current}}" />
+                        <Label Text="{Binding TeacherDesignation,Source={x:Static forms:AppSettings.Current}}"
+                               HorizontalOptions="StartAndExpand"
+                               Grid.Row="1" Style="{StaticResource DescriptionLabelStyle}"
+                               Grid.Column="1"
+                               Margin="0"
+                               Padding="0"
+                               IsVisible="{Binding IsTeacher,Source={x:Static forms:AppSettings.Current}}" />
+                        <Label Text="{Binding DisplayName,Source={x:Static forms:AppSettings.Current}}"
+                               HorizontalOptions="StartAndExpand" Style="{StaticResource TitleLabelStyle}"
+                               Grid.Row="0"
+                               Grid.Column="1"
+                               TextColor="{Binding Settings.ThemeColor,Source={x:Static forms:AppSettings.Current}}"
+                               Margin="0"
+                               Padding="0"
+                               IsVisible="{Binding IsStudent,Source={x:Static forms:AppSettings.Current}}" />
+                        <Label Text="{Binding StudentDesignation,Source={x:Static forms:AppSettings.Current}}"
+                               HorizontalOptions="StartAndExpand"
+                               Grid.Row="1" Style="{StaticResource DescriptionLabelStyle}"
+                               Grid.Column="1"
+                               Margin="0"
+                               Padding="0"
+                               IsVisible="{Binding IsStudent,Source={x:Static forms:AppSettings.Current}}" />
+                    </Grid>
+                </Frame>
+
+
+            </ControlTemplate>
+
+
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

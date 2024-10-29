@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+    xmlns:forms="clr-namespace:iCampus.MobileApp.Forms"
+    xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+    xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Maui"
+    x:Class="iCampus.MobileApp.Views.PopUpViews.StudentListPopUp"
+    x:Name="studentListPopup"
+    Color="Transparent"
+    Size="3000, 3000">
+    
+    <AbsoluteLayout 
+                    HorizontalOptions="FillAndExpand" 
+                    VerticalOptions="FillAndExpand">
+        <Frame 
+            AbsoluteLayout.LayoutFlags="All"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            CornerRadius="0" 
+            HasShadow="False" 
+            BackgroundColor="#99020208"
+            Padding="0"  
+            IsClippedToBounds="true">
+            
+            <StackLayout Spacing="0" VerticalOptions="Fill" HorizontalOptions="Fill">
+                <StackLayout.Resources>
+                    <ResourceDictionary>
+                        <behaviours:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
+                        <behaviours:ImageUrlToSourceConverter x:Key="ImageUrlToSourceConverter"/>
+                    </ResourceDictionary>
+                </StackLayout.Resources>
+
+                <!-- Close Button -->
+                <StackLayout x:Name="closeButton" VerticalOptions="Start" 
+                             HorizontalOptions="EndAndExpand" Padding="10,10,10,10">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="MenuClosedClick" 
+                                              NumberOfTapsRequired="1"/>
+                    </StackLayout.GestureRecognizers>
+                    <Label
+                        Text="&#xf057;"
+                        FontFamily="FontAwesomeSolid"
+                        TextColor="Red"
+                        Margin="0,0,0,0"
+                        FontSize="30"
+                        VerticalOptions="CenterAndExpand">
+                    </Label>
+                </StackLayout>
+
+                <!-- ListView -->
+                <ListView HasUnevenRows="True" VerticalScrollBarVisibility="Never" HorizontalOptions="StartAndExpand" 
+                          ItemsSource="{Binding StudentList,Mode=TwoWay, Source={x:Static forms:AppSettings.Current}}"
+                          SelectedItem="{Binding SelectedStudent, Mode=TwoWay}" 
+                          BackgroundColor="Transparent"
+                          SeparatorVisibility="None" Margin="30,160,30,0">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame CornerRadius="5" HasShadow="False" BorderColor="WhiteSmoke" Padding="10" 
+                                       IsClippedToBounds="true" Margin="0,20,0,0">
+                                    <Grid ColumnSpacing="12">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="0.15*"/>
+                                            <ColumnDefinition Width="0.75*"/>
+                                            <ColumnDefinition Width="0.1*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <ffimageloading:CachedImage HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" 
+                                            WidthRequest="50" HeightRequest="50"
+                                            Grid.Row="1" Grid.Column="0" Grid.RowSpan="2" Aspect="AspectFit" DownsampleToViewSize="True" 
+                                            Source = "{Binding AvatarImagePath}">
+                                            <ffimageloading:CachedImage.Transformations>
+                                                <transformations:CircleTransformation/>
+                                            </ffimageloading:CachedImage.Transformations>
+                                        </ffimageloading:CachedImage>
+                                        <Label Text="{Binding ItemName}" Style="{StaticResource TitleLabelStyle}" 
+                                               HorizontalOptions="StartAndExpand" LineBreakMode="TailTruncation"
+                                               Grid.Row="1" Grid.Column="1"/>
+                                        <Label Text="{Binding AlternateId,StringFormat='ID:{0}'}"
+                                               HorizontalOptions="StartAndExpand"
+                                               Grid.Row="2" Style="{StaticResource DescriptionLabelStyle}"
+                                               Grid.Column="1"
+                                               FontAttributes="Bold" />
+                                    </Grid>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.Behaviors>
+                        <toolkit:EventToCommandBehavior EventName="ItemSelected" 
+                                                      Command="{Binding StudentListTappedCommand}" 
+                                                      CommandParameter="{Binding SelectedStudent}"/>
+                    </ListView.Behaviors>
+                </ListView>
+            </StackLayout>
+        </Frame>
+    </AbsoluteLayout>
+</toolkit:Popup>

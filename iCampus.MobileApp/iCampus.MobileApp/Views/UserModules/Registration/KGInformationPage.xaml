@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="iCampus.MobileApp.Views.UserModules.Registration.KGInformationPage"
+             x:Name="kginformationpage"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}">
+    <ContentPage.Content>
+
+        <Grid VerticalOptions="FillAndExpand"
+              BackgroundColor="{StaticResource BorderColor}" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*"
+              Margin="0,0,0,0">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <Style x:Key="OnlinePaymentBoldLabels" TargetType="Label"
+                           BasedOn="{StaticResource TitleLabelStyle}">
+                        <Setter Property="FontSize" Value="15" />
+                    </Style>
+                </ResourceDictionary>
+            </Grid.Resources>
+
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         VerticalOptions="StartAndExpand"
+                         BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
+
+
+            <StackLayout Grid.Row="1" Grid.Column="0" Margin="10,10,10,10">
+                <Frame CornerRadius="5"
+                       HasShadow="False"
+                       IsClippedToBounds="True"
+                       Padding="5,5,10,5"
+                       Margin="0,5,0,5"
+                       BorderColor="{StaticResource BorderColor}">
+                    <StackLayout Spacing="10" Margin="0,0,0,0" Orientation="Horizontal">
+                        <Label Text="General Information"
+                               VerticalOptions="Center"
+                               FontSize="Medium"
+                               Style="{StaticResource OnlinePaymentBoldLabels}" />
+                        <Button
+                            Text="Update"
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            TextColor="White"
+                            BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"
+                            BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                            CornerRadius="6"
+                            Padding="5"
+                            HeightRequest="40"
+                            Command="{Binding GeneralInformationCommand}" />
+                    </StackLayout>
+                </Frame>
+                <Frame CornerRadius="5"
+                       HasShadow="False"
+                       IsClippedToBounds="True"
+                       Padding="5,5,10,5"
+                       Margin="0,5,0,5"
+                       BorderColor="{StaticResource BorderColor}">
+                    <StackLayout Spacing="10" Margin="0,0,0,0" Orientation="Horizontal">
+                        <Label Text="Family Summary"
+                               VerticalOptions="Center"
+                               FontSize="Medium"
+                               Style="{StaticResource OnlinePaymentBoldLabels}" />
+                        <Button
+                            Text="Update"
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            TextColor="White"
+                            BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"
+                            BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                            CornerRadius="6"
+                            Padding="5"
+                            HeightRequest="40"
+                            Command="{Binding FamilySummaryCommand}" />
+                    </StackLayout>
+                </Frame>
+                <Frame CornerRadius="5"
+                       HasShadow="False"
+                       IsClippedToBounds="True"
+                       Padding="5,5,10,5"
+                       Margin="0,5,0,5"
+                       BorderColor="{StaticResource BorderColor}">
+                    <StackLayout Spacing="10" Margin="0,0,0,0" Orientation="Horizontal">
+                        <Label Text="Information for KG"
+                               VerticalOptions="Center"
+                               FontSize="Medium"
+                               Style="{StaticResource OnlinePaymentBoldLabels}" />
+                        <Button
+                            Text="Update"
+                            FontSize="Medium"
+                            FontAttributes="Bold"
+                            TextColor="White"
+                            BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                            VerticalOptions="Center"
+                            HorizontalOptions="EndAndExpand"
+                            BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                            CornerRadius="6"
+                            Padding="5"
+                            HeightRequest="40"
+                            Command="{Binding InformationforKGCommand}" />
+                    </StackLayout>
+                </Frame>
+
+            </StackLayout>
+            <StackLayout VerticalOptions="EndAndExpand" Margin="0,0,0,0" Grid.Row="2" Grid.Column="0">
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand"
+                             HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference kginformationpage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

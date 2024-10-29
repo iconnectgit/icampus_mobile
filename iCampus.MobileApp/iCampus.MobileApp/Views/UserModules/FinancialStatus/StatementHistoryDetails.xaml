@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="iCampus.MobileApp.Views.UserModules.FinancialStatus.StatementHistoryDetails"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             NavigationPage.HasNavigationBar="false"
+             x:Name="statementHistoryDetails">
+    <ContentPage.Content>
+
+        <Grid>
+            <StackLayout VerticalOptions="FillAndExpand"
+                         BackgroundColor="{StaticResource BorderColor}">
+                <StackLayout.Resources>
+                       <ResourceDictionary>
+                              <Style x:Key="LabelStyle" BasedOn="{StaticResource TitleLabelStyle}" TargetType="Label">
+                                     <Setter Property="FontAttributes" Value="Bold" /> 
+                                     <Setter Property="FontSize" Value="16" /> 
+                              </Style>
+                       </ResourceDictionary>
+                </StackLayout.Resources>
+                <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                             VerticalOptions="Start"
+                             BackgroundColor="White" />
+                <Frame Padding="5" Margin="10" HasShadow="False" BorderColor="Transparent">
+                    <Grid Padding="10" RowSpacing="5">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.4*" />
+                            <ColumnDefinition Width="0.6*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Text="Payment Method:"
+                               Grid.Row="0"
+                               Style="{StaticResource LabelStyle}"
+                               Grid.Column="0" />
+                        <Label Text="Amount:" Grid.Row="1" Style="{StaticResource LabelStyle}" Grid.Column="0" />
+                        <Label Text="Description:"
+                               Grid.Row="2"
+                               Style="{StaticResource LabelStyle}"
+                               Grid.Column="0" />
+                        <Label Text="Payer:"
+                               Grid.Row="3"
+                               Style="{StaticResource LabelStyle}"
+                               Grid.Column="0" />
+                        <Label Text="Bank Name:"
+                               Grid.Row="4"
+                               Style="{StaticResource LabelStyle}"
+                               Grid.Column="0" />
+                        <Label Text="Cheque No:"
+                               Grid.Row="5"
+                               Style="{StaticResource LabelStyle}"
+                               Grid.Column="0" />
+                        <Label Text="Cheque Date:"
+                               Grid.Row="6"
+                               Style="{StaticResource LabelStyle}"
+                               Grid.Column="0" />
+                        <Label Text="Payment Status:"
+                               Grid.Row="7"
+                               Style="{StaticResource LabelStyle}"
+                               Grid.Column="0" />
+                        <Label Text="Receipt ID:"
+                               Grid.Row="8"
+                               Style="{StaticResource LabelStyle}"
+                               Grid.Column="0" />
+                        <Label Text="Receipt Date:"
+                               Grid.Row="9"
+                               Style="{StaticResource LabelStyle}"
+                               Grid.Column="0" />
+
+                        <Label Text="{Binding SelectedHistoryStmt.PaymentMethod}"
+                               Grid.Row="0"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               Grid.Column="1" />
+                        <Label Text="{Binding SelectedHistoryStmt.Amount}"
+                               Grid.Row="1"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               Grid.Column="1" />
+                        <Label Text="{Binding SelectedHistoryStmt.Description}"
+                               Grid.Row="2"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               Grid.Column="1" />
+                        <Label Text="{Binding SelectedHistoryStmt.Payer}"
+                               Grid.Row="3"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               Grid.Column="1" />
+                        <Label Text="{Binding SelectedHistoryStmt.BankName}"
+                               Grid.Row="4"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               Grid.Column="1" />
+                        <Label Text="{Binding SelectedHistoryStmt.ChequeNumber}"
+                               Grid.Row="5"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               Grid.Column="1" />
+                        <Label Text="{Binding SelectedHistoryStmt.ChequeDate}"
+                               Grid.Row="6"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               Grid.Column="1" />
+                        <Label Text="{Binding SelectedHistoryStmt.InventoryStatus}"
+                               Grid.Row="7"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               Grid.Column="1" />
+                        <Label Text="{Binding SelectedHistoryStmt.ReceiptId}"
+                               Grid.Row="8"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               Grid.Column="1" />
+                        <Label Text="{Binding SelectedHistoryStmt.FormattedReceiptDate}"
+                               Grid.Row="9"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               Grid.Column="1" />
+                    </Grid>
+                </Frame>
+
+                <StackLayout.GestureRecognizers>
+                    <SwipeGestureRecognizer
+                        Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference statementHistoryDetails}}"
+                        Direction="Right" />
+                </StackLayout.GestureRecognizers>
+
+            </StackLayout>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
