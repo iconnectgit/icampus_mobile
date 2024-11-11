@@ -18,8 +18,9 @@
            BackgroundColor="White"
            VerticalOptions="CenterAndExpand"
            HorizontalOptions="CenterAndExpand"
-           WidthRequest="350"
-           HeightRequest="600">
+           BorderColor="Transparent"
+           WidthRequest="{OnPlatform iOS='350' , Android='320'}"
+           HeightRequest="{OnPlatform iOS='600' , Android='550'}">
         <StackLayout Spacing="0" Margin="5,5,5,5">
             <StackLayout.Resources>
                 <ResourceDictionary>
@@ -43,7 +44,7 @@
                 </Label>
             </StackLayout>
             <Label Text="{Binding SelectedTeacherCurriculum.TeacherName,StringFormat='Teacher - {0}'}"
-                   Margin="10,10,0,10" HorizontalOptions="StartAndExpand"
+                   Margin="10,10,0,0" HorizontalOptions="StartAndExpand"
                    Style="{StaticResource DescriptionLabelStyle}" />
             <Grid Margin="10">
                 <Picker Title="Select Date" Style="{StaticResource PickerFontStyle}"
@@ -77,6 +78,9 @@
                                        VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center"
                                        HeightRequest="30"
                                        FontSize="Small" />
+                                <Frame.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.TimeSlotClickCommand, Source={x:Reference requestAppointmentPopup}}"></TapGestureRecognizer>
+                                </Frame.GestureRecognizers>
                             </Frame>
                         </Grid>
                     </DataTemplate>

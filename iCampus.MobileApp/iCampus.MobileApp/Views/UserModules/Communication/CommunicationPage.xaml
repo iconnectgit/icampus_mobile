@@ -81,16 +81,19 @@
                                                 <ColumnDefinition Width="0.75*" />
                                                 <ColumnDefinition Width="0.25*" />
                                             </Grid.ColumnDefinitions>
-                                            <StackLayout Grid.Row="0" Spacing="0" Padding="0"
+                                            <Grid Grid.Row="0"  Padding="0" ColumnDefinitions="Auto,*,Auto" RowDefinitions="*"
                                                          Grid.Column="0" HorizontalOptions="StartAndExpand"
-                                                         Orientation="Horizontal"
                                                          Margin="5,0,0,0">
                                                 <ffimageloading:CachedImage
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
                                                     Source="{Binding IsPending,Converter={StaticResource SentMessageStatusToIconConverter}}"
                                                     Margin="0,0,2,0"
                                                     Scale="0.4"
                                                     IsVisible="{Binding IsSentMessageIconVisible}" />
                                                 <Label
+                                                    Grid.Row="0"
+                                                    Grid.Column="1"
                                                     FontAttributes="{Binding IsRead,Converter={StaticResource TitleFontWeightConverter}}"
                                                     Margin="0,0,0,0" Style="{StaticResource TitleLabelStyle}"
                                                     Text="{Binding SenderName,Converter={StaticResource TruncateSenderNameConverter}}"
@@ -99,6 +102,8 @@
                                                     HorizontalOptions="StartAndExpand"
                                                     HorizontalTextAlignment="Start" />
                                                 <Label
+                                                    Grid.Row="0"
+                                                    Grid.Column="2"
                                                     FontAttributes="{Binding IsRead,Converter={StaticResource TitleFontWeightConverter}}"
                                                     Text="{Binding MessagesCount,StringFormat=' ({0})'}"
                                                     Style="{StaticResource TitleLabelStyle}"
@@ -108,7 +113,7 @@
                                                     HorizontalOptions="StartAndExpand"
                                                     HorizontalTextAlignment="Start"
                                                     Margin="20,0,0,0" />
-                                            </StackLayout>
+                                            </Grid>
 
 
                                             <StackLayout Orientation="Horizontal"
@@ -184,7 +189,7 @@
                                                    Grid.Column="0"
                                                    Grid.ColumnSpan="2"
                                                    FontSize="{OnPlatform iOS=15, Android=16}"
-                                                   Margin="{OnPlatform iOS='5,0,0,0', Android='0,0,0,0'}" />
+                                                   Margin="{OnPlatform iOS='5,0,0,0', Android='5,0,0,0'}" />
                                             <Label
                                                 Text="{Binding SentDateFormatted,Converter={StaticResource TodaysDateTimeConverter}}"
                                                 Grid.Row="3"

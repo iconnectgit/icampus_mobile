@@ -15,7 +15,7 @@
     <!-- Background Frame with padding for popup -->
     <Frame CornerRadius="10" 
            HasShadow="False" 
-           Margin="{OnPlatform Android='0,500,0,0', iOS='0,200,0,0'}"
+           Margin="0,200,0,0"
            IsClippedToBounds="True" 
            BackgroundColor="White"
            HeightRequest="150"

@@ -587,7 +587,7 @@ public class OnlinePaymentForm : ViewModelBase
         }
         private void PaymentHistoryCommandMethod(object obj)
         {
-            MessagingCenter.Send("", "OnlinePaymentExpandCollapse");
+            //MessagingCenter.Send("", "OnlinePaymentExpandCollapse");
             IsPendingInvoiceVisible = false;
             IsPaymentHistoryVisible = true;
             InvoiceButtonOpacity = 0.5m;

@@ -34,7 +34,7 @@
                       SeparatorVisibility="None" VerticalScrollBarVisibility="Never"
                       VerticalOptions="FillAndExpand" Grid.Row="1" Grid.Column="0">
                 <x:Arguments>
-                    <ListViewCachingStrategy>RecycleElement</ListViewCachingStrategy>
+                    <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
                 </x:Arguments>
                 <ListView.Header>
                     <StackLayout BackgroundColor="White">
@@ -63,38 +63,36 @@
                                                             DownsampleToViewSize="True"
                                                             Source="{Binding SiteNewsObject.NewsImageUrl}" />
                             </Frame>
+                            <StackLayout Grid.Row="1" Orientation="Vertical" BackgroundColor="White" Padding="10,0,10,0">
                             <Label Text="{Binding SiteNewsObject.NewsTitle}" 
-                                   Padding="10,0,10,0"
-                                   Grid.Row="1" HorizontalOptions="StartAndExpand"
-                                   Grid.Column="0"
+                                   HorizontalOptions="StartAndExpand"
                                    FontSize="18" TextColor="Black" 
                                    FontAttributes="Bold" />
                             <Label Text="{Binding SiteNewsObject.FormattedDueDateTime}"
-                                   Grid.Row="2" HorizontalOptions="StartAndExpand"
-                                   Grid.Column="0" Padding="10,0,10,0"
+                                   HorizontalOptions="StartAndExpand"
                                    Style="{StaticResource DateLabelStyle}" />
+                            </StackLayout>
                         </Grid>
-
                         <StackLayout BackgroundColor="White" Padding="10,0,10,0">
-                            <WebView x:Name="beamDetails" 
-                                     HeightRequest="{Binding WebViewHeight}"
-                                     HorizontalOptions="FillAndExpand"
-                                     VerticalOptions="FillAndExpand" 
-                                     Margin="0,0,0,0">
-                                <WebView.Source>
-                                    <HtmlWebViewSource Html="{Binding SiteNewsObject.NewsData}" />
-                                </WebView.Source>
-                            </WebView>
+                                <WebView x:Name="beamDetails" 
+                                         HorizontalOptions="FillAndExpand"
+                                         VerticalOptions="FillAndExpand"
+                                         HeightRequest="{Binding WebViewHeight}"
+                                         Margin="0,0,0,0">
+                                    <WebView.Source>
+                                        <HtmlWebViewSource Html="{Binding SiteNewsObject.NewsData}" />
+                                    </WebView.Source>
+                                </WebView>
                         </StackLayout>
-                        <Frame Padding="5" HasShadow="False" CornerRadius="5" BackgroundColor="White" BorderColor="Transparent"
+                        <Frame Padding="5" HasShadow="False" InputTransparent="True" CornerRadius="5" BackgroundColor="White" BorderColor="Transparent"
                                IsVisible="{Binding Attachment.FilePath, Converter={StaticResource VisiblityConverter}}">
-                            <StackLayout Orientation="Horizontal"
-                                         Spacing="0"
+                            <Grid RowDefinitions="*" ColumnDefinitions="Auto,Auto,*" BackgroundColor="White"
                                          IsVisible="{Binding Attachment.FilePath, Converter={StaticResource VisiblityConverter}}"
                                          HorizontalOptions="StartAndExpand"
                                          VerticalOptions="CenterAndExpand">
                                 <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
                                                             VerticalOptions="CenterAndExpand"
+                                                            Grid.Column="0"
                                                             WidthRequest="25"
                                                             HeightRequest="25"
                                                             Aspect="AspectFit"
@@ -103,12 +101,13 @@
                                                             DownsampleToViewSize="True"
                                                             Source="{Binding Attachment.FileStatus,Mode=TwoWay,Converter={StaticResource AttachmentFileStatusToSourceConverter}}">
                                     <ffimageloading:CachedImage.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding DonwloadTappedCommand}"
+                                        <TapGestureRecognizer Command="{Binding DownloadTappedCommand}"
                                                               CommandParameter="{Binding Attachment.FilePath}" />
                                     </ffimageloading:CachedImage.GestureRecognizers>
                                 </ffimageloading:CachedImage>
                                 <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
                                                             VerticalOptions="CenterAndExpand"
+                                                            Grid.Column="1"
                                                             WidthRequest="20"
                                                             HeightRequest="20"
                                                             Aspect="AspectFit"
@@ -118,6 +117,7 @@
 
                                 </ffimageloading:CachedImage>
                                 <Label Text="{Binding Attachment.FileName}"
+                                       Grid.Column="2"
                                        HorizontalOptions="StartAndExpand"
                                        VerticalOptions="CenterAndExpand"
                                        Margin="10,0,0,0"
@@ -127,7 +127,7 @@
                                                               CommandParameter="{Binding Attachment.FilePath}" />
                                     </Label.GestureRecognizers>
                                 </Label>
-                            </StackLayout>
+                            </Grid>
                         </Frame>
                     </StackLayout>
 

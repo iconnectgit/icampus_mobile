@@ -15,6 +15,7 @@ namespace iCampus.MobileApp.Forms.UserModules.Communication;
 public class CommunicationForm : ViewModelBase
 {
     #region Declarations
+
     private Popup _currentPopup;
     private string parameter = "I";
     private int selectedMessageCount = 0;
@@ -27,6 +28,7 @@ public class CommunicationForm : ViewModelBase
     public ICommand ScreenSizeChangedCommand { get; set; }
     public ICommand AttachmentListTappedCommand { get; set; }
     public ICommand DownloadTappedCommand { get; set; }
+
     #endregion
 
     #region Properties
@@ -81,7 +83,7 @@ public class CommunicationForm : ViewModelBase
         }
     }
 
-    private BindableCommunicationMessageView _selectedMessage = new ();
+    private BindableCommunicationMessageView _selectedMessage = new();
 
     public BindableCommunicationMessageView SelectedMessage
     {
@@ -119,7 +121,7 @@ public class CommunicationForm : ViewModelBase
         }
     }
 
-    private BindableCommunicationMessageView _communicationMessage = new ();
+    private BindableCommunicationMessageView _communicationMessage = new();
 
     public BindableCommunicationMessageView CommunicationMessage
     {
@@ -142,7 +144,9 @@ public class CommunicationForm : ViewModelBase
             OnPropertyChanged(nameof(IsNoMessage));
         }
     }
-    IList<BindableAttachmentFileView> _selectedAttachmentList;
+
+    private IList<BindableAttachmentFileView> _selectedAttachmentList;
+
     public IList<BindableAttachmentFileView> SelectedAttachmentList
     {
         get => _selectedAttachmentList;
@@ -152,6 +156,7 @@ public class CommunicationForm : ViewModelBase
             OnPropertyChanged(nameof(SelectedAttachmentList));
         }
     }
+
     #endregion
 
     // public CommunicationForm(IMapper mapper)
@@ -165,7 +170,8 @@ public class CommunicationForm : ViewModelBase
     //     GetCommunicationMessageList();
     // }
 
-    public CommunicationForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)
+    public CommunicationForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null,
+        null)
     {
         _mapper = mapper;
         _nativeServices = nativeServices;
@@ -174,12 +180,12 @@ public class CommunicationForm : ViewModelBase
     }
 
     // Constructor that accepts notificationItemId and passes it to InitializePage
-    public CommunicationForm(string notificationItemId) : base(null,null,null)
+    public CommunicationForm(string notificationItemId) : base(null, null, null)
     {
         NotificationItemId = notificationItemId;
         GetCommunicationMessageList();
     }
-    
+
     private async void InitializePage()
     {
         PageTitle = TextResource.InboxText;
@@ -194,8 +200,8 @@ public class CommunicationForm : ViewModelBase
         CircularIconClickCommand = new Command<BindableCommunicationMessageView>(CircularIconClicked);
         ScreenSizeChangedCommand = new Command(ScreeSizeChanged);
         MessageTypeSelectedCommand = new Command(MessageTypeSelected);
-        this.AttachmentListTappedCommand = new Command(AttachmentListClicked);
-        this.DownloadTappedCommand = new Command(DownloadClicked);
+        AttachmentListTappedCommand = new Command(AttachmentListClicked);
+        DownloadTappedCommand = new Command(DownloadClicked);
         IsVisibleDropDownIcon = true;
         MessagingCenter.Subscribe<BindableCommunicationMessageView>(this, "refreshList", async (messageList) =>
         {
@@ -241,12 +247,14 @@ public class CommunicationForm : ViewModelBase
 
             if (_communicationMessage != null)
             {
-                AppSettings.Current.MaxAllowedRecipientCount = communicationMessageView.CommunicationSettings.MaxAllowedRecipientCount;
-                CommunicationMessageList = _mapper?.Map<List<BindableCommunicationMessageView>>(communicationMessageView?.MessageList);
+                AppSettings.Current.MaxAllowedRecipientCount =
+                    communicationMessageView.CommunicationSettings.MaxAllowedRecipientCount;
+                CommunicationMessageList =
+                    _mapper?.Map<List<BindableCommunicationMessageView>>(communicationMessageView?.MessageList);
                 IsNoMessage = CommunicationMessageList?.Count > 0 ? false : true;
-                
+
                 //Analytics.TrackEvent("CommListCOunt - " + CommunicationMessageList + " - " + DateTime.Now + " - " +
-                 //                    DeviceInfo.Name + " - " + DeviceInfo.Model + " - " + DeviceInfo.Platform);
+                //                    DeviceInfo.Name + " - " + DeviceInfo.Model + " - " + DeviceInfo.Platform);
             }
 
             if (CommunicationMessageList != null && CommunicationMessageList.Count > 0)
@@ -292,10 +300,11 @@ public class CommunicationForm : ViewModelBase
                     TextResource.CommunicationDetailsAPIUrl + "?messageId=" + messageDetails.MessageId +
                     "&folderType=" + parameter,
                     cacheKeyPrefix: cacheKeyPrefix, cacheType: ApiHelper.CacheTypeParam.LoadFromCache);
-                
-                CommunicationDetailsForm communicationDetailsForm = new (_mapper, _nativeServices, Navigation)
+
+                CommunicationDetailsForm communicationDetailsForm = new(_mapper, _nativeServices, Navigation)
                 {
-                    CommunicationMessageDetails = new ObservableCollection<BindableCommunicationMessageView>(CommunicationMessageDetails),
+                    CommunicationMessageDetails =
+                        new ObservableCollection<BindableCommunicationMessageView>(CommunicationMessageDetails),
                     PageTitle = PageTitle,
                     MenuVisible = false,
                     BackVisible = true,
@@ -304,8 +313,9 @@ public class CommunicationForm : ViewModelBase
                     MessageUId = messageDetails.MessageUId,
                     SelectedMessage = messageDetails
                 };
-                BindableCommunicationMessageList.Where(i => i.MessageId == messageDetails.MessageId).FirstOrDefault().IsRead = true;
-                CommunicationDetails communicationDetails = new ()
+                BindableCommunicationMessageList.Where(i => i.MessageId == messageDetails.MessageId).FirstOrDefault()
+                    .IsRead = true;
+                CommunicationDetails communicationDetails = new()
                 {
                     BindingContext = communicationDetailsForm
                 };
@@ -328,10 +338,12 @@ public class CommunicationForm : ViewModelBase
         SetPopupInstance(communicationPopup);
         Application.Current.MainPage.ShowPopup(communicationPopup);
     }
+
     public void SetPopupInstance(Popup popup)
     {
         AppSettings.Current.CurrentPopup = popup;
     }
+
     private async void MessageTypeSelected(object messageType)
     {
         if (messageType.ToString().ToLower().Equals("inbox"))
@@ -354,7 +366,8 @@ public class CommunicationForm : ViewModelBase
             SelectedMessageCountCheck();
             await GetCommunicationMessageList();
         }
-        _currentPopup?.Close();
+
+        AppSettings.Current.CurrentPopup?.Close();
     }
 
     private async void AttachmentClicked(BindableCommunicationMessageView sender)
@@ -492,62 +505,55 @@ public class CommunicationForm : ViewModelBase
         BindableCommunicationMessageList =
             new ObservableCollection<BindableCommunicationMessageView>(BindableCommunicationMessageList);
     }
-    
-    private async void AttachmentListClicked(Object obj)
-        {
-            if (obj != null)
+
+    private async void AttachmentListClicked(object obj)
+    {
+        if (obj != null)
+            try
             {
-                try
-                {
-                    if (Device.RuntimePlatform == Device.iOS)
-                        {
-                            _currentPopup?.Close();
-                        }
-                        var selectedAttachment = (BindableAttachmentFileView)obj;
-                        if (!string.IsNullOrEmpty(selectedAttachment.FilePath))
-                           await HelperMethods.OpenFileForPreview(selectedAttachment.FilePath, _nativeServices);
-                
-                }
-                catch (Exception ex)
-                {
-                    HelperMethods.DisplayException(ex, this.PageTitle);
-                }
+                if (Device.RuntimePlatform == Device.iOS) _currentPopup?.Close();
+                var selectedAttachment = (BindableAttachmentFileView)obj;
+                if (!string.IsNullOrEmpty(selectedAttachment.FilePath))
+                    await HelperMethods.OpenFileForPreview(selectedAttachment.FilePath, _nativeServices);
             }
-        }
-        private async void DownloadClicked(object obj)
-        {
-            if (obj != null)
+            catch (Exception ex)
             {
-                try
+                HelperMethods.DisplayException(ex, PageTitle);
+            }
+    }
+
+    private async void DownloadClicked(object obj)
+    {
+        if (obj != null)
+            try
+            {
+                var selectedAttachment = (BindableAttachmentFileView)obj;
+                if (Device.RuntimePlatform == Device.iOS)
                 {
-                    var selectedAttachment = (BindableAttachmentFileView)obj;
-                    if (Device.RuntimePlatform == Device.iOS)
+                    _currentPopup?.Close();
+                    if (!string.IsNullOrEmpty(selectedAttachment.FilePath))
+                        await HelperMethods.OpenFileForPreview(selectedAttachment.FilePath, _nativeServices);
+                }
+                else
+                {
+                    if (selectedAttachment.FileStatus == 0)
                     {
-                        _currentPopup?.Close();
-                        if (!string.IsNullOrEmpty(selectedAttachment.FilePath))
-                            await HelperMethods.OpenFileForPreview(selectedAttachment.FilePath, _nativeServices);
-                    }
-                    else
-                    {
-                        if (selectedAttachment.FileStatus == 0)
+                        SelectedAttachmentList[SelectedAttachmentList.IndexOf(selectedAttachment)].FileStatus = 1;
+                        var filePath = await HelperMethods.DownloadAndReturnFilePath(selectedAttachment.FilePath);
+                        if (!string.IsNullOrEmpty(filePath))
                         {
-                            SelectedAttachmentList[SelectedAttachmentList.IndexOf(selectedAttachment)].FileStatus = 1;
-                            string filePath = await HelperMethods.DownloadAndReturnFilePath(selectedAttachment.FilePath);
-                            if (!string.IsNullOrEmpty(filePath))
-                            {
-                                SelectedAttachmentList[SelectedAttachmentList.IndexOf(selectedAttachment)].FileDevicePath = filePath;
-                                SelectedAttachmentList[SelectedAttachmentList.IndexOf(selectedAttachment)].FileStatus = 2;
-                            }
+                            SelectedAttachmentList[SelectedAttachmentList.IndexOf(selectedAttachment)].FileDevicePath =
+                                filePath;
+                            SelectedAttachmentList[SelectedAttachmentList.IndexOf(selectedAttachment)].FileStatus = 2;
                         }
                     }
-                    
-                }
-                catch (Exception ex)
-                {
-                    HelperMethods.DisplayException(ex, this.PageTitle);
                 }
             }
-        }
+            catch (Exception ex)
+            {
+                HelperMethods.DisplayException(ex, PageTitle);
+            }
+    }
 
     #endregion
 }

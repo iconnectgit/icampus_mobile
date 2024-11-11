@@ -79,7 +79,8 @@
                         <!-- </Frame> -->
                         <Grid HeightRequest="40"
                               VerticalOptions="CenterAndExpand"
-                              HorizontalOptions="FillAndExpand">
+                              HorizontalOptions="FillAndExpand"
+                              BackgroundColor="White">
                             <Picker Title="Select" Style="{StaticResource PickerFontStyle}"
                                     BackgroundColor="White"
                                     TextColor="Gray"
@@ -116,7 +117,8 @@
                         <!-- </Frame> -->
                         <Grid HeightRequest="40"
                               VerticalOptions="CenterAndExpand"
-                              HorizontalOptions="FillAndExpand">
+                              HorizontalOptions="FillAndExpand"
+                              BackgroundColor="White">
                             <Picker Title="Select" Style="{StaticResource PickerFontStyle}"
                                     BackgroundColor="White"
                                     TextColor="Gray"
@@ -153,7 +155,8 @@
                         <!-- </Frame> -->
                         <Grid HeightRequest="40"
                               VerticalOptions="CenterAndExpand"
-                              HorizontalOptions="FillAndExpand">
+                              HorizontalOptions="FillAndExpand"
+                              BackgroundColor="White">
                             <Picker Title="Select" Style="{StaticResource PickerFontStyle}"
                                     BackgroundColor="White"
                                     TextColor="Gray"
@@ -183,7 +186,7 @@
                                 <Label Text="Classes" Style="{StaticResource TitleLabelStyle}"
                                        HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand">
-                                    <input:CheckBox IsChecked="{Binding IsSelectAll}" VerticalOptions="CenterAndExpand"
+                                    <input:CheckBox IsChecked="{Binding IsSelectAll}" Color="Gray" VerticalOptions="CenterAndExpand"
                                                     Text="Select All" CheckChanged="SelectAll_CheckChanged" />
                                 </StackLayout>
                             </StackLayout>
@@ -274,37 +277,33 @@
                                               Margin="0,8,0,0" RowDefinitions="Auto"
                                               VerticalOptions="CenterAndExpand">
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="0.8*" />
-                                                <ColumnDefinition Width="0.2*" />
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
                                             </Grid.ColumnDefinitions>
-                                            <StackLayout Orientation="Horizontal"
-                                                         HorizontalOptions="StartAndExpand"
-                                                         VerticalOptions="CenterAndExpand"
-                                                         Spacing="0"
-                                                         Grid.Row="0"
-                                                         Grid.Column="0">
                                                 <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
                                                                             VerticalOptions="CenterAndExpand"
                                                                             WidthRequest="20"
                                                                             HeightRequest="20"
+                                                                            Grid.Row="0"
+                                                                            Grid.Column="0"
                                                                             Aspect="AspectFit"
                                                                             Margin="10,0,0,0"
                                                                             DownsampleToViewSize="True"
                                                                             Source="{Binding FileName,Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
-                                                <Label Text="{Binding FileName}"
+                                                <Label Grid.Row="0" Grid.Column="1" Text="{Binding FileName}"
                                                        TextColor="{StaticResource GrayTextColor}"
                                                        HorizontalOptions="StartAndExpand"
                                                        VerticalOptions="CenterAndExpand"
                                                        Margin="5,0,0,0"
                                                        Style="{StaticResource AttachmentTextStyle}" />
-                                            </StackLayout>
                                             <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
                                                                         VerticalOptions="CenterAndExpand"
                                                                         WidthRequest="24"
                                                                         HeightRequest="24"
                                                                         Aspect="AspectFit"
                                                                         Grid.Row="0"
-                                                                        Grid.Column="1"
+                                                                        Grid.Column="2"
                                                                         DownsampleToViewSize="True"
                                                                         Source="delete_bin_icon.png">
                                                 <ffimageloading:CachedImage.GestureRecognizers>
@@ -321,6 +320,7 @@
                         <StackLayout Grid.Row="8" Grid.Column="0" Orientation="Horizontal" VerticalOptions="StartAndExpand" Margin="0,0,0,10">
                             <StackLayout Orientation="Horizontal" HorizontalOptions="StartAndExpand">
                                 <input:CheckBox IsChecked="{Binding IsPublishSelected}"
+                                                Color="Gray"
                                                 VerticalOptions="CenterAndExpand" Text="Publish"
                                                 CheckChanged="Published_CheckChanged" />
                             </StackLayout>

@@ -39,62 +39,15 @@ public class iOSNativeServices : INativeServices
         {
             try
             {
-                double diff = 0;
-                var externalFolderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    "iCampusV2");
-                if (!Directory.Exists(externalFolderPath))
-                {
-                    Directory.CreateDirectory(externalFolderPath);
-                }
-
-                string fileName = Path.GetFileName(filePath);
-
-                if (!string.IsNullOrEmpty(fileId))
-                {
-                    string fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileName);
-                    fileName = fileName.Replace(fileNameWithoutExt, fileNameWithoutExt + "_" + fileId);
-                }
-
-                string uniqueFileName = $"{filePath.GetHashCode()}_{fileName}";
-                fileName = Uri.UnescapeDataString(uniqueFileName);
-
-                var fileDevicePath = Path.Combine(externalFolderPath, fileName);
-                if (File.Exists(fileDevicePath))
-                    diff = DateTime.Now.Subtract(new FileInfo(fileDevicePath).CreationTime).TotalMinutes;
-
-                if (!File.Exists(fileDevicePath) || diff > 15)
-                {
-                    try
-                    {
-                        await ApiHelper.ShowProcessingIndicatorPopup();
-                        using (var webClient = new WebClient())
-                        {
-                            Byte[] bytes = webClient.DownloadData(filePath);
-                            File.WriteAllBytes(fileDevicePath, bytes);
-                        }
-
-                        await ApiHelper.HideProcessingIndicatorPopup();
-                    }
-                    catch (Exception ex)
-                    {
-                        await ApiHelper.HideProcessingIndicatorPopup();
-                        // Handle exception or notify user
-                    }
-                }
-
-                var previewController = UIDocumentInteractionController.FromUrl(NSUrl.FromFilename(fileDevicePath));
-                previewController.Delegate =
-                    new UIDocumentInteractionControllerDelegateClass(UIApplication.SharedApplication.KeyWindow
-                        .RootViewController);
-
-                Device.BeginInvokeOnMainThread(() => { previewController.PresentPreview(true); });
+                var filePreviewer = new FilePreviewerImplementation();
+                await filePreviewer.PreviewFile(filePath);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
-                throw;
+                Console.WriteLine($"Exception in DownloadAndPreviewFile: {ex.Message}");
             }
         }
+
 
         public void GetDeviceID(Action<string> result)
         {
@@ -156,5 +109,19 @@ public class iOSNativeServices : INativeServices
         public bool SystemVersionCheck()
         {
             return UIDevice.CurrentDevice.CheckSystemVersion(15, 0);
+        }
+        private class DocumentInteractionControllerDelegate : UIDocumentInteractionControllerDelegate
+        {
+            UIViewController _viewController;
+
+            public DocumentInteractionControllerDelegate(UIViewController viewController)
+            {
+                _viewController = viewController;
+            }
+
+            public override UIViewController ViewControllerForPreview(UIDocumentInteractionController controller)
+            {
+                return _viewController;
+            }
         }
     }

@@ -810,8 +810,8 @@ public class ReportCardForm : ViewModelBase
                 NoDataFoundFrameVisibility = true;
             }
 
-            IsReportCardVisible = !NoDataFoundFrameVisibility;
-            IsSkillReportCardVisible = !NoDataFoundFrameVisibility;
+            //IsReportCardVisible = !NoDataFoundFrameVisibility;
+            //IsSkillReportCardVisible = !NoDataFoundFrameVisibility;
 
             return ReportCardData;
         }

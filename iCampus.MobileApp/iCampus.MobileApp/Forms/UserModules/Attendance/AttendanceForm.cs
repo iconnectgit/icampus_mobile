@@ -525,15 +525,23 @@ public class AttendanceForm : ViewModelBase
 
     private async Task SetViews()
     {
-        var attendanceData = await ApiHelper.GetObject<StudentAttendancePageView>(string.Format(
-            TextResource.AttendanceDetailsApiUrl,
-            null, null, AppSettings.Current.SelectedStudent.ItemId, SelectedType.ItemName, SelectedTerm.ItemId,
-            SelectedGroupPeriod.ItemId, LoadFilterPanelLists));
-        AttendanceDetailsList =
-            new ObservableCollection<StudentAttendanceDataView>(attendanceData.StudentAttendanceDataList);
-        IsPeriodVisible = attendanceData.AttendanceMode.ToLower() == "p";
-        getHeaderLabelTitle();
-        IsNoRecordMsg = AttendanceDetailsList.ToList().Count > 0 ? false : true;
+        try
+        {
+            var attendanceData = await ApiHelper.GetObject<StudentAttendancePageView>(string.Format(
+                TextResource.AttendanceDetailsApiUrl,
+                null, null, AppSettings.Current.SelectedStudent.ItemId, SelectedType.ItemName, SelectedTerm.ItemId,
+                SelectedGroupPeriod.ItemId, LoadFilterPanelLists));
+            AttendanceDetailsList =
+                new ObservableCollection<StudentAttendanceDataView>(attendanceData.StudentAttendanceDataList);
+            IsPeriodVisible = attendanceData.AttendanceMode.ToLower() == "p";
+            getHeaderLabelTitle();
+            IsNoRecordMsg = AttendanceDetailsList.ToList().Count > 0 ? false : true;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     private async Task CalculateChartSeriesPercentage()

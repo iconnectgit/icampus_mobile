@@ -1,6 +1,9 @@
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
+using Android;
 using AutoMapper;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Views;
 using iCampus.Common.Enums;
 using iCampus.Common.Helpers.Extensions;
@@ -14,6 +17,9 @@ using iCampus.MobileApp.Helpers.CustomCalendar;
 using iCampus.MobileApp.Views;
 using iCampus.MobileApp.Views.PopUpViews;
 using iCampus.Portal.ViewModels;
+using Android.App;
+using Android.Content;
+using Application = Microsoft.Maui.Controls.Application;
 
 namespace iCampus.MobileApp.Helpers;
 
@@ -226,9 +232,40 @@ public class HelperMethods
 
         #region Files
 
-        public static async Task<bool> DownloadFile(string fileUrl)
+        public static async Task<bool> DownloadFile(string fileUrl, CancellationToken cancellationToken = default)
         {
-            bool isDownloaded = false;
+            try
+            {
+                using var httpClient = new HttpClient();
+                using var response = await httpClient.GetAsync(fileUrl, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException($"Failed to download file: {response.ReasonPhrase}");
+
+                var fileName = Path.GetFileName(new Uri(fileUrl).AbsolutePath) ?? $"download_{DateTime.Now:yyyyMMdd_HHmmss}.bin";
+                string folderPath;
+#if ANDROID
+            folderPath = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
+#elif IOS
+                folderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+#else
+            folderPath = FileSystem.Current.AppDataDirectory; // Fallback for other platforms
+#endif
+
+                var filePath = Path.Combine(folderPath, fileName);
+
+                using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+                await response.Content.CopyToAsync(fileStream, cancellationToken);
+
+                await Toast.Make($"File downloaded successfully: {filePath}").Show(cancellationToken);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                await Toast.Make($"File download failed: {ex.Message}").Show(cancellationToken);
+                return false;
+            }
+            //bool isDownloaded = false;
             // await Task.Run(() =>
             // {
             //     var downloadManager = CrossDownloadManager.Current;
@@ -239,7 +276,7 @@ public class HelperMethods
             //         isDownloaded = string.IsNullOrEmpty(GetDownloadedFilePath(file))?false:true;
             //     }
             // });
-            return isDownloaded;
+            //return isDownloaded;
         }
 
         // public static string GetDownloadedFilePath(IDownloadFile file)
@@ -433,31 +470,53 @@ public class HelperMethods
             //     });
             // }
         }
-
-        public static async Task<string> DownloadAndReturnFilePath(string fileUrl)
+        public static async Task<string> DownloadAndReturnFilePath(string fileUrl, CancellationToken cancellationToken = default)
         {
-            string filePath = string.Empty;
-            bool isDownloaded = false;
-            // if(fileUrl.Contains("https://") || fileUrl.Contains("http://"))
-            // {
-            //     await Task.Run(() =>
-            //     {
-            //         var downloadManager = CrossDownloadManager.Current;
-            //         var file = downloadManager.CreateDownloadFile(fileUrl);
-            //         downloadManager.Start(file, true);
-            //         while (!isDownloaded)
-            //         {
-            //             filePath = GetDownloadedFilePath(file);
-            //             isDownloaded = string.IsNullOrEmpty(filePath) ? false : true;
-            //         }
-            //     });
-            // }
-            // else
-            // {
-            //     filePath = fileUrl;
-            // }
+            try
+            {
+                using var httpClient = new HttpClient();
+                using var response = await httpClient.GetAsync(fileUrl, cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                    throw new HttpRequestException($"Failed to download file: {response.ReasonPhrase}");
+
+                var fileName = Path.GetFileName(new Uri(fileUrl).AbsolutePath) ?? $"download_{DateTime.Now:yyyyMMdd_HHmmss}.bin";
+                string folderPath;
             
-            return filePath;
+                folderPath = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
+
+                var filePath = Path.Combine(folderPath, fileName);
+
+                using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
+                await response.Content.CopyToAsync(fileStream, cancellationToken);
+
+                await Toast.Make($"File downloaded successfully: {filePath}").Show(cancellationToken);
+                return filePath;
+            }
+            catch (Exception ex)
+            {
+                await Toast.Make($"File download failed: {ex.Message}").Show(cancellationToken);
+                return string.Empty;
+            }
+        }
+        public static void ShowDownloadCompleteNotification(string filePath, string fileName)
+        {
+            // var context = Platform.CurrentActivity ?? Android.App.Application.Context;
+            // var intent = new Intent(Intent.ActionView);
+            // intent.SetDataAndType(Android.Net.Uri.Parse(filePath), "*/*");
+            // intent.SetFlags(ActivityFlags.NewTask | ActivityFlags.GrantReadUriPermission);
+            //
+            // PendingIntent pendingIntent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
+            //
+            // var notificationBuilder = new NotificationCompat.Builder(context, "download_channel")
+            //     .SetContentTitle("Download Complete")
+            //     .SetContentText(fileName)
+            //     .SetSmallIcon(Resource.Drawable.ic_download_done)
+            //     .SetContentIntent(pendingIntent)
+            //     .SetAutoCancel(true);
+            //
+            // var notificationManager = NotificationManagerCompat.From(context);
+            // notificationManager.Notify(1001, notificationBuilder.Build());
         }
         #endregion
 
@@ -484,10 +543,7 @@ public class HelperMethods
 
         public static async Task ShowAlert(string title, string message)
         {
-            if (Device.RuntimePlatform == Device.Android)
-                _nativeServices.ShowAlert(title, message);
-            else
-                await App.Current.MainPage.DisplayAlert(title, message, TextResource.OkText);
+            await App.Current.MainPage.DisplayAlert(title, message, TextResource.OkText);
         }
 
         public static async Task ShowActionAlert(string title,string message,string buttonText,Action afterHideCallback)

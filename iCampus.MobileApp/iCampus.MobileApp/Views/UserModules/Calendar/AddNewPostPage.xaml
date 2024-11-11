@@ -28,7 +28,7 @@
                          BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
             <StackLayout Grid.Row="1" Grid.Column="0" VerticalOptions="FillAndExpand">
                 <StackLayout Margin="5,5,5,0">
-                    <Grid Margin="0,0,0,0" ColumnSpacing="5">
+                    <Grid Margin="0,0,0,0" ColumnSpacing="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50" />
                         </Grid.RowDefinitions>
@@ -43,7 +43,7 @@
                                     HorizontalOptions="FillAndExpand"
                                     VerticalOptions="Center"
                                     TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                                    CornerRadius="5"
+                                    CornerRadius="0"
                                     Margin="0,0,0,0"
                                     HeightRequest="40"
                                     Padding="0"
@@ -57,7 +57,7 @@
                                     HorizontalOptions="FillAndExpand"
                                     VerticalOptions="Center"
                                     TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                                    CornerRadius="5"
+                                    CornerRadius="0"
                                     Margin="0,0,0,0"
                                     HeightRequest="40"
                                     Padding="0"
@@ -69,14 +69,14 @@
 
 
                 <StackLayout IsVisible="{Binding IsDetailsVisible}" VerticalOptions="FillAndExpand">
-                    <ScrollView>
+                    <ScrollView VerticalOptions="FillAndExpand">
                         <Grid Margin="10,5,10,5" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                               ColumnDefinitions="0.4*,0.6*" RowSpacing="5"
                               VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
 
                             <StackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
                                 <Label Text="Agenda Types" Style="{StaticResource TitleLabelStyle}" Margin="0,0,0,5" />
-                                <Grid HeightRequest="40" Margin="0,0,0,0" HorizontalOptions="FillAndExpand">
+                                <Grid HeightRequest="40" Margin="0,0,0,0" HorizontalOptions="FillAndExpand" BackgroundColor="White">
                                     <Picker Title="Select" Style="{StaticResource PickerFontStyle}"
                                             BackgroundColor="White" TextColor="Gray"
                                             ItemsSource="{Binding AgendaTypes,Mode=TwoWay}"
@@ -103,7 +103,8 @@
                             </StackLayout>
 
                             <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-                                <Label Text="Agenda For" Style="{StaticResource TitleLabelStyle}" Margin="0,0,0,5" />
+                                <Label Text="Agenda For" Style="{StaticResource TitleLabelStyle}" Margin="0,0,0,5" >
+                                </Label>
                                 <Frame HasShadow="False" Padding="5" IsClippedToBounds="True" BackgroundColor="White"
                                        BorderColor="{StaticResource BorderColor}"
                                        HeightRequest="45"
@@ -118,17 +119,22 @@
                                                                    HeightRequest="40"
                                                                    Grid.Row="0"
                                                                    Grid.Column="0"
-                                                                   IsEnabled="False" />
+                                                                   InputTransparent="True"
+                                                                   IsEnabled="False" >
+                                        </controls:NoUnderlineEntry>
                                         <ffimageloading:CachedImage Source="dropdown_gray_picker.png"
                                                                     VerticalOptions="CenterAndExpand"
                                                                     HorizontalOptions="EndAndExpand" Aspect="AspectFit"
                                                                     Grid.Row="0"
                                                                     Grid.Column="0"
+                                                                    InputTransparent="True"
                                                                     HeightRequest="20"
-                                                                    WidthRequest="20" />
+                                                                    WidthRequest="20" >
+                                        </ffimageloading:CachedImage>
                                     </Grid>
                                     <Frame.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding CourseSelectionCommand}" />
+                                        <TapGestureRecognizer Command="{Binding CourseSelectionCommand}" 
+                                                              NumberOfTapsRequired="1"/>
                                     </Frame.GestureRecognizers>
                                 </Frame>
 
@@ -180,7 +186,6 @@
                                                        HorizontalTextAlignment="Start" />
                                             </Frame>
                                         </StackLayout>
-
                                         <ListView HasUnevenRows="True"
                                                   HorizontalOptions="StartAndExpand"
                                                   SelectedItem="{Binding SelectedCourse,Mode=TwoWay}"
@@ -307,18 +312,19 @@
                                         HasUnevenRows="True" Margin="{Binding FlowListViewMargin}">
                                         <flowListView:FlowListView.FlowColumnTemplate>
                                             <DataTemplate>
-                                                <Frame CornerRadius="5" Margin="5,0,5,5" Padding="0,0,5,0"
+                                                <Frame CornerRadius="5" Margin="0,0,5,5" Padding="0,0,5,0"
                                                        HasShadow="false"
                                                        BorderColor="{StaticResource BorderColor}"
                                                        IsClippedToBounds="True"
                                                        HeightRequest="40">
                                                     <StackLayout
                                                         BackgroundColor="{Binding SelectedTimeSlotBackgroundColor}"
-                                                        Padding="0" Spacing="0" Orientation="Horizontal">
+                                                        Padding="0" Spacing="-5" Orientation="Horizontal">
                                                         <input:CheckBox VerticalOptions="CenterAndExpand"
                                                                         IsChecked="{Binding IsChecked,Mode=TwoWay}"
                                                                         Scale="0.8"
                                                                         Color="gray"
+                                                                        Margin="0,0,0,0"
                                                                         HorizontalOptions="StartAndExpand"
                                                                         Text="{Binding ClassName}"
                                                                         CheckChangedCommand="{Binding BindingContext.ClassSelectionCommand,Source={x:Reference classList}}"
@@ -342,7 +348,7 @@
                                                             FontFamily="FontAwesomeSolid"
                                                             TextColor="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}"
                                                             Margin="0,0,0,0"
-                                                            FontSize="23"
+                                                            FontSize="{OnPlatform Android='18', iOS='23'}"
                                                             VerticalOptions="CenterAndExpand"
                                                             IsVisible="{Binding IsAgendaPerStudent}">
                                                             <Label.GestureRecognizers>
@@ -671,17 +677,13 @@
                                                           VerticalOptions="CenterAndExpand"
                                                           BackgroundColor="Transparent">
                                                         <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="0.8*" />
-                                                            <ColumnDefinition Width="0.2*" />
+                                                            <ColumnDefinition Width="Auto" />
+                                                            <ColumnDefinition Width="*" />
+                                                            <ColumnDefinition Width="Auto" />
                                                         </Grid.ColumnDefinitions>
-                                                        <StackLayout Orientation="Horizontal"
-                                                                     HorizontalOptions="StartAndExpand"
-                                                                     VerticalOptions="CenterAndExpand"
-                                                                     BackgroundColor="Transparent"
-                                                                     Spacing="0"
-                                                                     Grid.Row="0"
-                                                                     Grid.Column="0">
                                                             <ffimageloading:CachedImage
+                                                                Grid.Row="0"
+                                                                Grid.Column="0"
                                                                 HorizontalOptions="StartAndExpand"
                                                                 VerticalOptions="CenterAndExpand"
                                                                 WidthRequest="20"
@@ -692,19 +694,20 @@
                                                                 DownsampleToViewSize="True"
                                                                 Source="{Binding FileName,Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
                                                             <Label Text="{Binding FileName}"
+                                                                   Grid.Row="0"
+                                                                   Grid.Column="1"
                                                                    TextColor="{StaticResource GrayTextColor}"
                                                                    HorizontalOptions="StartAndExpand"
                                                                    VerticalOptions="CenterAndExpand"
-                                                                   Margin="3,0,0,0"
+                                                                   Margin="5,0,0,0"
                                                                    Style="{StaticResource AttachmentTextStyle}" />
-                                                        </StackLayout>
                                                         <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
                                                             VerticalOptions="CenterAndExpand"
                                                             WidthRequest="24"
                                                             HeightRequest="24"
                                                             Aspect="AspectFit"
                                                             Grid.Row="0"
-                                                            Grid.Column="1"
+                                                            Grid.Column="2"
                                                             DownsampleToViewSize="True"
                                                             Source="delete_bin_icon.png">
                                                             <ffimageloading:CachedImage.GestureRecognizers>
@@ -975,7 +978,7 @@
                 </StackLayout>
 
             </StackLayout>
-            <StackLayout Margin="5" Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
+            <StackLayout Margin="5,10,5,5" Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
                 <Button Text="Save"
                         BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
                         HorizontalOptions="CenterAndExpand" TextColor="White" CornerRadius="5"

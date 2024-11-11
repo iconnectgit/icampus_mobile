@@ -1,3 +1,5 @@
+using AutoMapper;
+using iCampus.MobileApp.DependencyService;
 using iCampus.MobileApp.Helpers;
 using iCampus.Portal.ViewModels;
 
@@ -81,8 +83,11 @@ public class CampusKeyDetailsForm : ViewModelBase
             }
         }
         #endregion
-        public CampusKeyDetailsForm() : base(null, null, null)
+        public CampusKeyDetailsForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(mapper, null, null)
         {
+            _mapper = mapper;
+            _nativeServices = nativeServices;
+            Navigation = navigation;
         }
         #region Methods
 

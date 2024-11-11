@@ -10,7 +10,7 @@ public class NewsDetailForm:ViewModelBase
     {
         #region Declarations
         public ICommand AttachmentClickCommand { get; set; }
-        public ICommand DonwloadTappedCommand { get; set; }
+        public ICommand DownloadTappedCommand { get; set; }
         public ICommand WebsiteLinksTappedCommand { get; set; }
 
         #endregion
@@ -78,7 +78,7 @@ public class NewsDetailForm:ViewModelBase
             this.BackTitle = TextResource.BackTitle;
             this.PageTitle = TextResource.NewsPageTitle;
             this.AttachmentClickCommand = new Command(AttachmentClicked);
-            this.DonwloadTappedCommand = new Command(DownloadClicked);
+            this.DownloadTappedCommand = new Command(DownloadClicked);
             this.WebsiteLinksTappedCommand = new Command<WebsiteLinkView>(WebsiteLinkClicked);
             //MessagingCenter.Subscribe<string>("", "ListViewRightSwipeNewsDetails", async (arg) =>
             //{

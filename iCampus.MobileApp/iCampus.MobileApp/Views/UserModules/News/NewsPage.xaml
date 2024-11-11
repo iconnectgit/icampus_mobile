@@ -11,9 +11,10 @@
              x:Name="newsPage">
     <ContentPage.Content>
 
-        <Grid Grid.Row="0" Grid.Column="0" x:Name="BeamAppView" Margin="0"
-              RowDefinitions="Auto,Auto,Auto,Auto,*,Auto"
-              BackgroundColor="{StaticResource BorderColor}" VerticalOptions="FillAndExpand">
+        <Grid x:Name="BeamAppView" Margin="0"
+              RowDefinitions="Auto,*,Auto"
+              BackgroundColor="{StaticResource BorderColor}" 
+              VerticalOptions="FillAndExpand">
             <Grid.Resources>
                 <ResourceDictionary>
                     <behaviours:VisiblityConverter x:Key="VisiblityConverter" />
@@ -22,7 +23,7 @@
             <ContentView ControlTemplate="{StaticResource BeamHeader}"
                          BackgroundColor="White"
                          Grid.Row="0" />
-            <StackLayout Grid.Row="4" IsVisible="{Binding IsNewsSelectedFromFooter}" Margin="10,10,10,0">
+            <StackLayout Grid.Row="1" IsVisible="{Binding IsNewsSelectedFromFooter}" Margin="10,10,10,0">
                 <Label Text="News &amp; Events" 
                        Style="{StaticResource TitleLabelStyle}" 
                        FontSize="16"
@@ -33,6 +34,7 @@
                           BackgroundColor="{StaticResource ListViewBackgroundColor}"
                           SeparatorVisibility="None" VerticalScrollBarVisibility="Never"
                           IsPullToRefreshEnabled="True"
+                          VerticalOptions="FillAndExpand"
                           IsRefreshing="{Binding IsRefreshing}"
                           RefreshCommand="{Binding RefreshedCommand}"
                           Margin="10,10,10,0">
@@ -57,6 +59,7 @@
                                     </Grid.ColumnDefinitions>
                                     <Frame Padding="0"
                                            CornerRadius="10"
+                                           BorderColor="Transparent"
                                            HasShadow="False">
                                         <Image HorizontalOptions="CenterAndExpand"
                                                VerticalOptions="CenterAndExpand"
@@ -113,11 +116,9 @@
             </StackLayout>
 
             <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
-                         VerticalOptions="EndAndExpand" Grid.Row="5"
+                         VerticalOptions="EndAndExpand" Grid.Row="2" 
                          HorizontalOptions="FillAndExpand"
                          HeightRequest="60" />
-
-
         </Grid>
 
     </ContentPage.Content>

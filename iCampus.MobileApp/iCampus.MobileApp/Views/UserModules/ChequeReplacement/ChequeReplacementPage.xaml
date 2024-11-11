@@ -5,6 +5,7 @@
              x:Class="iCampus.MobileApp.Views.UserModules.ChequeReplacement.ChequeReplacementPage"
              xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
              xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              NavigationPage.HasNavigationBar="false"
              BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
@@ -28,7 +29,7 @@
 
             <StackLayout Grid.Row="2" Grid.Column="0" VerticalOptions="FillAndExpand">
                 <StackLayout Margin="5,0,5,0">
-                    <Grid Margin="0,0,0,0" ColumnSpacing="5">
+                    <Grid Margin="0,0,0,0" ColumnSpacing="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50" />
                         </Grid.RowDefinitions>
@@ -43,7 +44,7 @@
                                     HorizontalOptions="FillAndExpand" 
                                     VerticalOptions="Center" 
                                     TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                                    CornerRadius="5" 
+                                    CornerRadius="0" 
                                     Margin="0,10,0,0"
                                     HeightRequest="40" 
                                     Padding="0" 
@@ -57,7 +58,7 @@
                                     HorizontalOptions="FillAndExpand" 
                                     VerticalOptions="Center" 
                                     TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                                    CornerRadius="5" 
+                                    CornerRadius="0" 
                                     Margin="0,10,0,0"
                                     HeightRequest="40" 
                                     Padding="0" 
@@ -105,16 +106,33 @@
 
                                             <StackLayout Orientation="Horizontal">
                                                 <StackLayout>
-                                                    <CheckBox HorizontalOptions="StartAndExpand"
-                                                              VerticalOptions="CenterAndExpand"
-                                                              HeightRequest="30"
-                                                              WidthRequest="25"
-                                                              InputTransparent="True"
-                                                              Scale="1"
-                                                              Margin="0,0,-5,0"
-                                                              IsChecked="{Binding IsPendingCheckBoxEnabled}"
-                                                              IsVisible="{Binding IsPendingCheckBoxVisible}"
-                                                              Color="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                    <OnPlatform x:TypeArguments="View">
+                                                        <On Platform="Android">
+                                                            <CheckBox HorizontalOptions="StartAndExpand"
+                                                                            VerticalOptions="CenterAndExpand"
+                                                                            HeightRequest="30"
+                                                                            WidthRequest="25"
+                                                                            InputTransparent="True"
+                                                                            Scale="1.0"
+                                                                            Margin="0,0,0,0"
+                                                                            IsChecked="{Binding IsPendingCheckBoxEnabled}"
+                                                                            IsVisible="{Binding IsPendingCheckBoxVisible}"
+                                                                            Color="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                        </On>
+                                                        <On Platform="iOS">
+                                                            <input:CheckBox HorizontalOptions="StartAndExpand"
+                                                                            VerticalOptions="CenterAndExpand"
+                                                                            HeightRequest="30"
+                                                                            WidthRequest="25"
+                                                                            InputTransparent="True"
+                                                                            Scale="0.8"
+                                                                            Margin="2,0,0,0"
+                                                                            IsChecked="{Binding IsPendingCheckBoxEnabled}"
+                                                                            IsVisible="{Binding IsPendingCheckBoxVisible}"
+                                                                            Color="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                        </On>
+                                                    </OnPlatform>
+                                                    
                                                     <StackLayout.GestureRecognizers>
                                                         <TapGestureRecognizer
                                                             Command="{Binding BindingContext.CheckboxClickCommand,Source={x:Reference beamPendingListView}}"
@@ -302,18 +320,36 @@
 
                                                 <StackLayout Orientation="Horizontal">
                                                     <StackLayout>
-                                                        <CheckBox HorizontalOptions="StartAndExpand"
-                                                                  VerticalOptions="CenterAndExpand"
-                                                                  HeightRequest="30"
-                                                                  WidthRequest="25"
-                                                                  InputTransparent="True"
-                                                                  Scale="1"
-                                                                  Margin="0,0,0,0"
-                                                                  IsChecked="{Binding IsBounceCheckBoxChecked}"
-                                                                  IsVisible="{Binding IsBouncedCheckBoxVisible}"
-                                                                  IsEnabled="{Binding IsBounceCheckBoxEnabled}"
-                                                                  Opacity="{Binding CheckBoxOpacity}"
-                                                                  Color="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                        <OnPlatform x:TypeArguments="View">
+                                                            <On Platform="Android">
+                                                                <CheckBox HorizontalOptions="StartAndExpand"
+                                                                    VerticalOptions="CenterAndExpand"
+                                                                    HeightRequest="30"
+                                                                    WidthRequest="25"
+                                                                    InputTransparent="True"
+                                                                    Scale="1.0"
+                                                                    Margin="0,0,0,0"
+                                                                    IsChecked="{Binding IsBounceCheckBoxChecked}"
+                                                                    IsVisible="{Binding IsBouncedCheckBoxVisible}"
+                                                                    IsEnabled="{Binding IsBounceCheckBoxEnabled}"
+                                                                    Opacity="{Binding CheckBoxOpacity}"
+                                                                    Color="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                            </On>
+                                                            <On Platform="iOS">
+                                                                <input:CheckBox HorizontalOptions="StartAndExpand"
+                                                                    VerticalOptions="CenterAndExpand"
+                                                                    HeightRequest="30"
+                                                                    WidthRequest="25"
+                                                                    InputTransparent="True"
+                                                                    Scale="0.8"
+                                                                    Margin="2,0,0,0"
+                                                                    IsChecked="{Binding IsBounceCheckBoxChecked}"
+                                                                    IsVisible="{Binding IsBouncedCheckBoxVisible}"
+                                                                    IsEnabled="{Binding IsBounceCheckBoxEnabled}"
+                                                                    Opacity="{Binding CheckBoxOpacity}"
+                                                                    Color="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" />
+                                                            </On>
+                                                        </OnPlatform>
                                                         <StackLayout.GestureRecognizers>
                                                             <TapGestureRecognizer
                                                                 Command="{Binding BindingContext.CheckboxClickCommand,Source={x:Reference beamBouncedListView}}"
@@ -592,8 +628,8 @@
 
 
                                             <StackLayout Orientation="Horizontal">
-                                                <CheckBox HorizontalOptions="Start" VerticalOptions="Center"
-                                                          HeightRequest="25" IsVisible="false" />
+                                                <input:CheckBox HorizontalOptions="Start" VerticalOptions="Center"
+                                                          HeightRequest="25" IsVisible="false" Scale="0.8" />
                                                 <Label HorizontalOptions="StartAndExpand" VerticalOptions="Center">
                                                     <Label.FormattedText>
                                                         <FormattedString>

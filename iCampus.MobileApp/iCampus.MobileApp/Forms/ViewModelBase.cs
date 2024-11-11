@@ -945,30 +945,34 @@ public class ViewModelBase : INotifyPropertyChanged
         }
     }
 
-    public void HandleMenuSelectionOnBack()
+    public async void HandleMenuSelectionOnBack()
     {
         try
         {
-            // HostScreen.Router.NavigateBack.Execute().Subscribe();
-            // var currentViewModel = HostScreen.Router.GetCurrentViewModel() as ViewModelBase;
-
-            // if (currentViewModel != null && AppSettings.Current.FooterMenuList != null)
-            // {
-            //     var data = AppSettings.Current.FooterMenuList?.Where(x =>
-            //         x.ModuleCode?.ToLower() == currentViewModel.SelectedModule.ModuleCode?.ToLower())?.FirstOrDefault();
-            //     if (data != null)
-            //     {
-            //         AppSettings.Current.SelectedFooterMenu = data;
-            //         AppSettings.Current.SelectedFooterMenu.IsSelected = true;
-            //         AppSettings.Current.FooterMenuList.ToList()
-            //             .FindAll(b => b.ModuleCode != AppSettings.Current.SelectedFooterMenu.ModuleCode)
-            //             .ForEach(b => b.IsSelected = false);
-            //     }
-            //     else
-            //     {
-            //         AppSettings.Current.SelectedFooterMenu = null;
-            //     }
-            //}
+            await Navigation.PopAsync();
+            ViewModelBase currentViewModel = null;
+            if (Application.Current.MainPage.Navigation.NavigationStack.Count > 0)
+            {
+                var currentPage = Application.Current.MainPage.Navigation.NavigationStack.Last();
+                currentViewModel = currentPage.BindingContext as ViewModelBase;
+            }
+            if (currentViewModel != null && AppSettings.Current.FooterMenuList != null)
+            {
+                var data = AppSettings.Current.FooterMenuList?.Where(x =>
+                    x.ModuleCode?.ToLower() == currentViewModel.SelectedModule.ModuleCode?.ToLower())?.FirstOrDefault();
+                if (data != null)
+                {
+                    AppSettings.Current.SelectedFooterMenu = data;
+                    AppSettings.Current.SelectedFooterMenu.IsSelected = true;
+                    AppSettings.Current.FooterMenuList.ToList()
+                        .FindAll(b => b.ModuleCode != AppSettings.Current.SelectedFooterMenu.ModuleCode)
+                        .ForEach(b => b.IsSelected = false);
+                }
+                else
+                {
+                    AppSettings.Current.SelectedFooterMenu = null;
+                }
+            }
         }
         catch (Exception ex)
         {
@@ -1196,33 +1200,33 @@ public class ViewModelBase : INotifyPropertyChanged
                 }
                 else if (obj.ModuleCode.ToLower().Equals("timetable"))
                 {
-                    // TimeTableForm timetableForm = new(_mapper, _nativeServices, Navigation)
-                    // {
-                    //     PageTitle = obj.ModuleName,
-                    //     MenuVisible = true,
-                    //     SelectedModule = obj
-                    // };
-                    // AppSettings.Current.IsDisplayAllStudentList = false;
-                    // timetableForm.OpenStudentSelection();
-                    // TimeTablePage timeTablePage = new TimeTablePage()
-                    // {
-                    //     BindingContext = timetableForm
-                    // };
-                    // await Navigation.PushAsync(timeTablePage);
-
-                    RegistrationForm registrationForm = new(_mapper, _nativeServices, Navigation)
+                    TimeTableForm timetableForm = new(_mapper, _nativeServices, Navigation)
                     {
-                        PageTitle = "Registration",
+                        PageTitle = obj.ModuleName,
                         MenuVisible = true,
                         SelectedModule = obj
                     };
                     AppSettings.Current.IsDisplayAllStudentList = false;
-                    registrationForm.OpenStudentSelection();
-                    RegistrationPage registrationPage = new()
+                    timetableForm.OpenStudentSelection();
+                    TimeTablePage timeTablePage = new TimeTablePage()
                     {
-                        BindingContext = registrationForm
+                        BindingContext = timetableForm
                     };
-                    await Navigation.PushAsync(registrationPage);
+                    await Navigation.PushAsync(timeTablePage);
+
+                    // RegistrationForm registrationForm = new(_mapper, _nativeServices, Navigation)
+                    // {
+                    //     PageTitle = "Registration",
+                    //     MenuVisible = true,
+                    //     SelectedModule = obj
+                    // };
+                    // AppSettings.Current.IsDisplayAllStudentList = false;
+                    // registrationForm.OpenStudentSelection();
+                    // RegistrationPage registrationPage = new()
+                    // {
+                    //     BindingContext = registrationForm
+                    // };
+                    // await Navigation.PushAsync(registrationPage);
                 }
                 else if (obj.ModuleCode.ToLower().Equals("communication"))
                 {

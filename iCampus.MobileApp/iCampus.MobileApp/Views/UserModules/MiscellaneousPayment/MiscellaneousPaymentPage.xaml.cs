@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using iCampus.MobileApp.Forms.UserModules.MiscellaneousPayment;
 
 namespace iCampus.MobileApp.Views.UserModules.MiscellaneousPayment;
 
@@ -15,7 +16,10 @@ public partial class MiscellaneousPaymentPage : ContentPage
         {
             ForceNativeTableUpdate(beamHistoryListview);
         });
-    }
+    }    
+
+
+
     public void ForceNativeTableUpdate(ListView listView)
     {
         if (listView.Handler != null)

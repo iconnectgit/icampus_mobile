@@ -19,7 +19,6 @@ public class AddNewPostForm : ViewModelBase
     {
         #region Declarations
         public ICommand SaveEditorCommand { get; set; }
-        private Popup _currentPopup;
         private bool isHandlingCheck = false;
         private string _selectedHtmlContentKey;
         public ICommand DetailsTabbedCommand { get; set; }
@@ -986,7 +985,7 @@ public class AddNewPostForm : ViewModelBase
                     AssignmentsText = wrappedHtmlContent;
                     break;
             }
-            _currentPopup?.Close();
+            AppSettings.Current.CurrentPopup?.Close();
         }
         private void OpenHtmlEditPopup(string htmlText, string key, string title)
         {
@@ -1557,7 +1556,7 @@ public class AddNewPostForm : ViewModelBase
                 ClassesVisibility = false;
                 IsClassesSelected = false;
                 FilteredCourseList = SelectedAgendaTypes.ItemName.ToLower().Equals("weekly") ? GradeList : CourseList;
-                CourseListViewHeight = FilteredCourseList.Count() * 32;
+                CourseListViewHeight = Math.Min(FilteredCourseList.Count * 32, 300);
                 AllowSubmissionsVisibility = true;
                 switch (SelectedAgendaTypes.StudentSubmissionType.ToLower())
                 {
@@ -1634,7 +1633,7 @@ public class AddNewPostForm : ViewModelBase
                     if(ReminderBeforeText < totalDays)
                     {
                         ReminderBeforeText++;
-                        ReminderDate=ReminderDate.AddDays(-ReminderBeforeText);
+                        ReminderDate=ReminderDate.AddDays(-1);
                     }
                     else
                     {
@@ -1651,7 +1650,7 @@ public class AddNewPostForm : ViewModelBase
                         ReminderBeforeText++;
                         ReminderMinimumDate = DateTime.Now;
                         ReminderMaxDate = DueDate.AddDays(-1);
-                        ReminderDate = ReminderDate.AddDays(-ReminderBeforeText);
+                        ReminderDate = ReminderDate.AddDays(-1);
                     }
                     else
                     {

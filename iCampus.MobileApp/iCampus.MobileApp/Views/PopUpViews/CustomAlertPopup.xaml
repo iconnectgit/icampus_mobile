@@ -18,8 +18,8 @@
            Margin="20,0,20,0"
            Padding="0"
            VerticalOptions="Center"
-           HeightRequest="250"
-           WidthRequest="400"
+           HeightRequest="{OnPlatform iOS='250', Android='220'}"
+           WidthRequest="{OnPlatform iOS='400', Android='350'}"
            IsClippedToBounds="true">
         <Grid Padding="10" RowDefinitions="Auto,Auto,*,Auto,Auto">
             <Grid.Resources>
@@ -49,20 +49,32 @@
                     </Label.GestureRecognizers>
                 </Label>
             </StackLayout>
-            <Label Text="{Binding CustomAlertObject.CustomAlertsMessage}" 
-                   Grid.Row="1" 
+            <Label Text="{Binding CustomAlertObject.CustomAlertsMessage}"
+                   Grid.Row="1"
                    Margin="5"
                    TextType="Html"
-                   HorizontalOptions="FillAndExpand" 
+                   HorizontalOptions="FillAndExpand"
                    VerticalOptions="FillAndExpand">
+                <Label.IsVisible>
+                    <OnPlatform x:TypeArguments="x:Boolean">
+                        <On Platform="iOS" Value="True" />
+                        <On Platform="Android" Value="False" />
+                    </OnPlatform>
+                </Label.IsVisible>
             </Label>
-            <!-- <WebView x:Name="Details" HeightRequest="100" -->
-            <!--          Grid.Row="1" -->
-            <!--          HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"> -->
-            <!--     <WebView.Source> -->
-            <!--         <HtmlWebViewSource Html="{Binding CustomAlertObject.CustomAlertsMessage}" x:Name="webViewRenderer" /> -->
-            <!--     </WebView.Source> -->
-            <!-- </WebView> -->
+            <WebView x:Name="Details"
+                     Grid.Row="1"
+                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                <WebView.IsVisible>
+                    <OnPlatform x:TypeArguments="x:Boolean">
+                        <On Platform="iOS" Value="False" />
+                        <On Platform="Android" Value="True" />
+                    </OnPlatform>
+                </WebView.IsVisible>
+                <WebView.Source>
+                    <HtmlWebViewSource Html="{Binding CustomAlertObject.CustomAlertsMessage}" x:Name="webViewRenderer" />
+                </WebView.Source>
+            </WebView>
             <StackLayout Padding="1" Grid.Row="2">
                 <StackLayout IsVisible="{Binding ShowFeedBackField, Mode=TwoWay}">
                     <Frame Padding="0" HasShadow="False" BackgroundColor="White" BorderColor="WhiteSmoke">

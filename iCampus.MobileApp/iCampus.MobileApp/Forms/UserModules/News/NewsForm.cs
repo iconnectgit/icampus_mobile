@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using AutoMapper;
 using iCampus.MobileApp.DependencyService;
@@ -182,9 +183,15 @@ public class NewsForm:ViewModelBase
                 {
                     SiteNewsObject = obj
                 };
-                
-                htmlContent = "<html>" + "<head>" + "<style type=\"text/css\">" + "body {" + "font-size: 38;" + "text-align: justify;" + "}" + "</style>" + "</head>" + "<body>" + newsDetailForm.SiteNewsObject.NewsData + "</body>" + "</html>";
-                newsDetailForm.WebViewHeight = htmlContent.Length > 1000 ? 400 : 100;
+                if (DeviceInfo.Platform == DevicePlatform.iOS)
+                {
+                    htmlContent = "<html>" + "<head>" + "<style type=\"text/css\">" + "body {" + "font-size: 38;" + "text-align: justify;" + "}" + "</style>" + "</head>" + "<body>" + newsDetailForm.SiteNewsObject.NewsData + "</body>" + "</html>";
+                }
+                else
+                {
+                    htmlContent = "<html>" + "<head>" + "<style type=\"text/css\">" + "body {" + "font-size: 14;" + "text-align: justify;" + "}" + "</style>" + "</head>" + "<body>" + newsDetailForm.SiteNewsObject.NewsData + "</body>" + "</html>";
+                }
+                newsDetailForm.WebViewHeight = htmlContent.Length / 2;
                 newsDetailForm.SiteNewsObject.NewsData = htmlContent;
                 newsDetailForm.Attachment = bindableAttachmentFile;
                 NewsDetailPage newsDetailPage = new NewsDetailPage()
@@ -195,6 +202,5 @@ public class NewsForm:ViewModelBase
                 SelectedNews = null;
             }
         }
-
         #endregion Methods
     }

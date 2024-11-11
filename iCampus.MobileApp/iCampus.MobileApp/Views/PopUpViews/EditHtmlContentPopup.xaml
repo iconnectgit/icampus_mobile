@@ -18,12 +18,13 @@
             BackgroundColor="White"
             VerticalOptions="CenterAndExpand"
             HorizontalOptions="CenterAndExpand"
-            WidthRequest="380"
-            HeightRequest="450">
+            BorderColor="Transparent"
+            WidthRequest="{OnPlatform iOS='380', Android='340'}"
+            HeightRequest="{OnPlatform iOS='450', Android='420'}">
         <StackLayout Spacing="0">
             
             <!-- Title Bar -->
-            <StackLayout HeightRequest="45"
+            <StackLayout HeightRequest="45" Margin="-1"
                          BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
                           Padding="0">
                 <Label Text="{Binding HtmlEditorTitle}" 
@@ -41,25 +42,27 @@
                 <Editor Text="{Binding EditedHtmlContent}" HeightRequest="300" />
             </ScrollView>
             
-            <!-- Buttons Section -->
-            <StackLayout Orientation="Horizontal"
-                         Padding="10,5"
-                         Spacing="10"
-                         BackgroundColor="White">
+            <Grid Padding="10,5" BackgroundColor="White" ColumnSpacing="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
                 <Button Text="Cancel"
                         BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
                         TextColor="White"
                         CornerRadius="10"
-                        HorizontalOptions="StartAndExpand"
+                        Grid.Column="0"
                         Clicked="MenuClosedClick"/>
-                
+
                 <Button Text="Save"
                         BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
                         TextColor="White"
                         CornerRadius="10"
-                        HorizontalOptions="EndAndExpand"
+                        Grid.Column="1"
                         Command="{Binding SaveEditorCommand}"/>
-            </StackLayout>
+            </Grid>
+
             
         </StackLayout>
         <Frame.GestureRecognizers>

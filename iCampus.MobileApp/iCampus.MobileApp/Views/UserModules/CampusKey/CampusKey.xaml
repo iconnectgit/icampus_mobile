@@ -5,70 +5,55 @@
              x:Class="iCampus.MobileApp.Views.UserModules.CampusKey.CampusKey"
              BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
              xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
-             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              NavigationPage.HasNavigationBar="False"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Name="campuskey">
     <ContentPage.Content>
-        
-        <Grid>
-        <Grid 
-              BackgroundColor="{StaticResource BorderColor}"
-              RowDefinitions="Auto,Auto,*" ColumnDefinitions="*">
-            <ContentView ControlTemplate="{StaticResource BeamHeader}" Grid.Row="0" Grid.Column="0" BackgroundColor="White"/>
-            <ContentView ControlTemplate="{StaticResource BeamStudentSelection}" Grid.Row="1" Grid.Column="0"/>
+
+        <Grid
+            BackgroundColor="{StaticResource BorderColor}"
+            RowDefinitions="Auto,Auto,*,Auto" ColumnDefinitions="*">
+            <ContentView ControlTemplate="{StaticResource BeamHeader}" Grid.Row="0" Grid.Column="0"
+                         BackgroundColor="White" />
+            <ContentView ControlTemplate="{StaticResource BeamStudentSelection}" Grid.Row="1" Grid.Column="0" />
             <StackLayout VerticalOptions="FillAndExpand"
-                     HorizontalOptions="FillAndExpand"
-                     Grid.Row="2" Grid.Column="0">
+                         HorizontalOptions="FillAndExpand"
+                         Grid.Row="2" Grid.Column="0">
                 <StackLayout.Resources>
-                    <ResourceDictionary>
-                        <behaviours:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
-                        <behaviours:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter" />
-                        <behaviours:VisiblityConverter x:Key="VisiblityConverter" />
-                        <Style x:Key="CampusKeyHeaderDescriptionLabelStyle" BasedOn="{StaticResource TitleLabelStyle}"
-                           TargetType="Label">
-                            <Setter Property="VerticalTextAlignment"
-                                Value="Center" />
-                            <Setter Property="HorizontalTextAlignment"
-                                Value="End" />
-                        </Style>
-                        <Style x:Key="CampusKeyListItemTitle"
-                           TargetType="Label" BasedOn="{StaticResource DescriptionLabelStyle}">
-                        </Style>
-                    </ResourceDictionary>
+                    <ResourceDictionary />
                 </StackLayout.Resources>
                 <StackLayout Padding="10,10,10,10"
-                         IsVisible="{Binding NoDataExist}">
+                             IsVisible="{Binding NoDataExist}">
                     <Frame Padding="10,10,10,10"
-                       CornerRadius="5" HasShadow="False"
-                       IsClippedToBounds="True"
-                       BorderColor="{StaticResource BorderColor}"
-                       BackgroundColor="White">
+                           CornerRadius="5" HasShadow="False"
+                           IsClippedToBounds="True"
+                           BorderColor="{StaticResource BorderColor}"
+                           BackgroundColor="White">
                         <Label VerticalOptions="CenterAndExpand" Style="{StaticResource DescriptionLabelStyle}"
-                           Text="{Binding NoDataFound}"
-                           FontSize="Default"
-                           HorizontalTextAlignment="Start" />
+                               Text="{Binding NoDataFound}"
+                               FontSize="Default"
+                               HorizontalTextAlignment="Start" />
                     </Frame>
                 </StackLayout>
                 <StackLayout Padding="10,10,10,10"
-                         IsVisible="{Binding NoActiveCardExist}">
+                             IsVisible="{Binding NoActiveCardExist}">
                     <Frame Padding="10,10,10,10"
-                       CornerRadius="5" HasShadow="False"
-                       IsClippedToBounds="True"
-                       BorderColor="{StaticResource BorderColor}"
-                       BackgroundColor="White">
+                           CornerRadius="5" HasShadow="False"
+                           IsClippedToBounds="True"
+                           BorderColor="{StaticResource BorderColor}"
+                           BackgroundColor="White">
                         <Label VerticalOptions="CenterAndExpand" Style="{StaticResource DescriptionLabelStyle}"
-                           Text="No active card available"
-                           FontSize="Default"
-                           HorizontalTextAlignment="Start" />
+                               Text="No active card available"
+                               FontSize="Default"
+                               HorizontalTextAlignment="Start" />
                     </Frame>
                 </StackLayout>
-                <StackLayout  Margin="10,0,10,10">
-                    <Grid Margin="0,0,0,0" 
+                <StackLayout Margin="10,0,10,10">
+                    <Grid Margin="0,0,0,0"
                           ColumnSpacing="5"
                           RowSpacing="10"
-                      IsVisible="{Binding IsTopupDetailVisible}">
+                          IsVisible="{Binding IsTopupDetailVisible}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="80" />
                         </Grid.RowDefinitions>
@@ -76,136 +61,133 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Frame BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                           Grid.Row="0"
-                           CornerRadius="6"
-                           Grid.Column="0"
-                           HasShadow="False"
-                           Padding="5,0,0,0"
-                           IsVisible="{Binding IsTopupDetailVisible}"
-                           IsClippedToBounds="True"
-                           Margin="1">
-                            <Grid 
-                          VerticalOptions="CenterAndExpand"
-                          HorizontalOptions="StartAndExpand"
-                          >
+                        <Frame
+                            BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                            Grid.Row="0"
+                            CornerRadius="6"
+                            Grid.Column="0"
+                            HasShadow="False"
+                            Padding="5,0,0,0"
+                            IsVisible="{Binding IsTopupDetailVisible}"
+                            IsClippedToBounds="True"
+                            Margin="1">
+                            <Grid
+                                VerticalOptions="CenterAndExpand"
+                                HorizontalOptions="StartAndExpand">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
-                                    
+
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <StackLayout Grid.Row="0"
-                                    Grid.Column="0"
-                                    Orientation="Horizontal"
-                                    VerticalOptions="CenterAndExpand"
-                                    IsVisible="{Binding ShowDailyLimit}">
-                                <Label
-                                Margin="0,0,5,0"
-                                HorizontalOptions="StartAndExpand"
-                                HorizontalTextAlignment="Start"
-                                VerticalOptions="CenterAndExpand"
-                                VerticalTextAlignment="Start">
-                                    <Label.FormattedText>
-                                        <FormattedString>
-                                            <Span Text="Daily Limit  "
-                                          FontSize="Micro"
-                                          TextColor="Black" />
-                                            <Span  Text="{Binding ExpenseLimit}"
-                                          Style="{StaticResource TitleLabelStyle}"
-                                          FontSize="Micro">
-                                                </Span>
-                                        </FormattedString>
-                                    </Label.FormattedText>
-                                </Label>
-                                <Frame CornerRadius="5"
-                                       HasShadow="False"
-                                       IsClippedToBounds="True"
-                                       Padding="5"
-                                       Margin="0,0,0,0"
-                                       BorderColor="{StaticResource BorderColor}"
-                                       HorizontalOptions="EndAndExpand"
-                                       VerticalOptions="CenterAndExpand"
-                                       IsVisible="{Binding IsAllowUpdatingDailyLimit}">
-                                <ffimageloading:CachedImage HorizontalOptions="CenterAndExpand"
-                                                            Margin="0,0,0,0"
-                                                            Aspect="AspectFit"
-                                                            HeightRequest="15"
-                                                            WidthRequest="15"
-                                                            IsVisible="true"
-                                                            DownsampleToViewSize="True"
-                                                            Source="edit.png">
-                                    <ffimageloading:CachedImage.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding EditDailyLimitCommand}" />
-                                    </ffimageloading:CachedImage.GestureRecognizers>
-                                </ffimageloading:CachedImage>
-                                </Frame>
+                                             Grid.Column="0"
+                                             Orientation="Horizontal"
+                                             VerticalOptions="CenterAndExpand"
+                                             IsVisible="{Binding ShowDailyLimit}">
+                                    <Label
+                                        Margin="0,0,5,0"
+                                        HorizontalOptions="StartAndExpand"
+                                        HorizontalTextAlignment="Start"
+                                        VerticalOptions="CenterAndExpand"
+                                        VerticalTextAlignment="Start">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Daily Limit  "
+                                                      FontSize="12"
+                                                      TextColor="Black" />
+                                                <Span Text="{Binding ExpenseLimit}"
+                                                      Style="{StaticResource TitleLabelStyle}"
+                                                      FontSize="12" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Frame CornerRadius="5"
+                                           HasShadow="False"
+                                           IsClippedToBounds="True"
+                                           Padding="5"
+                                           Margin="0,0,0,0"
+                                           BorderColor="{StaticResource BorderColor}"
+                                           HorizontalOptions="EndAndExpand"
+                                           VerticalOptions="CenterAndExpand"
+                                           IsVisible="{Binding IsAllowUpdatingDailyLimit}">
+                                        <ffimageloading:CachedImage HorizontalOptions="CenterAndExpand"
+                                                                    Margin="0,0,0,0"
+                                                                    Aspect="AspectFit"
+                                                                    HeightRequest="15"
+                                                                    WidthRequest="15"
+                                                                    IsVisible="true"
+                                                                    DownsampleToViewSize="True"
+                                                                    Source="edit.png">
+                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding EditDailyLimitCommand}" />
+                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                        </ffimageloading:CachedImage>
+                                    </Frame>
                                 </StackLayout>
                                 <StackLayout Grid.Row="0"
-                                    Grid.Column="0"
-                                    Orientation="Horizontal"
-                                    IsVisible="{Binding ShowUpdatingDailyLimit}">
-                                <Label
-                                Text="Daily Limit"
-                                Margin="0,0,0,0"
-                                FontSize="Micro"
-                                TextColor="Black"
-                                VerticalOptions="CenterAndExpand"
-                                HorizontalOptions="StartAndExpand"
-                                HorizontalTextAlignment="Start"
-                                VerticalTextAlignment="Start">
-                                </Label>
-                                <Frame
-                                       CornerRadius="5"
-                                       HasShadow="False"
-                                       IsClippedToBounds="True"
-                                       Padding="0"
-                                       Margin="0,0,0,0"
-                                       BorderColor="{StaticResource BorderColor}"
-                                       HorizontalOptions="EndAndExpand"
-                                       VerticalOptions="CenterAndExpand">
-                                <Entry 
-                                       Text="{Binding UpdatingDailyLimitAmount}"
-                                       Margin="0,0,0,0"
-                                       Keyboard="Numeric"
-                                       MaxLength="7"
-                                       FontSize="Small"
-                                       VerticalOptions="CenterAndExpand"
-                                       HorizontalOptions="StartAndExpand"
-                                       VerticalTextAlignment="Center"
-                                       HorizontalTextAlignment="Start"
-                                       WidthRequest="50">
-                                </Entry>
-                                </Frame>
-                                <Button Text="Save"
-                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                                        HorizontalOptions="EndAndExpand"
-                                        TextColor="White"
+                                             Grid.Column="0"
+                                             Orientation="Horizontal"
+                                             IsVisible="{Binding ShowUpdatingDailyLimit}">
+                                    <Label
+                                        Text="Daily Limit"
+                                        Margin="0,0,0,0"
+                                        FontSize="12"
+                                        TextColor="Black"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="StartAndExpand"
+                                        HorizontalTextAlignment="Start"
+                                        VerticalTextAlignment="Start" />
+                                    <Frame
                                         CornerRadius="5"
-                                        Margin="0"
-                                        FontSize="Small"
-                                        HeightRequest="20"
-                                        WidthRequest="50"
+                                        HasShadow="False"
+                                        IsClippedToBounds="True"
                                         Padding="0"
-                                        Command="{Binding SaveDailyLimitCommand}" >
-                                </Button>
+                                        MinimumHeightRequest="40"
+                                        Margin="5,0,0,0"
+                                        BorderColor="{StaticResource BorderColor}"
+                                        HorizontalOptions="EndAndExpand"
+                                        VerticalOptions="CenterAndExpand">
+                                        <Entry
+                                            Text="{Binding UpdatingDailyLimitAmount}"
+                                            Margin="0,0,0,0"
+                                            Keyboard="Numeric"
+                                            MaxLength="7"
+                                            FontSize="Small"
+                                            VerticalOptions="CenterAndExpand"
+                                            HorizontalOptions="StartAndExpand"
+                                            VerticalTextAlignment="Center"
+                                            HorizontalTextAlignment="Start"
+                                            WidthRequest="50" />
+                                    </Frame>
+                                    <Button Text="Save"
+                                            BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                            HorizontalOptions="EndAndExpand"
+                                            TextColor="White"
+                                            CornerRadius="5"
+                                            Margin="5,0,0,0"
+                                            FontSize="Small"
+                                            MinimumHeightRequest="30"
+                                            HeightRequest="30"
+                                            WidthRequest="50"
+                                            Padding="0"
+                                            Command="{Binding SaveDailyLimitCommand}" />
                                 </StackLayout>
-                                <Label  Grid.Row="1"
-                                Grid.Column="0"
-                                HorizontalOptions="StartAndExpand"
-                                HorizontalTextAlignment="Start"
-                                VerticalTextAlignment="Start">
+                                <Label Grid.Row="1"
+                                       Grid.Column="0"
+                                       HorizontalOptions="StartAndExpand"
+                                       HorizontalTextAlignment="Start"
+                                       VerticalTextAlignment="Start">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Balance  "
-                                          FontSize="Micro"
-                                          TextColor="Black" />
-                                            <Span  Text="{Binding CampusKeyData.StudentCardInformation.Balance}"
-                                          Style="{StaticResource TitleLabelStyle}" 
-                                          FontSize="Micro">
-                                            </Span>
+                                                  FontSize="12"
+                                                  TextColor="Black" />
+                                            <Span Text="{Binding CampusKeyData.StudentCardInformation.Balance}"
+                                                  Style="{StaticResource TitleLabelStyle}"
+                                                  FontSize="12" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
@@ -213,52 +195,51 @@
 
 
                         </Frame>
-                        <Frame Grid.Row="0" BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                          Grid.Column="1" Padding="0,0,5,0" HasShadow="False" CornerRadius="5" IsVisible="{Binding IsTopupDetailVisible}" >
-                            <Grid 
-                          VerticalOptions="CenterAndExpand"
-                          HorizontalOptions="EndAndExpand"
-                          RowSpacing="5">
+                        <Frame Grid.Row="0"
+                               BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                               Grid.Column="1" Padding="0,0,5,0" HasShadow="False" CornerRadius="5"
+                               IsVisible="{Binding IsTopupDetailVisible}">
+                            <Grid
+                                VerticalOptions="CenterAndExpand"
+                                HorizontalOptions="EndAndExpand"
+                                RowSpacing="5">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
-                                    
+
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <Label  Grid.Row="0"
-                                Grid.Column="0"
-                                HorizontalOptions="EndAndExpand"
-                                HorizontalTextAlignment="End"
-                                VerticalTextAlignment="Center">
+                                <Label Grid.Row="0"
+                                       Grid.Column="0"
+                                       HorizontalOptions="EndAndExpand"
+                                       HorizontalTextAlignment="End"
+                                       VerticalTextAlignment="Center">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Card Number "
-                                          FontSize="Micro"
-                                          TextColor="Black" />
-                                            <Span  Text="{Binding StudentCardNumberFormatted}"
-                                          Style="{StaticResource TitleLabelStyle}"
-                                          FontSize="Micro">
-
-                                            </Span>
+                                                  FontSize="12"
+                                                  TextColor="Black" />
+                                            <Span Text="{Binding StudentCardNumberFormatted}"
+                                                  Style="{StaticResource TitleLabelStyle}"
+                                                  FontSize="12" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Label  Grid.Row="1"
-                                Grid.Column="0"
-                                HorizontalOptions="EndAndExpand"
-                                HorizontalTextAlignment="End"
-                                VerticalTextAlignment="Center">
+                                <Label Grid.Row="1"
+                                       Grid.Column="0"
+                                       HorizontalOptions="EndAndExpand"
+                                       HorizontalTextAlignment="End"
+                                       VerticalTextAlignment="Center">
                                     <Label.FormattedText>
                                         <FormattedString>
                                             <Span Text="Last Top up "
-                                          FontSize="Micro"
-                                          TextColor="Black" />
+                                                  FontSize="12"
+                                                  TextColor="Black" />
                                             <Span Text="{Binding LastTopUpAmount}"
-                                          Style="{StaticResource TitleLabelStyle}"
-                                          FontSize="Micro">
-                                            </Span>
+                                                  Style="{StaticResource TitleLabelStyle}"
+                                                  FontSize="12" />
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
@@ -267,9 +248,9 @@
                         </Frame>
                     </Grid>
 
-                    <Grid Margin="0,5,0,0" 
+                    <Grid Margin="0,5,0,0"
                           ColumnSpacing="5"
-                      IsVisible="{Binding IsTopupDetailVisible}">
+                          IsVisible="{Binding IsTopupDetailVisible}">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50" />
                         </Grid.RowDefinitions>
@@ -277,194 +258,191 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <StackLayout Spacing="0" Grid.Column="0" IsVisible="{Binding IsTopupDetailVisible}" >
+                        <StackLayout Spacing="0" Grid.Column="0" IsVisible="{Binding IsTopupDetailVisible}">
                             <Button
-                                   Text="Portal Topup History"
-                                   FontSize="16"
-                                   FontAttributes="Bold"
-                                   TextColor="White"
-                                   VerticalOptions="Center"
-                                   HorizontalOptions="FillAndExpand"
-                                   BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" 
-                                   BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                                   CornerRadius="6"
-                                    BorderWidth="1"
-                                   Command="{Binding TopHistoryCommand}"
-                                    ></Button>
+                                Text="Portal Topup History"
+                                FontSize="16"
+                                FontAttributes="Bold"
+                                TextColor="White"
+                                VerticalOptions="Center"
+                                HorizontalOptions="FillAndExpand"
+                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                CornerRadius="6"
+                                BorderWidth="1"
+                                Command="{Binding TopHistoryCommand}" />
                         </StackLayout>
                         <StackLayout Spacing="0" Grid.Column="1" IsVisible="{Binding IsTopupDetailVisible}">
                             <Button
-                                   Text="Topup"
-                                   FontSize="18"
-                                   FontAttributes="Bold"
-                                   TextColor="White"
-                                   VerticalOptions="Center"
-                                   BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                                   HorizontalOptions="FillAndExpand"
-                                   Margin="0,0,0,0" 
-                                   CornerRadius="6"
-                                   BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" 
-                                   Command="{Binding TopupCommand}" 
-                                ></Button>
+                                Text="Topup"
+                                FontSize="18"
+                                FontAttributes="Bold"
+                                TextColor="White"
+                                VerticalOptions="Center"
+                                BorderColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                HorizontalOptions="FillAndExpand"
+                                Margin="0,0,0,0"
+                                CornerRadius="6"
+                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                Command="{Binding TopupCommand}" />
                         </StackLayout>
                     </Grid>
 
-                    <Frame CornerRadius="5" IsVisible="{Binding IsPayNow}" Margin="10,10,10,10" Padding="20,10,20,5">
+                    <Frame CornerRadius="5" IsVisible="{Binding IsPayNow}" Margin="10,10,10,10"
+                           Padding="20,10,20,5" BorderColor="Transparent">
                         <StackLayout>
                             <Grid HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"></RowDefinition>
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
-                                    <ColumnDefinition Width="*"></ColumnDefinition>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
 
-                                <Label Text="Topup Amount" 
+                                <Label Text="Topup Amount"
                                        Grid.Column="0"
                                        Grid.Row="0"
                                        FontSize="Medium"
                                        FontAttributes="Bold"
                                        VerticalTextAlignment="Center"
-                                       HorizontalTextAlignment="Start"
-                                       >
-                                </Label>
+                                       HorizontalTextAlignment="Start" />
 
-                                <Entry 
-                                       Text="{Binding TopupAmount}"
-                                       Grid.Column="1"
-                                       Grid.Row="0" 
-                                       Keyboard="Numeric"
-                                       MaxLength="6"
-                                       Placeholder="Enter Amount"
-                                       FontSize="Medium"
-                                       FontAttributes="Bold"
-                                       HorizontalOptions="EndAndExpand"
-                                       VerticalTextAlignment="Center"
-                                       HorizontalTextAlignment="Start">
-                                </Entry>
+                                <Entry
+                                    Text="{Binding TopupAmount}"
+                                    Grid.Column="1"
+                                    Grid.Row="0"
+                                    Keyboard="Numeric"
+                                    MaxLength="6"
+                                    Placeholder="Enter Amount"
+                                    FontSize="Medium"
+                                    FontAttributes="Bold"
+                                    HorizontalOptions="EndAndExpand"
+                                    VerticalTextAlignment="Center"
+                                    HorizontalTextAlignment="Start" />
                             </Grid>
-                            <Button Text="Pay Now" BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                                HorizontalOptions="EndAndExpand" TextColor="White" CornerRadius="5" Margin="0" 
-                                HeightRequest="40" Padding="10" Command="{Binding PayNowCommand}" ></Button>
-                                
+                            <Button Text="Pay Now"
+                                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                    HorizontalOptions="EndAndExpand" TextColor="White" CornerRadius="5" Margin="0"
+                                    HeightRequest="40" Padding="10" Command="{Binding PayNowCommand}" />
+
                         </StackLayout>
                     </Frame>
-                    <Frame Padding="5,10,5,10"
+                </StackLayout>
+
+                <Frame Padding="5,10,5,10"
                        CornerRadius="5" HasShadow="False" IsClippedToBounds="True"
                        BorderColor="{StaticResource BorderColor}"
-                       IsVisible="{Binding IsTransactionalDetailsAvailable}" Margin="5">
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Row="0"
+                       IsVisible="{Binding IsTransactionalDetailsAvailable}" Margin="10,0,10,0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0"
                                Grid.Column="0"
                                Text="Date"
                                FontAttributes="Bold"
                                Style="{StaticResource TitleLabelStyle}"
                                VerticalTextAlignment="Center"
                                HorizontalTextAlignment="Start" />
-                            <Label Grid.Row="0"
+                        <Label Grid.Row="0"
                                Grid.Column="1"
                                Text="Type"
                                FontAttributes="Bold"
                                Style="{StaticResource TitleLabelStyle}"
                                VerticalTextAlignment="Center"
                                HorizontalTextAlignment="Center" />
-                            <Label Grid.Row="0"
+                        <Label Grid.Row="0"
                                Grid.Column="2"
                                Text="Expense Amount"
                                FontAttributes="Bold"
                                Style="{StaticResource TitleLabelStyle}"
                                VerticalTextAlignment="Center"
                                HorizontalTextAlignment="End" />
-                        </Grid>
-                    </Frame>
-                    
-                    <StackLayout IsVisible="{Binding IsTransactionalDetailsAvailable}">
-                        <ListView ItemsSource="{Binding CampusKeyData.TransactionDetails,Mode=TwoWay}"
-                              HasUnevenRows="True"
-                              SeparatorVisibility="None" BackgroundColor="{StaticResource ListViewBackgroundColor}"
-                              SelectedItem="{Binding SelectedTransaction,Mode=TwoWay}"
-                              VerticalScrollBarVisibility="Never"
-                                  x:Name="beamListView">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <Frame Padding="0" HasShadow="False" Margin="5" CornerRadius="5" >
-                                            <Grid Padding="5" BackgroundColor="White" >
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="*" />
-                                            </Grid.RowDefinitions>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="*" />
-                                            </Grid.ColumnDefinitions>
-                                            <Label Grid.Row="0"
+                    </Grid>
+                </Frame>
+
+                <ListView ItemsSource="{Binding CampusKeyData.TransactionDetails,Mode=TwoWay}"
+                          IsVisible="{Binding IsTransactionalDetailsAvailable}"
+                          Margin="5"
+                          HasUnevenRows="True"
+                          SeparatorVisibility="None"
+                          BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                          SelectedItem="{Binding SelectedTransaction,Mode=TwoWay}"
+                          VerticalScrollBarVisibility="Never"
+                          VerticalOptions="FillAndExpand"
+                          x:Name="beamListView">
+                    <x:Arguments>
+                        <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                    </x:Arguments>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame Padding="0" HasShadow="False" Margin="5" CornerRadius="5"
+                                       BorderColor="Transparent">
+                                    <Grid Padding="5" BackgroundColor="White">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="*" />
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Label Grid.Row="0"
                                                Grid.Column="0"
                                                Text="{Binding TransactionDateFormatted}"
                                                Style="{StaticResource DescriptionLabelStyle}"
                                                VerticalTextAlignment="Center"
                                                HorizontalTextAlignment="Start"
                                                Margin="0,5,0,5" />
-                                            <Label Grid.Row="0"
+                                        <Label Grid.Row="0"
                                                Grid.Column="1"
                                                Text="{Binding CashlessTransactionTypeName}"
                                                Style="{StaticResource DescriptionLabelStyle}"
                                                VerticalTextAlignment="Center"
                                                HorizontalTextAlignment="Center"
                                                Margin="0,5,0,5" />
-                                            <Label Grid.Row="0"
+                                        <Label Grid.Row="0"
                                                Grid.Column="2"
                                                Text="{Binding Amount}"
                                                Style="{StaticResource DescriptionLabelStyle}"
                                                VerticalTextAlignment="Center"
                                                HorizontalTextAlignment="End"
                                                Margin="0,5,0,5" />
-                                        </Grid>
+                                    </Grid>
 
-                                        </Frame>
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                            <ListView.Behaviors>
-                                <toolkit:EventToCommandBehavior EventName="ItemSelected"
-                                                                Command="{Binding ListTappedCommand}"
-                                                                CommandParameter="{Binding SelectedTransaction}" />
-                            </ListView.Behaviors>
-                        </ListView>
-                    </StackLayout>
-                </StackLayout>
-                
-                
-                
-                
-                 <StackLayout VerticalOptions="EndAndExpand" HeightRequest="65" >
-	                 <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
-	                        VerticalOptions="EndAndExpand"
-	                        HorizontalOptions="FillAndExpand" />
-	            </StackLayout>
-                <StackLayout.GestureRecognizers>
-                    <SwipeGestureRecognizer Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference campuskey}}"
-                                                                   Direction="Right" />
-                </StackLayout.GestureRecognizers>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.Behaviors>
+                        <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                        Command="{Binding ListTappedCommand}"
+                                                        CommandParameter="{Binding SelectedTransaction}" />
+                    </ListView.Behaviors>
+                </ListView>
+            </StackLayout>
+
+            <StackLayout VerticalOptions="EndAndExpand" HeightRequest="65" Grid.Row="3" Grid.Column="0"
+                         Margin="0,10,0,0">
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand"
+                             HorizontalOptions="FillAndExpand" />
             </StackLayout>
 
 
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference campuskey}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
         </Grid>
 
-        <Grid.GestureRecognizers>
-                    <SwipeGestureRecognizer Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference campuskey}}"
-                                                                   Direction="Right" />
-                </Grid.GestureRecognizers>
-    </Grid>
-        
     </ContentPage.Content>
 </ContentPage>

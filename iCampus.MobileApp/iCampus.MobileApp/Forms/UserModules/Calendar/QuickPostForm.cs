@@ -1707,36 +1707,42 @@ public class QuickPostForm : ViewModelBase
 
         private async void AttachmentMethod(BindableQuickPost bindableQuickPost)
         {
-            AttachmentFileView fileData = await HelperMethods.PickFileFromDevice();
-            if (fileData == null)
+            try
             {
-                return;
-            }
-            string foundSpecialChars = FindSpecialCharacters(fileData.FileName);
-            if (!string.IsNullOrEmpty(foundSpecialChars))
-            {
-                await HelperMethods.ShowAlert(TextResource.AlertsPageTitle, "File name can't contain any of the following character(s): " + foundSpecialChars);
-                return;
-            }
-            //string formattedDueDate = DateTime.ParseExact(bindableQuickPost.DueDate, "dd-MMM-yyyy", CultureInfo.InvariantCulture).ToString("ddMMMyyyy");
-            //string fileNameWithDate = $"{formattedDueDate}_{fileData.FileName}";
+                AttachmentFileView fileData = await HelperMethods.PickFileFromDevice();
+                if (fileData == null)
+                {
+                    return;
+                }
 
-            //fileData.FileName = fileNameWithDate;
+                string foundSpecialChars = FindSpecialCharacters(fileData.FileName);
+                if (!string.IsNullOrEmpty(foundSpecialChars))
+                {
+                    await HelperMethods.ShowAlert(TextResource.AlertsPageTitle,
+                        "File name can't contain any of the following character(s): " + foundSpecialChars);
+                    return;
+                }
+                bindableQuickPost.AttachmentFiles.AddFileToList(fileData);
+                bindableQuickPost.AttachmentListViewHeight = bindableQuickPost.AttachmentFiles.Count * 40;
+                MessagingCenter.Send("", "UpdateAttachmentListView");
+                var agendaItem = new AgendaView
+                {
+                    Attachment = fileData.FileName,
+                    DueDate = bindableQuickPost.DueDate,
+                };
+                if (IsEditMode)
+                {
+                    agendaItem.IsDeleted = false;
+                    agendaItem.AgendaUId = bindableQuickPost.AgendaUId;
+                }
 
-            bindableQuickPost.AttachmentFiles.AddFileToList(fileData);
-            bindableQuickPost.AttachmentListViewHeight = bindableQuickPost.AttachmentFiles.Count * 40;
-            MessagingCenter.Send("", "UpdateAttachmentListView");
-            var agendaItem = new AgendaView
-            {
-                Attachment = fileData.FileName,
-                DueDate = bindableQuickPost.DueDate,
-            };
-            if (IsEditMode)
-            {
-                agendaItem.IsDeleted = false;
-                agendaItem.AgendaUId = bindableQuickPost.AgendaUId;
+                GroupedAgendaAttachmentDataString.Add(agendaItem);
             }
-            GroupedAgendaAttachmentDataString.Add(agendaItem);
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
         private string FindSpecialCharacters(string fileName)
         {

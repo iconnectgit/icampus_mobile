@@ -154,12 +154,13 @@
                                                     CommandParameter="{Binding .}" />
                                             </Frame.GestureRecognizers>
                                         </Frame>
-                                        <ListView HasUnevenRows="True" RowHeight="50" Margin="6,0,6,0"
+                                        <ListView HasUnevenRows="True" Margin="{OnPlatform iOS='10,10,10,0', Android='10,5,10,0'}"
                                                   ItemsSource="{Binding SubCourseList,Mode=TwoWay}"
                                                   VerticalScrollBarVisibility="Never"
                                                   VerticalOptions="FillAndExpand"
                                                   BackgroundColor="White" 
                                                   SelectionMode="None"
+                                                  SeparatorVisibility="Default"
                                                   HeightRequest="{Binding ListViewHeight}"
                                                   IsVisible="{Binding ParentMarksData.IsExpandMode}">
                                             <x:Arguments>
@@ -168,6 +169,11 @@
                                             <ListView.ItemTemplate>
                                                 <DataTemplate>
                                                     <ViewCell>
+                                                        <Frame CornerRadius="5" Margin="5,0,5,0" 
+                                                               HasShadow="False" Padding="5,0,5,0" VerticalOptions="CenterAndExpand"
+                                                               BorderColor="Transparent"
+                                                               HeightRequest="40"
+                                                               IsClippedToBounds="True">
                                                         <Grid VerticalOptions="CenterAndExpand">
                                                             <Grid.ColumnDefinitions>
                                                                 <ColumnDefinition Width="15" />
@@ -175,6 +181,9 @@
                                                                 <ColumnDefinition Width="0.15*" />
                                                                 <ColumnDefinition Width="Auto" />
                                                             </Grid.ColumnDefinitions>
+                                                            <Grid.RowDefinitions>
+                                                                <RowDefinition Height="*"></RowDefinition>
+                                                            </Grid.RowDefinitions>
                                                             <Label
                                                                 Margin="{Binding LevelNo,Converter={StaticResource LevelNoToIntendConverter}}"
                                                                 Grid.Row="0" Grid.Column="1"
@@ -184,14 +193,12 @@
                                                                 TextColor="{Binding LevelNo,Converter={StaticResource LevelNoToColorConverter}}">
                                                                 <Label.FormattedText>
                                                                     <FormattedString>
-                                                                        <Span Text="{Binding ElementName}" />
-                                                                        <Span Text=" ( " />
-                                                                        <Span
-                                                                            Text="{Binding ElementPropertiesModel.LowerBound}" />
-                                                                        <Span Text=" - " />
-                                                                        <Span
-                                                                            Text="{Binding ElementPropertiesModel.HigherBound}" />
-                                                                        <Span Text=" )" />
+                                                                        <Span Text="{Binding ElementName}" TextColor="{Binding LevelNo,Converter={StaticResource LevelNoToColorConverter}}"/>
+                                                                        <Span Text=" ( " TextColor="{Binding LevelNo,Converter={StaticResource LevelNoToColorConverter}}"/>
+                                                                        <Span Text="{Binding ElementPropertiesModel.LowerBound}" TextColor="{Binding LevelNo,Converter={StaticResource LevelNoToColorConverter}}"/>
+                                                                        <Span Text=" - " TextColor="{Binding LevelNo,Converter={StaticResource LevelNoToColorConverter}}"/>
+                                                                        <Span Text="{Binding ElementPropertiesModel.HigherBound}" TextColor="{Binding LevelNo,Converter={StaticResource LevelNoToColorConverter}}"/>
+                                                                        <Span Text=" )" TextColor="{Binding LevelNo,Converter={StaticResource LevelNoToColorConverter}}"/>
                                                                     </FormattedString>
                                                                 </Label.FormattedText>
                                                             </Label>
@@ -222,6 +229,7 @@
                                                                    Style="{StaticResource DescriptionLabelStyle}"
                                                                    Margin="0,0,10,0" />
                                                         </Grid>
+                                                        </Frame>
                                                     </ViewCell>
                                                 </DataTemplate>
                                             </ListView.ItemTemplate>

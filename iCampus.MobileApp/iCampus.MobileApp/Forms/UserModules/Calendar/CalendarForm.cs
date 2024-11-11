@@ -22,7 +22,6 @@ public class CalendarForm : ViewModelBase
 {
     #region Declarations
 
-    private Popup _currentPopup;
     public ICommand ListTappedCommand { get; set; }
     public ICommand FilterClickCommand { get; set; }
     public ICommand AttachmentClickCommand { get; set; }
@@ -804,7 +803,7 @@ public class CalendarForm : ViewModelBase
             {
                 var startDate = week.WeekStartDate.ToString(StringEnum.GetStringValue(DateFormats.Default));
                 var endDate = week.WeekEndDate.ToString(StringEnum.GetStringValue(DateFormats.Default));
-                WeeklyPlanHeaderText = startDate + "-" + endDate;
+                WeeklyPlanHeaderText = startDate + " -" + endDate;
             }
 
             IsWeeklyNoRecordMsg = WeeklyPlanDataList.Count() <= 0;
@@ -911,7 +910,7 @@ public class CalendarForm : ViewModelBase
                 BindingContext = quickPost
             };
             await Navigation.PushAsync(quickPostPage);
-            _currentPopup?.Close();
+            AppSettings.Current.CurrentPopup?.Close();
         }
         catch (Exception ex)
         {
@@ -1683,7 +1682,7 @@ public class CalendarForm : ViewModelBase
             BindingContext = addNewPostForm
         };
         await Navigation.PushAsync(addNewPostPage);
-        _currentPopup?.Close();
+        AppSettings.Current.CurrentPopup?.Close();
     }
 
     public async Task AddEditData()

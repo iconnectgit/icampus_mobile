@@ -1,12 +1,17 @@
 using System.Diagnostics;
+using System.Net;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Views;
+using Android.Webkit;
+using Android.Widget;
 using iCampus.MobileApp.Forms;
+using iCampus.MobileApp.Helpers;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Activity = Android.App.Activity;
+using Application = Android.App.Application;
 using NotificationManagerCompat = AndroidX.Core.App.NotificationManagerCompat;
 using Process = Java.Lang.Process;
 
@@ -32,9 +37,95 @@ public class AndroidNativeServices : INativeServices
         
         public async void DownloadAndPreviewFile(string filePath, string fileId)
         {
-            // Implementation remains the same
-        }
+            double diff = 0;
+            await ApiHelper.ShowProcessingIndicatorPopup();
+            
+            var externalFolderPath = Path.Combine(FileSystem.CacheDirectory, "iCampusV2");
+            if (!Directory.Exists(externalFolderPath))
+            {
+                Directory.CreateDirectory(externalFolderPath);
+            }
 
+            string fileName = Path.GetFileName(filePath);
+
+            if (!string.IsNullOrEmpty(fileId))
+            {
+                string fileNameWithoutExt = Path.GetFileNameWithoutExtension(fileName);
+                fileName = fileName.Replace(fileNameWithoutExt, $"{fileNameWithoutExt}_{fileId}");
+            }
+
+            string uniqueFileName = $"{filePath.GetHashCode()}_{fileName}";
+            fileName = Uri.UnescapeDataString(uniqueFileName);
+            var cacheDir = Application.Context.CacheDir;
+            var fileDevicePath = Path.Combine(cacheDir.AbsolutePath, "iCampusV2", fileName);
+
+            if (File.Exists(fileDevicePath))
+                diff = DateTime.Now.Subtract(new FileInfo(fileDevicePath).CreationTime).TotalMinutes;
+
+            if (!File.Exists(fileDevicePath) || diff > 15)
+            {
+                try
+                {
+                    WebClient webClient = new WebClient();
+                    byte[] bytes = await webClient.DownloadDataTaskAsync(filePath);
+                    File.WriteAllBytes(fileDevicePath, bytes);
+                }
+                catch (Exception)
+                {
+                    await ApiHelper.HideProcessingIndicatorPopup();
+                    Toast.MakeText(Android.App.Application.Context, "File not exist", ToastLength.Short).Show();
+                    return;
+                }
+            }
+
+            
+            var file = new Java.IO.File(fileDevicePath);
+            file.SetReadable(true);
+
+            if (!string.IsNullOrEmpty(fileDevicePath))
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    var uri = FileProvider.GetUriForFile(
+                        Android.App.Application.Context,
+                        $"{Android.App.Application.Context.PackageName}.provider",
+                        file);
+                    // var uri = FileProvider.GetUriForFile(
+                    //     Android.App.Application.Context,
+                    //     "com.companyname.icampus.mobileapp.provider",
+                    //     file);
+
+                    
+                    var mimeType = MimeTypeMap.Singleton.GetMimeTypeFromExtension(MimeTypeMap.GetFileExtensionFromUrl(uri.ToString()));
+                    var intent = new Intent(Intent.ActionView);
+                    intent.SetDataAndType(uri, mimeType);
+                    intent.AddFlags(ActivityFlags.GrantReadUriPermission | ActivityFlags.NewTask);
+
+
+                    // if (intent.ResolveActivity(Android.App.Application.Context.PackageManager) != null)
+                    // {
+                    //     Application.Context.StartActivity(intent);
+                    // }
+                    // else
+                    // {
+                    //     Toast.MakeText(Android.App.Application.Context, "No app available to open this file", ToastLength.Short).Show();
+                    // }
+                    try
+                    {
+                        MainActivity.Instance.StartActivity(intent);
+                         //Android.App.Application.Context.StartActivity(intent);
+                    }
+                    catch (Exception ex)
+                    {
+                        Toast.MakeText(Android.App.Application.Context, "Unable to find application to perform this action", ToastLength.Short).Show();
+                    }
+                    finally
+                    {
+                        Task.Run(ApiHelper.HideProcessingIndicatorPopup);
+                    }
+                });
+            }
+        }
         public void KillProcess()
         {
             //MainActivity.Instance.FinishAffinity();
@@ -43,13 +134,13 @@ public class AndroidNativeServices : INativeServices
 
         public void ShowAlert(string title, string message)
         {
-            //Android.App.AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.Instance);
-            // AlertDialog alert = dialog.Create();
-            // alert.SetTitle(title);
-            // alert.SetMessage(message);
-            // alert.SetButton("OK", (c, ev) => { });
-            // alert.Show();
-            //alert.Window.SetLayout(MainActivity.screenWidth, alert.Window.Attributes.Height);
+            // Android.App.AlertDialog.Builder dialog = new AlertDialog.Builder(MainActivity.Instance);
+            //  AlertDialog alert = dialog.Create();
+            //  alert.SetTitle(title);
+            //  alert.SetMessage(message);
+            //  alert.SetButton("OK", (c, ev) => { });
+            //  alert.Show();
+            // alert.Window.SetLayout(MainActivity.screenWidth, alert.Window.Attributes.Height);
         }
 
         public void ShowAlertWithTwoButtons(string title, string message, string yesBtn, string noBtn, Action<bool> result)

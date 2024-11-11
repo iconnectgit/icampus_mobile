@@ -148,7 +148,7 @@ public class TimeTableForm : ViewModelBase
         if (obj != null)
             try
             {
-                if (Device.RuntimePlatform == Device.iOS)
+                if (DeviceInfo.Platform == DevicePlatform.iOS)
                 {
                     if (!string.IsNullOrEmpty(SelectedAttachment.FilePath))
                         await HelperMethods.OpenFileForPreview(SelectedAttachment.FilePath, _nativeServices);

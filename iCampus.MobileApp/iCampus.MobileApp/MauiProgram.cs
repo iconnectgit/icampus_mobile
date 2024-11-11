@@ -66,7 +66,19 @@ public static class MauiProgram
         
         DatePickerHandler.Mapper.AppendToMapping("MyCustomization", (handler, view) =>
         {
-            
+#if ANDROID
+            handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+#endif
+        });
+        EditorHandler.Mapper.AppendToMapping("MyCustomization", (handler, view) =>
+        {
+#if ANDROID
+            handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+#endif
+        });
+
+        PickerHandler.Mapper.AppendToMapping("MyCustomization", (handler, view) =>
+        {
 #if ANDROID
             handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
 #endif
@@ -140,8 +152,8 @@ public static class MauiProgram
                 .ForMember(dest => dest.FilePath, src => src.MapFrom(x => x.FilePath));
 
         }).CreateMapper(), typeof(IMapper));
-        Akavache.BlobCache.ApplicationName = "iCampus.MobileApp";
-        Akavache.BlobCache.EnsureInitialized();
+        BlobCache.ApplicationName = "iCampus.MobileApp";
+        BlobCache.EnsureInitialized();
         BlobCache.ForcedDateTimeKind = DateTimeKind.Local;
         CultureInfo defaultCulture = new CultureInfo("en-US");
         CultureInfo.DefaultThreadCurrentCulture = defaultCulture;

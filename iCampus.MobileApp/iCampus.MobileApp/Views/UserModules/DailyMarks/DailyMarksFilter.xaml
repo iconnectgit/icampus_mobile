@@ -33,7 +33,7 @@
                                Grid.Row="0" Grid.Column="0" VerticalOptions="EndAndExpand"
                                VerticalTextAlignment="End">
                         </Label>
-                        <Grid Grid.Row="1" Grid.Column="0"  Padding="0" IsClippedToBounds="True">
+                        <Grid Grid.Row="1" Grid.Column="0"  Padding="0" IsClippedToBounds="True" BackgroundColor="White">
                             <Picker Title="Select Term" Style="{StaticResource PickerFontStyle}"
                                     BackgroundColor="White" TextColor="Gray"
                                     ItemsSource="{Binding TermList}"
@@ -55,7 +55,7 @@
                                Grid.Row="0" Grid.Column="2" VerticalOptions="EndAndExpand"
                                VerticalTextAlignment="End">
                         </Label>
-                        <Grid Grid.Row="1" Grid.Column="2"  Padding="0" IsClippedToBounds="True">
+                        <Grid Grid.Row="1" Grid.Column="2"  Padding="0" IsClippedToBounds="True" BackgroundColor="White">
                             <Picker Title="Select Course" Style="{StaticResource PickerFontStyle}"
                                     BackgroundColor="White" TextColor="Gray"
                                     ItemsSource="{Binding CourseList}"

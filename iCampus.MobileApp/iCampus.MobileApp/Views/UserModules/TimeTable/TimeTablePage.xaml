@@ -63,45 +63,44 @@
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.8*" />
-                                    <ColumnDefinition Width="0.2*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <StackLayout Orientation="Horizontal"
-                                             Spacing="0"
-                                             HorizontalOptions="StartAndExpand"
-                                             Grid.Row="0"
-                                             Grid.Column="0">
-                                    <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
-                                                                VerticalOptions="CenterAndExpand"
-                                                                WidthRequest="20"
-                                                                HeightRequest="20"
-                                                                Aspect="AspectFit"
-                                                                DownsampleToViewSize="True"
-                                                                IsVisible="{Binding StudentTimeTable.TimeTableFilePath,Converter={StaticResource VisiblityConverter}}"
-                                                                Source="{Binding StudentTimeTable.TimeTableFilePath,Converter={StaticResource AttachmentFileToImageSourceConverter}}">
-                                        <ffimageloading:CachedImage.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
-                                                                  CommandParameter="{Binding StudentTimeTable.TimeTableFilePath}" />
-                                        </ffimageloading:CachedImage.GestureRecognizers>
-                                    </ffimageloading:CachedImage>
-                                    <Label Text="{Binding StudentTimeTable.TimeTableFileName}"
-                                           HorizontalOptions="StartAndExpand"
-                                           VerticalOptions="CenterAndExpand"
-                                           Margin="0,0,0,0"
-                                           Style="{StaticResource AttachmentTextStyle}">
-                                        <Label.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
-                                                                  CommandParameter="{Binding StudentTimeTable.TimeTableFilePath}" />
-                                        </Label.GestureRecognizers>
-                                    </Label>
-                                </StackLayout>
+                                <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                            VerticalOptions="CenterAndExpand"
+                                                            Grid.Row="0"
+                                                            Grid.Column="0"
+                                                            WidthRequest="20"
+                                                            HeightRequest="20"
+                                                            Aspect="AspectFit"
+                                                            DownsampleToViewSize="True"
+                                                            IsVisible="{Binding StudentTimeTable.TimeTableFilePath,Converter={StaticResource VisiblityConverter}}"
+                                                            Source="{Binding StudentTimeTable.TimeTableFilePath,Converter={StaticResource AttachmentFileToImageSourceConverter}}">
+                                    <ffimageloading:CachedImage.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
+                                                              CommandParameter="{Binding StudentTimeTable.TimeTableFilePath}" />
+                                    </ffimageloading:CachedImage.GestureRecognizers>
+                                </ffimageloading:CachedImage>
+                                <Label Text="{Binding StudentTimeTable.TimeTableFileName}"
+                                       Grid.Row="0"
+                                       Grid.Column="1"
+                                       HorizontalOptions="StartAndExpand"
+                                       VerticalOptions="CenterAndExpand"
+                                       Margin="10,0,0,0"
+                                       Style="{StaticResource AttachmentTextStyle}">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
+                                                              CommandParameter="{Binding StudentTimeTable.TimeTableFilePath}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
 
                                 <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
                                                             VerticalOptions="CenterAndExpand"
                                                             WidthRequest="25"
                                                             HeightRequest="25"
                                                             Grid.Row="0"
-                                                            Grid.Column="1"
+                                                            Grid.Column="2"
                                                             Aspect="AspectFit"
                                                             DownsampleToViewSize="True"
                                                             IsVisible="{Binding SelectedAttachment.FilePath,Converter={StaticResource VisiblityConverter}}"

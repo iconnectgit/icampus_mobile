@@ -31,7 +31,7 @@
 
             <StackLayout Grid.Row="2" Grid.Column="0" VerticalOptions="FillAndExpand">
                 <StackLayout Margin="5,0,5,0">
-                    <Grid Margin="0,0,0,0" ColumnSpacing="5">
+                    <Grid Margin="0,0,0,0" ColumnSpacing="0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="50" />
                         </Grid.RowDefinitions>
@@ -46,7 +46,7 @@
                                     HorizontalOptions="FillAndExpand"
                                     VerticalOptions="Center"
                                     TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                                    CornerRadius="5"
+                                    CornerRadius="0"
                                     Margin="0,10,0,0"
                                     HeightRequest="40"
                                     Padding="0"
@@ -60,7 +60,7 @@
                                     HorizontalOptions="FillAndExpand"
                                     VerticalOptions="Center"
                                     TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                                    CornerRadius="5"
+                                    CornerRadius="0"
                                     Margin="0,10,0,0"
                                     HeightRequest="40"
                                     Padding="0"
@@ -169,16 +169,16 @@
                                 </Grid>
                             </Frame>
                         </StackLayout>
-                        <StackLayout Spacing="0" IsVisible="{Binding IsReporCardsAvailable}"
-                                     VerticalOptions="EndAndExpand">
-                            <Button Text="Select Term"
-                                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                                    IsVisible="{Binding SelectTermsOptionForMarksVisibility}"
-                                    TextColor="White"
-                                    Margin="10,0,10,10"
-                                    Command="{Binding FilterClickCommand}"
-                                    HorizontalOptions="FillAndExpand" />
-                        </StackLayout>
+                        <!-- <StackLayout Spacing="0" IsVisible="{Binding IsReporCardsAvailable}" -->
+                        <!--              VerticalOptions="EndAndExpand"> -->
+                        <!--     <Button Text="Select Term" -->
+                        <!--             BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" -->
+                        <!--             IsVisible="{Binding SelectTermsOptionForMarksVisibility}" -->
+                        <!--             TextColor="White" -->
+                        <!--             Margin="10,0,10,10" -->
+                        <!--             Command="{Binding FilterClickCommand}" -->
+                        <!--             HorizontalOptions="FillAndExpand" /> -->
+                        <!-- </StackLayout> -->
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
                                                   CommandParameter="{Binding MarksReportCardFileView.FilePath}" />

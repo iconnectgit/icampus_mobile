@@ -85,6 +85,7 @@
                                                                    HeightRequest="40"
                                                                    Grid.Row="0"
                                                                    Grid.Column="0"
+                                                                   InputTransparent="True"
                                                                    IsEnabled="False" />
                                         <ffimageloading:CachedImage Source="dropdown_gray_picker.png"
                                                                     VerticalOptions="CenterAndExpand"
@@ -92,6 +93,7 @@
                                                                     Aspect="AspectFit"
                                                                     Grid.Row="0"
                                                                     Grid.Column="0"
+                                                                    InputTransparent="True"
                                                                     HeightRequest="18"
                                                                     WidthRequest="18" />
                                     </Grid>
@@ -178,6 +180,7 @@
                                                                    TextColor="Gray"
                                                                    HorizontalOptions="FillAndExpand"
                                                                    HeightRequest="40"
+                                                                   InputTransparent="True"
                                                                    Grid.Row="0"
                                                                    Grid.Column="0"
                                                                    IsEnabled="False" />
@@ -185,6 +188,7 @@
                                                                     VerticalOptions="CenterAndExpand"
                                                                     HorizontalOptions="EndAndExpand"
                                                                     Aspect="AspectFit"
+                                                                    InputTransparent="True"
                                                                     Grid.Row="0"
                                                                     Grid.Column="0"
                                                                     HeightRequest="18"
@@ -408,6 +412,7 @@
                                                                    TextColor="Gray"
                                                                    HorizontalOptions="FillAndExpand"
                                                                    HeightRequest="40"
+                                                                   InputTransparent="True"
                                                                    Grid.Row="0"
                                                                    Grid.Column="0"
                                                                    IsEnabled="False" />
@@ -415,6 +420,7 @@
                                                                     VerticalOptions="CenterAndExpand"
                                                                     HorizontalOptions="EndAndExpand"
                                                                     Aspect="AspectFit"
+                                                                    InputTransparent="True"
                                                                     Grid.Row="0"
                                                                     Grid.Column="0"
                                                                     HeightRequest="18"
@@ -543,6 +549,7 @@
                                                                    TextColor="Gray"
                                                                    HorizontalOptions="FillAndExpand"
                                                                    HeightRequest="40"
+                                                                   InputTransparent="True"
                                                                    Grid.Row="0"
                                                                    Grid.Column="0"
                                                                    IsEnabled="False" />
@@ -550,6 +557,7 @@
                                                                     VerticalOptions="CenterAndExpand"
                                                                     HorizontalOptions="EndAndExpand"
                                                                     Aspect="AspectFit"
+                                                                    InputTransparent="True"
                                                                     Grid.Row="0"
                                                                     Grid.Column="0"
                                                                     HeightRequest="18"
@@ -638,6 +646,7 @@
                                                                    TextColor="Gray"
                                                                    HorizontalOptions="FillAndExpand"
                                                                    HeightRequest="40"
+                                                                   InputTransparent="True"
                                                                    Grid.Row="0"
                                                                    Grid.Column="0"
                                                                    IsEnabled="False" />
@@ -645,6 +654,7 @@
                                                                     VerticalOptions="CenterAndExpand"
                                                                     HorizontalOptions="EndAndExpand"
                                                                     Aspect="AspectFit"
+                                                                    InputTransparent="True"
                                                                     Grid.Row="0"
                                                                     Grid.Column="0"
                                                                     HeightRequest="18"
@@ -1078,6 +1088,9 @@
                                                               x:Name="attachmentListView"
                                                               HeightRequest="{Binding AttachmentListViewHeight}"
                                                               Margin="0">
+                                                        <x:Arguments>
+                                                            <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                                                        </x:Arguments>
                                                         <ListView.ItemTemplate>
                                                             <DataTemplate>
                                                                 <ViewCell>
@@ -1087,20 +1100,17 @@
                                                                               VerticalOptions="CenterAndExpand"
                                                                               BackgroundColor="Transparent">
                                                                             <Grid.ColumnDefinitions>
-                                                                                <ColumnDefinition Width="0.8*" />
-                                                                                <ColumnDefinition Width="0.2*" />
+                                                                                <ColumnDefinition Width="Auto" />
+                                                                                <ColumnDefinition Width="*" />
+                                                                                <ColumnDefinition Width="Auto" />
                                                                             </Grid.ColumnDefinitions>
-                                                                            <StackLayout Orientation="Horizontal"
-                                                                                HorizontalOptions="StartAndExpand"
-                                                                                VerticalOptions="CenterAndExpand"
-                                                                                Spacing="0"
-                                                                                Grid.Row="0"
-                                                                                Grid.Column="0">
                                                                                 <ffimageloading:CachedImage
                                                                                     HorizontalOptions="StartAndExpand"
                                                                                     VerticalOptions="CenterAndExpand"
                                                                                     WidthRequest="20"
                                                                                     HeightRequest="20"
+                                                                                    Grid.Row="0"
+                                                                                    Grid.Column="0"
                                                                                     Aspect="AspectFit"
                                                                                     Margin="10,0,0,0"
                                                                                     DownsampleToViewSize="True"
@@ -1109,9 +1119,10 @@
                                                                                     TextColor="{StaticResource GrayTextColor}"
                                                                                     HorizontalOptions="StartAndExpand"
                                                                                     VerticalOptions="CenterAndExpand"
+                                                                                    Grid.Row="0"
+                                                                                    Grid.Column="1"
                                                                                     Margin="5,0,0,0"
                                                                                     Style="{StaticResource AttachmentTextStyle}" />
-                                                                            </StackLayout>
                                                                             <ffimageloading:CachedImage
                                                                                 HorizontalOptions="EndAndExpand"
                                                                                 VerticalOptions="CenterAndExpand"
@@ -1119,7 +1130,7 @@
                                                                                 HeightRequest="24"
                                                                                 Aspect="AspectFit"
                                                                                 Grid.Row="0"
-                                                                                Grid.Column="1"
+                                                                                Grid.Column="2"
                                                                                 DownsampleToViewSize="True"
                                                                                 Source="delete_bin_icon.png">
                                                                                 <ffimageloading:CachedImage.GestureRecognizers>

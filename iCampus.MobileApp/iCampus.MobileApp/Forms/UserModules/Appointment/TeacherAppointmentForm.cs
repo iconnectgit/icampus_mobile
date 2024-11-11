@@ -175,7 +175,16 @@ public class TeacherAppointmentForm : ViewModelBase
             {
                 _selectedDate = value;
                 OnPropertyChanged(nameof(SelectedDate));
-                AppointmentTimeList = AppointmentAvailableTimeData.appointmentAvailableTimesList.Where(x => x.BookingDateFormatted == SelectedDate.BookingDateFormatted).ToList();
+                if (_selectedDate != null)
+                {
+                    AppointmentTimeList = AppointmentAvailableTimeData.appointmentAvailableTimesList
+                        .Where(x => x.BookingDateFormatted == SelectedDate.BookingDateFormatted)
+                        .ToList();
+                }
+                else
+                {
+                    AppointmentTimeList = new List<AppointmentAvailableTimeView>(); 
+                }
             }
         }
 
@@ -274,6 +283,7 @@ public class TeacherAppointmentForm : ViewModelBase
                     AppointmentDateList = AppointmentAvailableTimeData.appointmentAvailableTimesList.GroupBy(x => x.BookingDateFormatted)
                         .Select(dt => dt.FirstOrDefault()).ToList();
 
+                    SelectedDate = null;
                     if (AppointmentDateList != null && AppointmentDateList.Count() > 0)
                     {
                         var requestAppointmentPopup = new RequestAppointmentPopup()

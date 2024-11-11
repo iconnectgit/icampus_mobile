@@ -8,9 +8,11 @@ using iCampus.Common.Helpers.Extensions;
 using iCampus.MobileApp.DependencyService;
 using iCampus.MobileApp.Forms.PopupForms;
 using iCampus.MobileApp.Forms.UserModules.MessageFromSchool;
+using iCampus.MobileApp.Forms.UserModules.Survey;
 using iCampus.MobileApp.Helpers;
 using iCampus.MobileApp.Views;
 using iCampus.MobileApp.Views.PopUpViews;
+using iCampus.MobileApp.Views.UserModules.Survey;
 using iCampus.Portal.ViewModels;
 using SQLitePCL;
 
@@ -185,6 +187,9 @@ public class HomeForm : ViewModelBase
     
     public HomeForm(IMapper mapper, INavigation navigation, INativeServices nativeServices, bool isFromNotification = false) : base(mapper, nativeServices, navigation)  // Pass dependencies to base class
     {
+        _mapper = mapper;
+        _nativeServices = nativeServices;
+        Navigation = navigation;
         InitializePage(isFromNotification);  // Only call methods specific to HomeForm
     }
 
@@ -713,16 +718,23 @@ public class HomeForm : ViewModelBase
         }
     }
 
-    public void ShowSurvey(UserSurveyView surveyView)
+    public async void ShowSurvey(UserSurveyView surveyView)
     {
         var surveyId = surveyView.SurveyQuestions.FirstOrDefault().SurveyId;
         if (App.SurveyIdList == null || !App.SurveyIdList.Contains(surveyId))
         {
-            // SurveyForm surveyForm = new SurveyForm();
-            // surveyForm.PageTitle = TextResource.SurveyPageTitle;
-            // surveyForm.UserSurvey = surveyView;
-            // surveyForm.GetSurveyDetails();
-            //
+            SurveyForm surveyForm = new (_mapper, _nativeServices, Navigation)
+            {
+                PageTitle = TextResource.SurveyPageTitle,
+                UserSurvey = surveyView
+            };
+            surveyForm.GetSurveyDetails();
+            SurveyPage surveyPage = new()
+            {
+                BindingContext = surveyForm
+            };
+            await Navigation.PushAsync(surveyPage);
+            
             // if (HostScreen.Router.GetCurrentViewModel().GetType() != typeof(SurveyForm))
             //     HostScreen.Router.Navigate.Execute(surveyForm).Subscribe();
         }

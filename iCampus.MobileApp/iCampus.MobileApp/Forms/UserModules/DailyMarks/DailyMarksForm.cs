@@ -268,7 +268,7 @@ public class DailyMarksForm : ViewModelBase
                 if (bindableDailyMarksModel != null)
                     DailyMarksParentChildList[DailyMarksParentChildList.IndexOf(bindableDailyMarksModel)].ParentMarksData.IsExpandMode = !DailyMarksParentChildList[DailyMarksParentChildList.IndexOf(bindableDailyMarksModel)].ParentMarksData.IsExpandMode;
                 DailyMarksParentChildList = new ObservableCollection<BindableDailyMarksModel>(DailyMarksParentChildList);
-                bindableDailyMarksModel.ListViewHeight = bindableDailyMarksModel.SubCourseList.Count * 50;
+                bindableDailyMarksModel.ListViewHeight = bindableDailyMarksModel.SubCourseList.Count * 42;
             }
         }
         #endregion

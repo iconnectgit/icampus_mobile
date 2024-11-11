@@ -513,11 +513,13 @@ public class CampusKeyForm : ViewModelBase
                 else
                 {
                     //TODO:list view click event
-                    CampusKeyDetailsForm campusKeyDetailform = new CampusKeyDetailsForm();
-                    campusKeyDetailform.CampusKeyObject = obj;
-                    campusKeyDetailform.BackVisible = true;
-                    campusKeyDetailform.MenuVisible = false;
-                    campusKeyDetailform.PageTitle = PageTitle;
+                    CampusKeyDetailsForm campusKeyDetailform = new (_mapper, _nativeServices, Navigation)
+                    {
+                        CampusKeyObject = obj,
+                        BackVisible = true,
+                        MenuVisible = false,
+                        PageTitle = PageTitle
+                    };
                     CampusKeyInvoiceViewModel = await campusKeyDetailform.GetCampusKeyInvoiceDetails(obj.TransactionId);
                     campusKeyDetailform.InVoiceDetailsObject = CampusKeyInvoiceViewModel.InvoiceDetails;
                     campusKeyDetailform.ListViewHeight = CampusKeyInvoiceViewModel.InvoiceDetails.Count() * 45;

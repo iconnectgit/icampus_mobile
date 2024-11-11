@@ -55,7 +55,7 @@
                                         <On Platform="Android" Value="-1" />
                                     </OnPlatform>
                                 </Frame.HeightRequest>
-                                <Frame CornerRadius="5" Margin="5" Padding="0" HasShadow="false" BorderColor="Transparent" BackgroundColor="{StaticResource BorderColor}">
+                                <Frame CornerRadius="5" Margin="5" Padding="0" HasShadow="false" BorderColor="Transparent" BackgroundColor="White">
                                     <StackLayout BackgroundColor="{Binding ModuleBackgroundColor}" Padding="5"
                                                  Spacing="0">
                                         <ffimageloading:CachedImage IsVisible="{Binding ShowIcon}"

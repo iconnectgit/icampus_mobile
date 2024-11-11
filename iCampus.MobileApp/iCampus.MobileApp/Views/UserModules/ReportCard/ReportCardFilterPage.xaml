@@ -37,6 +37,7 @@
                         <Grid Grid.Row="0" 
                               Grid.Column="1" 
                               Padding="0" 
+                              BackgroundColor="White"
                               IsClippedToBounds="True"
                               IsVisible="{Binding IsAcademicYearsVisible}">
                             <Picker Title="Select Year" Style="{StaticResource PickerFontStyle}"
@@ -53,7 +54,7 @@
                         <Label Text="Select Term" Style="{StaticResource TitleLabelStyle}"
                                Grid.Row="1" Grid.Column="0" VerticalOptions="CenterAndExpand"
                                VerticalTextAlignment="End" />
-                        <Grid Grid.Row="1" Grid.Column="1" Padding="0" IsClippedToBounds="True" IsVisible="{Binding IsMarksTermVisible}">
+                        <Grid Grid.Row="1" Grid.Column="1" Padding="0" IsClippedToBounds="True" BackgroundColor="White" IsVisible="{Binding IsMarksTermVisible}">
                             <Picker Title="Select Term" Style="{StaticResource PickerFontStyle}"
                                     BackgroundColor="White" TextColor="Gray"
                                     ItemsSource="{Binding MarksReportCardActiveTermsList,Mode=TwoWay}"
@@ -64,7 +65,7 @@
                             <Image Source="dropdown_gray_picker" HorizontalOptions="End" VerticalOptions="Center"
                                    WidthRequest="20" HeightRequest="20" Margin="0,0,10,0" />
                         </Grid>
-                        <Grid Grid.Row="1" Grid.Column="1" Padding="0" IsClippedToBounds="True" IsVisible="{Binding IsMarksTermVisible,Converter={StaticResource ReverseBoolValueConverter}}">
+                        <Grid Grid.Row="1" Grid.Column="1" Padding="0" IsClippedToBounds="True" BackgroundColor="White" IsVisible="{Binding IsMarksTermVisible,Converter={StaticResource ReverseBoolValueConverter}}">
                             <Picker Title="Select Term" Style="{StaticResource PickerFontStyle}"
                                     BackgroundColor="White" TextColor="Gray"
                                     ItemsSource="{Binding SkillsReportCardActiveTermsList,Mode=TwoWay}"

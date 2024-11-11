@@ -9,4 +9,10 @@ namespace iCampus.MobileApp;
                            ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
 public class MainActivity : MauiAppCompatActivity
 {
+    public static MainActivity Instance = null;
+    protected override void OnCreate(Bundle savedInstanceState)
+    {
+        base.OnCreate(savedInstanceState);
+        Instance = this; 
+    }
 }
