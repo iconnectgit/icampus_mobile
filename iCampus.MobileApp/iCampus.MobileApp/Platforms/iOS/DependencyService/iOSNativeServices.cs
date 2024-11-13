@@ -1,8 +1,10 @@
 using System.Net;
 using Foundation;
+using iCampus.MobileApp.Forms;
 using iCampus.MobileApp.Helpers;
 using Microsoft.Maui.Controls.Compatibility.Platform.iOS;
 using UIKit;
+using UserNotifications;
 
 namespace iCampus.MobileApp.DependencyService;
 
@@ -101,8 +103,14 @@ public class iOSNativeServices : INativeServices
             }
         }
 
-        public void CheckNotificationSetting()
+        public async Task CheckNotificationSetting()
         {
+            var notificationCenter = UNUserNotificationCenter.Current;
+            var settings = await notificationCenter.GetNotificationSettingsAsync();
+            AppSettings.Current.IsPushNotificationEnable = settings.AuthorizationStatus == UNAuthorizationStatus.Authorized;
+            
+            //AppSettings.Current.IsPushNotificationEnable = (UIApplication.SharedApplication.CurrentUserNotificationSettings.Types != UIUserNotificationType.None);
+
             // iOS does not provide a direct API for checking notification settings
         }
 

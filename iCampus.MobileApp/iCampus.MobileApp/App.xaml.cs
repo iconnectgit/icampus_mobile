@@ -75,7 +75,9 @@ public partial class App : Application
     {
         BlobCache.ApplicationName = "iCampus.MobileApp";
         BlobCache.EnsureInitialized();
-        // Handle when your app starts
+#if ANDROID
+        Task<PermissionStatus> status = Permissions.RequestAsync<Permissions.PostNotifications>();
+#endif
     }
 
     protected override void OnSleep()

@@ -51,13 +51,13 @@ public class SettingsForm : ViewModelBase
 
         #region Methods
 
-        private void InitializePage()
+        private async void InitializePage()
         {
             try
             {
-                _nativeServices.CheckNotificationSetting();
+                await _nativeServices.CheckNotificationSetting();
                 VersionText = TextResource.VersionText + " " + VersionTracking.CurrentVersion;
-                HelperMethods.UpdatePushNotificationSetting(AppSettings.Current.IsPushNotificationEnable,null);
+                HelperMethods.UpdatePushNotificationSetting(AppSettings.Current.IsPushNotificationEnable,null, _nativeServices);
             }
             catch (KeyNotFoundException ex)
             {
@@ -73,7 +73,7 @@ public class SettingsForm : ViewModelBase
                     HelperMethods.UpdatePushNotificationSetting(AppSettings.Current.IsPushNotificationEnable,(res)=> {
                         if (res)
                             _nativeServices.NotificationToggled();
-                    });
+                    }, _nativeServices);
                 });
             }
             catch (Exception ex)

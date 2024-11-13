@@ -37,6 +37,9 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
         <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+        <EnableBitcode>false</EnableBitcode>
+        <MtouchEnableBitcode>false</MtouchEnableBitcode>
+
     </PropertyGroup>
 
     <ItemGroup>
@@ -75,10 +78,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="Documents\.DS_Store" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Reference Include="iCampus.Common.Framework">
         <HintPath>Documents\MobileApp_Key\DLLs\iCampus.Common.Framework.dll</HintPath>
       </Reference>
@@ -112,6 +111,33 @@
 
     <ItemGroup>
       <AdditionalFiles Include="Views\UserModules\ChequeReplacement\ChequeReplacementPage.xaml" />
+    </ItemGroup>
+
+    <!-- iOS-specific packages -->
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-ios'">
+        <PackageReference Include="Xamarin.Firebase.iOS.CloudMessaging" Version="8.10.0.3" />
+        <PackageReference Include="Xamarin.Firebase.iOS.Core" Version="8.10.0.3" />
+    </ItemGroup>
+    <!-- Android-specific packages -->
+    <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
+      <PackageReference Include="Xamarin.AndroidX.Activity" Version="1.9.3.1" />
+      <PackageReference Include="Xamarin.AndroidX.Activity.Ktx" Version="1.9.3.1" />
+      <PackageReference Include="Xamarin.AndroidX.Collection" Version="1.4.5.1" />
+      <PackageReference Include="Xamarin.AndroidX.Collection.Jvm" Version="1.4.5.1" />
+      <PackageReference Include="Xamarin.AndroidX.Collection.Ktx" Version="1.4.5.1" />
+      <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.8.7.1" />
+      <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core" Version="2.8.7.1" />
+      <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core.Ktx" Version="2.8.7.1" />
+      <PackageReference Include="Xamarin.Firebase.Messaging" Version="124.0.3.1" />
+      <PackageReference Include="Xamarin.Google.Dagger" Version="2.52.0.2" />
+      <PackageReference Include="Xamarin.GooglePlayServices.Base" Version="118.5.0.3" />
+    </ItemGroup>
+    <ItemGroup>
+        <GoogleServicesJson Include="Platforms\Android\google-services.json" />
+    </ItemGroup>
+    <ItemGroup>
+      <None Remove="Platforms\iOS\GoogleService-Info.plist" />
+      <BundleResource Include="Platforms\iOS\GoogleService-Info.plist" />
     </ItemGroup>
     
 

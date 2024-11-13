@@ -11,6 +11,6 @@ public interface INativeServices
     void SetToolBarColor(string color);
     void CheckLocationPermission(Action<bool> result);
     void NotificationToggled(Action<bool> result = null);
-    void CheckNotificationSetting();
+    Task CheckNotificationSetting();
     bool SystemVersionCheck();
 }

@@ -9,6 +9,7 @@ using iCampus.MobileApp.Helpers;
 using iCampus.MobileApp.Views.PopUpViews;
 using iCampus.Portal.ViewModels;
 using CommunityToolkit.Maui.Views;
+using iCampus.Common.Enums;
 using iCampus.MobileApp.DependencyService;
 using iCampus.MobileApp.Forms.UserModules.Appointment;
 using iCampus.MobileApp.Forms.UserModules.Attendance;
@@ -655,8 +656,7 @@ public class ViewModelBase : INotifyPropertyChanged
         SelectedStudent = StudentList != null && StudentList.Count > 0
             ? StudentList[0]
             : new BindableStudentPickListItem();
-        //PushNotificationSettings.Current.IsPushNotificationEnabled =
-            //await ICCacheManager.GetObject<bool>(TextResource.PushNotificationKey);
+        PushNotificationSettings.Current.IsPushNotificationEnabled = await ICCacheManager.GetObject<bool>(TextResource.PushNotificationKey);
         MenuPage = new SideMenuPanel();
 
         MessagingCenter.Subscribe<string>("", "SideMenuPanelLeftSwipeSubscribe",
@@ -985,115 +985,166 @@ public class ViewModelBase : INotifyPropertyChanged
         return string.Concat("Noti_Removed_", removeNotificationCacheKey);
     }
 
-    public void PushNotificationClick(NotificationData notification)
+    public async void PushNotificationClick(NotificationData notification)
     {
-        // App.NotificationValues = new NotificationData();
-        // var color = Color.FromHex(ThemeColor);
-        // Xamarin.Forms.DependencyService.Get<INativeServices>()
-        //     .ChangeStatusBarColor((int)(color.R * 255), (int)(color.G * 255), (int)(color.B * 255));
-        // MobileNotificationTypes notificationType =
-        //     (MobileNotificationTypes)Convert.ToInt32(notification.notificationType);
-        // Task.Delay(300);
-        // switch (notificationType)
-        // {
-        //     case MobileNotificationTypes.News:
-        //         NewsForm newsForm = new NewsForm(isFromNotification: true);
-        //         newsForm.NewsNotificationId = notification.primaryKey;
-        //         newsForm.IsNewsSelectedFromFooter = true;
-        //         newsForm.PageTitle = notification.notificationModuleName;
-        //         newsForm.MenuVisible = true;
-        //         HostScreen.Router.Navigate.Execute(newsForm).Subscribe();
-        //         break;
-        //     case MobileNotificationTypes.Circulars:
-        //         MessageFromSchoolForm messageFromSchoolForm = new MessageFromSchoolForm(notification);
-        //         messageFromSchoolForm.MenuVisible = true;
-        //         messageFromSchoolForm.PageTitle = notification.notificationModuleName;
-        //         HostScreen.Router.Navigate.Execute(messageFromSchoolForm).Subscribe();
-        //         break;
-        //     case MobileNotificationTypes.Communication:
-        //         CommunicationForm communicationForm = new CommunicationForm(notification.primaryKey);
-        //         communicationForm.MenuVisible = true;
-        //         communicationForm.NotificationItemId = notification.primaryKey;
-        //         communicationForm.PageTitle = notification.notificationModuleName;
-        //         HostScreen.Router.Navigate.Execute((IRoutableViewModel)communicationForm).Subscribe();
-        //         break;
-        //     case MobileNotificationTypes.CustomAlert:
-        //         MessageFromSchoolForm customAlertsMessageFromSchoolForm = new MessageFromSchoolForm(notification);
-        //         customAlertsMessageFromSchoolForm.MenuVisible = true;
-        //         customAlertsMessageFromSchoolForm.PageTitle = notification.notificationModuleName;
-        //         AppSettings.Current.IsAlertsFromPushNotifications = true;
-        //         HostScreen.Router.Navigate.Execute((IRoutableViewModel)customAlertsMessageFromSchoolForm).Subscribe();
-        //         break;
-        //     case MobileNotificationTypes.Exams:
-        //         ExamForm examForm = new ExamForm();
-        //         examForm.MenuVisible = true;
-        //         examForm.NotificationItemId = notification.primaryKey;
-        //         examForm.PageTitle = notification.notificationModuleName;
-        //         if (AppSettings.Current.IsParent)
-        //             AppSettings.Current.SelectedStudent = AppSettings.Current.StudentList
-        //                 .Where(i => i.ItemId == notification.userRefId).FirstOrDefault();
-        //         HostScreen.Router.Navigate.Execute((IRoutableViewModel)examForm).Subscribe();
-        //         examForm.OpenStudentSelection();
-        //         break;
-        //     case MobileNotificationTypes.Events:
-        //         EventForm eventForm = new EventForm(id: notification.primaryKey);
-        //         eventForm.MenuVisible = true;
-        //         eventForm.PageTitle = notification.notificationModuleName;
-        //         if (AppSettings.Current.IsParent)
-        //             AppSettings.Current.SelectedStudent = AppSettings.Current.StudentList
-        //                 .Where(i => i.ItemId == notification.userRefId).FirstOrDefault();
-        //         HostScreen.Router.Navigate.Execute((IRoutableViewModel)eventForm).Subscribe();
-        //         break;
-        //     case MobileNotificationTypes.Appointment:
-        //         if (AppSettings.Current.IsParent)
-        //         {
-        //             TeacherAppointmentForm teacherAppointmentForm = new TeacherAppointmentForm(notification.primaryKey);
-        //             teacherAppointmentForm.MenuVisible = true;
-        //             teacherAppointmentForm.NotificationItemId = notification.primaryKey;
-        //             teacherAppointmentForm.PageTitle = notification.notificationModuleName;
-        //             AppSettings.Current.SelectedStudent = AppSettings.Current.StudentList
-        //                 .Where(i => i.ItemId == notification.userRefId).FirstOrDefault();
-        //             AppSettings.Current.IsAppointmentFromPushNotifications = true;
-        //             HostScreen.Router.Navigate.Execute((IRoutableViewModel)teacherAppointmentForm).Subscribe();
-        //             teacherAppointmentForm.OpenStudentSelection();
-        //         }
-        //
-        //         if (AppSettings.Current.IsTeacher)
-        //         {
-        //             FamilyAppointmentForm familyAppointmentForm = new FamilyAppointmentForm(notification.primaryKey);
-        //             familyAppointmentForm.MenuVisible = true;
-        //             familyAppointmentForm.NotificationItemId = notification.primaryKey;
-        //             familyAppointmentForm.PageTitle = notification.notificationModuleName;
-        //             AppSettings.Current.IsAppointmentFromPushNotifications = true;
-        //             HostScreen.Router.Navigate.Execute((IRoutableViewModel)familyAppointmentForm).Subscribe();
-        //         }
-        //
-        //         break;
-        //     case MobileNotificationTypes.Calendar:
-        //         CalendarForm calendarForm = new CalendarForm();
-        //         calendarForm.PageTitle = notification.notificationModuleName;
-        //         //calendarForm.ToDate = DateTime.MinValue;
-        //         calendarForm.NotificationItemId = notification.primaryKey;
-        //         calendarForm.AgendaTypeId = null;
-        //         if (notification.notificationSubType != null && notification.notificationSubType.ToLower().Equals("r"))
-        //         {
-        //             calendarForm.FromDate = DateTime.Now;
-        //             calendarForm.ShowReminderData = true;
-        //         }
-        //         else if (notification.notificationSubType != null &&
-        //                  notification.notificationSubType.ToLower().Equals("a"))
-        //         {
-        //             calendarForm.FromDate = DateTime.Now.AddDays(1);
-        //         }
-        //
-        //         if (AppSettings.Current.IsParent)
-        //             AppSettings.Current.SelectedStudent = AppSettings.Current.StudentList
-        //                 .Where(i => i.ItemId == notification.userRefId).FirstOrDefault();
-        //         HostScreen.Router.Navigate.Execute((IRoutableViewModel)calendarForm).Subscribe();
-        //         AppSettings.Current.IsDisplayAllStudentList = false;
-        //         calendarForm.OpenStudentSelection();
-        //         break;
-        // }
+        App.NotificationValues = new NotificationData();
+        var color = Color.FromArgb(ThemeColor);
+        _nativeServices.ChangeStatusBarColor((int)(color.Red * 255), (int)(color.Green * 255), (int)(color.Blue * 255));
+        MobileNotificationTypes notificationType =
+            (MobileNotificationTypes)Convert.ToInt32(notification.notificationType);
+        Task.Delay(300);
+        switch (notificationType)
+        {
+            case MobileNotificationTypes.News:
+                NewsForm newsForm = new (_mapper, _nativeServices, Navigation, isFromNotification: true)
+                {
+                    NewsNotificationId = notification.primaryKey,
+                    IsNewsSelectedFromFooter = true,
+                    PageTitle = notification.notificationModuleName,
+                    MenuVisible = true
+                };
+                NewsPage newsPage = new()
+                {
+                    BindingContext = newsForm
+                };
+                await Navigation.PushAsync(newsPage);
+                break;
+            case MobileNotificationTypes.Circulars:
+                MessageFromSchoolForm messageFromSchoolForm = new (notification)
+                {
+                    MenuVisible = true,
+                    PageTitle = notification.notificationModuleName
+                };
+                MessageFromSchool messageFromSchool = new()
+                {
+                    BindingContext = messageFromSchoolForm
+                };
+                await Navigation.PushAsync(messageFromSchool);
+                break;
+            case MobileNotificationTypes.Communication:
+                CommunicationForm communicationForm = new (notification.primaryKey)
+                {
+                    MenuVisible = true,
+                    NotificationItemId = notification.primaryKey,
+                    PageTitle = notification.notificationModuleName
+                };
+                CommunicationPage communicationPage = new()
+                {
+                    BindingContext = communicationForm
+                };
+                await Navigation.PushAsync(communicationPage);                
+                break;
+            case MobileNotificationTypes.CustomAlert:
+                MessageFromSchoolForm customAlertsMessageFromSchoolForm = new MessageFromSchoolForm(notification);
+                customAlertsMessageFromSchoolForm.MenuVisible = true;
+                customAlertsMessageFromSchoolForm.PageTitle = notification.notificationModuleName;
+                AppSettings.Current.IsAlertsFromPushNotifications = true;
+                MessageFromSchool alertMessageFromSchool = new()
+                {
+                    BindingContext = customAlertsMessageFromSchoolForm
+                };
+                await Navigation.PushAsync(alertMessageFromSchool);
+                break;
+            case MobileNotificationTypes.Exams:
+                ExamForm examForm = new (_mapper, _nativeServices, Navigation)
+                {
+                    MenuVisible = true,
+                    NotificationItemId = notification.primaryKey,
+                    PageTitle = notification.notificationModuleName
+                };
+                if (AppSettings.Current.IsParent)
+                    AppSettings.Current.SelectedStudent = AppSettings.Current.StudentList
+                        .Where(i => i.ItemId == notification.userRefId).FirstOrDefault();
+                examForm.OpenStudentSelection();
+                var examPage = new ExamPage()
+                {
+                    BindingContext = examForm
+                };
+                await Navigation.PushAsync(examPage);
+                break;
+            case MobileNotificationTypes.Events:
+                EventForm eventForm = new (_mapper, _nativeServices, Navigation, id: notification.primaryKey)
+                {
+                    MenuVisible = true,
+                    PageTitle = notification.notificationModuleName
+                };
+                if (AppSettings.Current.IsParent)
+                    AppSettings.Current.SelectedStudent = AppSettings.Current.StudentList
+                        .Where(i => i.ItemId == notification.userRefId).FirstOrDefault();
+                var events = new Events()
+                {
+                    BindingContext = eventForm
+                };
+                await Navigation.PushAsync(events);                
+                break;
+            case MobileNotificationTypes.Appointment:
+                if (AppSettings.Current.IsParent)
+                {
+                    TeacherAppointmentForm teacherAppointmentForm = new (notification.primaryKey)
+                    {
+                        MenuVisible = true,
+                        NotificationItemId = notification.primaryKey,
+                        PageTitle = notification.notificationModuleName
+                    };
+                    AppSettings.Current.SelectedStudent = AppSettings.Current.StudentList
+                        .Where(i => i.ItemId == notification.userRefId).FirstOrDefault();
+                    AppSettings.Current.IsAppointmentFromPushNotifications = true;
+                    teacherAppointmentForm.OpenStudentSelection();
+                    TeacherAppointment teacherAppointment = new()
+                    {
+                        BindingContext = teacherAppointmentForm
+                    };
+                    await Navigation.PushAsync(teacherAppointment);
+                }
+        
+                if (AppSettings.Current.IsTeacher)
+                {
+                    FamilyAppointmentForm familyAppointmentForm = new (notification.primaryKey)
+                    {
+                        MenuVisible = true,
+                        NotificationItemId = notification.primaryKey,
+                        PageTitle = notification.notificationModuleName
+                    };
+                    AppSettings.Current.IsAppointmentFromPushNotifications = true;
+                    FamilyAppointment familyAppointment = new()
+                    {
+                        BindingContext = familyAppointmentForm
+                    };
+                    await Navigation.PushAsync(familyAppointment);
+                }
+        
+                break;
+            case MobileNotificationTypes.Calendar:
+                CalendarForm calendarForm = new (_mapper, _nativeServices, Navigation)
+                {
+                    PageTitle = notification.notificationModuleName,
+                    //calendarForm.ToDate = DateTime.MinValue;
+                    NotificationItemId = notification.primaryKey,
+                    AgendaTypeId = null
+                };
+                if (notification.notificationSubType != null && notification.notificationSubType.ToLower().Equals("r"))
+                {
+                    calendarForm.FromDate = DateTime.Now;
+                    calendarForm.ShowReminderData = true;
+                }
+                else if (notification.notificationSubType != null &&
+                         notification.notificationSubType.ToLower().Equals("a"))
+                {
+                    calendarForm.FromDate = DateTime.Now.AddDays(1);
+                }
+        
+                if (AppSettings.Current.IsParent)
+                    AppSettings.Current.SelectedStudent = AppSettings.Current.StudentList
+                        .Where(i => i.ItemId == notification.userRefId).FirstOrDefault();
+                AppSettings.Current.IsDisplayAllStudentList = false;
+                calendarForm.OpenStudentSelection();
+                Calendar calendar = new()
+                {
+                    BindingContext = calendarForm
+                };
+                await Navigation.PushAsync(calendar);
+                break;
+        }
     }
 
     #region Side menu method

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "160654296363",
+    "firebase_url": "https://icampus-mobile.firebaseio.com",
+    "project_id": "icampus-mobile",
+    "storage_bucket": "icampus-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160654296363:android:8ef5a8bbdbfb9f2500f16e",
+        "android_client_info": {
+          "package_name": "com.icampus.iCampusMobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160654296363-tv52uun2am4lpvmill71cv0nc32vb8pm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOGpdf6JkWliL36aL-pjfhMKF1ts5Rjas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160654296363-tv52uun2am4lpvmill71cv0nc32vb8pm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "160654296363-bhvo22ulrqfci0n07h16b7aiec7634nu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.icampus.iCampusMobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

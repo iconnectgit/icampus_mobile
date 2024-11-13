@@ -19,6 +19,7 @@ using iCampus.MobileApp.Views.PopUpViews;
 using iCampus.Portal.ViewModels;
 using Android.App;
 using Android.Content;
+using iCampus.Common.Helpers;
 using Application = Microsoft.Maui.Controls.Application;
 
 namespace iCampus.MobileApp.Helpers;
@@ -725,30 +726,30 @@ public class HelperMethods
             }
         }
 
-        public static void UpdatePushNotificationSetting(bool IsPushNotificationEnable, Action<bool> output)
+        public static void UpdatePushNotificationSetting(bool IsPushNotificationEnable, Action<bool> output, INativeServices nativeServices)
         {
             bool isInternetConnected = ApiHelper.ValidateInternetConnectivity();
-            //_nativeServices.GetDeviceID(async (deviceId) =>
-            // {
-            //     try
-            //     {
-            //         if (isInternetConnected && !string.IsNullOrEmpty(App.RefreshedToken))
-            //         {
-            //             var result = await ApiHelper.PostRequest<OperationDetails>(string.Format(TextResource.UpdateNotificationSettingApiUrl, IsPushNotificationEnable, App.RefreshedToken, deviceId, Device.RuntimePlatform), AppSettings.Current.ApiUrl);
-            //             if (result.Success)
-            //             {
-            //                 Analytics.TrackEvent("DEVICETOKEN - " + App.RefreshedToken + " - " + DateTime.Now + " - " + DeviceInfo.Name + " - " + DeviceInfo.Model + " - " + DeviceInfo.Platform);
-            //                 ICCacheManager.SaveObject<bool>(TextResource.PushNotificationKey, IsPushNotificationEnable);
-            //                 output?.Invoke(true);
-            //             }
-            //         }
-            //     }
-            //     catch (Exception ex)
-            //     {
-            //         output?.Invoke(false);
-            //         HelperMethods.DisplayException(ex);
-            //     }
-            // });
+            nativeServices.GetDeviceID(async (deviceId) =>
+             {
+                 try
+                 {
+                     if (isInternetConnected && !string.IsNullOrEmpty(App.RefreshedToken))
+                     {
+                         var result = await ApiHelper.PostRequest<OperationDetails>(string.Format(TextResource.UpdateNotificationSettingApiUrl, IsPushNotificationEnable, App.RefreshedToken, deviceId, Device.RuntimePlatform), AppSettings.Current.ApiUrl);
+                         if (result.Success)
+                         {
+                             //Analytics.TrackEvent("DEVICETOKEN - " + App.RefreshedToken + " - " + DateTime.Now + " - " + DeviceInfo.Name + " - " + DeviceInfo.Model + " - " + DeviceInfo.Platform);
+                             ICCacheManager.SaveObject<bool>(TextResource.PushNotificationKey, IsPushNotificationEnable);
+                             output?.Invoke(true);
+                         }
+                     }
+                 }
+                 catch (Exception ex)
+                 {
+                     output?.Invoke(false);
+                     DisplayException(ex);
+                 }
+             });
         }
 
         public static bool IsValidEmail(string email)

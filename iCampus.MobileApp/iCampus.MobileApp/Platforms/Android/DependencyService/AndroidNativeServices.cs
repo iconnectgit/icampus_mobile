@@ -21,8 +21,7 @@ public class AndroidNativeServices : INativeServices
 {
         public void ChangeStatusBarColor(int r, int g, int b)
         {
-            var activity = (Activity)Platform.CurrentActivity;
-
+            MainActivity activity = MainActivity.Instance;
             if (activity != null)
             {
                 if (Build.VERSION.SdkInt >= BuildVersionCodes.S)
@@ -184,21 +183,21 @@ public class AndroidNativeServices : INativeServices
         {
             try
             {
-                // Intent intent = new Intent();
-                //
-                // if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
-                // {
-                //     intent.SetAction(Android.Provider.Settings.ActionAppNotificationSettings);
-                //     intent.PutExtra(Android.Provider.Settings.ExtraAppPackage, MainActivity.Instance.PackageName);
-                // }
-                // else
-                // {
-                //     intent.SetAction("android.settings.APP_NOTIFICATION_SETTINGS");
-                //     intent.PutExtra("app_package", MainActivity.Instance.PackageName);
-                //     intent.PutExtra("app_uid", MainActivity.Instance.PackageManager.GetApplicationInfo(MainActivity.Instance.PackageName, PackageInfoFlags.MetaData).Uid);
-                // }
-                //
-                // MainActivity.Instance.StartActivityForResult(intent, 12);
+                Intent intent = new Intent();
+                
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
+                {
+                    intent.SetAction(Android.Provider.Settings.ActionAppNotificationSettings);
+                    intent.PutExtra(Android.Provider.Settings.ExtraAppPackage, MainActivity.Instance.PackageName);
+                }
+                else
+                {
+                    intent.SetAction("android.settings.APP_NOTIFICATION_SETTINGS");
+                    intent.PutExtra("app_package", MainActivity.Instance.PackageName);
+                    intent.PutExtra("app_uid", MainActivity.Instance.PackageManager.GetApplicationInfo(MainActivity.Instance.PackageName, PackageInfoFlags.MetaData).Uid);
+                }
+                
+                MainActivity.Instance.StartActivityForResult(intent, 12);
             }
             catch (Exception ex)
             {
@@ -206,9 +205,9 @@ public class AndroidNativeServices : INativeServices
             }
         }
 
-        public void CheckNotificationSetting()
+        public async Task CheckNotificationSetting()
         {
-            //AppSettings.Current.IsPushNotificationEnable = NotificationManagerCompat.From(MainActivity.Instance).AreNotificationsEnabled();
+            AppSettings.Current.IsPushNotificationEnable = NotificationManagerCompat.From(MainActivity.Instance).AreNotificationsEnabled();
         }
         
         
