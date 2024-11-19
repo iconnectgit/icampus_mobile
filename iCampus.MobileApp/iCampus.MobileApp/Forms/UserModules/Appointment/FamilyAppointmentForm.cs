@@ -71,12 +71,14 @@ public class FamilyAppointmentForm : ViewModelBase
 
     #endregion
 
-    public FamilyAppointmentForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(mapper,
-        null, null)
+    public FamilyAppointmentForm(IMapper mapper, INativeServices nativeServices, INavigation navigation, string notificationItemId = null) : base(mapper, null, null)
     {
         _mapper = mapper;
         _nativeServices = nativeServices;
         Navigation = navigation;
+        NotificationItemId = notificationItemId;
+        if(!string.IsNullOrEmpty(NotificationItemId))
+            AppSettings.Current.RefreshFamilyAppointmentList = true;
         InitializePage();
     }
 
@@ -142,8 +144,7 @@ public class FamilyAppointmentForm : ViewModelBase
             if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
                 AppSettings.Current.RefreshFamilyAppointmentList = false;
             BindableFamilyAppointmentList = new ObservableCollection<AppointmentBookingView>(FamilyAppointmentList);
-            if (BindableFamilyAppointmentList != null && BindableFamilyAppointmentList.Count > 0 &&
-                !string.IsNullOrEmpty(NotificationItemId))
+            if (BindableFamilyAppointmentList != null && BindableFamilyAppointmentList.Count > 0 && !string.IsNullOrEmpty(NotificationItemId))
             {
                 var appointmentView = BindableFamilyAppointmentList
                     .Where(x => x.AppointmentBookingId == Convert.ToInt32(NotificationItemId)).FirstOrDefault();

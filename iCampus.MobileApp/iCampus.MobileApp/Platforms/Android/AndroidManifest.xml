@@ -7,7 +7,8 @@
 			android:roundIcon="@mipmap/icampus_icon_round" 
 			android:supportsRtl="true"
 		    android:usesCleartextTraffic="true"
-			android:name="androidx.multidex.MultiDexApplication">
+			android:name="androidx.multidex.MultiDexApplication"
+			android:theme="@style/Maui.SplashTheme">
 		<provider
 				android:name="androidx.core.content.FileProvider"
 				android:authorities="${applicationId}.provider"

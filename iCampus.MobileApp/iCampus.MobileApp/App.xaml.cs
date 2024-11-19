@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.ComponentModel;
+using System.Globalization;
 using Akavache;
 using Android.Content.Res;
 using AutoMapper;
@@ -31,8 +32,7 @@ public partial class App : Application
         set
         {
             _notificationValues = value;
-            if (_notificationValues != null && Device.RuntimePlatform == Device.iOS)
-                MessagingCenter.Send(_notificationValues, "PushData");
+            MessagingCenter.Send(_notificationValues, "PushData");
         }
     }
 

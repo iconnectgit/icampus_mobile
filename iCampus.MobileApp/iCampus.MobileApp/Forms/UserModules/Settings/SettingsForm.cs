@@ -84,7 +84,15 @@ public class SettingsForm : ViewModelBase
 
         private async void LogoutClicked(object obj)
         {
-            HelperMethods.Logout(_mapper, _nativeServices, Navigation);
+            try
+            {
+                HelperMethods.Logout(_mapper, _nativeServices, Navigation);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         private async void ListViewTapped(object obj)

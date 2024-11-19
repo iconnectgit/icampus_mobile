@@ -139,7 +139,7 @@
                           RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,*,Auto,Auto,Auto"
                           ColumnDefinitions="*"
                           HorizontalOptions="Fill"
-                          Margin="15,10,15,15" Grid.Row="2" Grid.Column="0"
+                          Margin="15,0,15,0" Grid.Row="2" Grid.Column="0"
                           RowSpacing="0" ColumnSpacing="0">
 
 
@@ -147,14 +147,14 @@
                                   SeparatorVisibility="None"
                                   VerticalScrollBarVisibility="Never"
                                   HeightRequest="{Binding RecipientListHeight}" Margin="0"
-                                  Grid.Row="0" Grid.Column="0">
+                                  Grid.Row="1" Grid.Column="0">
                             <x:Arguments>
                                 <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
                             </x:Arguments>
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
-                                        <Frame CornerRadius="5" Padding="0,0,0,10" Margin="0"
+                                        <Frame CornerRadius="5" Padding="0,0,0,0" Margin="0"
                                                HorizontalOptions="FillAndExpand"
                                                HasShadow="False" IsClippedToBounds="True"
                                                BorderColor="{StaticResource BorderColor}"
@@ -189,7 +189,7 @@
                             Orientation="Horizontal"
                             Margin="0"
                             Padding="0"
-                            Grid.Row="1" Grid.Column="0">
+                            Grid.Row="0" Grid.Column="0">
                             <Frame HorizontalOptions="FillAndExpand" Padding="5,0,5,0" HasShadow="False"
                                    IsVisible="{Binding IsEnabledRecipientSelection}" CornerRadius="5"
                                    BorderColor="Transparent"

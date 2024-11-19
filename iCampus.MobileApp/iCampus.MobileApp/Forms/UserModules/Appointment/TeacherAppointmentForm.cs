@@ -210,7 +210,7 @@ public class TeacherAppointmentForm : ViewModelBase
         }
         #endregion
 
-        public TeacherAppointmentForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(mapper, null, null)
+        public TeacherAppointmentForm(IMapper mapper, INativeServices nativeServices, INavigation navigation, string notificationItemId = null) : base(mapper, null, null)
         {
             IsAppointmentListVisible = false;
             IsBookAppointmentVisible = true;
@@ -229,6 +229,9 @@ public class TeacherAppointmentForm : ViewModelBase
             DeleteClickCommand = new Command(DeleteClicked);
             RequestAppointmentClickCommand = new Command(RequestAppointmentClicked);
             TimeSlotClickCommand = new Command(TimeSlotSelected);
+            NotificationItemId = notificationItemId;
+            if(!string.IsNullOrEmpty(NotificationItemId))
+                AppSettings.Current.RefreshTeacherAppointmentList = true;
             MessagingCenter.Subscribe<OperationDetails>(this, "RefreshData", async (arg) =>
             {
                 AppSettings.Current.RefreshTeacherAppointmentList = true;
@@ -244,16 +247,16 @@ public class TeacherAppointmentForm : ViewModelBase
                 await GetTeacherAppointment();
             });
         }
-        public TeacherAppointmentForm(string notificationItemId) : base(null, null, null)
-        {
-            BookAppointmentButtonOpacity = 1.0m;
-            AppointmentListButtonOpacity = 0.5m;
-            BookAppointmentTabbedCommand = new Command(BookAppointmentClicked);
-            AppointmentListTabbedCommand = new Command(AppointmentListClicked);
-            NotificationItemId = notificationItemId;
-            AppSettings.Current.RefreshTeacherAppointmentList = true;
-            GetTeacherAppointment();
-        }
+        // public TeacherAppointmentForm(string notificationItemId) : base(null, null, null)
+        // {
+        //     BookAppointmentButtonOpacity = 1.0m;
+        //     AppointmentListButtonOpacity = 0.5m;
+        //     BookAppointmentTabbedCommand = new Command(BookAppointmentClicked);
+        //     AppointmentListTabbedCommand = new Command(AppointmentListClicked);
+        //     NotificationItemId = notificationItemId;
+        //     AppSettings.Current.RefreshTeacherAppointmentList = true;
+        //     GetTeacherAppointment();
+        // }
         #region Private Methods
         private void BookAppointmentClicked(object obj)
         {

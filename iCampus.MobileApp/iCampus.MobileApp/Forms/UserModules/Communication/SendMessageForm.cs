@@ -498,7 +498,7 @@ public class SendMessageForm : ViewModelBase
         }
     }
 
-    private int _recipientListHeight;
+    private int _recipientListHeight = 0;
 
     public int RecipientListHeight
     {
@@ -762,7 +762,7 @@ public class SendMessageForm : ViewModelBase
 
     private void GetSelectedRecipientListHeight()
     {
-        var singleRowHeight = Device.RuntimePlatform == Device.Android ? 32 : 27;
+        var singleRowHeight = DeviceInfo.Platform == DevicePlatform.Android ? 32 : 27;
         RecipientListHeight = SelectedRecipientList.Count < 7
             ? SelectedRecipientList.Count * singleRowHeight
             : singleRowHeight * 7;

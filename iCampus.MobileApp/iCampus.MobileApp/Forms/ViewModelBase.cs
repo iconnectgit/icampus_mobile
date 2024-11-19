@@ -985,11 +985,11 @@ public class ViewModelBase : INotifyPropertyChanged
         return string.Concat("Noti_Removed_", removeNotificationCacheKey);
     }
 
-    public async void PushNotificationClick(NotificationData notification)
+    public async void PushNotificationClick(NotificationData notification, INativeServices nativeServices)
     {
         App.NotificationValues = new NotificationData();
         var color = Color.FromArgb(ThemeColor);
-        _nativeServices.ChangeStatusBarColor((int)(color.Red * 255), (int)(color.Green * 255), (int)(color.Blue * 255));
+        nativeServices.ChangeStatusBarColor((int)(color.Red * 255), (int)(color.Green * 255), (int)(color.Blue * 255));
         MobileNotificationTypes notificationType =
             (MobileNotificationTypes)Convert.ToInt32(notification.notificationType);
         Task.Delay(300);
@@ -1007,10 +1007,10 @@ public class ViewModelBase : INotifyPropertyChanged
                 {
                     BindingContext = newsForm
                 };
-                await Navigation.PushAsync(newsPage);
+                //await Navigation.PushAsync(newsPage);
                 break;
             case MobileNotificationTypes.Circulars:
-                MessageFromSchoolForm messageFromSchoolForm = new (notification)
+                MessageFromSchoolForm messageFromSchoolForm = new (_mapper, _nativeServices, Navigation, notification)
                 {
                     MenuVisible = true,
                     PageTitle = notification.notificationModuleName
@@ -1019,10 +1019,10 @@ public class ViewModelBase : INotifyPropertyChanged
                 {
                     BindingContext = messageFromSchoolForm
                 };
-                await Navigation.PushAsync(messageFromSchool);
+                //await Navigation.PushAsync(messageFromSchool);
                 break;
             case MobileNotificationTypes.Communication:
-                CommunicationForm communicationForm = new (notification.primaryKey)
+                CommunicationForm communicationForm = new (_mapper, _nativeServices, Navigation, notification.primaryKey)
                 {
                     MenuVisible = true,
                     NotificationItemId = notification.primaryKey,
@@ -1032,10 +1032,10 @@ public class ViewModelBase : INotifyPropertyChanged
                 {
                     BindingContext = communicationForm
                 };
-                await Navigation.PushAsync(communicationPage);                
+                //await Navigation.PushAsync(communicationPage);                
                 break;
             case MobileNotificationTypes.CustomAlert:
-                MessageFromSchoolForm customAlertsMessageFromSchoolForm = new MessageFromSchoolForm(notification);
+                MessageFromSchoolForm customAlertsMessageFromSchoolForm = new MessageFromSchoolForm(_mapper, _nativeServices, Navigation, notification);
                 customAlertsMessageFromSchoolForm.MenuVisible = true;
                 customAlertsMessageFromSchoolForm.PageTitle = notification.notificationModuleName;
                 AppSettings.Current.IsAlertsFromPushNotifications = true;
@@ -1043,7 +1043,7 @@ public class ViewModelBase : INotifyPropertyChanged
                 {
                     BindingContext = customAlertsMessageFromSchoolForm
                 };
-                await Navigation.PushAsync(alertMessageFromSchool);
+                //await Navigation.PushAsync(alertMessageFromSchool);
                 break;
             case MobileNotificationTypes.Exams:
                 ExamForm examForm = new (_mapper, _nativeServices, Navigation)
@@ -1060,7 +1060,7 @@ public class ViewModelBase : INotifyPropertyChanged
                 {
                     BindingContext = examForm
                 };
-                await Navigation.PushAsync(examPage);
+                //await Navigation.PushAsync(examPage);
                 break;
             case MobileNotificationTypes.Events:
                 EventForm eventForm = new (_mapper, _nativeServices, Navigation, id: notification.primaryKey)
@@ -1075,12 +1075,12 @@ public class ViewModelBase : INotifyPropertyChanged
                 {
                     BindingContext = eventForm
                 };
-                await Navigation.PushAsync(events);                
+                //await Navigation.PushAsync(events);                
                 break;
             case MobileNotificationTypes.Appointment:
                 if (AppSettings.Current.IsParent)
                 {
-                    TeacherAppointmentForm teacherAppointmentForm = new (notification.primaryKey)
+                    TeacherAppointmentForm teacherAppointmentForm = new (_mapper, _nativeServices, Navigation, notification.primaryKey)
                     {
                         MenuVisible = true,
                         NotificationItemId = notification.primaryKey,
@@ -1094,12 +1094,12 @@ public class ViewModelBase : INotifyPropertyChanged
                     {
                         BindingContext = teacherAppointmentForm
                     };
-                    await Navigation.PushAsync(teacherAppointment);
+                    //await Navigation.PushAsync(teacherAppointment);
                 }
         
                 if (AppSettings.Current.IsTeacher)
                 {
-                    FamilyAppointmentForm familyAppointmentForm = new (notification.primaryKey)
+                    FamilyAppointmentForm familyAppointmentForm = new (_mapper, _nativeServices, Navigation, notification.primaryKey)
                     {
                         MenuVisible = true,
                         NotificationItemId = notification.primaryKey,
@@ -1110,7 +1110,7 @@ public class ViewModelBase : INotifyPropertyChanged
                     {
                         BindingContext = familyAppointmentForm
                     };
-                    await Navigation.PushAsync(familyAppointment);
+                    //await Navigation.PushAsync(familyAppointment);
                 }
         
                 break;
@@ -1142,7 +1142,7 @@ public class ViewModelBase : INotifyPropertyChanged
                 {
                     BindingContext = calendarForm
                 };
-                await Navigation.PushAsync(calendar);
+                //await Navigation.PushAsync(calendar);
                 break;
         }
     }
@@ -1601,7 +1601,7 @@ public class ViewModelBase : INotifyPropertyChanged
                 //     }
                 else if (obj.ModuleName.ToLower().Equals("logout"))
                 {
-                    //HelperMethods.Logout(HostScreen);
+                    HelperMethods.Logout(_mapper, _nativeServices, Navigation);
                 }
                 //
                 //     #endregion for beam

@@ -4,6 +4,7 @@ using Android.Content.PM;
 using Android.Gms.Common;
 using Android.Gms.Tasks;
 using Android.OS;
+using Android.Views;
 using Android.Widget;
 using AndroidX.Core.App;
 using AutoMapper;
@@ -13,6 +14,7 @@ using iCampus.MobileApp.DependencyService;
 using iCampus.MobileApp.Forms;
 using iCampus.MobileApp.Helpers;
 using Newtonsoft.Json;
+using Splat;
 
 namespace iCampus.MobileApp;
 
@@ -41,10 +43,14 @@ public class MainActivity : MauiAppCompatActivity, IOnSuccessListener
                 return; // Stop further processing as Firebase is not available
             }
             FirebaseMessaging.Instance.GetToken().AddOnSuccessListener(this);
-            _mapper = MauiApplication.Current.Services.GetService<IMapper>();
-            _nativeServices = MauiApplication.Current.Services.GetService<INativeServices>();
-            Navigation = MauiApplication.Current.Services.GetService<INavigation>();
-
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+            {
+                Window.SetStatusBarColor(Android.Graphics.Color.White);
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+                {
+                    Window.DecorView.SystemUiVisibility = (StatusBarVisibility)SystemUiFlags.LightStatusBar;
+                }
+            }
         }
         catch(Exception ex)
         {
@@ -52,6 +58,7 @@ public class MainActivity : MauiAppCompatActivity, IOnSuccessListener
         }
         if(Intent.Extras != null)
             HandlePushNotification(Intent);
+        App.DeviceID = Android.Provider.Settings.Secure.GetString(Android.App.Application.Context.ContentResolver, Android.Provider.Settings.Secure.AndroidId);
         AppSettings.Current.IsPushNotificationEnable = NotificationManagerCompat.From(this).AreNotificationsEnabled();
         Instance = this; 
     }
@@ -76,8 +83,6 @@ public class MainActivity : MauiAppCompatActivity, IOnSuccessListener
     protected override void OnNewIntent(Intent intent)
     {
         HandlePushNotification(intent);
-        ViewModelBase viewModelBase = new (_mapper, _nativeServices, Navigation);
-        viewModelBase.PushNotificationClick(App.NotificationValues);
         base.OnNewIntent(intent);
     }
     private void HandlePushNotification(Intent intent)

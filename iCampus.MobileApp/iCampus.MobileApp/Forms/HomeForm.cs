@@ -218,7 +218,7 @@ public class HomeForm : ViewModelBase
             if (App.NotificationValues != null && !string.IsNullOrEmpty(App.NotificationValues.notificationType) &&
                 !string.IsNullOrEmpty(App.NotificationValues.notificationType))
             {
-                PushNotificationClick(App.NotificationValues);
+                PushNotificationClick(App.NotificationValues, _nativeServices);
             }
             else
             {
@@ -231,7 +231,7 @@ public class HomeForm : ViewModelBase
             {
                 if (App.NotificationValues != null && !string.IsNullOrEmpty(App.NotificationValues.notificationType) &&
                     !string.IsNullOrEmpty(App.NotificationValues.notificationType))
-                    PushNotificationClick(App.NotificationValues);
+                    PushNotificationClick(App.NotificationValues, _nativeServices);
                 MessagingCenter.Unsubscribe<NotificationData>(this, "PushData");
             });
             MessagingCenter.Subscribe<FeedBackAlertMessageView>(this, "HomeCustomAlertSavedSuccess",

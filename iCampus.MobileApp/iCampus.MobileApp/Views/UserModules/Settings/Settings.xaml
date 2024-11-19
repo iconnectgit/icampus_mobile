@@ -41,6 +41,7 @@
                                        VerticalOptions="CenterAndExpand" />
                                 <Switch HorizontalOptions="EndAndExpand"
                                         OnColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                        ThumbColor="Gray"
                                         IsToggled="{Binding IsPushNotificationEnable,Source={x:Static local:AppSettings.Current}}"
                                         VerticalOptions="CenterAndExpand">
                                     <Switch.Behaviors>

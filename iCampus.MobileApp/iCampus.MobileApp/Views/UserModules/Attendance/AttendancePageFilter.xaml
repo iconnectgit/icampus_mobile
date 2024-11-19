@@ -91,6 +91,7 @@
                           Grid.Column="0"
                           Grid.ColumnSpan="3"
                           HeightRequest="40"
+                          BackgroundColor="White"
                           Margin="0,10,0,0"
                           HorizontalOptions="FillAndExpand">
                         <Picker Title="Select Term"

@@ -170,21 +170,24 @@ public class CommunicationForm : ViewModelBase
     //     GetCommunicationMessageList();
     // }
 
-    public CommunicationForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null,
+    public CommunicationForm(IMapper mapper, INativeServices nativeServices, INavigation navigation, string notificationItemId = null) : base(null, null,
         null)
     {
         _mapper = mapper;
         _nativeServices = nativeServices;
         Navigation = navigation;
+        NotificationItemId = notificationItemId;
+        // if(!string.IsNullOrEmpty(NotificationItemId))
+        //     GetCommunicationMessageList();
         InitializePage();
     }
 
     // Constructor that accepts notificationItemId and passes it to InitializePage
-    public CommunicationForm(string notificationItemId) : base(null, null, null)
-    {
-        NotificationItemId = notificationItemId;
-        GetCommunicationMessageList();
-    }
+    // public CommunicationForm(string notificationItemId) : base(null, null, null)
+    // {
+    //     NotificationItemId = notificationItemId;
+    //     GetCommunicationMessageList();
+    // }
 
     private async void InitializePage()
     {
@@ -249,8 +252,7 @@ public class CommunicationForm : ViewModelBase
             {
                 AppSettings.Current.MaxAllowedRecipientCount =
                     communicationMessageView.CommunicationSettings.MaxAllowedRecipientCount;
-                CommunicationMessageList =
-                    _mapper?.Map<List<BindableCommunicationMessageView>>(communicationMessageView?.MessageList);
+                CommunicationMessageList = _mapper?.Map<List<BindableCommunicationMessageView>>(communicationMessageView?.MessageList);
                 IsNoMessage = CommunicationMessageList?.Count > 0 ? false : true;
 
                 //Analytics.TrackEvent("CommListCOunt - " + CommunicationMessageList + " - " + DateTime.Now + " - " +

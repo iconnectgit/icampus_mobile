@@ -297,11 +297,20 @@ public class MessageFromSchoolForm : ViewModelBase
 
     #endregion
 
-    public MessageFromSchoolForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)
+    public MessageFromSchoolForm(IMapper mapper, INativeServices nativeServices, INavigation navigation, NotificationData notification = null) : base(null, null, null)
     {
         _mapper = mapper;
         _nativeServices = nativeServices;
         Navigation = navigation;
+        if (notification != null)
+        {
+            var notificationType = (MobileNotificationTypes)Convert.ToInt32(notification.notificationType);
+            if (notificationType.Equals(MobileNotificationTypes.Circulars))
+                CircularNotificationId = notification.primaryKey;
+            else
+                AlertNotificationId = notification.primaryKey;
+        }
+        
         MessagingCenter.Subscribe<string>(this, "NavigateToMessageFromSchool", async (res) => { InitializePage(); });
         InitializePage();
     }
@@ -366,15 +375,15 @@ public class MessageFromSchoolForm : ViewModelBase
         }
     }
 
-    public MessageFromSchoolForm(NotificationData notification) : base(null, null, null)
-    {
-        var notificationType = (MobileNotificationTypes)Convert.ToInt32(notification.notificationType);
-        if (notificationType.Equals(MobileNotificationTypes.Circulars))
-            CircularNotificationId = notification.primaryKey;
-        else
-            AlertNotificationId = notification.primaryKey;
-        GetData();
-    }
+    // public MessageFromSchoolForm(NotificationData notification) : base(null, null, null)
+    // {
+    //     var notificationType = (MobileNotificationTypes)Convert.ToInt32(notification.notificationType);
+    //     if (notificationType.Equals(MobileNotificationTypes.Circulars))
+    //         CircularNotificationId = notification.primaryKey;
+    //     else
+    //         AlertNotificationId = notification.primaryKey;
+    //     GetData();
+    // }
 
     private void CircularsClicked(object obj)
     {

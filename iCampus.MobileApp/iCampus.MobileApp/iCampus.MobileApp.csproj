@@ -13,6 +13,8 @@
         either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
         <!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
+       
+
         <OutputType>Exe</OutputType>
         <RootNamespace>iCampus.MobileApp</RootNamespace>
         <UseMaui>true</UseMaui>
@@ -39,17 +41,25 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
         <EnableBitcode>false</EnableBitcode>
         <MtouchEnableBitcode>false</MtouchEnableBitcode>
+       
 
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-ios'">
+        <OutputType>Exe</OutputType>
+        <IosAppExtension>false</IosAppExtension>
+        <UseMaui>true</UseMaui>
+        <SupportedOSPlatformVersion>11.0</SupportedOSPlatformVersion>
+        <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
     </PropertyGroup>
 
     <ItemGroup>
         <!-- App Icon -->
 <!--        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4"/>-->
-        <MauiIcon Include="Resources\AppIcon\icampus_icon.png"  BackgroundColor="white" />
+        <MauiIcon Include="Resources\AppIcon\icampus_icon.png"  Color="White" ForegroundScale="0.60"/>
         <!-- Splash Screen -->
 <!--        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128"/>-->
-        <MauiSplashScreen Include="Resources\Splash\splash.png" BackgroundColor="white" />
-
+        <MauiSplashScreen Include="Resources\Splash\splash.png" Color="White" />
         <!-- Images -->
         <MauiImage Include="Resources\Images\*"/>
         <MauiImage Update="Resources\Images\dotnet_bot.png" Resize="True" BaseSize="300,185"/>
@@ -59,6 +69,7 @@
 
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)"/>
+        <None Remove="Resources\Splash\icampus_icon.png" />
     </ItemGroup>
 
     <ItemGroup>
@@ -75,6 +86,7 @@
         <PackageReference Include="Microsoft.Maui.Controls.Core" Version="8.0.72" />
         <PackageReference Include="Microsoft.Maui.Controls.Maps" Version="9.0.0-rc.2.24503.2" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="SkiaSharp.Views.Maui.Controls" Version="3.0.0-preview.2.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -139,6 +151,17 @@
       <None Remove="Platforms\iOS\GoogleService-Info.plist" />
       <BundleResource Include="Platforms\iOS\GoogleService-Info.plist" />
     </ItemGroup>
+    <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-android' and '$(Configuration)' == 'Release'">
+        <AndroidKeyStore>true</AndroidKeyStore>
+        <AndroidSigningKeyAlias>iCampus Mobile</AndroidSigningKeyAlias>
+        <AndroidSigningKeyPass>iconnect12345$</AndroidSigningKeyPass>
+        <AndroidSigningStorePass>iconnect12345$</AndroidSigningStorePass>
+        <AndroidSigningKeyStore>$(MSBuildThisFileDirectory)Documents/MobileApp_Key/Android/Keystore/iCampus Mobile.keystore</AndroidSigningKeyStore>
+        <PublishTrimmed>true</PublishTrimmed>
+        <RunAOTCompilation>false</RunAOTCompilation>
+        <PublishTrimMode>link</PublishTrimMode>
+    </PropertyGroup>
+    
     
 
 </Project>

@@ -471,9 +471,9 @@ public class ApiHelper
 
         public static async Task ShowProcessingIndicatorPopup()
         {
-            // _processingPopup = new ProcessingIndicatorPopup();
-            // SetPopupInstance(_processingPopup);
-            // Application.Current.MainPage.ShowPopup(_processingPopup);
+            _processingPopup = new ProcessingIndicatorPopup();
+            SetPopupInstance(_processingPopup);
+            Application.Current.MainPage.ShowPopup(_processingPopup);
             
 
 
@@ -495,6 +495,8 @@ public class ApiHelper
 
         public static async Task HideProcessingIndicatorPopup()
         {
+            AppSettings.Current.CurrentPopup.Close();
+            AppSettings.Current.CurrentPopup = null;
             
             // Application.Current.Dispatcher.Dispatch(() =>
             // {
