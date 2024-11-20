@@ -41,6 +41,8 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
         <EnableBitcode>false</EnableBitcode>
         <MtouchEnableBitcode>false</MtouchEnableBitcode>
+        <Configurations>Debug;Release;Ad-Hoc</Configurations>
+        <Platforms>AnyCPU</Platforms>
        
 
     </PropertyGroup>
@@ -53,10 +55,18 @@
         <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
     </PropertyGroup>
 
+    <PropertyGroup Condition="$(TargetFramework.Contains('-android'))">
+        <AppIconForegroundScale>0.60</AppIconForegroundScale>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
+        <AppIconForegroundScale>1.0</AppIconForegroundScale>
+    </PropertyGroup>
+
     <ItemGroup>
         <!-- App Icon -->
 <!--        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4"/>-->
-        <MauiIcon Include="Resources\AppIcon\icampus_icon.png"  Color="White" ForegroundScale="0.60"/>
+        <MauiIcon Include="Resources\AppIcon\icampus_icon.png" Color="White" ForegroundScale="$(AppIconForegroundScale)" />
         <!-- Splash Screen -->
 <!--        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128"/>-->
         <MauiSplashScreen Include="Resources\Splash\splash.png" Color="White" />
@@ -160,6 +170,20 @@
         <PublishTrimmed>true</PublishTrimmed>
         <RunAOTCompilation>false</RunAOTCompilation>
         <PublishTrimMode>link</PublishTrimMode>
+    </PropertyGroup>
+    
+    <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-ios' and  '$(Configuration)' == 'Ad-Hoc' ">
+        <CodesignKey>Apple Distribution: Maroun Osta (9ZG78T68HR)</CodesignKey>
+        <CodesignProvision>iCampus_Live_20240814</CodesignProvision>
+        <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+        <PublishTrimmed>true</PublishTrimmed>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-ios' and  '$(Configuration)' == 'Release' ">
+        <CodesignKey>Apple Distribution: Maroun Osta (9ZG78T68HR)</CodesignKey>
+        <CodesignProvision>iCampus_Live_20240814</CodesignProvision>
+        <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
+        <PublishTrimmed>true</PublishTrimmed>
     </PropertyGroup>
     
     

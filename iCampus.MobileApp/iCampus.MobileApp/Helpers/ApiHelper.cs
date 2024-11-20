@@ -16,7 +16,6 @@ using System.Resources;
 using iCampus.Common.ViewModels;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Android.Content.Res;
 using CommunityToolkit.Maui.Views;
 using iCampus.MobileApp.Views;
 using iCampus.MobileApp.Views.PopUpViews;
@@ -471,9 +470,9 @@ public class ApiHelper
 
         public static async Task ShowProcessingIndicatorPopup()
         {
-            _processingPopup = new ProcessingIndicatorPopup();
-            SetPopupInstance(_processingPopup);
-            Application.Current.MainPage.ShowPopup(_processingPopup);
+            // _processingPopup = new ProcessingIndicatorPopup();
+            // SetPopupInstance(_processingPopup);
+            // Application.Current.MainPage.ShowPopup(_processingPopup);
             
 
 
@@ -495,8 +494,8 @@ public class ApiHelper
 
         public static async Task HideProcessingIndicatorPopup()
         {
-            AppSettings.Current.CurrentPopup.Close();
-            AppSettings.Current.CurrentPopup = null;
+            // AppSettings.Current.CurrentPopup.Close();
+            // AppSettings.Current.CurrentPopup = null;
             
             // Application.Current.Dispatcher.Dispatch(() =>
             // {

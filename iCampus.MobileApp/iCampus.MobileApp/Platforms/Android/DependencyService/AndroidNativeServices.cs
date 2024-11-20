@@ -14,6 +14,7 @@ using Activity = Android.App.Activity;
 using Application = Android.App.Application;
 using NotificationManagerCompat = AndroidX.Core.App.NotificationManagerCompat;
 using Process = Java.Lang.Process;
+using Android.OS;
 
 namespace iCampus.MobileApp.DependencyService;
 
@@ -211,7 +212,15 @@ public class AndroidNativeServices : INativeServices
         }
         
         
+        public Task<string> GetDownloadFolderPathAsync()
+        {
+            var folderPath = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads)?.AbsolutePath;
 
+            if (string.IsNullOrEmpty(folderPath))
+                throw new InvalidOperationException("Unable to access Downloads directory.");
+
+            return Task.FromResult(folderPath); // Return Task for async consistency
+        }
         public bool SystemVersionCheck()
         {
             throw new NotImplementedException();

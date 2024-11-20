@@ -125,7 +125,7 @@ public class NewsDetailForm:ViewModelBase
                     if (Attachment.FileStatus == 0)
                     {
                         Attachment.FileStatus = 1;
-                        string filePath = await HelperMethods.DownloadAndReturnFilePath(Attachment.FilePath);
+                        string filePath = await HelperMethods.DownloadAndReturnFilePath(Attachment.FilePath, _nativeServices);
                         if (!string.IsNullOrEmpty(filePath))
                         {
                             Attachment.FileDevicePath = filePath;

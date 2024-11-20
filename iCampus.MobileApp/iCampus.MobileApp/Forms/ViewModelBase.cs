@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
-using Android.Content.Res;
 using AutoMapper;
 using iCampus.Common.Helpers;
 using iCampus.Common.Helpers.Extensions;

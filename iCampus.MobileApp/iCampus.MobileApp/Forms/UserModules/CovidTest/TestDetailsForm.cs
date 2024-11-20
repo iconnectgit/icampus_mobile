@@ -1,7 +1,6 @@
 using System.Collections.ObjectModel;
 using System.Formats.Asn1;
 using System.Windows.Input;
-using Android.Health.Connect.DataTypes;
 using AutoMapper;
 using CommunityToolkit.Maui.Views;
 using iCampus.Common.Helpers;

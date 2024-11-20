@@ -114,7 +114,7 @@ public class EventDetailForm : ViewModelBase
                         if (selectedAttachment.FileStatus == 0)
                         {
                             AttachmentList[AttachmentList.IndexOf(selectedAttachment)].FileStatus = 1;
-                            string filePath = await HelperMethods.DownloadAndReturnFilePath(selectedAttachment.FilePath);
+                            string filePath = await HelperMethods.DownloadAndReturnFilePath(selectedAttachment.FilePath, _nativeServices);
                             if (!string.IsNullOrEmpty(filePath))
                             {
                                 AttachmentList[AttachmentList.IndexOf(selectedAttachment)].FileDevicePath = filePath;

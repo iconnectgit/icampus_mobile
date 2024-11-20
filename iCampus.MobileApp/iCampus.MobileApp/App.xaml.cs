@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Globalization;
 using Akavache;
-using Android.Content.Res;
 using AutoMapper;
 using iCampus.MobileApp.DependencyService;
 using iCampus.MobileApp.Forms;

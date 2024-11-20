@@ -138,7 +138,7 @@ public class ViewSubmissionsForm : ViewModelBase
                             if (attachment.FileName.Equals(selectedAttachment.FileName))
                             {
                                 attachment.FileStatus = 1;
-                                var filePath = await HelperMethods.DownloadAndReturnFilePath(attachment.FilePath);
+                                var filePath = await HelperMethods.DownloadAndReturnFilePath(attachment.FilePath, _nativeServices);
                                 if (!string.IsNullOrEmpty(filePath))
                                 {
                                     attachment.FileName = attachment.FileName + "test";

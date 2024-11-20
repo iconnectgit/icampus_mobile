@@ -132,4 +132,8 @@ public class iOSNativeServices : INativeServices
                 return _viewController;
             }
         }
+        public Task<string> GetDownloadFolderPathAsync()
+        {
+            return Task.FromResult(string.Empty);
+        }
     }

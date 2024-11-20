@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Android.Webkit;
 using iCampus.MobileApp.Forms;
 using iCampus.MobileApp.Forms.UserModules.BooksReservation;
 using CheckBox = InputKit.Shared.Controls.CheckBox;

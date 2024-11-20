@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Android.Runtime;
 using Firebase.CloudMessaging;
 using Foundation;
 using iCampus.MobileApp.Forms;
 using iCampus.MobileApp.Helpers;
-using Java.Interop;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 using UIKit;

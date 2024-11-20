@@ -156,7 +156,7 @@ public class CommunicationDetailsForm : ViewModelBase
                             .Where(i => i.MessageId == selectedAttachment.AttachmentMessageId).FirstOrDefault();
                         var attachmentList = selectedAttachmentMessage.BindableAttachmentList.ToList();
                         attachmentList[attachmentList.IndexOf(selectedAttachment)].FileStatus = 1;
-                        var filePath = await HelperMethods.DownloadAndReturnFilePath(selectedAttachment.FilePath);
+                        var filePath = await HelperMethods.DownloadAndReturnFilePath(selectedAttachment.FilePath, _nativeServices);
                         if (!string.IsNullOrEmpty(filePath))
                         {
                             attachmentList[attachmentList.IndexOf(selectedAttachment)].FileDevicePath = filePath;

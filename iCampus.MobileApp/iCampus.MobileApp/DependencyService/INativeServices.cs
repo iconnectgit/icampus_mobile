@@ -13,4 +13,5 @@ public interface INativeServices
     void NotificationToggled(Action<bool> result = null);
     Task CheckNotificationSetting();
     bool SystemVersionCheck();
+    Task<string> GetDownloadFolderPathAsync();
 }

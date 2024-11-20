@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
-using Android.Text;
 using FFImageLoading.Maui;
 using iCampus.Common.Helpers;
 using iCampus.Common.Helpers.Extensions;

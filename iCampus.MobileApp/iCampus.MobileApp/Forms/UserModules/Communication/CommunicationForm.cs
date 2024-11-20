@@ -541,7 +541,7 @@ public class CommunicationForm : ViewModelBase
                     if (selectedAttachment.FileStatus == 0)
                     {
                         SelectedAttachmentList[SelectedAttachmentList.IndexOf(selectedAttachment)].FileStatus = 1;
-                        var filePath = await HelperMethods.DownloadAndReturnFilePath(selectedAttachment.FilePath);
+                        var filePath = await HelperMethods.DownloadAndReturnFilePath(selectedAttachment.FilePath, _nativeServices);
                         if (!string.IsNullOrEmpty(filePath))
                         {
                             SelectedAttachmentList[SelectedAttachmentList.IndexOf(selectedAttachment)].FileDevicePath =

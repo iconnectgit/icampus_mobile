@@ -191,7 +191,7 @@ public class ExamForm : ViewModelBase
                     {
                         selectedExam.ExamFiles.Where(x => x.FileName == selectedAttachment.FileName).FirstOrDefault()
                             .FileStatus = 1;
-                        var filePath = await HelperMethods.DownloadAndReturnFilePath(selectedAttachment.FilePath);
+                        var filePath = await HelperMethods.DownloadAndReturnFilePath(selectedAttachment.FilePath, _nativeServices);
                         if (!string.IsNullOrEmpty(filePath))
                         {
                             selectedExam.ExamFiles.Where(x => x.FileName == selectedAttachment.FileName)

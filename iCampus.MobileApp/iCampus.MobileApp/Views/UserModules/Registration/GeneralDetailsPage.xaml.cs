@@ -5,7 +5,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Android.Provider;
 using FFImageLoading.Maui;
 using iCampus.Common.ViewModels;
 using iCampus.MobileApp.Controls;

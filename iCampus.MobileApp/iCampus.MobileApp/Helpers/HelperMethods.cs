@@ -1,6 +1,5 @@
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
-using Android;
 using AutoMapper;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
@@ -17,8 +16,6 @@ using iCampus.MobileApp.Helpers.CustomCalendar;
 using iCampus.MobileApp.Views;
 using iCampus.MobileApp.Views.PopUpViews;
 using iCampus.Portal.ViewModels;
-using Android.App;
-using Android.Content;
 using iCampus.Common.Helpers;
 using Application = Microsoft.Maui.Controls.Application;
 
@@ -471,26 +468,25 @@ public class HelperMethods
             //     });
             // }
         }
-        public static async Task<string> DownloadAndReturnFilePath(string fileUrl, CancellationToken cancellationToken = default)
+        public static async Task<string> DownloadAndReturnFilePath(string fileUrl, INativeServices nativeServices, CancellationToken cancellationToken = default)
         {
             try
             {
                 using var httpClient = new HttpClient();
                 using var response = await httpClient.GetAsync(fileUrl, cancellationToken);
-
+            
                 if (!response.IsSuccessStatusCode)
                     throw new HttpRequestException($"Failed to download file: {response.ReasonPhrase}");
-
-                var fileName = Path.GetFileName(new Uri(fileUrl).AbsolutePath) ?? $"download_{DateTime.Now:yyyyMMdd_HHmmss}.bin";
-                string folderPath;
             
-                folderPath = Android.OS.Environment.GetExternalStoragePublicDirectory(Android.OS.Environment.DirectoryDownloads).AbsolutePath;
-
+                var fileName = Path.GetFileName(new Uri(fileUrl).AbsolutePath) ?? $"download_{DateTime.Now:yyyyMMdd_HHmmss}.bin";
+            
+                var folderPath = await nativeServices.GetDownloadFolderPathAsync();
+                    
                 var filePath = Path.Combine(folderPath, fileName);
-
+            
                 using var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None);
                 await response.Content.CopyToAsync(fileStream, cancellationToken);
-
+            
                 await Toast.Make($"File downloaded successfully: {filePath}").Show(cancellationToken);
                 return filePath;
             }

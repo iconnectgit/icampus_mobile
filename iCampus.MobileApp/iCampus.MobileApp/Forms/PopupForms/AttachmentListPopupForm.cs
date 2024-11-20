@@ -80,7 +80,7 @@ public class AttachmentListPopupForm : ViewModelBase
                 try
                 {
                     var selectedAttachment = (BindableAttachmentFileView)obj;
-                    if (Device.RuntimePlatform == Device.iOS)
+                    if (DeviceInfo.Platform == DevicePlatform.iOS)
                     {
                         await AppSettings.Current.CurrentPopup?.CloseAsync();
                         if (!string.IsNullOrEmpty(selectedAttachment.FilePath))
@@ -91,7 +91,7 @@ public class AttachmentListPopupForm : ViewModelBase
                         if (selectedAttachment.FileStatus == 0)
                         {
                             SelectedAttachmentList[SelectedAttachmentList.IndexOf(selectedAttachment)].FileStatus = 1;
-                            string filePath = await HelperMethods.DownloadAndReturnFilePath(selectedAttachment.FilePath);
+                            string filePath = await HelperMethods.DownloadAndReturnFilePath(selectedAttachment.FilePath, _nativeServices);
                             if (!string.IsNullOrEmpty(filePath))
                             {
                                 SelectedAttachmentList[SelectedAttachmentList.IndexOf(selectedAttachment)].FileDevicePath = filePath;
