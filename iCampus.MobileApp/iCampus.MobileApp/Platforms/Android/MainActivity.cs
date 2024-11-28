@@ -8,13 +8,17 @@ using Android.Views;
 using Android.Widget;
 using AndroidX.Core.App;
 using AutoMapper;
+using CommunityToolkit.Maui.Alerts;
 using Firebase;
 using Firebase.Messaging;
 using iCampus.MobileApp.DependencyService;
 using iCampus.MobileApp.Forms;
 using iCampus.MobileApp.Helpers;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 using Newtonsoft.Json;
 using Splat;
+using Boolean = Java.Lang.Boolean;
+using Toast = Android.Widget.Toast;
 
 namespace iCampus.MobileApp;
 

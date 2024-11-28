@@ -304,7 +304,8 @@ public class LoginForm : ViewModelBase
             {
                 // Analytics.TrackEvent("Login ExecuteSignInButton  - " + Email.Value + " - " + DeviceInfo.Name + " - " + DeviceInfo.Model + " - " + DeviceInfo.Platform);
                 // Analytics.TrackEvent("DEVICETOKEN - " + App.RefreshedToken + " - " + DateTime.Now + " - " + DeviceInfo.Name);
-
+                HelperMethods.LogEvent("login_execute_signin_button", 
+                    $"Login ExecuteSignInButton - {Email.Value} - {DeviceInfo.Name} - {DeviceInfo.Model} - {DeviceInfo.Platform}");
             }
             catch (Exception ex)
             {
@@ -321,6 +322,7 @@ public class LoginForm : ViewModelBase
                             var result = await HelperMethods.PerformLogin(Email.Value, Password.Value, deviceId);
                             if (result.IsLoginSuccessful)
                             {
+                                
                                 await ICCacheManager.SaveSecureObject<string>("icampus_pwd", Password.Value);
                                 await ICCacheManager.SaveSecureObject<string>("icampus_email", Email.Value);
                                 MainThread.BeginInvokeOnMainThread(() => AppSettings.Current.IsBusy = true);

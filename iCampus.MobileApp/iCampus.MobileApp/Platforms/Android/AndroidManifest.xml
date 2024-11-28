@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:targetSandboxVersion="1" android:versionName="2.0.48" package="com.icampus.iCampusMobile" android:installLocation="internalOnly" android:versionCode="84">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:targetSandboxVersion="1" android:versionName="2.0.49" package="com.icampus.iCampusMobile" android:installLocation="internalOnly" android:versionCode="86">
 	<application 
 			android:label="iCampus Mobile" 
 			android:allowBackup="true" 

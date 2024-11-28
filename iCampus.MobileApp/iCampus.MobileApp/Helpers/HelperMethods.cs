@@ -17,6 +17,7 @@ using iCampus.MobileApp.Views;
 using iCampus.MobileApp.Views.PopUpViews;
 using iCampus.Portal.ViewModels;
 using iCampus.Common.Helpers;
+using Microsoft.Maui.Controls.PlatformConfiguration;
 using Application = Microsoft.Maui.Controls.Application;
 
 namespace iCampus.MobileApp.Helpers;
@@ -829,5 +830,20 @@ public class HelperMethods
             }
             return mainPage;
         }
+        public static void LogEvent(string eventName, string message)
+        {
+#if ANDROID
+            var firebaseAnalytics = Firebase.Analytics.FirebaseAnalytics.GetInstance(Android.App.Application.Context);
+            var bundle = new Android.OS.Bundle();
+            bundle.PutString("message", message);
+            firebaseAnalytics.LogEvent(eventName, bundle);
+#elif IOS
+    // var parameters = new Foundation.NSDictionary(
+    //     new Foundation.NSString("message"), new Foundation.NSString(message)
+    // );
+    // Firebase.Analytics.Analytics.LogEvent(eventName, parameters);
+#endif
+        }
+        
         #endregion
     }

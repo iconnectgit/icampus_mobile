@@ -139,5 +139,7 @@
 	<string>This app requires access to your photo library to allow you to select and upload photos.</string>
 	<key>NSDocumentsUsageDescription</key>
 	<string>We need access to your documents to save and preview files.</string>
+	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
+	<true></true>
 </dict>
 </plist>
