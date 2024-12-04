@@ -128,6 +128,10 @@ public class CommunicationDetailsForm : ViewModelBase
         IsVisibleCommunicationHeaderDeleteIcon = true;
         CommunicationHeaderDeleteTappedCommand = new Command(DeleteIconTapped);
         ScreenSizeChangedCommand = new Command(ScreeSizeChanged);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         MessagingCenter.Subscribe<BindableCommunicationMessageView>(this, "refreshMessageDetailsList",
             (repliedMessageDetails) =>
             {

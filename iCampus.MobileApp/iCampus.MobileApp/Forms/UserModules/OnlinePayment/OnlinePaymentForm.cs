@@ -573,6 +573,10 @@ public class OnlinePaymentForm : ViewModelBase
             ExpandCollapseClickCommand = new Command<BindableReceiptDetailView>(ExpandCollapseClicked);
             PendingInvoiceCommand = new Command(PendingInvoiceCommandMethod);
             PaymentHistoryCommand = new Command(PaymentHistoryCommandMethod);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
             MinimumAmountRadioButtonImage = "selected_radio_button.png";
             TotalAmountRadioButtonImage = OtherAmountRadioButtonImage="unselected_radio_button.png";
                 SetBeamAppViews();

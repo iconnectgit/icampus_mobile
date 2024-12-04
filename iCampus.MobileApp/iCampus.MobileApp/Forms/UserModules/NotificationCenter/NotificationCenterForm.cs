@@ -170,6 +170,10 @@ public class NotificationCenterForm : ViewModelBase
             LinksClickCommand = new Command<BindableAgendaView>(LinksClicked);
             ArrowClickedCommand = new Command<BindableAgendaView>(ArrowClicked);
             AppointmentListTappedCommand = new Command<AppointmentBookingView>(AppointmentListTappedMethod);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         }
         #region Methods
 

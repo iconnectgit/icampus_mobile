@@ -337,6 +337,10 @@ public class AddTestDetailsForm : ViewModelBase
         PositiveRadioButtonImage = "unselected_radio_button.png";
         NegativeRadioButtonImage = "selected_radio_button.png";
         SaveClickedCommand = new Command(SaveClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         MandatoryFieldErrorMessage = TextResource.MandatoryFieldErrorMessage;
         TestDate = DateTime.Now;
         IsPersonTypeListVisible = AppSettings.Current.IsTeacher ? false : true;

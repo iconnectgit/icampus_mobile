@@ -58,7 +58,7 @@ public class MainActivity : MauiAppCompatActivity, IOnSuccessListener
         }
         catch(Exception ex)
         {
-            //Crashes.TrackError(ex);
+            HelperMethods.TrackCrashlytics(ex);
         }
         if(Intent.Extras != null)
             HandlePushNotification(Intent);
@@ -176,7 +176,7 @@ public class MainActivity : MauiAppCompatActivity, IOnSuccessListener
             }
             catch (Exception ex)
             {
-                //Crashes.TrackError(ex);
+                HelperMethods.TrackCrashlytics(ex);
             }
         }
 

@@ -169,6 +169,11 @@
                                                             </Span>
                                                         </FormattedString>
                                                     </Label.FormattedText>
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.AttachmentClickCommand,Source={x:Reference MessagePage}}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </Label.GestureRecognizers>
                                                 </Label>
                                                 <Label HorizontalOptions="EndAndExpand"
                                                        VerticalOptions="StartAndExpand"

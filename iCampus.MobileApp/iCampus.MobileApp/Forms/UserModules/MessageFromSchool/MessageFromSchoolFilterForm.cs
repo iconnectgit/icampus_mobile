@@ -73,6 +73,10 @@ public class MessageFromSchoolFilterForm : ViewModelBase
         _nativeServices = nativeServices;
         Navigation = navigation;
         SearchClickCommand = new Command(SearchClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
     }
 
     #region Methods

@@ -240,6 +240,10 @@ public class RaiseComplaintsForm : ViewModelBase
             DeleteAttachmentClickCommand = new Command(DeleteAttachmentClicked);
             EditClickCommand = new Command(EditClicked);
             SaveEditorCommand = new Command(SaveEditorClickedMethod);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
             if(AppSettings.Current.IsTeacher)
             {
                 IsStudentListVisible = false;
@@ -252,34 +256,6 @@ public class RaiseComplaintsForm : ViewModelBase
             try
             {
                 OpenHtmlEditPopup(ComplaintDescription, "remarktext");
-                // if (Device.RuntimePlatform == Device.iOS)
-                //     IsNavigationBarVisible = true;
-                //
-                // CrossTEditor.PageTitle = this.PageTitle;
-                // CrossTEditor.SaveText = "Save";
-                // CrossTEditor.CancelText = "Cancel";
-                // string color = AppSettings.Current.Settings.ThemeColor;
-                // await Task.Delay(100);
-                // Task.Run(async () =>
-                // {
-                //     await Task.Delay(500);
-                //     Device.BeginInvokeOnMainThread(() => {
-                //         Xamarin.Forms.DependencyService.Get<INativeServices>().SetToolBarColor(color);
-                //     });
-                // });
-                //
-                // TEditorResponse response = await CrossTEditor.Current.ShowTEditor(this.ComplaintDescription);
-                // IsNavigationBarVisible = false;
-                // if (response.IsSave)
-                // {
-                //     if (response.HTML != null)
-                //     {
-                //         if(Device.RuntimePlatform==Device.Android)
-                //             this.ComplaintDescription= "<html><head><meta name='viewport' content='width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;'/></head><body>" + response.HTML + "</body></html>";
-                //         else
-                //             this.ComplaintDescription = "<html><head><meta name='viewport' content='width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;'/></head><body>" + response.HTML + "</body></html>";
-                //     }
-                // }
             }
             catch(Exception ex)
             {

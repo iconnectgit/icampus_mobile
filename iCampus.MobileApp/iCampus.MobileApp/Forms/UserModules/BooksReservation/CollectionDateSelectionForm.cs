@@ -155,6 +155,10 @@ public class CollectionDateSelectionForm : ViewModelBase
         {
             ArrowClickedCommand = new Command<BindableAppointmentAvailableTimeView>(ArrowClicked);
             SaveAndConfirmClickedCommand = new Command(SaveAndConfirmClicked);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
 
             MessagingCenter.Subscribe<string>("", "SelectCollectionDatePageSubscribe", (arg) =>
             {

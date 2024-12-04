@@ -177,6 +177,10 @@ public class EventForm : ViewModelBase
         LinksClickCommand = new Command<BindableCalendarView>(LinksClicked);
         SearchClickCommand = new Command(SearchClicked);
         ExpandCollapseClickCommand = new Command<BindableCalendarView>(ExpandCollapseClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         await GetCalendarEventList();
         MessagingCenter.Subscribe<string>("", "ListViewRightSwipeEvents", async (arg) =>
         {

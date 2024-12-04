@@ -68,6 +68,10 @@ public class WeeklyPlanDetailFrom : ViewModelBase
         {
             BackVisible = true;
             EditClickCommand = new Command(EditClickCommandMethod);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         }
 
         private async void EditClickCommandMethod(object obj)

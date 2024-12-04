@@ -80,6 +80,10 @@ public class NewsDetailForm:ViewModelBase
             this.AttachmentClickCommand = new Command(AttachmentClicked);
             this.DownloadTappedCommand = new Command(DownloadClicked);
             this.WebsiteLinksTappedCommand = new Command<WebsiteLinkView>(WebsiteLinkClicked);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
             //MessagingCenter.Subscribe<string>("", "ListViewRightSwipeNewsDetails", async (arg) =>
             //{
             //  await SideMenuClicked();

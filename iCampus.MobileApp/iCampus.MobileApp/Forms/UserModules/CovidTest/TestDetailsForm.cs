@@ -179,6 +179,10 @@ public class TestDetailsForm : ViewModelBase
     private async void InitializePage()
     {
         SearchClickCommand = new Command(SearchClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         ToDate = DateTime.Now;
         FromDate = ToDate.AddDays(-30);
         FilterClickCommand = new Command(FilterClicked);

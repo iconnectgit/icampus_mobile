@@ -183,6 +183,10 @@ public class MedicalSearchForm : ViewModelBase
     private async void InitializePage()
     {
         SearchClickCommand = new Command(SearchClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         GetMedicalIncidentsData();
     }
 

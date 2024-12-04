@@ -27,5 +27,9 @@ public class ConductDetailForm : ViewModelBase
         _nativeServices = nativeServices;
         Navigation = navigation;
         BackVisible = true;
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
     }
 }

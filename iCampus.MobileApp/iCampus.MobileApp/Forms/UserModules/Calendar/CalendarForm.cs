@@ -786,6 +786,10 @@ public class CalendarForm : ViewModelBase
         WeeklyPlanClickedCommand = new Command(WeeklyPlanClickedMethod);
         WeeklyExpandCollapseClickCommand = new Command<BindableAgendaWeeklyGroupView>(WeeklyExpandCollapseClicked);
         WeeklyListTappedCommand = new Command<BindableAgendaWeeklyGroupView>(WeeklyListViewTappedMethod);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
     }
 
     private async void WeeklyPlanClickedMethod()

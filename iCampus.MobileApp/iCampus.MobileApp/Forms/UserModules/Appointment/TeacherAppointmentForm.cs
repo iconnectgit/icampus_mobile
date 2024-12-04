@@ -229,6 +229,10 @@ public class TeacherAppointmentForm : ViewModelBase
             DeleteClickCommand = new Command(DeleteClicked);
             RequestAppointmentClickCommand = new Command(RequestAppointmentClicked);
             TimeSlotClickCommand = new Command(TimeSlotSelected);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
             NotificationItemId = notificationItemId;
             if(!string.IsNullOrEmpty(NotificationItemId))
                 AppSettings.Current.RefreshTeacherAppointmentList = true;

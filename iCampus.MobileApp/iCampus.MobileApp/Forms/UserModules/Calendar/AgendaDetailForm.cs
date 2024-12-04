@@ -276,6 +276,10 @@ public class AgendaDetailForm : ViewModelBase
             this.DeleteAttachmentClickCommand = new Command(DeleteAttachmentClicked);
             this.SubmitSubmissionClickCommand = new Command(SubmitSubmissionClicked);
             this.ViewSubmissionsClickedCommand = new Command(ViewSubmissionsClicked);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
             MessagingCenter.Subscribe<string>("", "ScrollViewRightSwipeAgendaSubscribe",  (arg) =>
             {
                 MessagingCenter.Subscribe<string>("", "ScrollViewRightSwipeAgenda", async (args) =>

@@ -129,6 +129,10 @@ public class DailyMarksForm : ViewModelBase
             Navigation = navigation;
             SearchClickCommand = new Command(DailyMarksSearchClicked);
             ExpandClickCommand = new Command<BindableDailyMarksModel>(ExpandClicked);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
             MessagingCenter.Subscribe<DailyMarksFilterForm>(this, "SearchDailyMarks", async (filterFormData) =>
             {
                 SelectedTermIndex = filterFormData.SelectedTermIndex;

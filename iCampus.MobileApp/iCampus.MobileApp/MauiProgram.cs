@@ -29,6 +29,7 @@ using iCampus.Portal.EditModels;
 using iCampus.Portal.ViewModels;
 using Microcharts.Maui;
 using Microsoft.Maui.Handlers;
+using Microsoft.Maui.LifecycleEvents;
 using Newtonsoft.Json;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using Splat;
@@ -159,19 +160,15 @@ public static class MauiProgram
         CultureInfo.DefaultThreadCurrentCulture = defaultCulture;
         CultureInfo.DefaultThreadCurrentUICulture = defaultCulture;
 
-#if __ANDROID__
+#if ANDROID
         Locator.CurrentMutable.RegisterConstant<INativeServices>(new AndroidNativeServices());
-#endif        
-#if __IOS__       
-        //Locator.CurrentMutable.RegisterConstant<INativeServices>(new iOSNativeServices());
+#elif IOS       
+        Locator.CurrentMutable.RegisterConstant<INativeServices>(new iOSNativeServices());
 #endif
-        
-       
 
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
-
         return builder.Build();
     }
 }

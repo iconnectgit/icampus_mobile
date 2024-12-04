@@ -15,6 +15,10 @@ public class AlertsForm : ViewModelBase
 
     private void InitializePage()
     {
-        this.PageTitle = TextResource.AlertsPageTitle;
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
+        PageTitle = TextResource.AlertsPageTitle;
     }
 }

@@ -88,6 +88,10 @@ public class CircularDetailForm : ViewModelBase
             WebsiteLinksTappedCommand = new Command<WebsiteLinkView>(LinksClicked);
             AttachmentListTappedCommand = new Command(AttachmentClicked);
             this.DownloadTappedCommand = new Command(DownloadClicked);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         }
 
         private void LinksClicked(WebsiteLinkView sender)

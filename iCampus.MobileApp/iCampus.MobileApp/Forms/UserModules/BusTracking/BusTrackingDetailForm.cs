@@ -35,6 +35,10 @@ public class BusTrackingDetailForm : ViewModelBase
 
     private async void InitializePage()
     {
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         FormTitle = TextResource.BusTrackingPageTitle;
         MenuVisible = true;
         IsVisiblBackIconAndPageTitle = true;

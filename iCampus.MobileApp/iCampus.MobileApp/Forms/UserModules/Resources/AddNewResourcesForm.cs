@@ -443,6 +443,10 @@ public class AddNewResourcesForm : ViewModelBase
         SelectFileCommand = new Command(AddAttachmentClicked);
         SaveCommand = new Command(SaveClicked);
         DeleteAttachmentClickCommand = new Command(DeleteAttachmentClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         MandatoryFieldErrorMessage = TextResource.MandatoryFieldErrorMessage;
         MessagingCenter.Subscribe<BindableResourcesPickListItem>(this, "UpdateClassSelection", async (args) =>
         {

@@ -419,6 +419,10 @@ public class BooksReservationForm : ViewModelBase
             SkipStudentCommand = new Command(SkipStudentClicked);
             SelectCollectionDateCommand = new Command(SelectCollectionDateClicked);
             SaveAndConfirmClickedCommand = new Command(SaveAndConfirmClicked);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
             if (AppSettings.Current.StudentList!=null&& AppSettings.Current.StudentList.Count()>0)
             {
                 StudentListForBooksReservation = AppSettings.Current.StudentList;

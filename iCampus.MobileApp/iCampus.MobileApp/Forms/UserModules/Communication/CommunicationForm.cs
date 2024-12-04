@@ -158,17 +158,7 @@ public class CommunicationForm : ViewModelBase
     }
 
     #endregion
-
-    // public CommunicationForm(IMapper mapper)
-    // {
-    //     _mapper = mapper;
-    //     InitializePage();
-    // }
-    // public CommunicationForm(string notificationItemId)
-    // {
-    //     NotificationItemId = notificationItemId;
-    //     GetCommunicationMessageList();
-    // }
+    
 
     public CommunicationForm(IMapper mapper, INativeServices nativeServices, INavigation navigation, string notificationItemId = null) : base(null, null,
         null)
@@ -177,17 +167,9 @@ public class CommunicationForm : ViewModelBase
         _nativeServices = nativeServices;
         Navigation = navigation;
         NotificationItemId = notificationItemId;
-        // if(!string.IsNullOrEmpty(NotificationItemId))
-        //     GetCommunicationMessageList();
+         GetCommunicationMessageList();
         InitializePage();
     }
-
-    // Constructor that accepts notificationItemId and passes it to InitializePage
-    // public CommunicationForm(string notificationItemId) : base(null, null, null)
-    // {
-    //     NotificationItemId = notificationItemId;
-    //     GetCommunicationMessageList();
-    // }
 
     private async void InitializePage()
     {
@@ -205,6 +187,10 @@ public class CommunicationForm : ViewModelBase
         MessageTypeSelectedCommand = new Command(MessageTypeSelected);
         AttachmentListTappedCommand = new Command(AttachmentListClicked);
         DownloadTappedCommand = new Command(DownloadClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         IsVisibleDropDownIcon = true;
         MessagingCenter.Subscribe<BindableCommunicationMessageView>(this, "refreshList", async (messageList) =>
         {

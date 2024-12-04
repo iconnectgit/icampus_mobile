@@ -81,6 +81,10 @@ public class TimeTableForm : ViewModelBase
     {
         AttachmentClickCommand = new Command(AttachmentClicked);
         DownloadTappedCommand = new Command(DownloadClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         BackVisible = false;
         MenuVisible = true;
         InitPageSetup();

@@ -76,6 +76,10 @@ public class CircularsForm : ViewModelBase
             AttachmentClickCommand = new Command(AttachmentClicked);
             LinksClickCommand = new Command(LinksClicked);
             WebsiteLinksTappedCommand = new Command<string>(WebsiteLinkClicked);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
             await GetCircularList();
         }
         catch (Exception ex)

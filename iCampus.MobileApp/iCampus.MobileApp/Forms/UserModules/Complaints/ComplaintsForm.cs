@@ -102,6 +102,10 @@ public class ComplaintsForm : ViewModelBase
                 EditClickCommand = new Command(EditClicked);
                 DeleteClickCommand = new Command(DeleteClicked);
                 RaiseComplaintClickCommand = new Command(RaiseComplaintClicked);
+                BeamMenuClickCommand = new Command(BeamMenuClicked);
+                BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+                BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+                BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
                 await GetComplaintsList();
                 MessagingCenter.Subscribe<RaiseComplaintsForm>(this, "SendComplaint", (arg) =>
                 {

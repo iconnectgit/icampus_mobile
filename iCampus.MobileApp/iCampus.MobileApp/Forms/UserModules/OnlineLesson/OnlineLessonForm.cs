@@ -77,6 +77,10 @@ public class OnlineLessonForm : ViewModelBase
         private async void InitializePage()
         {
             IsFileAvailable = false;
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         }
 
 

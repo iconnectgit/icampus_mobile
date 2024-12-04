@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using AutoMapper;
 using iCampus.Common.ViewModels;
 using iCampus.MobileApp.DependencyService;
 using iCampus.MobileApp.Helpers;
@@ -83,15 +84,21 @@ public class CertificatesForm : ViewModelBase
         
         public List<int> CertificateIdList = new List<int>();
 
-        public CertificatesForm(INativeServices nativeServices) : base(null, null, null)
+        public CertificatesForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)
         {
+            _mapper = mapper;
             _nativeServices = nativeServices;
+            Navigation = navigation;
             InitializePage();
         }
 
         private async void InitializePage()
         {
             CertificateClickCommand = new Command<CertificateView>(CertificateViewClicked);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         }
 
         public async Task GetCertificates()

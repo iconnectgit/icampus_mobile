@@ -81,6 +81,10 @@ public class ExamForm : ViewModelBase
         DonwloadTappedCommand = new Command(DownloadClicked);
         ExpandCollapseClickCommand = new Command<BindableExamScheduleView>(ExpandCollapseClicked);
         ArrowClickedCommand = new Command<BindableExamScheduleView>(ExpandCollapseClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
     }
 
     #region Methods

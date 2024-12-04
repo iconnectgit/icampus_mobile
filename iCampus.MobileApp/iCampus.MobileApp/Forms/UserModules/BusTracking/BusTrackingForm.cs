@@ -123,6 +123,10 @@ public class BusTrackingForm : ViewModelBase
         MenuVisible = true;
         IsVisiblBackIconAndPageTitle = false;
         TrackButtonCommand = new Command(TrackBusButtonClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         PickUpDataAvailable = DropOffDataAvailable = false;
         NoDataExist = false;
     }

@@ -85,6 +85,10 @@ public class TopupHistoryForm : ViewModelBase
         {
             DownloadCommand = new Command<BindableReceiptDetailView>(DownloadClicked);
             ExpandCollapseClickCommand = new Command<BindableReceiptDetailView>(ExpandCollapseClicked);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         }
 
         private async Task<IList<ReceiptDetailView>> GetTopupHistoryList()

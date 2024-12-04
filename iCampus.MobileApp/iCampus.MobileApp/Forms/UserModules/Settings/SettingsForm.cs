@@ -55,6 +55,10 @@ public class SettingsForm : ViewModelBase
         {
             try
             {
+                BeamMenuClickCommand = new Command(BeamMenuClicked);
+                BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+                BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+                BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
                 await _nativeServices.CheckNotificationSetting();
                 VersionText = TextResource.VersionText + " " + VersionTracking.CurrentVersion;
                 HelperMethods.UpdatePushNotificationSetting(AppSettings.Current.IsPushNotificationEnable,null, _nativeServices);

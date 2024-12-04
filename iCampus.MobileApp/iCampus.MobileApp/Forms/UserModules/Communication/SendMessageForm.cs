@@ -706,6 +706,10 @@ public class SendMessageForm : ViewModelBase
         SelectionCommand = new Command(FromListSelection);
         FromListTappedCommand = new Command<BindableStudentPickListItem>(FromListTapped);
         ListChangedCommand = new Command<BindableStudentPickListItem>(FromListChanged);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         IsNameSelected = true;
         IsComposeAttachmentVisible = true;
         IsComposeSendVisible = true;

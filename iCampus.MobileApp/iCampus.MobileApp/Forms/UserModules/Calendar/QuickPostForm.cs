@@ -819,6 +819,10 @@ public class QuickPostForm : ViewModelBase
             GroupListTappedCommand = new Command<PickListItem>(GroupListTappedMethod);
             CancelCommand = new Command(CancelWeeklyAgendaMethod);
             SaveEditorCommand = new Command(SaveEditorClickedMethod);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
 
             
             MessagingCenter.Subscribe<string>("", "AllClassSelection", async (args) =>

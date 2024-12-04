@@ -141,5 +141,7 @@
 	<string>We need access to your documents to save and preview files.</string>
 	<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
 	<true></true>
+	<key>FirebaseAnalyticsDebugEnabled</key>
+	<true/>
 </dict>
 </plist>

@@ -192,6 +192,10 @@ public class ResourcesFilterForm : ViewModelBase
         SearchClickCommand = new Command(SearchClicked);
         ArrowClickedCommand = new Command<BindableResourceView>(ArrowClicked);
         AttachmentClickCommand = new Command<BindableResourceView>(AttachmentClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
 
         GetResourceData();
     }

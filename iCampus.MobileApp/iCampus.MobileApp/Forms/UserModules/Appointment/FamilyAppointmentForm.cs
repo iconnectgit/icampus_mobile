@@ -95,6 +95,10 @@ public class FamilyAppointmentForm : ViewModelBase
         FamilyAppointmentListTappedCommand = new Command<AppointmentBookingView>(AppointmentListTappedCommand);
         ApproveClickCommand = new Command<AppointmentBookingView>(ApproveClicked);
         CompleteClickCommand = new Command<AppointmentBookingView>(CompleteClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         await GetFamilyAppointmentList();
         MessagingCenter.Subscribe<AppointmentBookingView>(this, "FamilyAppointmentStatusUpdated",
             async (updatedAppointment) =>

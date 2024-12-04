@@ -84,10 +84,14 @@ public class EventDetailForm : ViewModelBase
             _mapper = mapper;
             _nativeServices = nativeServices;
             Navigation = navigation;
-            this.BackVisible = true;
-            this.PreviewIconTappedCommand = new Command(PreviewIconClicked);
-            this.DownloadTappedCommand = new Command(DownloadClicked);
-            this.WebsiteLinksTappedCommand = new Command<WebsiteLinkView>(WebsiteLinkClicked);
+            BackVisible = true;
+            PreviewIconTappedCommand = new Command(PreviewIconClicked);
+            DownloadTappedCommand = new Command(DownloadClicked);
+            WebsiteLinksTappedCommand = new Command<WebsiteLinkView>(WebsiteLinkClicked);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
             MessagingCenter.Subscribe<string>("", "EventDetailsSwipeSubscribe", (arg) =>
             {
                 MessagingCenter.Subscribe<string>("", "EventDetailsSwipe", async (a) =>

@@ -302,6 +302,10 @@ public class AttendanceForm : ViewModelBase
         FilterClickCommand = new Command(FilterClicked);
         PickerTappedCommand = new Command<PickListItem>(TypePickerClicked);
         TypeClickCommand = new Command(TypeClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         FromDate = DateTime.Now;
         ToDate = DateTime.Now;
         TotalDaysLabelText = "Total School days till" + " " + DateTime.Today.ToString("dd/MM/y");

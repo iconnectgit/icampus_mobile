@@ -102,6 +102,10 @@ public class ViewSubmissionsForm : ViewModelBase
         SearchClickCommand = new Command(SearchClicked);
         AttachmentListTappedCommand = new Command(AttachmentListClicked);
         DownloadTappedCommand = new Command(DownloadClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
     }
 
     private async void AttachmentListClicked(object obj)

@@ -223,6 +223,10 @@ public class TeacherResourcesForm:ViewModelBase
             EditClickCommand = new Command<BindableResourceView>(EditClicked);
             DeleteClickCommand = new Command<BindableResourceView>(DeleteClicked);
             this.RefreshedCommand = new Command(RefreshResourceList);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
             MessagingCenter.Subscribe<AddNewResourcesForm>(this, "UpdateResourcesData", async (arg) =>
             {
                 AppSettings.Current.RefreshResourseData = true;

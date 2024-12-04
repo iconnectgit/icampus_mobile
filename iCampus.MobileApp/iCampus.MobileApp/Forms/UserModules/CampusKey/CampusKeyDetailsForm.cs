@@ -88,6 +88,10 @@ public class CampusKeyDetailsForm : ViewModelBase
             _mapper = mapper;
             _nativeServices = nativeServices;
             Navigation = navigation;
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         }
         #region Methods
 

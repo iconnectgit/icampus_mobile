@@ -341,6 +341,10 @@ public class MessageFromSchoolForm : ViewModelBase
             ToDate = DateTime.Now;
             LinksClickCommand = new Command<CircularView>(LinksClicked);
             AttachmentClickCommand = new Command<CircularView>(AttachmentClicked);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
             await GetData();
             MessagingCenter.Subscribe<FeedBackAlertMessageView>(this, "CustomAlertSavedSuccess",
                 async (submittedAlert) =>

@@ -19,7 +19,13 @@ using iCampus.Portal.ViewModels;
 using iCampus.Common.Helpers;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Application = Microsoft.Maui.Controls.Application;
-
+#if IOS
+    using Foundation;
+    using Firebase.Crashlytics;
+#elif ANDROID
+    using Firebase;
+    using Firebase.Crashlytics;
+#endif
 namespace iCampus.MobileApp.Helpers;
 
 public class HelperMethods
@@ -838,12 +844,37 @@ public class HelperMethods
             bundle.PutString("message", message);
             firebaseAnalytics.LogEvent(eventName, bundle);
 #elif IOS
-    // var parameters = new Foundation.NSDictionary(
-    //     new Foundation.NSString("message"), new Foundation.NSString(message)
-    // );
-    // Firebase.Analytics.Analytics.LogEvent(eventName, parameters);
+            var parameters = new Foundation.NSDictionary<Foundation.NSString, Foundation.NSObject>(
+                new Foundation.NSString("message"), new Foundation.NSString(message));
+            Firebase.Analytics.Analytics.LogEvent(eventName, parameters);
 #endif
         }
-        
+
+        public static void TrackCrashlytics(Exception exception)
+        {
+            try
+            {
+#if IOS
+            var errorInfo = new Dictionary<object, object> {
+                { NSError.LocalizedDescriptionKey, exception.Message },
+                { NSError.LocalizedFailureReasonErrorKey, "Managed Failure" },
+                { NSError.LocalizedRecoverySuggestionErrorKey, "Check your code or logs for more details." }
+            };
+        var error = new NSError(new NSString("NonFatalError"),-1001,
+                    NSDictionary.FromObjectsAndKeys(errorInfo.Values.ToArray(), errorInfo.Keys.ToArray(), errorInfo.Keys.Count));
+
+                Crashlytics.SharedInstance.RecordError(error);
+
+#elif ANDROID
+                FirebaseCrashlytics.Instance.RecordException(Java.Lang.Throwable.FromException(exception));
+#endif
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error recording exception in Crashlytics: {ex.Message}");
+            }
+        }
+
         #endregion
     }

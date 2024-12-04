@@ -8,6 +8,8 @@ namespace iCampus.MobileApp.Forms.UserModules.TeacherEvaluation;
 
 public class TeacherEvaluationForm : ViewModelBase
 {
+    #region Declaration
+
     public ICommand SelectStarCommandI { get; set; }
     public ICommand SelectStarCommandII { get; set; }
     public ICommand SelectStarCommandIII { get; set; }
@@ -15,6 +17,9 @@ public class TeacherEvaluationForm : ViewModelBase
     public ICommand SelectStarCommandV { get; set; }
     public ICommand SubmitCommand { get; set; }
 
+    #endregion
+
+    #region Properties
 
     private List<BindableTeacherFeedBackView> _feedbackDataList;
 
@@ -52,6 +57,8 @@ public class TeacherEvaluationForm : ViewModelBase
         }
     }
 
+    #endregion
+
 
     public TeacherEvaluationForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null,
         null, null)
@@ -62,6 +69,8 @@ public class TeacherEvaluationForm : ViewModelBase
         InitializePage();
     }
 
+    #region Methods
+
     private async void InitializePage()
     {
         SelectStarCommandI = new Command<BindableTeacherFeedBackView>(SelectStarCommandClickedI);
@@ -70,6 +79,10 @@ public class TeacherEvaluationForm : ViewModelBase
         SelectStarCommandIV = new Command<BindableTeacherFeedBackView>(SelectStarCommandClickedIV);
         SelectStarCommandV = new Command<BindableTeacherFeedBackView>(SelectStarCommandClickedV);
         SubmitCommand = new Command<BindableTeacherFeedBackView>(SubmitCommandClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
     }
 
     private async Task GetDetails()
@@ -204,4 +217,6 @@ public class TeacherEvaluationForm : ViewModelBase
             HelperMethods.DisplayException(ex, PageTitle);
         }
     }
+
+    #endregion
 }

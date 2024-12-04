@@ -924,6 +924,10 @@ public class AddNewPostForm : ViewModelBase
             EditClickCommand = new Command(EditClicked);
             LeanningOutcomeEditClickCommand = new Command(LeanningOutcomeEditClicked);
             SaveEditorCommand = new Command(SaveEditorClickedMethod);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
             DueMinimumDate = DateTime.Now;
             MessagingCenter.Subscribe<string>("", "ReminderDateSelected", async (args) =>
             {

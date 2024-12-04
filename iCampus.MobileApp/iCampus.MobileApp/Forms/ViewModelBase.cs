@@ -1757,7 +1757,7 @@ public class ViewModelBase : INotifyPropertyChanged
                 }
                 else if (obj.ModuleCode.ToLower().Equals("certificate"))
                 {
-                    CertificatesForm certificatesform = new(_nativeServices)
+                    CertificatesForm certificatesform = new(_mapper, _nativeServices, Navigation)
                     {
                         PageTitle = obj.ModuleName,
                         MenuVisible = true,

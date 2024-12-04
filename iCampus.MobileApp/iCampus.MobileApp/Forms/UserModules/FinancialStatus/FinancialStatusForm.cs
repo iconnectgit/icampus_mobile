@@ -144,6 +144,10 @@ public class FinancialStatusForm : ViewModelBase
             HistoryStmtListTappedCommand = new Command(HistoryStatementClicked);
             FinancilaExpandCollapseClickCommand = new Command<BindableFinancialStatementView>(FinancialExpandCollapseClicked);
             HistoryExpandCollapseClickCommand = new Command<BindableFinancialStatementHistoryView>(HistoryExpandCollapseClicked);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
             await GetFinancialStatementData();
         }
         

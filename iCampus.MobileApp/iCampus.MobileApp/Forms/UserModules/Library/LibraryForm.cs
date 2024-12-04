@@ -7,11 +7,16 @@ namespace iCampus.MobileApp.Forms.UserModules.Library;
 
 public class LibraryForm : ViewModelBase
 {
+    #region Declaration
+
     public ICommand CurrentCommand { get; set; }
     public ICommand HistoryCommand { get; set; }
     public ICommand CurrentExpandCollapseClickCommand { get; set; }
     public ICommand HistoryExpandCollapseClickCommand { get; set; }
 
+    #endregion
+
+    #region Properties
 
     private bool _isHistory = false;
 
@@ -181,6 +186,9 @@ public class LibraryForm : ViewModelBase
         }
     }
 
+    #endregion
+
+
     public LibraryForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)
     {
         _mapper = mapper;
@@ -188,6 +196,8 @@ public class LibraryForm : ViewModelBase
         Navigation = navigation;
         InitializePage();
     }
+
+    #region Methods
 
     private async void InitializePage()
     {
@@ -197,6 +207,10 @@ public class LibraryForm : ViewModelBase
         HistoryCommand = new Command(HistoryCommandClicked);
         CurrentExpandCollapseClickCommand = new Command<BindableLibraryView>(CurrentExpandCollapseClicked);
         HistoryExpandCollapseClickCommand = new Command<BindableLibraryView>(HistoryExpandCollapseClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
     }
 
     private async Task GetDetails()
@@ -329,4 +343,6 @@ public class LibraryForm : ViewModelBase
             HelperMethods.DisplayException(ex, PageTitle);
         }
     }
+
+    #endregion
 }

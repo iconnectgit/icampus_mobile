@@ -43,6 +43,10 @@ public class ComplaintsDetailForm : ViewModelBase
             this.BackVisible = true;
             this.PreviewIconTappedCommand = new Command(PreviewIconClicked);
             this.DownloadTappedCommand = new Command(DownloadClicked);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         }
         
         private async void DownloadClicked(object obj)

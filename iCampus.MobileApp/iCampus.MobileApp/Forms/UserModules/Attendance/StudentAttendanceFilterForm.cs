@@ -481,6 +481,10 @@ public class StudentAttendanceFilterForm : ViewModelBase
         //CoursePickerChangeCommand = new Command<ExtPickListItem>(CourseSelectionChanged);
         ElectiveCheckboxChangeCommand = new Command(ElectiveCheckChanged);
         DateSelectionChangeCommand = new Command(DateSelectionChanged);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         SetGridDefintion();
     }
 

@@ -150,6 +150,10 @@ public class AttendancePageFilterForm : ViewModelBase
         _nativeServices = nativeServices;
         Navigation = navigation;
         SearchClickCommand = new Command(SearchClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
     }
 
     private void SearchClicked(object obj)

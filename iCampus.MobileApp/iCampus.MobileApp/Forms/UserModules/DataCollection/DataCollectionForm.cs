@@ -135,6 +135,10 @@ public class DataCollectionForm : ViewModelBase
         DownloadTappedCommand = new Command<BindableAttachmentFileView>(DownloadClicked);
         AddAttachmentClickCommand = new Command<BindableDataCollectionFieldsView>(AddAttachmentClicked);
         AttachmentListTappedCommand = new Command(AttachmentListClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
     }
 
     #region methods

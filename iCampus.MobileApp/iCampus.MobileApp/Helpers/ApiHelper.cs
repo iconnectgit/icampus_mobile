@@ -33,6 +33,10 @@ public class ApiHelper
         private static string publicKey = TextResource.PublicKey;
         private static string secretKey = TextResource.SecretKey;
         private static ProcessingIndicatorPopup _processingPopup;
+        private static bool _isPopupVisible = false;
+        private static int _popupRequestCount = 0;
+        private static readonly object _lock = new object();
+
 
         #region Caching
 
@@ -113,14 +117,12 @@ public class ApiHelper
                     var response = await GetAsyncApiResponse(client, methodName, apiUrl);
                     if (response.StatusCode == HttpStatusCode.Unauthorized && !AppSettings.Current.IsSessionExpiredAlert)
                     {
-                        // Analytics.TrackEvent(name: response.StatusCode.ToString(),
-                        //     new Dictionary<string, string> {
-                        //         { "DateTime", DateTime.Now.ToString() },
-                        //         { "methodName", methodName}
-                        //     });
+                        HelperMethods.LogEvent("API_Calling", $"Date - {DateTime.Now.ToString()} - MethodName - {cacheKeyPrefix} - ResponseStatus - {response.StatusCode.ToString()}");
+                        
                         await HelperMethods.PerformAutoLogout(apiUrl);
                         return result;
                     }
+                    
                     await response.Content.ReadAsStringAsync().ContinueWith((Task<string> x) =>
                     {
                         if (x.IsFaulted)
@@ -360,7 +362,7 @@ public class ApiHelper
             }
             catch (Exception ex)
             {
-                //HelperMethods.DisplayException(ex);
+                HelperMethods.DisplayException(ex);
             }
 
         }
@@ -470,22 +472,18 @@ public class ApiHelper
 
         public static async Task ShowProcessingIndicatorPopup()
         {
-            // _processingPopup = new ProcessingIndicatorPopup();
-            // SetPopupInstance(_processingPopup);
-            // Application.Current.MainPage.ShowPopup(_processingPopup);
-            
+            lock (_lock)
+            {
+                _popupRequestCount++;
+                if (_popupRequestCount > 1) return; // Popup is already shown.
+            }
 
+            _processingPopup = new ProcessingIndicatorPopup();
 
-            // if (_processingPopup == null)
-            // {
-            //     // Initialize and show the popup if it doesn't exist
-            //     _processingPopup = new ProcessingIndicatorPopup();
-            //     Application.Current.MainPage.ShowPopup(_processingPopup);
-            // }
-
-
-
-            //Application.Current.MainPage.ShowPopup(new ProcessingIndicatorPopup());
+            await MainThread.InvokeOnMainThreadAsync(() =>
+            {
+                Application.Current.MainPage.ShowPopup(_processingPopup);
+            });
         }
         public static void SetPopupInstance(Popup popup)
         {
@@ -494,38 +492,20 @@ public class ApiHelper
 
         public static async Task HideProcessingIndicatorPopup()
         {
-            // AppSettings.Current.CurrentPopup.Close();
-            // AppSettings.Current.CurrentPopup = null;
-            
-            // Application.Current.Dispatcher.Dispatch(() =>
-            // {
-            //     _processingPopup.Close(); 
-            //     _processingPopup = null; 
-            // });
-            
-            
-            
-            // if (_processingPopup != null)
-            // {
-            //     _processingPopup = new ProcessingIndicatorPopup();
-            //     _processingPopup.PopupClosedMethod();
-            //     _processingPopup = null; 
-            // }
-            //
+            lock (_lock)
+            {
+                if (_popupRequestCount <= 0) return;
 
-            // try
-            // {
-            //     if (_processingPopup != null)
-            //     {
-            //         _processingPopup.Close();
-            //         //_processingPopup = null; 
-            //     }
-            // }
-            // catch (Exception e)
-            // {
-            //     Console.WriteLine(e);
-            //     throw;
-            // }
+                _popupRequestCount--;
+
+                if (_popupRequestCount > 0) return; // Other requests are pending, don't close yet.
+            }
+
+            await MainThread.InvokeOnMainThreadAsync(() =>
+            {
+                _processingPopup?.Close();
+                _processingPopup = null;
+            });
         }
 
         private static ByteArrayContent CreateFileContent(byte[] content, string fileName, string contentType)

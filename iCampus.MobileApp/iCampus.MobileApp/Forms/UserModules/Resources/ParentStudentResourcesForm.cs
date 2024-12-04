@@ -188,6 +188,10 @@ public class ParentStudentResourcesForm : ViewModelBase
             ArrowClickedCommand = new Command<BindableResourceView>(ArrowClicked);
             this.RefreshedCommand = new Command(RefreshResourceList);
             SearchButtonClickCommand = new Command(SearchButtonClickedMethod);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
             MessagingCenter.Subscribe<ResourcesFilterForm>(this, "Search", async (filterFormData) =>
             {
                 SelectedTerm = filterFormData.SelectedTerm;

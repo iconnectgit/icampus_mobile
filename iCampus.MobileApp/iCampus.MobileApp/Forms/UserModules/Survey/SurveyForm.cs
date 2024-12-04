@@ -139,6 +139,10 @@ public class SurveyForm : ViewModelBase
         PickerChangedEventCommand = new Command(PickerChanged);
         RadioChangeCommand = new Command(RadioChanged);
         SubmitCommand = new Command(SubmitClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         TrueFalseChangeCommand = new Command(TrueFalseChanged);
         if (App.SurveyIdList == null)
             App.SurveyIdList = new List<int>();

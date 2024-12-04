@@ -324,6 +324,10 @@ public class MedicalForm : ViewModelBase
         VaccinationTabbedCommand = new Command(VaccinationTabbedClicked);
         SearchClickCommand = new Command(SearchClicked);
         FilterClickCommand = new Command(FilterClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         if (IsIncidentFilterPage)
         {
             ToDate = DateTime.Now;

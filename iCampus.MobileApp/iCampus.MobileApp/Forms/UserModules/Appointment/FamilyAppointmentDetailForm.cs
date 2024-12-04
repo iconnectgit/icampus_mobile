@@ -37,6 +37,10 @@ public class FamilyAppointmentDetailForm : ViewModelBase
             PageTitle = TextResource.FamilyAppointmentPageTitle;
             SubmitClickCommand = new Command<AppointmentBookingView>(SubmitAppointmentComments);
             AppointmentStatusClickCommand = new Command<AppointmentBookingView>(SaveAppointmentStatus);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
             MessagingCenter.Subscribe<string>("", "ScrollViewRightSwipeFamilyAppointmentDetailsSubscribe", (arg) =>
             {
                 MessagingCenter.Subscribe<string>("", "ScrollViewRightSwipeFamilyAppointmentDetail", async (argFamilyppointment) =>

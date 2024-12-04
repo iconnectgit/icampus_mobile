@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Firebase.CloudMessaging;
+using Firebase.Crashlytics;
 using Foundation;
 using iCampus.MobileApp.Forms;
 using iCampus.MobileApp.Helpers;
@@ -21,13 +22,11 @@ public class AppDelegate : MauiUIApplicationDelegate, IMessagingDelegate, IUNUse
 
     public override bool FinishedLaunching(UIApplication app, NSDictionary options)
     {
-        Firebase.Core.App.Configure(new Firebase.Core.Options("1:160654296363:ios:05691543547552f400f16e", "160654296363")
-        {
-            ApiKey = "AIzaSyD1zCaSR5W92kDI8Ia9PuEWYaOrMjQmzRY",
-            ClientId = "160654296363-bhvo22ulrqfci0n07h16b7aiec7634nu.apps.googleusercontent.com",
-            BundleId = "com.icampus.iCampusMobile",
-            ProjectId = "icampus-mobile"
-        });        
+        NSDictionary dict = new NSDictionary("FIRAnalyticsDebugEnabled", true);
+        NSUserDefaults.StandardUserDefaults.RegisterDefaults(dict);
+        Firebase.Core.App.Configure();     
+        Crashlytics.SharedInstance.SetCrashlyticsCollectionEnabled(true);
+
         if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
         {
             // iOS 10 or later

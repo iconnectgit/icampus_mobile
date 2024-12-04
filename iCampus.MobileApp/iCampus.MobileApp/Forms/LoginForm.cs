@@ -11,6 +11,13 @@ using iCampus.MobileApp.Helpers;
 using iCampus.MobileApp.Library.FormValidation;
 using iCampus.MobileApp.Views;
 using iCampus.MobileApp.Views.PopUpViews;
+#if IOS
+    using Foundation;
+    using Firebase.Crashlytics;
+#elif ANDROID
+    using Firebase;
+    using Firebase.Crashlytics;
+#endif
 
 namespace iCampus.MobileApp.Forms;
 
@@ -297,15 +304,18 @@ public class LoginForm : ViewModelBase
                 PasswordErrorEntryColor = Color.FromHex("D6D7DD");
             }
         }
+        private void ForceCrashForTesting()
+        {
+            string crashTest = null;
+            crashTest.ToString(); 
+        }
         private async void ExecuteSignInButton()
         {
-            //bootstrapper.AppInitialization();
             try
             {
-                // Analytics.TrackEvent("Login ExecuteSignInButton  - " + Email.Value + " - " + DeviceInfo.Name + " - " + DeviceInfo.Model + " - " + DeviceInfo.Platform);
-                // Analytics.TrackEvent("DEVICETOKEN - " + App.RefreshedToken + " - " + DateTime.Now + " - " + DeviceInfo.Name);
                 HelperMethods.LogEvent("login_execute_signin_button", 
                     $"Login ExecuteSignInButton - {Email.Value} - {DeviceInfo.Name} - {DeviceInfo.Model} - {DeviceInfo.Platform}");
+                //ForceCrashForTesting(); 
             }
             catch (Exception ex)
             {
@@ -326,7 +336,7 @@ public class LoginForm : ViewModelBase
                                 await ICCacheManager.SaveSecureObject<string>("icampus_pwd", Password.Value);
                                 await ICCacheManager.SaveSecureObject<string>("icampus_email", Email.Value);
                                 MainThread.BeginInvokeOnMainThread(() => AppSettings.Current.IsBusy = true);
-                                //await ApiHelper.ShowProcessingIndicatorPopup();
+                                await ApiHelper.ShowProcessingIndicatorPopup();
                                 IsLoginFailedLabelVisible = false;
                                 AppSettings.Current = new AppSettings();
                                 AppSettings.Current.UserId = result.UserSessionData.UserId;
@@ -361,7 +371,6 @@ public class LoginForm : ViewModelBase
                                 AppSettings.Current.SchoolNextWorkingDate = result.SchoolNextWorkingDate.ToLocalTime();
                                 AppSettings.Current.MenuStructureList = _mapper.Map<List<BindableModuleStructureView>>(result.MenuList.ToList());
                                 
-                                //AppSettings.Current.MenuStructureList = Mapper.Map<List<BindableModuleStructureView>>(result.MenuList.ToList());
                                 foreach (var item in AppSettings.Current.MenuStructureList)
                                 {
                                     item.ModuleImageUrl = item.ModuleImageUrl?.Replace("https", "http");
@@ -501,7 +510,7 @@ public class LoginForm : ViewModelBase
                                 
 
                                 MainThread.BeginInvokeOnMainThread(() => AppSettings.Current.IsBusy = false);
-                                //await ApiHelper.HideProcessingIndicatorPopup();
+                                await ApiHelper.HideProcessingIndicatorPopup();
                                 App.CustomAlertIdList = new List<int>();
                                 App.SurveyIdList = new List<int>();
                                 HomeForm homeForm = new HomeForm(_mapper, Navigation, _nativeServices)
@@ -510,14 +519,12 @@ public class LoginForm : ViewModelBase
                                     IsPageLoaded = true
                                 };
                                 Preferences.Set("IsLogin", true);
-                                //App.Current.Properties["IsLogin"] = true;
-                                //await App.Current.SavePropertiesAsync(); 
+                                 
                                 var homePage = new HomePage()
                                 {
                                     BindingContext = homeForm
                                 };
                                 await Navigation.PushAsync(homePage);
-                                //HostScreen.Router.Navigate.Execute(homeForm).Subscribe();
                                 if (AppSettings.Current.PortalUserType == PortalUserTypes.Parent)
                                 {
                                     var list = AppSettings.Current.StudentList.Where(x => !string.IsNullOrEmpty(x.BirthdayNotficationMessage)).ToList();
@@ -547,8 +554,6 @@ public class LoginForm : ViewModelBase
                         {
                             HelperMethods.DisplayException(ex);
                             Preferences.Get("IsLogin", false);
-                            // App.Current.Properties["IsLogin"] = false;
-                            //await App.Current.SavePropertiesAsync();
                         }
                     });
 
@@ -679,7 +684,7 @@ public class LoginForm : ViewModelBase
             }
             catch (Exception ex)
             {
-                //Crashes.TrackError(ex);
+                HelperMethods.TrackCrashlytics(ex);
             }
 
         }

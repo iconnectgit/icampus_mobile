@@ -321,6 +321,10 @@ public class StudentAttendanceForm : ViewModelBase
         SaveCommentClickCommand = new Command(SaveCommentClicked);
         AttendanceSaveTapCommand = new Command(SaveStudentAttendance);
         CloseClickCommand = new Command(AttendanceTypeCloseClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         NoDataExist = true;
         TypeList = HelperMethods.GetAttendanceType();
         SortByTapCommand = new Command(SortByClicked);

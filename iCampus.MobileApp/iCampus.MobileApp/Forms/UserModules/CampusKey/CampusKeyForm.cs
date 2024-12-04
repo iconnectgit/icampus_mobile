@@ -409,6 +409,10 @@ public class CampusKeyForm : ViewModelBase
         PayNowCommand = new Command(PayNowCommandClicked);
         EditDailyLimitCommand = new Command(EditDailyLimitMethod);
         SaveDailyLimitCommand = new Command(SaveDailyLimitMethod);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         SetBeamAppViews();
         MessagingCenter.Subscribe<string>("", "RefreshPaymentHistoryData", async (args) =>
         {

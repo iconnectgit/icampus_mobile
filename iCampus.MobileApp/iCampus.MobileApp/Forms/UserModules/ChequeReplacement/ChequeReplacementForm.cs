@@ -415,6 +415,10 @@ public class ChequeReplacementForm : ViewModelBase
             PendingExpandCollapseClickCommand = new Command<BindablePdcDataView>(PendingExpandCollapseClicked);
             HistoryExpandCollapseClickCommand = new Command<BindablePdcDataView>(HistoryExpandCollapseClicked);
             CheckboxClickCommand = new Command(CheckboxClick);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
 
             SetBeamAppViews();
             this.IsHistory = false;

@@ -77,6 +77,10 @@ public class DataCollectionMainForm : ViewModelBase
             SubmitClickCommand = new Command(SubmitClicked);
             EditClickCommand = new Command(EditClicked);
             RefreshedCommand = new Command(RefreshDataCollectionList);
+            BeamMenuClickCommand = new Command(BeamMenuClicked);
+            BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+            BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+            BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
             GetAllDataCollection();
         }
 

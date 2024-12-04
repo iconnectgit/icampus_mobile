@@ -431,8 +431,6 @@ public class ReportCardForm : ViewModelBase
 
     private async void InitializePage()
     {
-        //IsReportCardVisible = true;
-        //IsSkillReportCardVisible = false;
         ReportCardButtonOpacity = 1.0m;
         SkillReportCardButtonOpacity = 0.5m;
         ReportCardCommand = new Command(ReportCardCommandClicked);
@@ -448,6 +446,10 @@ public class ReportCardForm : ViewModelBase
         DownloadTappedCommand = new Command(DownloadClicked);
         FilterClickCommand = new Command(FilterClicked);
         SearchClickCommand = new Command(SearchClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         MessagingCenter.Subscribe<ReportCardForm, int>(this, "TabPosition", (s, position) =>
         {
             if (position == 0)

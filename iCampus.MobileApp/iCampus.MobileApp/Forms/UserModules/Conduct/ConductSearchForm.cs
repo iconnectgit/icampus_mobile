@@ -271,6 +271,10 @@ public class ConductSearchForm : ViewModelBase
     {
         SearchClickCommand = new Command(SearchClicked);
         ListTappedCommand = new Command<StudentConductView>(ListViewTapped);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
         await GetStudentConductData();
     }
 

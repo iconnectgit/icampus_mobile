@@ -119,6 +119,10 @@ public class ExamDetailForm : ViewModelBase
         DonwloadTappedCommand = new Command(DownloadClicked);
         PreviousClickCommand = new Command(PreviousClicked);
         NextClickCommand = new Command(NextClicked);
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
     }
 
     #region Methods

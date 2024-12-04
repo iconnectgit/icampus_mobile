@@ -153,16 +153,18 @@
       <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core" Version="2.8.7.1" />
       <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData.Core.Ktx" Version="2.8.7.1" />
       <PackageReference Include="Xamarin.Firebase.Analytics" Version="122.1.2.1" />
+      <PackageReference Include="Xamarin.Firebase.Core" Version="121.1.1.12" />
+      <PackageReference Include="Xamarin.Firebase.Crashlytics" Version="119.2.1.1" />
       <PackageReference Include="Xamarin.Firebase.Messaging" Version="124.0.3.1" />
       <PackageReference Include="Xamarin.Google.Dagger" Version="2.52.0.2" />
-      <PackageReference Include="Xamarin.GooglePlayServices.Base" Version="118.5.0.3" />
     </ItemGroup>
     <ItemGroup>
         <GoogleServicesJson Include="Platforms\Android\google-services.json" />
     </ItemGroup>
     <ItemGroup>
-      <None Remove="Platforms\iOS\GoogleService-Info.plist" />
-      <BundleResource Include="Platforms\iOS\GoogleService-Info.plist" />
+      <BundleResource Include="Platforms\iOS\GoogleService-Info.plist">
+        <Link>GoogleService-Info.plist</Link>
+      </BundleResource>
     </ItemGroup>
     <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-android' and '$(Configuration)' == 'Release'">
         <AndroidKeyStore>true</AndroidKeyStore>
@@ -171,7 +173,7 @@
         <AndroidSigningKeyAlias>iCampus Mobile</AndroidSigningKeyAlias>
         <AndroidSigningKeyPass>iconnect12345$</AndroidSigningKeyPass>
         <AndroidSigningStorePass>iconnect12345$</AndroidSigningStorePass>
-        <AndroidSigningKeyStore>/Users/zuberfarooqui/Documents/MAUIApp/icampus_mobile/iCampus.MobileApp/iCampus.MobileApp/Documents/MobileApp_Key/Android/Keystore/iCampusMobile.keystore</AndroidSigningKeyStore>
+        <AndroidSigningKeyStore>/Users/zuberfarooqui/Desktop/MAUI_App/Untitled/iCampus.MobileApp/iCampus.MobileApp/Documents/MobileApp_Key/Android/Keystore/iCampusMobile.keystore</AndroidSigningKeyStore>
         <PublishTrimmed>false</PublishTrimmed>
         <RunAOTCompilation>false</RunAOTCompilation>
         <PublishTrimMode>link</PublishTrimMode>
