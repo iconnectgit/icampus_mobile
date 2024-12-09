@@ -106,7 +106,7 @@ public class ComplaintsForm : ViewModelBase
                 BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
                 BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
                 BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
-                await GetComplaintsList();
+                //await GetComplaintsList();
                 MessagingCenter.Subscribe<RaiseComplaintsForm>(this, "SendComplaint", (arg) =>
                 {
                     AppSettings.Current.RefreshComplaintsList = true;
@@ -182,44 +182,6 @@ public class ComplaintsForm : ViewModelBase
                             HelperMethods.DisplayException(new Exception(TextResource.ExceptionMessage), this.PageTitle);
                         }
                     }
-
-                    // if (Device.RuntimePlatform == Device.Android)
-                    // {
-                    //     _nativeServices.ShowAlertWithTwoButtons("", TextResource.DeleteText, TextResource.YesText, TextResource.NoText, async (action) => {
-                    //         if (action)
-                    //         {
-                    //             OperationDetails result = await ApiHelper.PostRequest<OperationDetails>(string.Format(TextResource.DeleteComplaintApiUrl, selectedComplaint.ComplaintId), AppSettings.Current.ApiUrl);
-                    //             if (result.Success)
-                    //             {
-                    //                 this.ComplaintList.Remove(selectedComplaint);
-                    //                 AppSettings.Current.RefreshComplaintsList = true;
-                    //                 GetComplaintsList();
-                    //             }
-                    //             else
-                    //             {
-                    //                 HelperMethods.DisplayException(new Exception(TextResource.ExceptionMessage), this.PageTitle);
-                    //             }
-                    //         }
-                    //     });
-                    // }
-                    // else
-                    // {
-                    //     var action = await App.Current.MainPage.DisplayAlert("", TextResource.DeleteText, TextResource.YesText, TextResource.NoText);
-                    //     if (action)
-                    //     {
-                    //         OperationDetails result = await ApiHelper.PostRequest<OperationDetails>(string.Format(TextResource.DeleteComplaintApiUrl, selectedComplaint.ComplaintId), AppSettings.Current.ApiUrl);
-                    //         if (result.Success)
-                    //         {
-                    //             this.ComplaintList.Remove(selectedComplaint);
-                    //             AppSettings.Current.RefreshComplaintsList = true;
-                    //             GetComplaintsList();
-                    //         }
-                    //         else
-                    //         {
-                    //             HelperMethods.DisplayException(new Exception(TextResource.ExceptionMessage), this.PageTitle);
-                    //         }
-                    //     }
-                    // }
                 }
             }
             catch(Exception ex)
@@ -264,26 +226,7 @@ public class ComplaintsForm : ViewModelBase
                 return new List<UserComplaintView>();
             }
         }
-
-        // private async void ListViewTapped(UserComplaintView obj)
-        // {
-        //     if (obj != null)
-        //     {
-        //         ComplaintsDetailForm compaintDetailForm = new ComplaintsDetailForm(_mapper, _nativeServices, Navigation)
-        //         {
-        //             SelectedComplaint = obj,
-        //             PageTitle = this.PageTitle,
-        //             AttachmentList= _mapper.Map<List<BindableAttachmentFileView>>(obj.Attachments)
-        //         };
-        // ComplaintsDetail complaintsDetail = new ComplaintsDetail()
-        // {
-        //     BindingContext = compaintDetailForm
-        // };
-        // await Navigation.PushAsync(complaintsDetail);
-        //         
-        //         SelectedComplaint = null;
-        //     }
-        // }
+        
         private async void AttachmentClicked(UserComplaintView sender)
         {
             try
@@ -308,6 +251,18 @@ public class ComplaintsForm : ViewModelBase
         public void SetPopupInstance(Popup popup)
         {
             AppSettings.Current.CurrentPopup = popup;
+        }
+        public override async void GetStudentData()
+        {
+            try
+            {
+                await GetComplaintsList();
+                base.GetStudentData();
+            }
+            catch (Exception ex)
+            {
+                HelperMethods.DisplayException(ex, TextResource.CampusKeyPageTitle);
+            }
         }
         #endregion
     }

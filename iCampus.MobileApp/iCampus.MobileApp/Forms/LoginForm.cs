@@ -332,7 +332,6 @@ public class LoginForm : ViewModelBase
                             var result = await HelperMethods.PerformLogin(Email.Value, Password.Value, deviceId);
                             if (result.IsLoginSuccessful)
                             {
-                                
                                 await ICCacheManager.SaveSecureObject<string>("icampus_pwd", Password.Value);
                                 await ICCacheManager.SaveSecureObject<string>("icampus_email", Email.Value);
                                 MainThread.BeginInvokeOnMainThread(() => AppSettings.Current.IsBusy = true);
@@ -354,6 +353,9 @@ public class LoginForm : ViewModelBase
                                 AppSettings.Current.TeacherDesignation = result.UserSessionData.TeacherAccessLevels != null ? result.UserSessionData.TeacherAccessLevels.Designation:string.Empty;
                                 AppSettings.Current.StudentDesignation = result.UserSessionData.StudentData != null ? result.UserSessionData.StudentData.ClassName : string.Empty;
 
+                                AppSettings.Current.AcademicYearTitle = result.AcademicYearTitle;
+                                AppSettings.Current.FamilyData = result.UserSessionData.PortalUserType == PortalUserTypes.Parent ? result.UserSessionData.FamilyData : new FamilySessionData();
+                                
                                 AppSettings.Current.IsMandatoryUpdate = result.IsMandatoryUpdate;
                                 AppSettings.Current.VersionNumber = result.VersionNumber;
                                 AppSettings.Current.FatherEmail = !string.IsNullOrEmpty(result.UserSessionData.Email1)? result.UserSessionData.Email1:string.Empty;
@@ -404,6 +406,7 @@ public class LoginForm : ViewModelBase
                                     }
                                     if (AppSettings.Current.MenuStructureList != null)
                                     {
+                                        AppSettings.Current.CircularIconVisibility = AppSettings.Current.MenuStructureList.Where(x => x.ModuleCode != null && x.ModuleCode.ToLower().Trim().Equals("messagefromschool")).FirstOrDefault() != null ? true : false;
                                         AppSettings.Current.BeamCommunicationAndBellIconVisibility = AppSettings.Current.MenuStructureList.Where(x => x.ModuleCode != null && x.ModuleCode.ToLower().Equals("communication")).FirstOrDefault() != null ? true : false;
                                         AppSettings.Current.FooterMenuList = new ObservableCollection<BindableModuleStructureView>(AppSettings.Current.MenuStructureList?.Where(x => x.IsFooterMenuOnMobile && x.ModuleCode != null && !(x.ModuleCode.ToLower().Equals("home") || x.ModuleCode.ToLower().Equals("contactus") || x.ModuleCode.ToLower().Equals("messagefromschool") || x.ModuleCode.ToLower().Equals("settings"))).Take(3).ToList());
                                         var homeData = new ObservableCollection<BindableModuleStructureView>(AppSettings.Current.MenuStructureList?.Where(x => x.ModuleCode == "Home"));

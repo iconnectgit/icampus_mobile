@@ -129,9 +129,9 @@ public class TimeTableForm : ViewModelBase
 
     public override async void GetStudentData()
     {
-        base.GetStudentData();
         InitPageSetup();
         await DisplayStudentTimeTable();
+        base.GetStudentData();
     }
 
     private void AttachmentClicked(object obj)

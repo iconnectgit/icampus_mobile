@@ -44,95 +44,23 @@
                                  BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
 
 
-                    <StackLayout IsVisible="{Binding IsEnabledFromField}" Margin="15,0,15,0" Grid.Row="1"
-                                 Grid.Column="0"
+                    <Grid IsVisible="{Binding IsEnabledFromField}" Margin="15,10,15,0" Grid.Row="1"
+                                 Grid.Column="0"  BackgroundColor="White"
                                  HorizontalOptions="FillAndExpand">
-                        <Grid RowDefinitions="Auto,*" ColumnDefinitions="*" VerticalOptions="FillAndExpand"
-                              HorizontalOptions="FillAndExpand" RowSpacing="0">
-                            <Frame HasShadow="False" Padding="5,0,5,0" BackgroundColor="White"
-                                   IsVisible="{Binding IsEnabledFromField}"
-                                   VerticalOptions="CenterAndExpand"
-                                   HorizontalOptions="FillAndExpand"
-                                   Margin="0,10,0,0"
-                                   Grid.Row="0"
-                                   Grid.Column="0"
-                                   HeightRequest="40"
-                                   BorderColor="Transparent"
-                                   CornerRadius="5">
-                                
-                                <Grid RowDefinitions="Auto" ColumnDefinitions="*">
+                        
+                        
+                        
+                        <Picker Title="Regarding" Style="{StaticResource PickerFontStyle}"
+                                BackgroundColor="White" TextColor="DarkGray"
+                                ItemsSource="{Binding EmailFromList,Mode=TwoWay}" 
+                                ItemDisplayBinding="{Binding ItemName}" 
+                                MinimumHeightRequest="{OnPlatform iOS='35', Android='50'}" 
+                                SelectedItem="{Binding SelectedFromText,Mode=TwoWay}"
+                                VerticalOptions="Center" HorizontalOptions="FillAndExpand"/>
+                        <Image Source="dropdown_gray_picker" HorizontalOptions="End" VerticalOptions="Center"
+                               WidthRequest="20" HeightRequest="20" Margin="0,0,10,0" InputTransparent="True" />
 
-                                    <controls:NoUnderlineEntry Text="{Binding SelectedText}"
-                                                               Placeholder="Regarding"
-                                                               Style="{StaticResource EntryFontStyle}"
-                                                               TextColor="Gray"
-                                                               Margin="0"
-                                                               HorizontalOptions="FillAndExpand"
-                                                               HeightRequest="{OnPlatform iOS='30', Android='40'}"
-                                                               Grid.Row="0" Grid.Column="0"
-                                                               IsEnabled="False">
-
-
-                                    </controls:NoUnderlineEntry>
-                                    <ffimageloading:CachedImage Source="dropdown_gray_picker.png"
-                                                                VerticalOptions="CenterAndExpand"
-                                                                HorizontalOptions="EndAndExpand" Aspect="AspectFit"
-                                                                Grid.Row="0"
-                                                                Grid.Column="0" HeightRequest="18" WidthRequest="18" >
-                                        <ffimageloading:CachedImage.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding SelectionCommand}" NumberOfTapsRequired="1" />
-                                        </ffimageloading:CachedImage.GestureRecognizers>
-                                    </ffimageloading:CachedImage>
-                                </Grid>
-                                <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding SelectionCommand}" NumberOfTapsRequired="1" />
-                                </Frame.GestureRecognizers>
-                            </Frame>
-
-                            <Label Text="{Binding EmptyFromErrorMessage}"
-                                   HorizontalOptions="StartAndExpand"
-                                   FontSize="Small"
-                                   IsVisible="{Binding IsFromErrorLabelVisible}"
-                                   Margin="3,0,0,0"
-                                   Grid.Row="1"
-                                   Grid.Column="0"
-                                   TextColor="Red" />
-                        </Grid>
-                        <ListView HasUnevenRows="True"
-                                  HorizontalOptions="StartAndExpand"
-                                  SelectedItem="{Binding SelectedFromText,Mode=TwoWay}"
-                                  ItemsSource="{Binding EmailFromList,Mode=TwoWay}"
-                                  SeparatorVisibility="Default"
-                                  Margin="0,0,0,0"
-                                  IsVisible="{Binding IsVisibleFromList}"
-                                  HeightRequest="{Binding FromListViewHeight}"
-                                  x:Name="listView">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <ViewCell>
-                                        <StackLayout VerticalOptions="FillAndExpand"
-                                                     HorizontalOptions="FillAndExpand"
-                                                     Padding="5">
-                                            <Label Text="{Binding ItemName}" TextColor="{StaticResource GrayTextColor}"
-                                                   Style="{StaticResource DescriptionLabelStyle}" />
-                                            <StackLayout.GestureRecognizers>
-                                                <TapGestureRecognizer
-                                                    Command="{Binding BindingContext.FromListTappedCommand,Source={x:Reference listView}}"
-                                                    CommandParameter="{Binding .}" />
-                                            </StackLayout.GestureRecognizers>
-                                        </StackLayout>
-                                    </ViewCell>
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-
-                            <ListView.Behaviors>
-                                <toolkit:EventToCommandBehavior EventName="ItemSelected"
-                                                                Command="{Binding ListChangedCommand}"
-                                                                CommandParameter="{Binding SelectedFromText}" />
-                            </ListView.Behaviors>
-                        </ListView>
-
-                    </StackLayout>
+                    </Grid>
 
 
                     <Grid VerticalOptions="FillAndExpand"
@@ -146,8 +74,9 @@
                         <ListView ItemsSource="{Binding SelectedRecipientList}" HasUnevenRows="true"
                                   SeparatorVisibility="None"
                                   VerticalScrollBarVisibility="Never"
-                                  HeightRequest="{Binding RecipientListHeight}" Margin="0"
-                                  Grid.Row="1" Grid.Column="0">
+                                  HeightRequest="{Binding RecipientListHeight}" 
+                                  Margin="0"
+                                  Grid.Row="0" Grid.Column="0">
                             <x:Arguments>
                                 <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
                             </x:Arguments>
@@ -189,9 +118,9 @@
                             Orientation="Horizontal"
                             Margin="0"
                             Padding="0"
-                            Grid.Row="0" Grid.Column="0">
+                            Grid.Row="1" Grid.Column="0">
                             <Frame HorizontalOptions="FillAndExpand" Padding="5,0,5,0" HasShadow="False"
-                                   IsVisible="{Binding IsEnabledRecipientSelection}" CornerRadius="5"
+                                   IsVisible="{Binding IsEnabledRecipientSelection}" CornerRadius="0"
                                    BorderColor="Transparent"
                                    Margin="0,5,0,0">
                                 
@@ -533,7 +462,7 @@
 
                             </Grid>
                         </Grid>
-                        <Frame Padding="5,0,5,0" HasShadow="False" Margin="0,5,0,5"
+                        <Frame Padding="5,0,5,0" HasShadow="False" Margin="0,5,0,5" CornerRadius="0"
                                IsVisible="{Binding IsVisibleRecipientList,Converter={StaticResource ReverseBoolValueConverter}}"
                                Grid.Row="5" Grid.Column="0" BorderColor="Transparent">
                             <controls:NoUnderlineEntry Placeholder="Subject" HorizontalOptions="FillAndExpand"
@@ -560,9 +489,9 @@
                             TextColor="Red"
                             Grid.Row="6" Grid.Column="0" />
 
-                        <Frame Padding="5" HasShadow="False"
+                        <Frame Padding="5" HasShadow="False" Margin="0,0,0,10"
                                IsVisible="{Binding IsVisibleRecipientList,Converter={StaticResource ReverseBoolValueConverter}}"
-                               CornerRadius="5" Grid.Row="7" Grid.Column="0" VerticalOptions="FillAndExpand" BorderColor="Transparent">
+                               CornerRadius="0" Grid.Row="7" Grid.Column="0" VerticalOptions="FillAndExpand" BorderColor="Transparent">
                             <StackLayout VerticalOptions="Start">
                                 <controls:BorderlessEditor Placeholder="Message"
                                                            AutoSize="TextChanges"

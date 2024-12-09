@@ -1253,12 +1253,17 @@ public class CalendarForm : ViewModelBase
                     AttachmentList = _mapper.Map<List<BindableAttachmentFileView>>(obj.AttachmentList),
                     AttachmentListViewHeight = obj.AttachmentCount * 40,
                     LinkListViewHeight = obj.WebsiteLinksCount * 40,
-                    PageTitle = obj.TypeTitle
+                    PageTitle = obj.TypeTitle,
                 };
                 agendaDetailForm.SetEditOptionVisibility();
                 agendaDetailForm.IsCreatorVisible = IsCreatorVisible;
                 agendaDetailForm.SubmissionComments = agendaDetailForm.SelectedAgenda.StudentComments;
                 agendaDetailForm.IsSubmissionAllowed = !AppSettings.Current.IsTeacher && obj.IsStudentSubmissionAllowed;
+                if (AppSettings.Current.IsTeacher)
+                {
+                    agendaDetailForm.IsViewSubmissionVisible = AgendaData.DisplaySetting.EnableStudentSubmissions;
+                    agendaDetailForm.IsViewAgendaStudentsVisible = !agendaDetailForm.IsViewSubmissionVisible && AgendaData.DisplaySetting.IsEnablePerStudent;
+                }
                 try
                 {
                     agendaDetailForm.TotalCount = agendaDetailForm.SelectedAgenda.AgendaStudentCount;

@@ -130,17 +130,15 @@
                                     <!-- <WebView -->
                                     <!--     IsVisible="{Binding SelectedAgenda.AgendaDescription,Converter={StaticResource visiblityConverter}}" -->
                                     <!--     HorizontalOptions="FillAndExpand" -->
-                                    <!--     HeightRequest="100" -->
+                                    <!--     HeightRequest="{Binding AgendaDescriptionHeight}" -->
                                     <!--     VerticalOptions="FillAndExpand"> -->
                                     <!--     <WebView.Source> -->
                                     <!--         <HtmlWebViewSource Html="{Binding SelectedAgenda.AgendaDescription}" /> -->
                                     <!--     </WebView.Source> -->
                                     <!-- </WebView> -->
-                                    <ScrollView>
                                         <Label Text="{Binding SelectedAgenda.AgendaDescription}"
                                                IsVisible="{Binding SelectedAgenda.AgendaDescription,Converter={StaticResource visiblityConverter}}"
                                                TextType="Html" />
-                                    </ScrollView>
                                 </Frame>
 
                                 <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
@@ -425,7 +423,7 @@
                                     Grid.ColumnSpan="2"
                                     Style="{StaticResource DateLabelStyle}"
                                     VerticalOptions="StartAndExpand" />
-                                <Label IsVisible="{Binding IsTeacher,Source={x:Static local:AppSettings.Current}}"
+                                <Label IsVisible="{Binding IsViewSubmissionVisible}"
                                        Grid.Row="8"
                                        Grid.Column="0"
                                        Style="{StaticResource DateLabelStyle}"
@@ -459,6 +457,21 @@
                                         IsVisible="{Binding IsTeacher, Source={x:Static local:AppSettings.Current}}"
                                         AbsoluteLayout.LayoutFlags="All"
                                         AbsoluteLayout.LayoutBounds="0,1,1,50" />
+                                <Button Text="View Students" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"
+                                        VerticalOptions="CenterAndExpand"
+                                        HorizontalOptions="FillAndExpand"
+                                        Margin="0,20,0,0"
+                                        TextColor="White"
+                                        HeightRequest="50"
+                                        WidthRequest="50"
+                                        Command="{Binding ViewSubmissionsClickedCommand}"
+                                        CornerRadius="5"
+                                        BackgroundColor="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}"
+                                        IsVisible="{Binding IsViewAgendaStudentsVisible}"
+                                        AbsoluteLayout.LayoutFlags="All"
+                                        AbsoluteLayout.LayoutBounds="1,1,50,50">
+                       
+                                </Button>
                             </Grid>
                         </StackLayout>
 

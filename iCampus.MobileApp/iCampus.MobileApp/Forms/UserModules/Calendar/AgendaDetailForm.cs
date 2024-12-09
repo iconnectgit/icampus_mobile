@@ -259,7 +259,36 @@ public class AgendaDetailForm : ViewModelBase
                 OnPropertyChanged(nameof(SlectedWebsiteLink));
             }
         }
-        
+        bool _isViewSubmissionVisible;
+        public bool IsViewSubmissionVisible
+        {
+            get => _isViewSubmissionVisible;
+            set
+            {
+                _isViewSubmissionVisible = value;
+                OnPropertyChanged(nameof(IsViewSubmissionVisible));
+            }
+        }
+        bool _isViewAgendaStudentsVisible;
+        public bool IsViewAgendaStudentsVisible
+        {
+            get => _isViewAgendaStudentsVisible;
+            set
+            {
+                _isViewAgendaStudentsVisible = value;
+                OnPropertyChanged(nameof(IsViewAgendaStudentsVisible));
+            }
+        }
+        int _agendaDescriptionHeight;
+        public int AgendaDescriptionHeight
+        {
+            get => _agendaDescriptionHeight;
+            set
+            {
+                _agendaDescriptionHeight = value;
+                OnPropertyChanged(nameof(AgendaDescriptionHeight));
+            }
+        }
         #endregion
 
         public AgendaDetailForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)
@@ -594,10 +623,13 @@ public class AgendaDetailForm : ViewModelBase
                     PageTitle = TextResource.SubmissionsText,
                     MenuVisible = false,
                     ClassList = SelectedAgenda.AgendaClassNames?.Split(',').ToList(),
+                    IsSubmittedOnlyVisible = !IsViewAgendaStudentsVisible,
                     AgendaClassStudents =
-                        _mapper.Map<List<BindableAgendaClassStudentView>>(SelectedAgenda.AgendaClassStudents)
+                        await ApiHelper.GetObjectList<BindableAgendaClassStudentView>(
+                            string.Format(TextResource.GetAgendaStudentListApi, SelectedAgenda.AgendaId))
                 };
-                viewSubmissionsForm.AgendaClassStudentList = new List<BindableAgendaClassStudentView>(viewSubmissionsForm.AgendaClassStudents);
+                
+                viewSubmissionsForm.AgendaClassStudentList = viewSubmissionsForm.AgendaClassStudents;                
                 ViewSubmissionsPage viewSubmissionsPage = new ()
                 {
                     BindingContext = viewSubmissionsForm

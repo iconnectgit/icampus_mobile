@@ -601,6 +601,8 @@ public class SendMessageForm : ViewModelBase
         {
             _selectedFromText = value;
             OnPropertyChanged(nameof(SelectedFromText));
+            FromListTapped(SelectedFromText);
+
         }
     }
     private string _emptyFromErrorMessage;
@@ -681,6 +683,7 @@ public class SendMessageForm : ViewModelBase
 
     private async void InitializePage()
     {
+        EmailFromList = new ObservableCollection<BindableStudentPickListItem>(AppSettings.Current.StudentList);
         BackVisible = true;
         PageTitle = TextResource.SendMessagePageTitle;
         RecipientPlaceHolderText();
@@ -1197,7 +1200,7 @@ public class SendMessageForm : ViewModelBase
         {
             if (pickListItem != null)
             {
-                SelectedFromText = pickListItem;
+                //SelectedFromText = pickListItem;
                 GetAndCacheRecipientsList(SelectedFromText.ItemId);
                 IsVisibleFromList = false;
                 IsEnabledToField = true;

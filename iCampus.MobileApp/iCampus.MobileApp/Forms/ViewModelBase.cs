@@ -25,6 +25,7 @@ using iCampus.MobileApp.Forms.UserModules.ContactUs;
 using iCampus.MobileApp.Forms.UserModules.CovidTest;
 using iCampus.MobileApp.Forms.UserModules.DailyMarks;
 using iCampus.MobileApp.Forms.UserModules.DataCollection;
+using iCampus.MobileApp.Forms.UserModules.DigitalPass;
 using iCampus.MobileApp.Forms.UserModules.Event;
 using iCampus.MobileApp.Forms.UserModules.Exam;
 using iCampus.MobileApp.Forms.UserModules.FinancialStatus;
@@ -61,6 +62,7 @@ using iCampus.MobileApp.Views.UserModules.ContactUs;
 using iCampus.MobileApp.Views.UserModules.CovidTest;
 using iCampus.MobileApp.Views.UserModules.DailyMarks;
 using iCampus.MobileApp.Views.UserModules.DataCollection;
+using iCampus.MobileApp.Views.UserModules.DigitalPass;
 using iCampus.MobileApp.Views.UserModules.Event;
 using iCampus.MobileApp.Views.UserModules.Exam;
 using iCampus.MobileApp.Views.UserModules.FinancialStatus;
@@ -1241,7 +1243,6 @@ public class ViewModelBase : INotifyPropertyChanged
                     };
                     AppSettings.Current.IsDisplayAllStudentList = false;
                     campusKeyForm.OpenStudentSelection();
-
                     CampusKey campusKey = new()
                     {
                         BindingContext = campusKeyForm
@@ -1258,7 +1259,7 @@ public class ViewModelBase : INotifyPropertyChanged
                     };
                     AppSettings.Current.IsDisplayAllStudentList = false;
                     timetableForm.OpenStudentSelection();
-                    TimeTablePage timeTablePage = new TimeTablePage()
+                    TimeTablePage timeTablePage = new ()
                     {
                         BindingContext = timetableForm
                     };
@@ -1286,6 +1287,7 @@ public class ViewModelBase : INotifyPropertyChanged
                         PageTitle = TextResource.InboxText,
                         SelectedModule = obj
                     };
+                    communicationForm.OpenStudentSelection();
                     CommunicationPage communicationPage = new()
                     {
                         BindingContext = communicationForm
@@ -1331,6 +1333,8 @@ public class ViewModelBase : INotifyPropertyChanged
                         PageTitle = obj.ModuleName,
                         SelectedModule = obj
                     };
+                    AppSettings.Current.IsDisplayAllStudentList = false;
+                    complaintsForm.OpenStudentSelection();
                     Complaints complaints = new()
                     {
                         BindingContext = complaintsForm
@@ -1821,6 +1825,22 @@ public class ViewModelBase : INotifyPropertyChanged
                     await Navigation.PushAsync(teacherEvaluationPage);
                     teacherEvaluation.OpenStudentSelection();
                 }
+                else if (obj.ModuleCode.ToLower().Equals("digitalpass"))
+                {
+                    DigitalPassForm digitalPassForm =  new(_mapper, _nativeServices, Navigation)
+                    {
+                        PageTitle = obj.ModuleName,
+                        MenuVisible = true,
+                        SelectedModule = obj
+                    };
+                    AppSettings.Current.IsDisplayAllStudentList = false;
+                    digitalPassForm.OpenStudentSelection();
+                    DigitalPassPage digitalPassPage = new()
+                    {
+                        BindingContext = digitalPassForm
+                    };
+                    await Navigation.PushAsync(digitalPassPage);
+                }
 
 
                 //
@@ -1941,7 +1961,7 @@ public class ViewModelBase : INotifyPropertyChanged
         }
         return mainPage;
     }
-
+    
     public async void BeamHeaderMessageIconClicked()
     {
         CommunicationForm communicationForm = new (_mapper, _nativeServices, Navigation)
@@ -1949,12 +1969,13 @@ public class ViewModelBase : INotifyPropertyChanged
             MenuVisible = true,
             PageTitle = TextResource.InboxText
         };
-
+        AppSettings.Current.IsDisplayAllStudentList = false;
         CommunicationPage communicationPage = new ()
         {
             BindingContext = communicationForm
         };
         await Navigation.PushAsync(communicationPage);
+        communicationForm.OpenStudentSelection();
         var data = AppSettings.Current.FooterMenuList?.Where(x => x.ModuleCode?.ToLower() == "communication")?.FirstOrDefault();
         if (data != null && !string.IsNullOrEmpty(data.ModuleCode))
         {

@@ -217,8 +217,8 @@ public class TopupHistoryForm : ViewModelBase
         {
             try
             {
-                base.GetStudentData();
                 GetTopupHistoryList();
+                base.GetStudentData();
             }
             catch (Exception ex)
             {

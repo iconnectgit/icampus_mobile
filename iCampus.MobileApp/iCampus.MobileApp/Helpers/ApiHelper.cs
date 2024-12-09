@@ -472,18 +472,27 @@ public class ApiHelper
 
         public static async Task ShowProcessingIndicatorPopup()
         {
-            lock (_lock)
+            try
             {
-                _popupRequestCount++;
-                if (_popupRequestCount > 1) return; // Popup is already shown.
+                _processingPopup = null;
+                lock (_lock)
+                {
+                    _popupRequestCount++;
+                    if (_popupRequestCount > 1) return;
+                }
+
+                _processingPopup = new ProcessingIndicatorPopup();
+
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    Application.Current.MainPage.ShowPopupAsync(_processingPopup);
+                });
             }
-
-            _processingPopup = new ProcessingIndicatorPopup();
-
-            await MainThread.InvokeOnMainThreadAsync(() =>
+            catch (Exception e)
             {
-                Application.Current.MainPage.ShowPopup(_processingPopup);
-            });
+                Console.WriteLine(e);
+                throw;
+            }
         }
         public static void SetPopupInstance(Popup popup)
         {
@@ -492,20 +501,28 @@ public class ApiHelper
 
         public static async Task HideProcessingIndicatorPopup()
         {
-            lock (_lock)
+            try
             {
-                if (_popupRequestCount <= 0) return;
+                lock (_lock)
+                {
+                    if (_popupRequestCount <= 0) return;
 
-                _popupRequestCount--;
+                    _popupRequestCount--;
 
-                if (_popupRequestCount > 0) return; // Other requests are pending, don't close yet.
+                    if (_popupRequestCount > 0) return;
+                }
+
+                await MainThread.InvokeOnMainThreadAsync(() =>
+                {
+                    _processingPopup?.Close();
+                    _processingPopup = null;
+                });
             }
-
-            await MainThread.InvokeOnMainThreadAsync(() =>
+            catch (Exception e)
             {
-                _processingPopup?.Close();
-                _processingPopup = null;
-            });
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         private static ByteArrayContent CreateFileContent(byte[] content, string fileName, string contentType)

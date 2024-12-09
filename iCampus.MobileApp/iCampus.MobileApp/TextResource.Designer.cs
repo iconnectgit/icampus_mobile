@@ -2096,5 +2096,10 @@ namespace iCampus.MobileApp {
                 return ResourceManager.GetString("LogRegistrationFamilyTermsAndConditionApi", resourceCulture);
             }
         }
+        internal static string GetAgendaStudentListApi {
+            get {
+                return ResourceManager.GetString("GetAgendaStudentListApi", resourceCulture);
+            }
+        }
     }
 }

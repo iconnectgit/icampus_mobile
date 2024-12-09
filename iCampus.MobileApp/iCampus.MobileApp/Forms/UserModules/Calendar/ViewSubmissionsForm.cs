@@ -83,7 +83,16 @@ public class ViewSubmissionsForm : ViewModelBase
             OnPropertyChanged(nameof(SearchText));
         }
     }
-
+    bool _isSubmittedOnlyVisible;
+    public bool IsSubmittedOnlyVisible
+    {
+        get => _isSubmittedOnlyVisible;
+        set
+        {
+            _isSubmittedOnlyVisible = value;
+            OnPropertyChanged(nameof(IsSubmittedOnlyVisible));
+        }
+    }
 
     public ICommand IsSubmittedCheckboxChangeCommand { get; set; }
     public ICommand SearchClickCommand { get; set; }

@@ -129,7 +129,6 @@ public class HelperMethods
             //Crashes.TrackError(ex);
             await ApiHelper.HideProcessingIndicatorPopup();
             Application.Current.MainPage.ShowPopup(new ExceptionAlertPopup());
-            //await App.Current.MainPage.Navigation.PushPopupAsync(new ExceptionAlertPopup());
         }
 
         public static async Task Logout(IMapper mapper, INativeServices nativeServices, INavigation navigation)

@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="iCampus.MobileApp.Views.UserModules.DigitalPass.DigitalPassPage"
+             x:Name="digitalPassPage"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             NavigationPage.HasNavigationBar="false"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}">
+    <ContentPage.Content>
+
+        <Grid BackgroundColor="{StaticResource BorderColor}" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*"
+              Margin="0,0,0,0" VerticalOptions="FillAndExpand">
+           
+
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         VerticalOptions="StartAndExpand"
+                         BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
+
+            <StackLayout Grid.Row="1" Grid.Column="0" VerticalOptions="StartAndExpand">
+                <ffimageloading:CachedImage
+                    Source="{Binding LogoData, Source={x:Static local:AppSettings.Current},Converter={StaticResource ImageUrlToSourceConverter}}"
+                    RetryCount="10"
+                    Margin="10,50,10,50"
+                    VerticalOptions="Start"
+                    HorizontalOptions="CenterAndExpand"
+                    Aspect="AspectFit"
+                    Scale="2" />
+                <Frame BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                       CornerRadius="0"
+                       Padding="10"
+                       HasShadow="False"
+                       VerticalOptions="Start"
+                       HorizontalOptions="FillAndExpand">
+                    <Label Text="Digital Parent Pass"
+                           TextColor="White"
+                           FontSize="28"
+                           FontAttributes="Bold"
+                           HorizontalOptions="Center" />
+                </Frame>
+                <Label Text="{Binding AcademicYearTitle, Source={x:Static local:AppSettings.Current}}"
+                       TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center" />
+
+                <Grid Margin="10,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Label Text="Family Number" FontSize="Medium" FontAttributes="Bold" TextColor="Black" Grid.Row="0"
+                           Grid.Column="0" />
+                    <Label Text=" : " FontSize="Medium" FontAttributes="Bold" TextColor="Black" Grid.Row="0"
+                           Grid.Column="1" />
+                    <Label Text="{Binding FamilyData.FamilyId, Source={x:Static local:AppSettings.Current}}"
+                           FontSize="Medium"
+                           TextColor="Black"
+                           Grid.Row="0"
+                           Grid.Column="2"
+                           Style="{StaticResource DescriptionLabelStyle}" />
+
+                    <Label Text="Father Name" FontSize="Medium" FontAttributes="Bold" TextColor="Black" Grid.Row="1"
+                           Grid.Column="0" />
+                    <Label Text=" : " FontSize="Medium" FontAttributes="Bold" TextColor="Black" Grid.Row="1"
+                           Grid.Column="1" />
+                    <Label Text="{Binding FamilyData.FatherName, Source={x:Static local:AppSettings.Current}}"
+                           FontSize="Medium"
+                           TextColor="Black"
+                           Grid.Row="1"
+                           Grid.Column="2"
+                           Style="{StaticResource DescriptionLabelStyle}" />
+
+                    <Label Text="Mother Name" FontSize="Medium" FontAttributes="Bold" TextColor="Black" Grid.Row="2"
+                           Grid.Column="0" />
+                    <Label Text=" : " FontSize="Medium" FontAttributes="Bold" TextColor="Black" Grid.Row="2"
+                           Grid.Column="1" />
+                    <Label Text="{Binding FamilyData.MotherName, Source={x:Static local:AppSettings.Current}}"
+                           FontSize="Medium"
+                           TextColor="Black"
+                           Grid.Row="2"
+                           Grid.Column="2"
+                           Style="{StaticResource DescriptionLabelStyle}" />
+                </Grid>
+                <ListView ItemsSource="{Binding StudentList,Mode=TwoWay, Source={x:Static local:AppSettings.Current}}"
+                          Margin="10"
+                          HasUnevenRows="True"
+                          SeparatorVisibility="None"
+                          BackgroundColor="Transparent"
+                          HorizontalOptions="FillAndExpand"
+                          VerticalOptions="FillAndExpand">
+                    <ListView.SeparatorVisibility>
+                        <OnPlatform x:TypeArguments="SeparatorVisibility">
+                            <On Platform="iOS" Value="None" />
+                            <On Platform="Android" Value="Default" />
+                        </OnPlatform>
+                    </ListView.SeparatorVisibility>
+                    <ListView.Header>
+                        <Grid Padding="0">
+                            <!-- Border -->
+                            <BoxView Color="LightGray"
+                                     HorizontalOptions="FillAndExpand"
+                                     VerticalOptions="FillAndExpand" />
+                            <Grid Padding="0,3">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.15*" />
+                                    <ColumnDefinition Width="0.45*" />
+                                    <ColumnDefinition Width="0.20*" />
+                                    <ColumnDefinition Width="0.20*" />
+                                </Grid.ColumnDefinitions>
+                                <Label Text="Std No" FontAttributes="Bold" FontSize="14" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                       Grid.Column="0" Style="{StaticResource TitleLabelStyle}" />
+                                <Label Text="Name" FontAttributes="Bold" FontSize="14" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                       Grid.Column="1" Style="{StaticResource TitleLabelStyle}" />
+                                <Label Text="Class" FontAttributes="Bold" FontSize="14" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                       Grid.Column="2" Style="{StaticResource TitleLabelStyle}" />
+                                <Label Text="Transport" FontAttributes="Bold" FontSize="14" HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                       Grid.Column="3" Style="{StaticResource TitleLabelStyle}" />
+                            </Grid>
+                            </Grid>
+                    </ListView.Header>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid Padding="0,3">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.15*" />
+                                        <ColumnDefinition Width="0.45*" />
+                                        <ColumnDefinition Width="0.20*" />
+                                        <ColumnDefinition Width="0.20*" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Label Text="{Binding ItemId}"
+                                           HorizontalTextAlignment="Start"
+                                           VerticalOptions="Center"
+                                           Style="{StaticResource DescriptionLabelStyle}"
+                                           Grid.Column="0" />
+                                    <Label Text="{Binding StudentName}"
+                                           HorizontalTextAlignment="Start"
+                                           VerticalOptions="Center"
+                                           Style="{StaticResource DescriptionLabelStyle}"
+                                           Grid.Column="1" />
+                                    <Label Text="{Binding ClassName}"
+                                           HorizontalTextAlignment="Start"
+                                           VerticalOptions="Center"
+                                           Style="{StaticResource DescriptionLabelStyle}"
+                                           Grid.Column="2" />
+                                    <Label HorizontalTextAlignment="Start"
+                                           VerticalOptions="Center"
+                                           Style="{StaticResource DescriptionLabelStyle}"
+                                           Grid.Column="3">
+                                        <Label.Triggers>
+                                            <DataTrigger TargetType="Label" Binding="{Binding HasTransport}"
+                                                         Value="true">
+                                                <Setter Property="Text" Value="ST" />
+                                                <Setter Property="BackgroundColor" Value="LightGreen" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Label" Binding="{Binding HasTransport}"
+                                                         Value="false">
+                                                <Setter Property="Text" Value="OT" />
+                                                <Setter Property="BackgroundColor" Value="Yellow" />
+                                            </DataTrigger>
+                                        </Label.Triggers>
+                                    </Label>
+                                    <BoxView Grid.Row="1"
+                                             Grid.Column="0"
+                                             Grid.ColumnSpan="4"
+                                             HeightRequest="0.3"
+                                             Color="Gray"
+                                             Margin="0,0,0,0">
+                                        <BoxView.IsVisible>
+                                            <OnPlatform x:TypeArguments="x:Boolean">
+                                                <On Platform="iOS" Value="true" />
+                                                <On Platform="Android" Value="false" />
+                                            </OnPlatform>
+                                        </BoxView.IsVisible>
+                                    </BoxView>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.Footer>
+                        <Grid HorizontalOptions="FillAndExpand" Padding="20,0,10,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" /> 
+                                <ColumnDefinition Width="Auto" /> 
+                            </Grid.ColumnDefinitions>
+
+                            <StackLayout Grid.Column="1" HorizontalOptions="End" VerticalOptions="Start">
+                                <StackLayout.Padding>
+                                    <OnPlatform x:TypeArguments="Thickness">
+                                        <On Platform="iOS" Value="0,20,0,0" />
+                                        <On Platform="Android" Value="0,20,0,0" />
+                                    </OnPlatform>
+                                </StackLayout.Padding>
+                                <Label Text="ST = School Transport" FontSize="Micro"
+                                       Style="{StaticResource DescriptionLabelStyle}" />
+                                <Label Text="OT = Own Transport" FontSize="Micro"
+                                       Style="{StaticResource DescriptionLabelStyle}" />
+                            </StackLayout>
+                        </Grid>
+                    </ListView.Footer>
+                </ListView>
+            </StackLayout>
+            <StackLayout VerticalOptions="EndAndExpand" Margin="0,0,0,0" Grid.Row="2" Grid.Column="0">
+                <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
+                             VerticalOptions="EndAndExpand"
+                             HorizontalOptions="FillAndExpand" />
+            </StackLayout>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference digitalPassPage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+        </Grid>
+
+    </ContentPage.Content>
+</ContentPage>

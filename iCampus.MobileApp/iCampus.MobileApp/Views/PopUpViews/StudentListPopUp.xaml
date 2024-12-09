@@ -50,7 +50,7 @@
                 </StackLayout>
 
                 <!-- ListView -->
-                <ListView HasUnevenRows="True" VerticalScrollBarVisibility="Never" HorizontalOptions="StartAndExpand" 
+                <ListView Header="" Footer="" HasUnevenRows="True" VerticalScrollBarVisibility="Never" HorizontalOptions="StartAndExpand" 
                           ItemsSource="{Binding StudentList,Mode=TwoWay, Source={x:Static forms:AppSettings.Current}}"
                           SelectedItem="{Binding SelectedStudent, Mode=TwoWay}" 
                           BackgroundColor="Transparent"

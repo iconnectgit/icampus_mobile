@@ -995,6 +995,37 @@ public class AppSettings : INotifyPropertyChanged
                 }
             }
         }
+        FamilySessionData _familyData = new FamilySessionData();
+        public FamilySessionData FamilyData
+        {
+            get => _familyData;
+            set
+            {
+                _familyData = value;
+                OnPropertyChanged("FamilyData");
+            }
+        }
+        
+        string _academicYearTitle;
+        public string AcademicYearTitle
+        {
+            get => _academicYearTitle;
+            set
+            {
+                _academicYearTitle = value;
+                OnPropertyChanged("AcademicYearTitle");
+            }
+        }
+        bool _circularIconVisibility = true;
+        public bool CircularIconVisibility
+        {
+            get => _circularIconVisibility;
+            set
+            {
+                _circularIconVisibility = value;
+                OnPropertyChanged("CircularIconVisibility");
+            }
+        }
         #endregion
         public event PropertyChangedEventHandler PropertyChanged;
 

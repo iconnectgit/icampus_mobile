@@ -657,7 +657,7 @@ public class CampusKeyForm : ViewModelBase
     {
         try
         {
-            TopupHistoryForm topupHistoryForm = new TopupHistoryForm(_mapper, _nativeServices, Navigation)
+            TopupHistoryForm topupHistoryForm = new (_mapper, _nativeServices, Navigation)
             {
                 PageTitle = "Portal Topup History",
                 MenuVisible = false,
@@ -666,7 +666,7 @@ public class CampusKeyForm : ViewModelBase
                 PrintLogo = PrintLogo
             };
             topupHistoryForm.OpenStudentSelection();
-            PortalTopupHistoryPage portalTopupHistoryPage = new PortalTopupHistoryPage()
+            PortalTopupHistoryPage portalTopupHistoryPage = new ()
             {
                 BindingContext = topupHistoryForm
             };
@@ -682,10 +682,10 @@ public class CampusKeyForm : ViewModelBase
     {
         try
         {
-            base.GetStudentData();
             await GetDetails();
             await GetCampusKeyList();
             TopupAmount = Convert.ToString(decimal.MinValue);
+            base.GetStudentData();
         }
         catch (Exception ex)
         {

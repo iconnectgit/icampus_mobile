@@ -1143,4 +1143,7 @@
   <data name="LogRegistrationFamilyTermsAndConditionApi" xml:space="preserve">
     <value>api/registration/LogRegistrationFamilyTermsAndCondition</value>
   </data>
+  <data name="GetAgendaStudentListApi" xml:space="preserve">
+    <value>api/Calendar/GetAgendaStudentList?agendaid={0}</value>
+  </data>
 </root>

@@ -167,7 +167,6 @@ public class CommunicationForm : ViewModelBase
         _nativeServices = nativeServices;
         Navigation = navigation;
         NotificationItemId = notificationItemId;
-         GetCommunicationMessageList();
         InitializePage();
     }
 
@@ -217,7 +216,8 @@ public class CommunicationForm : ViewModelBase
                 await GetCommunicationMessageList();
             }
         });
-        await GetCommunicationMessageList();
+        if(!string.IsNullOrEmpty(NotificationItemId))
+            await GetCommunicationMessageList();
     }
 
     #region Methods
@@ -542,6 +542,17 @@ public class CommunicationForm : ViewModelBase
                 HelperMethods.DisplayException(ex, PageTitle);
             }
     }
-
+    public override async void GetStudentData()
+    {
+        try
+        {
+            await GetCommunicationMessageList();
+            base.GetStudentData();
+        }
+        catch (Exception ex)
+        {
+            HelperMethods.DisplayException(ex, PageTitle);
+        }
+    }
     #endregion
 }

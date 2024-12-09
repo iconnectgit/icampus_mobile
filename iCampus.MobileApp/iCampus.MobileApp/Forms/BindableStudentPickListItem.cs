@@ -12,6 +12,8 @@ public class BindableStudentPickListItem : INotifyPropertyChanged
     public int GenderId { get; set; }
     public string StudentName { get; set; }
     public string BirthdayNotficationMessage { get; set; }
+    public string ClassName { get; set; }
+    public bool HasTransport { get; set; }
 
 
     private byte[] _imageData;
