@@ -499,7 +499,7 @@ public class CommunicationForm : ViewModelBase
         if (obj != null)
             try
             {
-                if (Device.RuntimePlatform == Device.iOS) _currentPopup?.Close();
+                if (DeviceInfo.Platform == DevicePlatform.iOS) _currentPopup?.Close();
                 var selectedAttachment = (BindableAttachmentFileView)obj;
                 if (!string.IsNullOrEmpty(selectedAttachment.FilePath))
                     await HelperMethods.OpenFileForPreview(selectedAttachment.FilePath, _nativeServices);

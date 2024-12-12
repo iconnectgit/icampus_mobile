@@ -22,7 +22,7 @@ using iCampus.MobileApp.Views.PopUpViews;
 using Microsoft.Maui.Networking;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 using NetworkAccess = Microsoft.Maui.Networking.NetworkAccess;
-
+using Mopups.Services;
 namespace iCampus.MobileApp.Helpers;
 
 public class ApiHelper
@@ -474,19 +474,8 @@ public class ApiHelper
         {
             try
             {
-                _processingPopup = null;
-                lock (_lock)
-                {
-                    _popupRequestCount++;
-                    if (_popupRequestCount > 1) return;
-                }
-
                 _processingPopup = new ProcessingIndicatorPopup();
-
-                await MainThread.InvokeOnMainThreadAsync(() =>
-                {
-                    Application.Current.MainPage.ShowPopupAsync(_processingPopup);
-                });
+                await MopupService.Instance.PushAsync(_processingPopup);
             }
             catch (Exception e)
             {
@@ -503,20 +492,10 @@ public class ApiHelper
         {
             try
             {
-                lock (_lock)
+                if (MopupService.Instance.PopupStack.Any())
                 {
-                    if (_popupRequestCount <= 0) return;
-
-                    _popupRequestCount--;
-
-                    if (_popupRequestCount > 0) return;
+                    await MopupService.Instance.PopAsync();
                 }
-
-                await MainThread.InvokeOnMainThreadAsync(() =>
-                {
-                    _processingPopup?.Close();
-                    _processingPopup = null;
-                });
             }
             catch (Exception e)
             {

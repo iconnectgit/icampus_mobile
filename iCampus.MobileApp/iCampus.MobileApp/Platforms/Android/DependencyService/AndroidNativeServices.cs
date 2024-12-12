@@ -86,7 +86,7 @@ public class AndroidNativeServices : INativeServices
             {
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    var uri = FileProvider.GetUriForFile(
+                    var uri = AndroidX.Core.Content.FileProvider.GetUriForFile(
                         Android.App.Application.Context,
                         $"{Android.App.Application.Context.PackageName}.provider",
                         file);

@@ -334,7 +334,6 @@ public class LoginForm : ViewModelBase
                             {
                                 await ICCacheManager.SaveSecureObject<string>("icampus_pwd", Password.Value);
                                 await ICCacheManager.SaveSecureObject<string>("icampus_email", Email.Value);
-                                MainThread.BeginInvokeOnMainThread(() => AppSettings.Current.IsBusy = true);
                                 await ApiHelper.ShowProcessingIndicatorPopup();
                                 IsLoginFailedLabelVisible = false;
                                 AppSettings.Current = new AppSettings();

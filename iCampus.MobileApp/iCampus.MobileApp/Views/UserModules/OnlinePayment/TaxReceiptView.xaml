@@ -10,18 +10,18 @@
              x:Name="taxReceiptView">
     <ContentPage.Content>
 
-        <Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,Auto,Auto" Margin="0,0,0,10"
+        <Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,*,Auto" Margin="0,0,0,10"
               BackgroundColor="{Binding BackgroundColor,Source={x:Static local:AppSettings.Current}}">
             <ContentView ControlTemplate="{StaticResource BeamHeader}" Grid.Row="0" Grid.Column="0"
                          BackgroundColor="White" />
-            <Frame HasShadow="False" Padding="8" BorderColor="LightGray" VerticalOptions="StartAndExpand"
+            <Frame x:Name="PrintButtonFrame" HasShadow="False" Padding="5" BorderColor="LightGray" VerticalOptions="StartAndExpand"
                    HorizontalOptions="EndAndExpand"
+                   BackgroundColor="Transparent"
                    Margin="10"
-                   CornerRadius="10"
-                   WidthRequest="110"
+                   CornerRadius="5"
                    Grid.Row="1" 
                    Grid.Column="0">
-                <StackLayout Orientation="Horizontal" Spacing="0" VerticalOptions="Center" HorizontalOptions="StartAndExpand" Margin="0"
+                <StackLayout Orientation="Horizontal" Spacing="0" VerticalOptions="Center" HorizontalOptions="Start" Margin="0"
                              Padding="0">
                     <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
                                                 VerticalOptions="CenterAndExpand"
@@ -30,14 +30,15 @@
                                                 Aspect="AspectFit"
                                                 DownsampleToViewSize="True"
                                                 Source="print.png" Scale="0.8" />
-                    <Label Text="Print" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center" HorizontalTextAlignment="End"
-                           Margin="10,0,0,0" />
+                    <Label Text="Print" HorizontalOptions="Start" VerticalOptions="CenterAndExpand" 
+                           Margin="5,0,5,0" />
                     <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"
+                        <TapGestureRecognizer Tapped="TapGestureRecognizer_OnTapped"
                                               CommandParameter="{Binding .}" />
                     </StackLayout.GestureRecognizers>
                 </StackLayout>
             </Frame>
+            
             <ScrollView Grid.Row="2" Grid.Column="0" x:Name="screenShot">
                 <Grid x:Name="root">
                     <StackLayout>

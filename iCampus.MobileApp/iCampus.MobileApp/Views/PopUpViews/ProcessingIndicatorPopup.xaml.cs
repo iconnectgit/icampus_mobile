@@ -7,14 +7,10 @@ using CommunityToolkit.Maui.Views;
 
 namespace iCampus.MobileApp.Views.PopUpViews;
 
-public partial class ProcessingIndicatorPopup : Popup
+public partial class ProcessingIndicatorPopup
 {
     public ProcessingIndicatorPopup()
     {
         InitializeComponent();
-    }
-    public void PopupClosedMethod()
-    {
-        this.CloseAsync();
     }
 }

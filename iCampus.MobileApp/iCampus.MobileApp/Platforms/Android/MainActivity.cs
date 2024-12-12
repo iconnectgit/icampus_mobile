@@ -38,6 +38,7 @@ public class MainActivity : MauiAppCompatActivity, IOnSuccessListener
         base.OnCreate(savedInstanceState);
         try
         {
+            Platform.Init(this, savedInstanceState);
             IsPlayServicesAvailable();
             CreateNotificationChannel();
             var firebaseApp = FirebaseApp.InitializeApp(this);

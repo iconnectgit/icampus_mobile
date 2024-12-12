@@ -30,6 +30,7 @@ using iCampus.Portal.ViewModels;
 using Microcharts.Maui;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.LifecycleEvents;
+using Mopups.Hosting;
 using Newtonsoft.Json;
 using SkiaSharp.Views.Maui.Controls.Hosting;
 using Splat;
@@ -57,12 +58,12 @@ public static class MauiProgram
             .UseMauiCommunityToolkit()
             .UseFFImageLoading()
             .UseSkiaSharp()
+            .ConfigureMopups()
             .ConfigureMauiHandlers(handlers =>
             {
                 handlers.AddHandler<NoUnderlineEntry, EntryHandler>();
                 NoUnderlineEntryHandler.MapBorderlessEntry(EntryHandler.Mapper);
                 handlers.AddHandler<BorderlessEditor, BorderlessEditorHandler>();
-                //handlers.AddHandler<SwipeGestureListview, SwipeGestureListviewHandler>();
             });
         
         DatePickerHandler.Mapper.AppendToMapping("MyCustomization", (handler, view) =>
@@ -85,11 +86,7 @@ public static class MauiProgram
 #endif
         });
 
-        //Locator.CurrentMutable.RegisterConstant<INativeServices>(new NativeServices());
         builder.Services.AddAutoMapper(typeof(MyMappingProfile));
-        //builder.Services.AddSingleton<INativeServices, NativeServices>();
-        //builder.Services.AddSingleton<IMapper, Mapper>(); 
-        //Locator.CurrentMutable.Register(() => new NativeServices(), typeof(INativeServices));
         Locator.CurrentMutable.Register(() => new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<StudentPickListItem, BindableStudentPickListItem>().ReverseMap();
@@ -162,8 +159,10 @@ public static class MauiProgram
 
 #if ANDROID
         Locator.CurrentMutable.RegisterConstant<INativeServices>(new AndroidNativeServices());
+        Locator.CurrentMutable.RegisterConstant<IPrintService>(new AndroidPrintService());
 #elif IOS       
         Locator.CurrentMutable.RegisterConstant<INativeServices>(new iOSNativeServices());
+        Locator.CurrentMutable.RegisterConstant<IPrintService>(new iOSPrintService());
 #endif
 
 #if DEBUG
