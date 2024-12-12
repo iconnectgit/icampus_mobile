@@ -319,6 +319,9 @@ public class LoginForm : ViewModelBase
             }
             catch (Exception ex)
             {
+                var tokenStatus = string.IsNullOrEmpty(App.RefreshedToken) ? "Token_Empty" : "Token_Available";
+                HelperMethods.LogEvent("Exception1", 
+                    $"Exception1 - {ex.Message} - Token - {tokenStatus}");
                 HelperMethods.DisplayException(ex);
             }
             if (IsLoginFormValid())
@@ -433,7 +436,9 @@ public class LoginForm : ViewModelBase
                                 }
                                 catch (Exception ex)
                                 {
-
+                                    var tokenStatus = string.IsNullOrEmpty(App.RefreshedToken) ? "Token_Empty" : "Token_Available";
+                                    HelperMethods.LogEvent("Exception2", 
+                                        $"Exception2 - {ex.Message} - Token - {tokenStatus}");
                                 }
 
                                 
@@ -554,6 +559,9 @@ public class LoginForm : ViewModelBase
                         }
                         catch (Exception ex)
                         {
+                            var tokenStatus = string.IsNullOrEmpty(App.RefreshedToken) ? "Token_Empty" : "Token_Available";
+                            HelperMethods.LogEvent("Exception3", 
+                                $"Exception3 - {ex.Message} - Token - {tokenStatus}");
                             HelperMethods.DisplayException(ex);
                             Preferences.Get("IsLogin", false);
                         }
@@ -562,6 +570,9 @@ public class LoginForm : ViewModelBase
                 }
                 catch (Exception ex)
                 {
+                    var tokenStatus = string.IsNullOrEmpty(App.RefreshedToken) ? "Token_Empty" : "Token_Available";
+                    HelperMethods.LogEvent("Exception4", 
+                        $"Exception4 - {ex.Message} - Token - {tokenStatus}");
                     HelperMethods.DisplayException(ex);
                     Preferences.Get("IsLogin", false);
                 }

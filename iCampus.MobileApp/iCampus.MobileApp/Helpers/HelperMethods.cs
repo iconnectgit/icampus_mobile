@@ -120,8 +120,21 @@ public class HelperMethods
                 loginApiFullUrl = "InitiateLogin?emailId=" + emailId + "&password=" + password + "&token="
                 + refreshedToken + "&deviceId=" + deviceId + "&deviceType=" + Device.RuntimePlatform + "&clientCode=" + App.ClientCode;
             }
-            MobileAppLoginResultView result = await ApiHelper.PostRequest<MobileAppLoginResultView>(loginApiFullUrl, loginApiURL, null);
-            return result;
+
+            try
+            {
+                MobileAppLoginResultView result = await ApiHelper.PostRequest<MobileAppLoginResultView>(loginApiFullUrl, loginApiURL, null);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                var tokenStatus = string.IsNullOrEmpty(App.RefreshedToken) ? "Token_Empty" : "Token_Available";
+                HelperMethods.LogEvent("Exception5", 
+                    $"Exception5 - {ex.Message} - Token - {tokenStatus}");
+                Console.WriteLine(ex);
+                throw;
+            }
+            
         }
 
         public static async void DisplayException(Exception ex, string moduleName = "")

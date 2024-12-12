@@ -22,8 +22,12 @@ public partial class TaxReceiptView : ContentPage
 
     }
 
-    private void TapGestureRecognizer_OnTapped(object? sender, TappedEventArgs e)
+    private async void TapGestureRecognizer_OnTapped(object? sender, TappedEventArgs e)
     {
+        // var result = await screenShot.CaptureAsync();
+        // using MemoryStream memoryStream = new();
+        // await result.CopyToAsync(memoryStream);
+        
         var printButtonFrameBounds = PrintButtonFrame.Bounds;
         var printServices = Locator.Current.GetService<IPrintService>();
         if (printServices != null)
