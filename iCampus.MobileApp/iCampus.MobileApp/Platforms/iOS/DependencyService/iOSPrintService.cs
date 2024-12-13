@@ -1,4 +1,5 @@
 using CoreGraphics;
+using Foundation;
 using iCampus.MobileApp.Forms;
 using UIKit;
 
@@ -6,53 +7,33 @@ namespace iCampus.MobileApp.DependencyService;
 
 public class iOSPrintService : IPrintService
 {
-    public bool PrintImage(Rect printButtonBounds)
+    public bool PrintImage(MemoryStream memoryStream)
     {
         try
         {
-            // Get the current window's root view
-            var window = UIApplication.SharedApplication.KeyWindow;
-            if (window == null)
-                throw new Exception("KeyWindow is null. Unable to capture the view.");
+            if (memoryStream == null || memoryStream.Length == 0)
+                throw new ArgumentException("The provided memory stream is null or empty.");
 
-            var rootView = window.RootViewController.View;
-            if (rootView == null)
-                throw new Exception("Root view is null. Unable to capture the view.");
-
-            // Define the area to capture
-            var width = (nfloat)rootView.Frame.Width;
-            var height = (nfloat)(rootView.Frame.Height - printButtonBounds.Y);
-            var topOffset = (nfloat)(printButtonBounds.Bottom - 10);
-            var captureRect = new CGRect(0, -topOffset, width, height);
-
-            // Render the view into a UIImage
-            UIGraphics.BeginImageContextWithOptions(captureRect.Size, false, 0);
-            rootView.DrawViewHierarchy(captureRect, true);
-            var image = UIGraphics.GetImageFromCurrentImageContext();
-            UIGraphics.EndImageContext();
-
-            if (image == null)
-                throw new Exception("Failed to generate image from view.");
-
-            // Convert the image to NSData
-            var imageData = image.AsPNG();
+            var imageData = NSData.FromArray(memoryStream.ToArray());
             if (imageData == null)
-                throw new Exception("Failed to convert UIImage to PNG data.");
+                throw new Exception("Failed to convert the memory stream to NSData.");
 
-            AppSettings.Current.TaxReceiptStream = new MemoryStream(imageData.ToArray());
+            var image = UIImage.LoadFromData(imageData);
+            if (image == null)
+                throw new Exception("Failed to create UIImage from NSData.");
 
+            var printController = UIPrintInteractionController.SharedPrintController;
+            if (printController == null)
+                throw new Exception("Failed to get the shared print controller.");
 
-            // Configure the print job
             var printInfo = UIPrintInfo.PrintInfo;
             printInfo.OutputType = UIPrintInfoOutputType.General;
             printInfo.JobName = "TaxReceipt";
 
-            var printController = UIPrintInteractionController.SharedPrintController;
             printController.PrintInfo = printInfo;
             printController.PrintingItem = image;
 
-            // Show the print dialog
-            printController.Present(true, (handler, completed, error) =>
+            printController.Present(true, (controller, completed, error) =>
             {
                 if (!completed && error != null)
                 {

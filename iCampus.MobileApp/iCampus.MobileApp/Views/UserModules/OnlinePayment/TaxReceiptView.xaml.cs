@@ -24,15 +24,14 @@ public partial class TaxReceiptView : ContentPage
 
     private async void TapGestureRecognizer_OnTapped(object? sender, TappedEventArgs e)
     {
-        // var result = await screenShot.CaptureAsync();
-        // using MemoryStream memoryStream = new();
-        // await result.CopyToAsync(memoryStream);
+        var result = await screenShot.CaptureAsync();
+        using MemoryStream memoryStream = new();
+        await result.CopyToAsync(memoryStream);
         
-        var printButtonFrameBounds = PrintButtonFrame.Bounds;
         var printServices = Locator.Current.GetService<IPrintService>();
         if (printServices != null)
         {
-            var success = printServices.PrintImage(printButtonFrameBounds);
+            var success = printServices.PrintImage(memoryStream);
             if (success)
                 System.Diagnostics.Debug.WriteLine("Bitmap generated and printed successfully.");
             else
