@@ -82,6 +82,8 @@ using iCampus.MobileApp.Views.UserModules.Settings;
 using iCampus.MobileApp.Views.UserModules.Survey;
 using iCampus.MobileApp.Views.UserModules.TeacherEvaluation;
 using iCampus.MobileApp.Views.UserModules.TimeTable;
+using Mopups.Pages;
+using Mopups.Services;
 using Splat;
 using Calendar = iCampus.MobileApp.Views.UserModules.Calendar.Calendar;
 
@@ -761,7 +763,7 @@ public class ViewModelBase : INotifyPropertyChanged
     //         Crashes.TrackError(ex);
     //     }
     // }
-
+    private static PopupPage _popup;
     public async void StudentViewTapClicked(object obj)
     {
         var getViewModelType = GetCurrentPage();
@@ -776,12 +778,12 @@ public class ViewModelBase : INotifyPropertyChanged
         //     AppSettings.Current.StudentList = AppSettings.Current.RegisteredStudentList;
         // await PopupNavigation.Instance.PushAsync(new StudentListPopUp(this), true);
         AppSettings.Current.StudentList = AppSettings.Current.RegisteredStudentList;
-        var studentListPopup = new StudentListPopUp()
+        _popup = new StudentListPopUp()
         {
             BindingContext = this
         };
-        SetPopupInstance(studentListPopup);
-        Application.Current.MainPage.ShowPopup(studentListPopup);
+        //SetPopupInstance(studentListPopup);
+        await MopupService.Instance.PushAsync(_popup);
     }
     public void SetPopupInstance(Popup popup)
     {
@@ -895,7 +897,10 @@ public class ViewModelBase : INotifyPropertyChanged
                 AppSettings.Current.SelectedStudentFromAllStudentList.ItemId != null
                     ? true
                     : false;
-            AppSettings.Current.CurrentPopup?.Close();
+            if (MopupService.Instance.PopupStack.Any())
+            {
+                await MopupService.Instance.PopAsync();
+            }
             GetStudentData();
             // var popupPage = PopupNavigation.Instance.PopupStack.Reverse().FirstOrDefault();
             // await PopupNavigation.Instance.RemovePageAsync(popupPage);
@@ -1169,8 +1174,10 @@ public class ViewModelBase : INotifyPropertyChanged
         {
             if (obj != null)
             {
-                AppSettings.Current.CurrentPopup?.Close();
-                AppSettings.Current.CurrentPopup = null;
+                if (MopupService.Instance.PopupStack.Any())
+                {
+                    await MopupService.Instance.PopAsync();
+                }
                 SelectedMenu = null;
 
                 // Func<PopupPage, bool> calPredicate = x => x.GetType() == typeof(CustomCalendar);
@@ -1919,7 +1926,7 @@ public class ViewModelBase : INotifyPropertyChanged
     //     }
     // }
     
-    public void BeamMenuClicked()
+    public async void BeamMenuClicked()
     {
         try
         {
@@ -1932,8 +1939,11 @@ public class ViewModelBase : INotifyPropertyChanged
             {
                 BindingContext = this
             };
-            SetPopupInstance(sideMenuPanel);
-            Application.Current.MainPage.ShowPopup(sideMenuPanel);
+            if (!MopupService.Instance.PopupStack.Any())
+            {
+                await MopupService.Instance.PushAsync(sideMenuPanel);
+            }
+            
 
             // if (MenuPage != null)
             // { 

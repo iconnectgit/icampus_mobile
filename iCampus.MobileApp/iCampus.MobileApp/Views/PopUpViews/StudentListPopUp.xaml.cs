@@ -5,18 +5,22 @@ using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Maui.Views;
 using iCampus.MobileApp.Forms;
+using Mopups.Services;
 
 namespace iCampus.MobileApp.Views.PopUpViews;
 
-public partial class StudentListPopUp : Popup
+public partial class StudentListPopUp
 {
     public StudentListPopUp()
     {
         InitializeComponent();
     }
 
-    private void MenuClosedClick(object? sender, TappedEventArgs e)
+    private async void MenuClosedClick(object? sender, TappedEventArgs e)
     {
-        this.Close();
+        if (MopupService.Instance.PopupStack.Any())
+        {
+            await MopupService.Instance.PopAsync();
+        }
     }
 }

@@ -35,6 +35,16 @@ public class AttachmentListPopupForm : ViewModelBase
                 OnPropertyChanged(nameof(SelectedItem));
             }
         }
+        int _listViewHeight;
+        public int ListViewHeight
+        {
+            get => _listViewHeight;
+            set
+            {
+                _listViewHeight = value;
+                OnPropertyChanged(nameof(ListViewHeight));
+            }
+        }
         #endregion
         public AttachmentListPopupForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)
         {
@@ -55,23 +65,17 @@ public class AttachmentListPopupForm : ViewModelBase
         private async void AttachmentListClicked(Object obj)
         {
             if (obj != null)
-            {
                 try
                 {
-                    if (Device.RuntimePlatform == Device.iOS)
-                        {
-                            await AppSettings.Current.CurrentPopup?.CloseAsync();
-                        }
-                        var selectedAttachment = (BindableAttachmentFileView)obj;
-                        if (!string.IsNullOrEmpty(selectedAttachment.FilePath))
-                           await HelperMethods.OpenFileForPreview(selectedAttachment.FilePath, _nativeServices);
-                
+                    await AppSettings.Current.CurrentPopup?.CloseAsync();
+                    var selectedAttachment = (BindableAttachmentFileView)obj;
+                    if (!string.IsNullOrEmpty(selectedAttachment.FilePath))
+                        await HelperMethods.OpenFileForPreview(selectedAttachment.FilePath, _nativeServices);
                 }
                 catch (Exception ex)
                 {
-                    HelperMethods.DisplayException(ex, this.PageTitle);
+                    HelperMethods.DisplayException(ex, PageTitle);
                 }
-            }
         }
         private async void DownloadClicked(object obj)
         {

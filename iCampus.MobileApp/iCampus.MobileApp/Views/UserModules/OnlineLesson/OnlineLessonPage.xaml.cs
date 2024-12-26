@@ -26,7 +26,6 @@ public partial class OnlineLessonPage : ContentPage
                 
                 TheTreeViewRequired.ForceLayout();
                 TheTreeViewElective.ForceLayout();
-                ForceLayout(); 
             }
         });
     }

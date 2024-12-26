@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<toolkit:Popup
+<mopups:PopupPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
     xmlns:forms="clr-namespace:iCampus.MobileApp.Forms"
@@ -9,8 +10,7 @@
     xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Maui"
     x:Class="iCampus.MobileApp.Views.PopUpViews.StudentListPopUp"
     x:Name="studentListPopup"
-    Color="Transparent"
-    Size="3000, 3000">
+    BackgroundColor="#80000000">
     
     <AbsoluteLayout 
                     HorizontalOptions="FillAndExpand" 
@@ -50,16 +50,18 @@
                 </StackLayout>
 
                 <!-- ListView -->
-                <ListView Header="" Footer="" HasUnevenRows="True" VerticalScrollBarVisibility="Never" HorizontalOptions="StartAndExpand" 
+                <CollectionView Header="" Footer=""  VerticalScrollBarVisibility="Never" HorizontalOptions="StartAndExpand" 
                           ItemsSource="{Binding StudentList,Mode=TwoWay, Source={x:Static forms:AppSettings.Current}}"
                           SelectedItem="{Binding SelectedStudent, Mode=TwoWay}" 
-                          BackgroundColor="Transparent"
-                          SeparatorVisibility="None" Margin="30,160,30,0">
-                    <ListView.ItemTemplate>
+                          BackgroundColor="Transparent" 
+                          Margin="30,160,30,0">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Vertical" ItemSpacing="20" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>
                                 <Frame CornerRadius="5" HasShadow="False" BorderColor="WhiteSmoke" Padding="10" 
-                                       IsClippedToBounds="true" Margin="0,20,0,0">
+                                       IsClippedToBounds="true" Margin="0">
                                     <Grid ColumnSpacing="12">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="Auto"/>
@@ -89,17 +91,21 @@
                                                Grid.Column="1"
                                                FontAttributes="Bold" />
                                     </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer
+                                            Command="{Binding BindingContext.StudentListTappedCommand,Source={x:Reference studentListPopup}}"
+                                            CommandParameter="{Binding .}" NumberOfTapsRequired="1" />
+                                    </Frame.GestureRecognizers>
                                 </Frame>
-                            </ViewCell>
                         </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <ListView.Behaviors>
-                        <toolkit:EventToCommandBehavior EventName="ItemSelected" 
-                                                      Command="{Binding StudentListTappedCommand}" 
-                                                      CommandParameter="{Binding SelectedStudent}"/>
-                    </ListView.Behaviors>
-                </ListView>
+                    </CollectionView.ItemTemplate>
+                    <!-- <CollectionView.Behaviors> -->
+                    <!--     <toolkit:EventToCommandBehavior EventName="ItemSelected"  -->
+                    <!--                                   Command="{Binding StudentListTappedCommand}"  -->
+                    <!--                                   CommandParameter="{Binding SelectedStudent}"/> -->
+                    <!-- </CollectionView.Behaviors> -->
+                </CollectionView>
             </StackLayout>
         </Frame>
     </AbsoluteLayout>
-</toolkit:Popup>
+</mopups:PopupPage>

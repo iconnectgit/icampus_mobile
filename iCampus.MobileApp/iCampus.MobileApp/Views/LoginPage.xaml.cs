@@ -22,12 +22,6 @@ public partial class LoginPage : ContentPage
     }
     private void InitializePage()
     {
-        // Set the BindingContext to the ViewModel
-        //ViewModel = new LoginForm();
-        // ViewModel = Locator.Current.GetService<LoginForm>();
-        // BindingContext = ViewModel;
-
-        // Handle the visibility of specific views based on ClientGroupCode
         if (App.ClientGroupCode != null && App.ClientGroupCode.Equals("Beam"))
         {
             OtherAppView.Children.Clear();
@@ -36,8 +30,5 @@ public partial class LoginPage : ContentPage
         {
             BeamAppView.Children.Clear();
         }
-
-        // Change the status bar color using the native services
-        //_nativeServices.ChangeStatusBarColor(254, 254, 254);
     }
 }

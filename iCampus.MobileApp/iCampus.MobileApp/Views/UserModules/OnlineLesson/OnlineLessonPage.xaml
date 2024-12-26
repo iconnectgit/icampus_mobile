@@ -3,7 +3,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
-             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
              xmlns:treeView="clr-namespace:iCampus.MobileApp.Forms.UserModules.OnlineLesson.TreeView"
              x:Class="iCampus.MobileApp.Views.UserModules.OnlineLesson.OnlineLessonPage"
              NavigationPage.HasNavigationBar="false"
@@ -16,8 +15,7 @@
               RowDefinitions="Auto,Auto,*,Auto"
               ColumnDefinitions="*">
             <Grid.Resources>
-                <ResourceDictionary>
-                </ResourceDictionary>
+                <ResourceDictionary />
             </Grid.Resources>
 
             <ContentView ControlTemplate="{StaticResource BeamHeader}"
@@ -25,29 +23,31 @@
                          BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
             <ContentView ControlTemplate="{StaticResource BeamStudentSelection}"
                          BackgroundColor="{StaticResource BorderColor}" Grid.Row="1" Grid.Column="0" />
+            <ScrollView Grid.Row="2" Grid.Column="0" VerticalOptions="FillAndExpand" IsClippedToBounds="False">
+                <StackLayout VerticalOptions="Start" Margin="0,0,0,10">
 
-            <StackLayout Grid.Row="2" Grid.Column="0" VerticalOptions="FillAndExpand">
-                <Frame CornerRadius="5" Padding="10" Margin="10,10,10,0" HeightRequest="{OnPlatform iOS='310', Android='300'}" IsVisible="{Binding IsFileAvailable}"
-                       BorderColor="Gray">
-                    <ScrollView VerticalScrollBarVisibility="Always">
-                        <StackLayout BackgroundColor="White" VerticalOptions="FillAndExpand">
+                    <Frame CornerRadius="5" Padding="10" Margin="10,10,10,0" IsVisible="{Binding IsFileAvailable}"
+                           BorderColor="Gray">
+                        <StackLayout BackgroundColor="White">
                             <Label Text="Required Courses" FontAttributes="Bold" FontSize="16" />
-                            <treeView:TreeView BackgroundColor="White" x:Name="TheTreeViewRequired" Margin="4"  VerticalOptions="FillAndExpand"/>
+                            <treeView:TreeView BackgroundColor="White" x:Name="TheTreeViewRequired" Margin="4"
+                                               VerticalOptions="FillAndExpand"
+                                               HeightRequest="{OnPlatform iOS=250, Default=-1}" />
                         </StackLayout>
-                    </ScrollView>
-                </Frame>
+                    </Frame>
 
-                <Frame CornerRadius="5" Padding="10" Margin="10,10,10,0" HeightRequest="{OnPlatform iOS='310', Android='300'}" IsVisible="{Binding IsFileAvailable}"
-                       BorderColor="Gray">
-                    <ScrollView VerticalScrollBarVisibility="Always" VerticalOptions="FillAndExpand">
+                    <Frame CornerRadius="5" Padding="10" Margin="10,10,10,0" IsVisible="{Binding IsFileAvailable}"
+                           BorderColor="Gray">
                         <StackLayout BackgroundColor="White">
                             <Label Text="Elective Courses" FontAttributes="Bold" FontSize="16" />
-                            <treeView:TreeView BackgroundColor="White" x:Name="TheTreeViewElective" Margin="4" VerticalOptions="FillAndExpand"/>
+                            <treeView:TreeView BackgroundColor="White" x:Name="TheTreeViewElective" Margin="4"
+                                               VerticalOptions="FillAndExpand"
+                                               HeightRequest="{OnPlatform iOS=250, Default=-1}" />
                         </StackLayout>
-                    </ScrollView>
-                </Frame>
-            </StackLayout>
-
+                    </Frame>
+                    
+                </StackLayout>
+            </ScrollView>
             <StackLayout VerticalOptions="EndAndExpand" Margin="0" Grid.Row="3" Grid.Column="0">
                 <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
                              VerticalOptions="EndAndExpand"

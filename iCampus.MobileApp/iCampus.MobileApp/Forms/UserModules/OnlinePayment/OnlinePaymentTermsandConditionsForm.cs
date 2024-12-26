@@ -2,6 +2,7 @@ using System.Windows.Input;
 using iCampus.MobileApp.Views.PopUpViews;
 using iCampus.MobileApp.Views.UserModules.OnlinePayment;
 using iCampus.Portal.ViewModels;
+using Mopups.Services;
 
 namespace iCampus.MobileApp.Forms.UserModules.OnlinePayment;
 
@@ -220,7 +221,10 @@ public class OnlinePaymentTermsandConditionsForm : ViewModelBase
         {
             BindingContext = billingDetailsForm
         }; 
-        AppSettings.Current.CurrentPopup?.Close(); 
+        if (MopupService.Instance.PopupStack.Any())
+        {
+            await MopupService.Instance.PopAsync();
+        }
         var currentPage = Navigation.NavigationStack.LastOrDefault();
         await Navigation.PushAsync(billingDetailsPage);  
         if (currentPage != null)

@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Views;
 using iCampus.MobileApp.Forms;
+using Mopups.Services;
 
 namespace iCampus.MobileApp.Views.PopUpViews;
 
-public partial class SideMenuPanel : Popup
+public partial class SideMenuPanel
 {
     public SideMenuPanel()
     {
@@ -19,7 +20,10 @@ public partial class SideMenuPanel : Popup
 
     async void SwipeGestureListview_SwipeLeft(System.Object sender, System.EventArgs e)
     {
-        Close(); // Close the popup directly
+        if (MopupService.Instance.PopupStack.Any())
+        {
+            await MopupService.Instance.PopAsync();
+        }
     }
 
     protected void OnOpened()
@@ -35,8 +39,11 @@ public partial class SideMenuPanel : Popup
         MessagingCenter.Unsubscribe<string>("", "SideMenuPanelLeftSwipeSubscribe");
     }
 
-    private void MenuClosedClick(object? sender, TappedEventArgs e)
+    private async void MenuClosedClick(object? sender, TappedEventArgs e)
     {
-        Close();
+        if (MopupService.Instance.PopupStack.Any())
+        {
+            await MopupService.Instance.PopAsync();
+        }
     }
 }

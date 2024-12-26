@@ -509,6 +509,17 @@ public class SendMessageForm : ViewModelBase
             OnPropertyChanged(nameof(RecipientListHeight));
         }
     }
+    private bool _recipientListVisible;
+
+    public bool RecipientListVisible
+    {
+        get => _recipientListVisible;
+        set
+        {
+            _recipientListVisible = value;
+            OnPropertyChanged(nameof(RecipientListVisible));
+        }
+    }
 
     private bool _sortPickerVisible;
 
@@ -729,7 +740,7 @@ public class SendMessageForm : ViewModelBase
         if (AppSettings.Current.IsTeacher) await GetGradeList();
         SetBeamViews();
     }
-
+    
     private void OrderByChanged(object obj)
     {
         try
@@ -769,10 +780,11 @@ public class SendMessageForm : ViewModelBase
 
     private void GetSelectedRecipientListHeight()
     {
-        var singleRowHeight = DeviceInfo.Platform == DevicePlatform.Android ? 32 : 27;
+        var singleRowHeight = DeviceInfo.Platform == DevicePlatform.Android ? 27 : 25;
         RecipientListHeight = SelectedRecipientList.Count < 7
             ? SelectedRecipientList.Count * singleRowHeight
             : singleRowHeight * 7;
+        RecipientListVisible = true;
     }
 
     private async Task GetGradeList()
@@ -947,12 +959,13 @@ public class SendMessageForm : ViewModelBase
         {
             if (SelectedRecipientList.IndexOf(obj) == -1)
             {
-                if (Device.RuntimePlatform == Device.iOS)
+                if (DeviceInfo.Platform == DevicePlatform.iOS)
                     MessagingCenter.Send<string>("", "SearchUnfocus");
 
                 if (SelectedRecipientList.Count < AppSettings.Current.MaxAllowedRecipientCount)
                 {
                     SelectedRecipientList.Add(obj);
+                    FilterRecipientList();
                     GetSelectedRecipientListHeight();
 
                     IsRecipientErrorLabelVisible = false;
@@ -981,13 +994,24 @@ public class SendMessageForm : ViewModelBase
 
     private void DeleteRecipient(CommunicationMessageView obj)
     {
-        if (obj != null && IsEnabledRecipientSelection)
+        try
         {
-            SelectedRecipientList.Remove(obj);
-            RecipientPlaceHolderText();
-            GetSelectedRecipientListHeight();
-            CheckSelectAllCheckbox();
-            FilteredRecipientList.Add(obj);
+            if (obj != null && IsEnabledRecipientSelection)
+            {
+                SelectedRecipientList.Remove(obj);
+                int index = FilteredRecipientList
+                    .TakeWhile(item => string.Compare(item.UserName, obj.UserName, StringComparison.Ordinal) < 0)
+                    .Count();
+                FilteredRecipientList.Insert(index, obj);
+                RecipientPlaceHolderText();
+                GetSelectedRecipientListHeight();
+                CheckSelectAllCheckbox();
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
         }
     }
 

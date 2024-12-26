@@ -13,8 +13,8 @@
         either BOTH runtimes must be indicated or ONLY macatalyst-x64. -->
         <!-- For example: <RuntimeIdentifiers>maccatalyst-x64;maccatalyst-arm64</RuntimeIdentifiers> -->
 
-       
 
+        <UseInterpreter>true</UseInterpreter>
         <OutputType>Exe</OutputType>
         <RootNamespace>iCampus.MobileApp</RootNamespace>
         <UseMaui>true</UseMaui>
@@ -174,7 +174,7 @@
         <AndroidSigningKeyAlias>iCampus Mobile</AndroidSigningKeyAlias>
         <AndroidSigningKeyPass>iconnect12345$</AndroidSigningKeyPass>
         <AndroidSigningStorePass>iconnect12345$</AndroidSigningStorePass>
-        <AndroidSigningKeyStore>/Users/zuberfarooqui/Desktop/MAUI_App/Untitled/iCampus.MobileApp/iCampus.MobileApp/Documents/MobileApp_Key/Android/Keystore/iCampusMobile.keystore</AndroidSigningKeyStore>
+        <AndroidSigningKeyStore>/Users/zuberfarooqui/Desktop/MAUI/icampus_mobile/iCampus.MobileApp/iCampus.MobileApp/Documents/MobileApp_Key/Android/Keystore/iCampusMobile.keystore</AndroidSigningKeyStore>
         <PublishTrimmed>false</PublishTrimmed>
         <RunAOTCompilation>false</RunAOTCompilation>
         <PublishTrimMode>link</PublishTrimMode>
@@ -192,6 +192,7 @@
         <CodesignProvision>iCampus_UAT_20241121</CodesignProvision>
         <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
         <PublishTrimmed>true</PublishTrimmed>
+        <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     </PropertyGroup>
 
 </Project>

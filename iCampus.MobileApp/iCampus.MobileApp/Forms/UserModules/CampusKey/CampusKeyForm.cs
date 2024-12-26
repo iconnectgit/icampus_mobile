@@ -413,7 +413,7 @@ public class CampusKeyForm : ViewModelBase
         BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
         BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
         BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
-        SetBeamAppViews();
+        //SetBeamAppViews();
         MessagingCenter.Subscribe<string>("", "RefreshPaymentHistoryData", async (args) =>
         {
             var studentId = AppSettings.Current.SelectedStudent.ItemId;
@@ -629,7 +629,7 @@ public class CampusKeyForm : ViewModelBase
                 }
                 else
                 {
-                    await HelperMethods.ShowAlert("", TextResource.Error);
+                    await HelperMethods.ShowAlert("", operationDetails.Message);
                 }
             }
         }

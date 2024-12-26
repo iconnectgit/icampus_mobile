@@ -197,7 +197,7 @@ public class QuickPaymentForm : ViewModelBase
                 await ClearStudentCacheData(studentId);
                 await GetHistoryList();
             });
-            SetBeamAppViews();
+            //SetBeamAppViews();
         }
 
         private async Task GetDetails()

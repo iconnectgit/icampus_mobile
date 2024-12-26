@@ -91,52 +91,68 @@ public class ExamForm : ViewModelBase
 
     public void ExpandCollapseClicked(BindableExamScheduleView bindableExamScheduleView)
     {
-        if (bindableExamScheduleView != null)
-            foreach (var item in ExamScheduleList)
-                if (item != null)
-                {
-                    if (item.ExamId == bindableExamScheduleView.ExamId)
+        try
+        {
+            if (bindableExamScheduleView != null)
+                foreach (var item in ExamScheduleList)
+                    if (item != null)
                     {
-                        if (!(string.IsNullOrEmpty(bindableExamScheduleView.ExamRequirements) &&
-                              bindableExamScheduleView.ExamFiles.Count() == 0))
+                        if (item.ExamId == bindableExamScheduleView.ExamId)
                         {
-                            item.DetailsVisibility = !item.DetailsVisibility;
-                            item.ArrowImageSource = item.ArrowImageSource.Equals("uparrow_gray.png")
-                                ? "dropdown_gray.png"
-                                : "uparrow_gray.png";
+                            if (!(string.IsNullOrEmpty(bindableExamScheduleView.ExamRequirements) &&
+                                  bindableExamScheduleView.ExamFiles.Count() == 0))
+                            {
+                                item.DetailsVisibility = !item.DetailsVisibility;
+                                item.ArrowImageSource = item.ArrowImageSource.Equals("uparrow_gray.png")
+                                    ? "dropdown_gray.png"
+                                    : "uparrow_gray.png";
+                            }
+                        }
+                        else
+                        {
+                            item.DetailsVisibility = false;
+                            item.ArrowImageSource = "dropdown_gray.png";
                         }
                     }
-                    else
-                    {
-                        item.DetailsVisibility = false;
-                        item.ArrowImageSource = "dropdown_gray.png";
-                    }
-                }
 
-        MessagingCenter.Send("", "ExpandCollapse");
+            MessagingCenter.Send("", "ExpandCollapse");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     private async void ListViewTapped(BindableExamScheduleView obj)
     {
-        if (obj != null)
+        try
         {
-            ExamDetailForm examDetailForm = new(_mapper, _nativeServices, Navigation)
+            if (obj != null)
             {
-                MenuVisible = false,
-                BackVisible = true,
-                PageTitle = PageTitle,
-                ExamScheduleList = ExamScheduleList,
-                SelectedPosition = ExamScheduleList.IndexOf(obj),
-                SelectedExamType = obj.ExamDate >= DateTime.Now
-                    ? TextResource.UpcomingExamText
-                    : TextResource.PastExamText
-            };
-            SelectedExamSchedule = null;
-            ExamDetailPage examDetailPage = new ExamDetailPage()
-            {
-                BindingContext = examDetailForm
-            };
-            await Navigation.PushAsync(examDetailPage);
+                ExamDetailForm examDetailForm = new(_mapper, _nativeServices, Navigation)
+                {
+                    MenuVisible = false,
+                    BackVisible = true,
+                    PageTitle = PageTitle,
+                    ExamScheduleList = ExamScheduleList,
+                    SelectedPosition = ExamScheduleList.IndexOf(obj),
+                    SelectedExamType = obj.ExamDate >= DateTime.Now
+                        ? TextResource.UpcomingExamText
+                        : TextResource.PastExamText
+                };
+                SelectedExamSchedule = null;
+                ExamDetailPage examDetailPage = new ExamDetailPage()
+                {
+                    BindingContext = examDetailForm
+                };
+                await Navigation.PushAsync(examDetailPage);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
         }
     }
 

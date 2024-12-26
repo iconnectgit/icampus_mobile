@@ -52,20 +52,23 @@ public partial class App : Application
     {
         InitializeComponent();
 
-        // Initialize services before using them
-        var mapper = Locator.Current.GetService<IMapper>();
         var nativeServices = Locator.Current.GetService<INativeServices>();
-        // Setup default culture settings
         BlobCache.ForcedDateTimeKind = DateTimeKind.Local;
         CultureInfo defaultCulture = new CultureInfo("en-US");
         CultureInfo.DefaultThreadCurrentCulture = defaultCulture;
         CultureInfo.DefaultThreadCurrentUICulture = defaultCulture;
 
-        //BindingContext = new ViewModelBase(mapper, nativeServices);
-        // Load the initial page
-        MainPage = new NavigationPage(new LoginPage(mapper, nativeServices)); 
+        
+        var mapperConfig = new MapperConfiguration(cfg =>
+        {
+            cfg.AddProfile<MyMappingProfile>(); 
+        });
 
-        // Set the BindingContext if needed
+        var mapper = mapperConfig.CreateMapper();
+
+        Locator.CurrentMutable.RegisterConstant(mapper, typeof(IMapper));
+
+        MainPage = new NavigationPage(new LoginPage(mapper, nativeServices)); 
         
         //FlowListView.Init();
     }

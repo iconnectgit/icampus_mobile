@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Views;
 using iCampus.MobileApp.Views.PopUpViews;
 using iCampus.MobileApp.Views.UserModules.OnlinePayment;
 using iCampus.Portal.ViewModels;
+using Mopups.Services;
 
 namespace iCampus.MobileApp.Forms.UserModules.OnlinePayment;
 
@@ -294,8 +295,7 @@ public class ConfirmPaymentForm : ViewModelBase
             {
                 BindingContext = onlinePaymentTermsandConditionsForm
             };
-            SetPopupInstance(termsAndConditionsPopup);
-            Application.Current.MainPage.ShowPopup(termsAndConditionsPopup);
+            MopupService.Instance.PushAsync(termsAndConditionsPopup);
         }
     }
     public void SetPopupInstance(Popup popup)

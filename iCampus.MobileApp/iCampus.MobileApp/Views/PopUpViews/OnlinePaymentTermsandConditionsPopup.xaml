@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<toolkit:Popup
+<mopups:PopupPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
     xmlns:forms="clr-namespace:iCampus.MobileApp.Forms"
+    xmlns:mopups="clr-namespace:Mopups.Pages;assembly=Mopups"
     xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
     x:Class="iCampus.MobileApp.Views.PopUpViews.OnlinePaymentTermsandConditionsPopup"
-    CanBeDismissedByTappingOutsideOfPopup="False"
+    CloseWhenBackgroundIsClicked="False"
     x:Name="onlinePaymentTermsandConditionsPopup"
-    Color="Transparent">
+    BackgroundColor="#80000000">
 
     <Frame  CornerRadius="10"
             HasShadow="False"
@@ -24,7 +25,7 @@
         <StackLayout Spacing="0">
             
             <!-- Title Bar -->
-            <StackLayout HeightRequest="45"
+            <StackLayout HeightRequest="45" Margin="-1"
                          BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
                           Padding="0">
                 <Label Text="Terms And Conditions" 
@@ -72,4 +73,4 @@
         </Frame.GestureRecognizers>
         </Frame>
 
-</toolkit:Popup>
+</mopups:PopupPage>

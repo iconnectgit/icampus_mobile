@@ -289,6 +289,8 @@ public class ParentStudentResourcesForm : ViewModelBase
                 {
                     SelectedAttachmentList = _mapper.Map<List<BindableAttachmentFileView>>(sender.AttachmentFileList)
                 };
+                attachmentListPopupForm.ListViewHeight = Math.Max(sender.AttachmentFileList.Count * 45, 100);
+
                 var attachmentListPopup = new AttachmentListPopup()
                 {
                     BindingContext = attachmentListPopupForm

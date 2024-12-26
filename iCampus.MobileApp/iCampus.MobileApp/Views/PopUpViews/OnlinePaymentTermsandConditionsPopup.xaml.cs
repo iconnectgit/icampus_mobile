@@ -4,17 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Maui.Views;
+using Mopups.Services;
 
 namespace iCampus.MobileApp.Views.PopUpViews;
 
-public partial class OnlinePaymentTermsandConditionsPopup : Popup
+public partial class OnlinePaymentTermsandConditionsPopup
 {
     public OnlinePaymentTermsandConditionsPopup()
     {
         InitializeComponent();
     }
-    private void MenuClosedClick(object? sender, EventArgs eventArgs)
+    private async void MenuClosedClick(object? sender, EventArgs eventArgs)
     {
-        this.Close();
+        if (MopupService.Instance.PopupStack.Any())
+        {
+            await MopupService.Instance.PopAsync();
+        }
     }
 }

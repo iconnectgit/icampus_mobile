@@ -226,6 +226,7 @@ public class CommunicationDetailsForm : ViewModelBase
                 IsEnabledRecipientSelection = SelectedMessage.IsReplyToParent,
                 IsVisibleInfoIcon = false,
                 IsEnabledMessage = true,
+                RecipientListVisible = true,
                 IsEnabledSubject = true
             };
             sendMessageForm.MessageSubject.Value = obj.MessageSubject;

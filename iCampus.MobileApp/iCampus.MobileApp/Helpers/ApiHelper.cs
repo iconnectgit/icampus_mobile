@@ -494,7 +494,7 @@ public class ApiHelper
             {
                 if (MopupService.Instance.PopupStack.Any())
                 {
-                    await MopupService.Instance.PopAsync();
+                    await MopupService.Instance.RemovePageAsync(MopupService.Instance.PopupStack.Last());
                 }
             }
             catch (Exception e)

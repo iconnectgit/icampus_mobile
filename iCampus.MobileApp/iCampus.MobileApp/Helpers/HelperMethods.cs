@@ -18,6 +18,7 @@ using iCampus.MobileApp.Views.PopUpViews;
 using iCampus.Portal.ViewModels;
 using iCampus.Common.Helpers;
 using Microsoft.Maui.Controls.PlatformConfiguration;
+using Mopups.Services;
 using Application = Microsoft.Maui.Controls.Application;
 #if IOS
     using Foundation;
@@ -149,7 +150,11 @@ public class HelperMethods
             try
             {
                 App.SurveyIdList = new List<int>();
-                await AppSettings.Current.CurrentPopup?.CloseAsync();
+                
+                if (MopupService.Instance.PopupStack.Any())
+                {
+                    await MopupService.Instance.PopAsync();
+                }
                 var action = await App.Current.MainPage.DisplayAlert(TextResource.LogoutPopupTitle, TextResource.LogoutPopupConfirmationText, TextResource.YesText, TextResource.NoText);
                 if (action)
                 {
@@ -240,7 +245,7 @@ public class HelperMethods
             }
             catch (Exception ex)
             {
-                HelperMethods.DisplayException(ex);
+                DisplayException(ex);
             }
         }
 
