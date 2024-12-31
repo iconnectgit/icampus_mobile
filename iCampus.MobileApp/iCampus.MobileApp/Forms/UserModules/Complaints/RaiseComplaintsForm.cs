@@ -266,6 +266,11 @@ public class RaiseComplaintsForm : ViewModelBase
         private async void AddAttachmentClicked(object obj)
         {
             AttachmentFileView fileData = await HelperMethods.PickFileFromDevice();
+            if (AttachmentFiles.Any(x => x.FileName.Equals(fileData.FileName, StringComparison.OrdinalIgnoreCase)))
+            {
+                await HelperMethods.ShowAlert("", "This file has already been added.");
+                return;
+            }
             AttachmentFiles.AddFileToList(fileData);
         }
         private bool ValidateData()
@@ -315,37 +320,19 @@ public class RaiseComplaintsForm : ViewModelBase
             {
                 if (obj != null)
                 {
-                    if (Device.RuntimePlatform == Device.Android)
+                    var action = await App.Current.MainPage.DisplayAlert("", TextResource.DeleteText, TextResource.YesText, TextResource.NoText);
+                    if (action)
                     {
-                        _nativeServices.ShowAlertWithTwoButtons("", TextResource.DeleteText, TextResource.YesText, TextResource.NoText, async (action) => {
-                            if (action)
-                            {
-                                AttachmentFileView attachmentFile = (AttachmentFileView)obj;
-                                if (attachmentFile.FileData == null)
-                                {
-                                    var fileid = SelectedComplaint.AttachmentList.Where(x => x.AttachmentFile.Equals(attachmentFile.FileName)).SingleOrDefault().AttachmentId;
-                                    DeletedAttachmentFileID.Add(fileid);
-                                    DeletedAttachmentFileName.Add(attachmentFile.FileName);
-                                }
-                                AttachmentFiles.Remove(attachmentFile);
-                            }
-                        });
-                    }
-                    else
-                    {
-                        var action = await App.Current.MainPage.DisplayAlert("", TextResource.DeleteText, TextResource.YesText, TextResource.NoText);
-                        if (action)
+                        AttachmentFileView attachmentFile = (AttachmentFileView)obj;
+                        if (attachmentFile.FileData == null)
                         {
-                            AttachmentFileView attachmentFile = (AttachmentFileView)obj;
-                            if (attachmentFile.FileData == null)
-                            {
-                                var fileid = SelectedComplaint.AttachmentList.Where(x => x.AttachmentFile.Equals(attachmentFile.FileName)).SingleOrDefault().AttachmentId;
-                                DeletedAttachmentFileID.Add(fileid);
-                                DeletedAttachmentFileName.Add(attachmentFile.FileName);
-                            }
-                            AttachmentFiles.Remove(attachmentFile);
+                            var fileid = SelectedComplaint.AttachmentList.Where(x => x.AttachmentFile.Equals(attachmentFile.FileName)).FirstOrDefault().AttachmentId;
+                            DeletedAttachmentFileID.Add(fileid);
+                            DeletedAttachmentFileName.Add(attachmentFile.FileName);
                         }
+                        AttachmentFiles.Remove(attachmentFile);
                     }
+                    
                 }
             }
             catch (Exception ex)

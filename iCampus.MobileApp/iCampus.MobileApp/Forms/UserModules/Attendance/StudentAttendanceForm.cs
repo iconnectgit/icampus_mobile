@@ -341,21 +341,29 @@ public class StudentAttendanceForm : ViewModelBase
 
     public async Task FilterStudentAttendance(StudentAttendanceFilterForm filterFormData)
     {
-        SelectedDate = filterFormData.SelectedDate.ToString(TextResource.DateFormatKey3);
-        IsElective = filterFormData.IsElective;
-        IsArabic = filterFormData.IsArabic;
-        GradeList = filterFormData.GradeList;
-        ClassList = filterFormData.ClassList;
-        CourseList = filterFormData.CourseList;
-        PeriodList = filterFormData.PeriodList;
-        SelectedGrade = filterFormData.SelectedGrade;
-        SelectedClass = filterFormData.SelectedClass;
-        SelectedPeriod = filterFormData.SelectedPeriod;
-        SelectedCourse = filterFormData.SelectedCourse;
-        AttendanceMode = filterFormData.AttendanceMode;
-        DefaultSortByCode = filterFormData.DefaultSortByCode;
-        PageTitle = filterFormData.PageTitle;
-        await GetAttendanceData();
+        try
+        {
+            SelectedDate = filterFormData.SelectedDate.ToString(TextResource.DateFormatKey3);
+            IsElective = filterFormData.IsElective;
+            IsArabic = filterFormData.IsArabic;
+            GradeList = filterFormData.GradeList;
+            ClassList = filterFormData.ClassList;
+            CourseList = filterFormData.CourseList;
+            PeriodList = filterFormData.PeriodList;
+            SelectedGrade = filterFormData.SelectedGrade;
+            SelectedClass = filterFormData.SelectedClass;
+            SelectedPeriod = filterFormData.SelectedPeriod;
+            SelectedCourse = filterFormData.SelectedCourse;
+            AttendanceMode = filterFormData.AttendanceMode;
+            DefaultSortByCode = filterFormData.DefaultSortByCode;
+            PageTitle = filterFormData.PageTitle;
+            await GetAttendanceData();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     private async void FilterClicked(object obj)
@@ -372,10 +380,6 @@ public class StudentAttendanceForm : ViewModelBase
             ClassList = ClassList,
             CourseList = CourseList,
             PeriodList = PeriodList,
-            SelectedGrade = SelectedGrade,
-            SelectedClass = SelectedClass,
-            SelectedPeriod = SelectedPeriod,
-            SelectedCourse = SelectedCourse,
             AttendanceMode = AttendanceMode,
             DefaultSortByCode = DefaultSortByCode
         };

@@ -1553,7 +1553,7 @@ public class ViewModelBase : INotifyPropertyChanged
                         SelectedModule = obj,
                         MenuVisible = true
                     };
-                    dataCollectionMainForm.GetAllDataCollection();
+                    //dataCollectionMainForm.GetAllDataCollection();
                     DataCollectionMainPage dataCollectionMainPage = new()
                     {
                         BindingContext = dataCollectionMainForm

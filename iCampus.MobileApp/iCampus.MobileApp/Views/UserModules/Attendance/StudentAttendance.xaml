@@ -132,8 +132,8 @@
                                                     BackgroundColor="{Binding SelectedType.ItemColor}"
                                                     FontSize="20" Padding="0" FontAttributes="Bold"
                                                     Command="{Binding BindingContext.AttendanceTypeClickCommand,Source={x:Reference studentAttendancePage}}"
-                                                    HeightRequest="20" 
-                                                    WidthRequest="20"
+                                                    HeightRequest="{OnPlatform iOS='20', Android='35'}" 
+                                                    WidthRequest="{OnPlatform iOS='20', Android='35'}"
                                                     Scale="0.8"
                                                     VerticalOptions="CenterAndExpand"
                                                     CommandParameter="{Binding .}" />

@@ -35,16 +35,6 @@ public class AttachmentListPopupForm : ViewModelBase
                 OnPropertyChanged(nameof(SelectedItem));
             }
         }
-        int _listViewHeight;
-        public int ListViewHeight
-        {
-            get => _listViewHeight;
-            set
-            {
-                _listViewHeight = value;
-                OnPropertyChanged(nameof(ListViewHeight));
-            }
-        }
         #endregion
         public AttachmentListPopupForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)
         {

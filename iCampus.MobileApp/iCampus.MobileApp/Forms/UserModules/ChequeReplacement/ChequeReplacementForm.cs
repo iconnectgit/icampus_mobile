@@ -494,15 +494,11 @@ public class ChequeReplacementForm : ViewModelBase
                 {
                     string json = JsonConvert.SerializeObject(result.Output);
                     var pdcRepalcementDetails = JsonConvert.DeserializeObject<BindablePdcReplacementDataViewModel>(json);
-                    //PdcHistoryList = _mapper.Map<ObservableCollection<BindablePdcDataView>>(pdcRepalcementDetails.PdcHistoryList);
                     PdcHistoryList = new ObservableCollection<BindablePdcDataView>(pdcRepalcementDetails.PdcHistoryList);
-                    //BindablePendingPdcList = _mapper.Map<ObservableCollection<BindablePdcDataView>>(pdcRepalcementDetails.PendingAndBouncedPdcList.Where(x => x.ChequeType.Equals("P", StringComparison.CurrentCultureIgnoreCase)).ToList());
                     BindablePendingPdcList = new ObservableCollection<BindablePdcDataView>(pdcRepalcementDetails
                         .PendingAndBouncedPdcList
                         .Where(x => x.ChequeType.Equals("P", StringComparison.CurrentCultureIgnoreCase)).ToList());
-                    //BindableBouncePdcList = _mapper.Map<ObservableCollection<BindablePdcDataView>>(pdcRepalcementDetails.PendingAndBouncedPdcList.Where(x => x.ChequeType.Equals("B", StringComparison.CurrentCultureIgnoreCase)).ToList());
                     BindableBouncePdcList = new ObservableCollection<BindablePdcDataView>(pdcRepalcementDetails.PendingAndBouncedPdcList.Where(x => x.ChequeType.Equals("B", StringComparison.CurrentCultureIgnoreCase)).ToList());
-                    //BindablePendingAndBouncedPdcList = _mapper.Map<ObservableCollection<BindablePdcDataView>>(pdcRepalcementDetails.PendingAndBouncedPdcList);
                     BindablePendingAndBouncedPdcList = new ObservableCollection<BindablePdcDataView>(pdcRepalcementDetails.PendingAndBouncedPdcList);
                     
                     var data = JsonConvert.DeserializeObject<PdcReplacementDataViewModel>(json);

@@ -11,7 +11,7 @@
     Color="Transparent">
 
     <Grid>
-        <StackLayout Padding="10"
+        <StackLayout Padding="{OnPlatform iOS='10',Android='20'}"
                      Spacing="0">
             <Frame CornerRadius="5"
                    HasShadow="False"

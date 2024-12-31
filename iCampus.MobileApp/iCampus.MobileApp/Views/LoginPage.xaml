@@ -65,7 +65,7 @@
                         <StackLayout Margin="20,20,20,0"
                                      VerticalOptions="FillAndExpand"
                                      Spacing="0">
-                            <Frame Padding="10, 5, 10, 5"
+                            <Frame Padding="10, 0, 10, 0"
                                    HasShadow="False"
                                    BorderColor="LightGray">
                                 <Grid ColumnDefinitions="50,*"
@@ -97,7 +97,7 @@
                                    IsVisible="{Binding IsEmailErrorLableVisible}"
                                    Margin="0,0,0,10"
                                    TextColor="Red" />
-                            <Frame Padding="10, 5, 10, 5"
+                            <Frame Padding="10, 0, 10, 0"
                                    HasShadow="False"
                                    BorderColor="LightGray"
                                    Margin="0,20,0,0">

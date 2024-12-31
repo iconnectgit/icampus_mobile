@@ -1070,6 +1070,11 @@ public class SendMessageForm : ViewModelBase
     private async void AttachmentTapped(object obj)
     {
         var fileData = await HelperMethods.PickFileFromDevice();
+        if (AttachmentFiles.Any(x => x.FileName.Equals(fileData.FileName, StringComparison.OrdinalIgnoreCase)))
+        {
+            await HelperMethods.ShowAlert("", "This file has already been added.");
+            return;
+        }
         AttachmentFiles.AddFileToList(fileData);
         AttachmentListViewHeight = AttachmentFiles.Count * 40;
     }

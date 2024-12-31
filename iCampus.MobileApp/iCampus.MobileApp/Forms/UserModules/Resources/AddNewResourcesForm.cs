@@ -481,6 +481,11 @@ public class AddNewResourcesForm : ViewModelBase
         try
         {
             var fileData = await HelperMethods.PickFileFromDevice();
+            if (AttachmentFiles.Any(x => x.FileName.Equals(fileData.FileName, StringComparison.OrdinalIgnoreCase)))
+            {
+                await HelperMethods.ShowAlert("", "This file has already been added.");
+                return;
+            }
             AttachmentFiles.AddFileToList(fileData);
             AttachmentListViewHeight = AttachmentFiles.Count * 40;
             MessagingCenter.Send("", "UpdateAttachmentListView");
@@ -564,7 +569,7 @@ public class AddNewResourcesForm : ViewModelBase
                 if (attachmentFile.FileData == null)
                 {
                     var fileid = SelectedResource.AttachmentList
-                        .Where(x => x.AttachmentFile.Equals(attachmentFile.FileName)).SingleOrDefault().AttachmentId;
+                        .Where(x => x.AttachmentFile.Equals(attachmentFile.FileName)).FirstOrDefault().AttachmentId;
                     DeletedAttachmentFileID.Add(fileid);
                     DeletedAttachmentFileName.Add(attachmentFile.FileName);
                 }

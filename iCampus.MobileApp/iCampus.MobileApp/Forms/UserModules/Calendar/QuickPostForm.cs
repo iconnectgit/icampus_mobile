@@ -1402,49 +1402,6 @@ public class QuickPostForm : ViewModelBase
             try
             {
                 OpenHtmlEditPopup(RemarkText, "remarktext", "Remarks");
-                // if (Device.RuntimePlatform == Device.iOS)
-                //     IsNavigationBarVisible = true;
-                //
-                // CrossTEditor.PageTitle = this.PageTitle;
-                // CrossTEditor.SaveText = "Save";
-                // CrossTEditor.CancelText = "Cancel";
-                //
-                // string color = AppSettings.Current.Settings.ThemeColor;// "#000000";
-                // await Task.Delay(100);
-                // Task.Run(async () =>
-                // {
-                //     await Task.Delay(500);
-                //     Device.BeginInvokeOnMainThread(() =>
-                //     {
-                //         Xamarin.Forms.DependencyService.Get<INativeServices>().SetToolBarColor(color);
-                //     });
-                // });
-                // //if (string.IsNullOrEmpty(this.AssignmentsText))
-                // //{
-                // //    this.AssignmentsText = "<html></html>";
-                // //}
-                // TEditorResponse response = await CrossTEditor.Current.ShowTEditor(RemarkText);
-                // IsNavigationBarVisible = false;
-                // if (response.IsSave)
-                // {
-                //     if (response.HTML != null)
-                //     {
-                //         if (Device.RuntimePlatform == Device.Android)
-                //         {
-                //             //string cleanedHTML = RemoveUnwantedHTML(response.HTML);
-                //             //RemarkText = cleanedHTML;
-                //             RemarkText = "<html><head></head><body>" + response.HTML + "</body></html>";
-                //
-                //         }
-                //         else
-                //         {
-                //             //string cleanedHTML = RemoveUnwantedHTML(response.HTML);
-                //             //RemarkText = cleanedHTML;
-                //             RemarkText = "<html><head></head><body>" + response.HTML + "</body></html>";
-                //
-                //         }
-                //     }
-                // }
             }
             catch (Exception ex)
             {
@@ -1457,47 +1414,6 @@ public class QuickPostForm : ViewModelBase
             try
             {
                 OpenHtmlEditPopup(CurriculamStandardsText, "curriculamstandardstext", "Curriculum Standards");
-                // if (Device.RuntimePlatform == Device.iOS)
-                //     IsNavigationBarVisible = true;
-                //
-                // CrossTEditor.PageTitle = this.PageTitle;
-                // CrossTEditor.SaveText = "Save";
-                // CrossTEditor.CancelText = "Cancel";
-                //
-                // string color = AppSettings.Current.Settings.ThemeColor;// "#000000";
-                // await Task.Delay(100);
-                // Task.Run(async () =>
-                // {
-                //     await Task.Delay(500);
-                //     Device.BeginInvokeOnMainThread(() =>
-                //     {
-                //         Xamarin.Forms.DependencyService.Get<INativeServices>().SetToolBarColor(color);
-                //     });
-                // });
-                // //if (string.IsNullOrEmpty(this.AssignmentsText))
-                // //{
-                // //    this.AssignmentsText = "<html></html>";
-                // //}
-                // TEditorResponse response = await CrossTEditor.Current.ShowTEditor(CurriculamStandardsText);
-                // IsNavigationBarVisible = false;
-                // if (response.IsSave)
-                // {
-                //     if (response.HTML != null)
-                //     {
-                //         if (Device.RuntimePlatform == Device.Android)
-                //         {
-                //             //string cleanedHTML = RemoveUnwantedHTML(response.HTML);
-                //             //CurriculamStandardsText = cleanedHTML;
-                //             CurriculamStandardsText = "<html><head></head><body>" + response.HTML + "</body></html>";
-                //         }
-                //         else
-                //         {
-                //             //string cleanedHTML = RemoveUnwantedHTML(response.HTML);
-                //             //CurriculamStandardsText = cleanedHTML;
-                //             CurriculamStandardsText = "<html><head></head><body>" + response.HTML + "</body></html>";
-                //         }
-                //     }
-                // }
             }
             catch (Exception ex)
             {
@@ -1511,50 +1427,6 @@ public class QuickPostForm : ViewModelBase
             {
                 _currentQuickPost = quickPost;
                 OpenHtmlEditPopup(quickPost.LearningOutcomes, "learningoutcomes", quickPost.LearningOutcomesLabel);
-                // if (Device.RuntimePlatform == Device.iOS)
-                //     IsNavigationBarVisible = true;
-                //
-                // CrossTEditor.PageTitle = this.PageTitle;
-                // CrossTEditor.SaveText = "Save";
-                // CrossTEditor.CancelText = "Cancel";
-                //
-                // string color = AppSettings.Current.Settings.ThemeColor;// "#000000";
-                // await Task.Delay(100);
-                // Task.Run(async () =>
-                // {
-                //     await Task.Delay(500);
-                //     Device.BeginInvokeOnMainThread(() =>
-                //     {
-                //         Xamarin.Forms.DependencyService.Get<INativeServices>().SetToolBarColor(color);
-                //     });
-                // });
-                // //if (string.IsNullOrEmpty(this.AssignmentsText))
-                // //{
-                // //    this.AssignmentsText = "<html></html>";
-                // //}
-                // TEditorResponse response = await CrossTEditor.Current.ShowTEditor(quickPost.LearningOutcomes);
-                // IsNavigationBarVisible = false;
-                // if (response.IsSave)
-                // {
-                //     if (response.HTML != null)
-                //     {
-                //         //if (Device.RuntimePlatform == Device.Android)
-                //         //{
-                //         //    string cleanedHTML = RemoveUnwantedHTML(response.HTML);
-                //         //    quickPost.LearningOutcomes = cleanedHTML;
-                //         //}
-                //         //else
-                //         //{
-                //         //    string cleanedHTML = RemoveUnwantedHTML(response.HTML);
-                //         //    quickPost.LearningOutcomes = cleanedHTML;
-                //         //}
-                //
-                //         if (Device.RuntimePlatform == Device.Android)
-                //             quickPost.LearningOutcomes = "<html><head></head><body>" + response.HTML + "</body></html>";
-                //         else
-                //             quickPost.LearningOutcomes = "<html><head></head><body>" + response.HTML + "</body></html>";
-                //     }
-                // }
             }
             catch (Exception ex)
             {
@@ -1568,52 +1440,6 @@ public class QuickPostForm : ViewModelBase
             {
                 _currentQuickPost = quickPost;
                 OpenHtmlEditPopup(quickPost.AgendaDescription, "agendadescription", quickPost.AssignmentsLabel);
-                // if (Device.RuntimePlatform == Device.iOS)
-                //     IsNavigationBarVisible = true;
-                //
-                // CrossTEditor.PageTitle = this.PageTitle;
-                // CrossTEditor.SaveText = "Save";
-                // CrossTEditor.CancelText = "Cancel";
-                //
-                // string color = AppSettings.Current.Settings.ThemeColor;// "#000000";
-                // await Task.Delay(100);
-                // Task.Run(async () =>
-                // {
-                //     await Task.Delay(500);
-                //     Device.BeginInvokeOnMainThread(() =>
-                //     {
-                //         Xamarin.Forms.DependencyService.Get<INativeServices>().SetToolBarColor(color);
-                //     });
-                // });
-                // //if (string.IsNullOrEmpty(this.AssignmentsText))
-                // //{
-                // //    this.AssignmentsText = "<html></html>";
-                // //}
-                // TEditorResponse response = await CrossTEditor.Current.ShowTEditor(quickPost.AgendaDescription);
-                // IsNavigationBarVisible = false;
-                // if (response.IsSave)
-                // {
-                //     //if (response.HTML != null)
-                //     //{
-                //     //    if (Device.RuntimePlatform == Device.Android)
-                //     //    {
-                //     //        string cleanedHTML = RemoveUnwantedHTML(response.HTML);
-                //     //        quickPost.AgendaDescription = cleanedHTML;
-                //     //    }
-                //     //    else
-                //     //    {
-                //     //        string cleanedHTML = RemoveUnwantedHTML(response.HTML);
-                //     //        quickPost.AgendaDescription = cleanedHTML;
-                //     //    }
-                //     //}
-                //     if (response.HTML != null)
-                //     {
-                //         if (Device.RuntimePlatform == Device.Android)
-                //             quickPost.AgendaDescription = "<html><head></head><body>" + response.HTML + "</body></html>";
-                //         else
-                //             quickPost.AgendaDescription = "<html><head></head><body>" + response.HTML + "</body></html>";
-                //     }
-                // }
             }
             catch (Exception ex)
             {
@@ -1724,6 +1550,11 @@ public class QuickPostForm : ViewModelBase
                 {
                     await HelperMethods.ShowAlert(TextResource.AlertsPageTitle,
                         "File name can't contain any of the following character(s): " + foundSpecialChars);
+                    return;
+                }
+                if (bindableQuickPost.AttachmentFiles.Any(x => x.FileName.Equals(fileData.FileName, StringComparison.OrdinalIgnoreCase)))
+                {
+                    await HelperMethods.ShowAlert("", "This file has already been added.");
                     return;
                 }
                 bindableQuickPost.AttachmentFiles.AddFileToList(fileData);

@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Views;
 using iCampus.Common.ViewModels;
 using iCampus.MobileApp.Helpers.CustomCalendar;
 using iCampus.MobileApp.Views.PopUpViews;
+using Mopups.Services;
 using Newtonsoft.Json;
 
 namespace iCampus.MobileApp.Helpers;
@@ -172,17 +173,32 @@ public class SISApiHelper
 
         private static async Task ShowProcessingIndicatorPopup()
         {
-            //await App.Current.MainPage.Navigation.PushPopupAsync(new ProcessingIndicatorPopup());
+            try
+            {
+                var processingPopup = new ProcessingIndicatorPopup();
+                await MopupService.Instance.PushAsync(processingPopup);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
         private static async Task HideProcessingIndicatorPopup()
         {
-            // Func<PopupPage, bool> predicate = x => x.GetType() == typeof(ProcessingIndicatorPopup);
-            // while (PopupNavigation.Instance.PopupStack.Any(predicate))
-            // {
-            //     var popupPage = PopupNavigation.Instance.PopupStack.FirstOrDefault(predicate);
-            //     await PopupNavigation.Instance.RemovePageAsync(popupPage);
-            // }
+            try
+            {
+                if (MopupService.Instance.PopupStack.Any())
+                {
+                    await MopupService.Instance.RemovePageAsync(MopupService.Instance.PopupStack.Last());
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
 
     }

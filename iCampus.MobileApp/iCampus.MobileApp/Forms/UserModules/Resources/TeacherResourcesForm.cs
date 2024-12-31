@@ -249,7 +249,7 @@ public class TeacherResourcesForm:ViewModelBase
         }
         public void SetPopupInstance(Popup popup)
         {
-            _currentPopup = popup;
+            AppSettings.Current.CurrentPopup = popup;
         }
         private async void AddIconClicked()
         {

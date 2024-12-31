@@ -573,7 +573,7 @@ public class StudentAttendanceFilterForm : ViewModelBase
             }
             else
             {
-                MessagingCenter.Send(this, "SearchStudentAttendance");
+                //MessagingCenter.Send(this, "SearchStudentAttendance");
                 StudentAttendanceForm studentAttendanceForm = new(_mapper, _nativeServices, Navigation)
                 {
                     PageTitle = TextResource.StudentAttendancePageTitle,

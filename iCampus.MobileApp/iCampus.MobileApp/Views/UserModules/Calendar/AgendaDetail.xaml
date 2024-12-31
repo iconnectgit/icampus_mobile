@@ -84,6 +84,8 @@
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
                                     <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
                                 </Grid.RowDefinitions>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="0.6*" />
@@ -144,8 +146,94 @@
                                                IsVisible="{Binding SelectedAgenda.AgendaDescription,Converter={StaticResource visiblityConverter}}"
                                                TextType="Html" />
                                 </Frame>
+                                <ListView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" HasUnevenRows="True" 
+                                          x:Name="AttachmentListView"
+                                          HorizontalOptions="StartAndExpand"
+                                          VerticalOptions="FillAndExpand"
+                                          Margin="0,5,0,5"
+                                          ItemsSource="{Binding SubmissionAttachmentFiles,Mode=TwoWay}"
+                                          SelectionMode="None" VerticalScrollBarVisibility="Never"
+                                          SeparatorVisibility="None"
+                                          IsVisible="{Binding IsSubmissionAllowed}">
+                    <ListView.Header>
+                        <StackLayout Orientation="Horizontal" Margin="0,0,0,0">
+                            <Label HorizontalOptions="Start"
+                                   VerticalOptions="CenterAndExpand"
+                                   Text="Submission: "
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   Style="{StaticResource TitleLabelStyle}" />
 
-                                <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+                            <Frame HasShadow="False" Padding="5" Margin="20,0,0,0"
+                                   BackgroundColor="Transparent" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                                   BorderColor="#E8E8E8">
+                                <StackLayout Orientation="Horizontal"
+                                             Spacing="0" IsClippedToBounds="True"
+                                             HorizontalOptions="Start"
+                                             VerticalOptions="CenterAndExpand">
+                                    <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                WidthRequest="15"
+                                                                HeightRequest="15"
+                                                                Aspect="AspectFit"
+                                                                DownsampleToViewSize="True"
+                                                                Source="attachment_icon.png" />
+                                    <Label HorizontalOptions="Start" VerticalOptions="CenterAndExpand"
+                                           Margin="5,0,0,0"
+                                           Text="Select File " Style="{StaticResource DescriptionLabelStyle }" />
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding AddAttachmentClickCommand}" />
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+                    </ListView.Header>
+
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid HorizontalOptions="FillAndExpand"
+                                      VerticalOptions="CenterAndExpand"
+                                      Margin="0,10,0,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <ffimageloading:CachedImage Grid.Column="0" HorizontalOptions="StartAndExpand"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                WidthRequest="20"
+                                                                HeightRequest="20"
+                                                                Aspect="AspectFit"
+                                                                Margin="10,0,0,0"
+                                                                DownsampleToViewSize="True"
+                                                                Source="{Binding FileName,Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
+                                    <Label Grid.Column="1" Text="{Binding FileName}"
+                                           HorizontalOptions="StartAndExpand"
+                                           VerticalOptions="CenterAndExpand"
+                                           Margin="5,0,0,0" Style="{StaticResource AttachmentTextStyle}" />
+                                    <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                WidthRequest="24"
+                                                                HeightRequest="24"
+                                                                Aspect="AspectFit"
+                                                                Margin="0,0,10,0"
+                                                                Grid.Column="2"
+                                                                DownsampleToViewSize="True"
+                                                                Source="delete_bin_icon.png">
+                                        <ffimageloading:CachedImage.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding BindingContext.DeleteAttachmentClickCommand,Source={x:Reference agendaDetailPage}}"
+                                                CommandParameter="{Binding .}" />
+                                        </ffimageloading:CachedImage.GestureRecognizers>
+                                    </ffimageloading:CachedImage>
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                                <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
                                       IsVisible="{Binding IsSubmissionAllowed}">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
@@ -161,88 +249,7 @@
                                     </Grid.ColumnDefinitions>
 
 
-                                    <Label HorizontalOptions="StartAndExpand" Grid.Row="0"
-                                           Grid.Column="0" Text="Submission: " Style="{StaticResource TitleLabelStyle}" />
-                                    <Frame Grid.Row="0" Grid.Column="1" HasShadow="False" Padding="5"
-                                           BackgroundColor="Transparent" HorizontalOptions="StartAndExpand"
-                                           BorderColor="#E8E8E8">
-                                        <StackLayout Orientation="Horizontal"
-                                                     Spacing="0" IsClippedToBounds="True"
-                                                     HorizontalOptions="Start"
-                                                     VerticalOptions="CenterAndExpand">
-                                            <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
-                                                                        VerticalOptions="CenterAndExpand"
-                                                                        WidthRequest="15"
-                                                                        HeightRequest="15"
-                                                                        Aspect="AspectFit"
-                                                                        DownsampleToViewSize="True"
-                                                                        Source="attachment_icon.png" />
-                                            <Label HorizontalOptions="Start" VerticalOptions="CenterAndExpand"
-                                                   Margin="5,0,0,0"
-                                                   Text="Select File " Style="{StaticResource DescriptionLabelStyle }" />
-                                            <StackLayout.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding AddAttachmentClickCommand}" />
-                                            </StackLayout.GestureRecognizers>
-                                        </StackLayout>
-                                    </Frame>
-
-
-                                    <ListView HasUnevenRows="True" VerticalScrollBarVisibility="Never"
-                                              ItemsSource="{Binding SubmissionAttachmentFiles,Mode=TwoWay}"
-                                              Grid.Row="1" BackgroundColor="{StaticResource ListViewBackgroundColor}"
-                                              Grid.Column="0"
-                                              Grid.ColumnSpan="2"
-                                              SeparatorVisibility="None"
-                                              HeightRequest="{Binding SubmissionListViewHeight}">
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <ViewCell>
-                                                    <Grid HorizontalOptions="FillAndExpand"
-                                                          VerticalOptions="CenterAndExpand">
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="Auto" />
-                                                            <ColumnDefinition Width="*" />
-                                                            <ColumnDefinition Width="Auto" />
-                                                        </Grid.ColumnDefinitions>
-                                                        <Grid.RowDefinitions>
-                                                            <RowDefinition Height="*" />
-                                                        </Grid.RowDefinitions>
-                                                        <ffimageloading:CachedImage
-                                                            Grid.Row="0" Grid.Column="0"
-                                                            HorizontalOptions="StartAndExpand"
-                                                            VerticalOptions="CenterAndExpand"
-                                                            WidthRequest="20"
-                                                            HeightRequest="20"
-                                                            Aspect="AspectFit"
-                                                            Margin="10,0,20,0"
-                                                            DownsampleToViewSize="True"
-                                                            Source="{Binding FileName,Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
-                                                        <Label Grid.Row="0" Grid.Column="1" Text="{Binding FileName}"
-                                                               HorizontalOptions="StartAndExpand"
-                                                               VerticalOptions="CenterAndExpand" MaxLines="1"
-                                                               LineBreakMode="TailTruncation"
-                                                               Margin="5,0,0,0"
-                                                               Style="{StaticResource AttachmentTextStyle}" />
-                                                        <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
-                                                            VerticalOptions="CenterAndExpand"
-                                                            WidthRequest="24"
-                                                            HeightRequest="24"
-                                                            Aspect="AspectFit"
-                                                            Grid.Row="0" Margin="0,0,10,0"
-                                                            Grid.Column="2"
-                                                            DownsampleToViewSize="True"
-                                                            Source="delete_bin_icon.png">
-                                                            <ffimageloading:CachedImage.GestureRecognizers>
-                                                                <TapGestureRecognizer
-                                                                    Command="{Binding BindingContext.DeleteAttachmentClickCommand,Source={x:Reference agendaDetailPage}}"
-                                                                    CommandParameter="{Binding .}" />
-                                                            </ffimageloading:CachedImage.GestureRecognizers>
-                                                        </ffimageloading:CachedImage>
-                                                    </Grid>
-                                                </ViewCell>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-                                    </ListView>
+                                    
 
                                     <StackLayout Spacing="0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                                                  VerticalOptions="StartAndExpand">
@@ -295,7 +302,7 @@
                                 </Grid>
 
 
-                                <Frame Padding="5" HasShadow="False" Grid.Row="4" BorderColor="Transparent"
+                                <Frame Padding="5" HasShadow="False" Grid.Row="5" BorderColor="Transparent"
                                        Grid.Column="0" Grid.ColumnSpan="2" Margin="-8,0,0,0" CornerRadius="5">
                                     <StackLayout Spacing="5" Margin="0">
                                         <Label Text="{Binding SelectedAgenda.TeacherName,StringFormat='Teacher : {0}'}"
@@ -374,7 +381,7 @@
                                 <ListView HasUnevenRows="True" VerticalScrollBarVisibility="Never"
                                           ItemsSource="{Binding SelectedAgenda.WebsiteLinks,Mode=TwoWay}"
                                           SelectedItem="{Binding SlectedWebsiteLink}"
-                                          Grid.Row="5" BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                          Grid.Row="6" BackgroundColor="{StaticResource ListViewBackgroundColor}"
                                           Grid.Column="0"
                                           Grid.ColumnSpan="2"
                                           SeparatorVisibility="None"
@@ -415,20 +422,20 @@
 
                                 <Label
                                     Text="{Binding SelectedAgenda.DueDate, Converter= {StaticResource DateFormatConverter},ConverterParameter=Due on }"
-                                    Grid.Row="6"
+                                    Grid.Row="7"
                                     Grid.Column="0"
                                     Grid.ColumnSpan="2"
                                     Style="{StaticResource DateLabelStyle}"
                                     VerticalOptions="StartAndExpand" />
                                 <Label
                                     Text="{Binding SelectedAgenda.FormatedPostDate,Converter= {StaticResource DateFormatConverter},ConverterParameter=Posted on }"
-                                    Grid.Row="7"
+                                    Grid.Row="8"
                                     Grid.Column="0"
                                     Grid.ColumnSpan="2"
                                     Style="{StaticResource DateLabelStyle}"
                                     VerticalOptions="StartAndExpand" />
                                 <Label IsVisible="{Binding IsViewSubmissionVisible}"
-                                       Grid.Row="8"
+                                       Grid.Row="9"
                                        Grid.Column="0"
                                        Style="{StaticResource DateLabelStyle}"
                                        Grid.ColumnSpan="2"
@@ -446,10 +453,10 @@
                                         </FormattedString>
                                     </Label.FormattedText>
                                 </Label>
-                                <Label Text="" Grid.Row="10" Grid.ColumnSpan="2"
+                                <Label Text="" Grid.Row="11" Grid.ColumnSpan="2"
                                        Grid.Column="0" />
 
-                                <Button Text="View Submission" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"
+                                <Button Text="View Submission" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2"
                                         VerticalOptions="CenterAndExpand"
                                         HorizontalOptions="FillAndExpand"
                                         Margin="0,10,0,0"
@@ -461,7 +468,7 @@
                                         IsVisible="{Binding IsTeacher, Source={x:Static local:AppSettings.Current}}"
                                         AbsoluteLayout.LayoutFlags="All"
                                         AbsoluteLayout.LayoutBounds="0,1,1,50" />
-                                <Button Text="View Students" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"
+                                <Button Text="View Students" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2"
                                         VerticalOptions="CenterAndExpand"
                                         HorizontalOptions="FillAndExpand"
                                         Margin="0,20,0,0"

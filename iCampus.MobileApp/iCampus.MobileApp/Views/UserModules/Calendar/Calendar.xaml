@@ -330,7 +330,7 @@
                                    HeightRequest="40"
                                    VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand"
                                    CornerRadius="5">
-                                <Grid RowDefinitions="Auto" ColumnDefinitions="*">
+                                <Grid RowDefinitions="Auto" ColumnDefinitions="*" InputTransparent="True">
                                     <controls:NoUnderlineEntry Text="{Binding SelectedAgendaForText}"
                                                                Placeholder="All Courses"
                                                                Style="{StaticResource TitleLabelStyle}"
@@ -347,7 +347,7 @@
                                                                 Grid.Column="0" HeightRequest="18" WidthRequest="18" />
                                 </Grid>
                                 <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding CourseSelectionCommand}" />
+                                    <TapGestureRecognizer Command="{Binding CourseSelectionCommand}" NumberOfTapsRequired="1"/>
                                 </Frame.GestureRecognizers>
                             </Frame>
 
@@ -380,7 +380,7 @@
                                               SeparatorVisibility="Default"
                                               iOsSpecific:ListView.SeparatorStyle="FullWidth"
                                               Margin="0,0,0,0"
-                                              HeightRequest="{Binding CourseListViewHeight}"
+                                              HeightRequest="150"
                                               x:Name="listView">
                                         <ListView.ItemTemplate>
                                             <DataTemplate>
@@ -409,7 +409,7 @@
                                 </StackLayout>
                             </Frame>
 
-                            <StackLayout Padding="5,0,5,0"
+                            <StackLayout Padding="5,0,5,0" Margin="0,5,0,0"
                                          IsVisible="{Binding NoDataFound}">
                                 <Frame Padding="5,5,5,5"
                                        CornerRadius="5" HasShadow="False"
@@ -429,7 +429,7 @@
                     </StackLayout>
 
 
-                    <ListView HasUnevenRows="true" Margin="15,0,15,0" 
+                    <ListView HasUnevenRows="true" Margin="10,0,10,0" 
                               VerticalOptions="FillAndExpand"
                               ItemsSource="{Binding GroupedAgendaList}"
                               IsGroupingEnabled="True" Grid.Row="6"
@@ -477,7 +477,7 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <Grid Padding="0,0,4,0">
+                                    <Grid Padding="0,0,0,0">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
@@ -495,7 +495,7 @@
                                                            CornerRadius="5"
                                                            BorderColor="Transparent">
                                                         <Grid RowSpacing="1"
-                                                              Padding="10,0,10,0">
+                                                              Padding="10,0,5,0">
                                                             <Grid.RowDefinitions>
                                                                 <RowDefinition Height="Auto" />
                                                                 <RowDefinition Height="Auto" />

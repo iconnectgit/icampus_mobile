@@ -26,6 +26,10 @@ public class DigitalPassForm : ViewModelBase
 
     private async void InitializePage()
     {
+        BeamMenuClickCommand = new Command(BeamMenuClicked);
+        BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
+        BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
+        BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
     }
 
     private void GetDigitalPassData()

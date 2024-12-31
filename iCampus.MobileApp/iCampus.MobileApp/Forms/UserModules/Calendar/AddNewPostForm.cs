@@ -1313,6 +1313,11 @@ public class AddNewPostForm : ViewModelBase
                 await HelperMethods.ShowAlert(TextResource.AlertsPageTitle, "File name can't contain any of the following character(s): " + foundSpecialChars);
                 return;
             }
+            if (AttachmentFiles.Any(x => x.FileName.Equals(fileData.FileName, StringComparison.OrdinalIgnoreCase)))
+            {
+                await HelperMethods.ShowAlert("", "This file has already been added.");
+                return;
+            }
             AttachmentFiles.AddFileToList(fileData);
             AttachmentListViewHeight = AttachmentFiles.Count * 40;
         }
@@ -1336,7 +1341,7 @@ public class AddNewPostForm : ViewModelBase
                         AttachmentFileView attachmentFile = (AttachmentFileView)obj;
                         if (attachmentFile.FileData == null)
                         {
-                            var fileid = ExistingAttachmentList.Where(x => x.Attachment.Equals(attachmentFile.FileName)).SingleOrDefault().AttachmentId;
+                            var fileid = ExistingAttachmentList.Where(x => x.Attachment.Equals(attachmentFile.FileName)).FirstOrDefault().AttachmentId;
                             DeletedAttachmentFileID.Add(fileid.GetValueOrDefault());
                             DeletedAttachmentFileName.Add(attachmentFile.FileName);
                         }

@@ -192,7 +192,7 @@
                                 <StackLayout Padding="2" Grid.Column="1">
                                     <Frame CornerRadius="0"
                                            HasShadow="False"
-                                           BorderColor="{StaticResource BorderColor}"
+                                           BorderColor="#C0C0C0"
                                            Padding="1"
                                            IsClippedToBounds="true">
                                         <StackLayout BackgroundColor="WhiteSmoke">
@@ -253,7 +253,7 @@
                                                    Padding="0" 
                                                    HasShadow="False"
                                                    Margin="0,5,0,0"
-                                                   BorderColor="Transparent"
+                                                   BorderColor="#C0C0C0"
                                                    IsVisible="{Binding AgendaDetailsVisibility}"
                                                    IsClippedToBounds="True">
                                                 <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*"
@@ -279,14 +279,14 @@
                                                                     TextColor="{StaticResource LightGrayColor}"
                                                                     TextDecorations="Underline"
                                                                     FontSize="Small">
-                                                                    <Span.GestureRecognizers>
-                                                                        <TapGestureRecognizer
-                                                                            Command="{Binding BindingContext.AttachmentClickCommand,Source={x:Reference notificationPage}}"
-                                                                            CommandParameter="{Binding .}" />
-                                                                    </Span.GestureRecognizers>
                                                                 </Span>
                                                             </FormattedString>
                                                         </Label.FormattedText>
+                                                        <Label.GestureRecognizers>
+                                                            <TapGestureRecognizer
+                                                                Command="{Binding BindingContext.AttachmentClickCommand,Source={x:Reference notificationPage}}"
+                                                                CommandParameter="{Binding .}" />
+                                                        </Label.GestureRecognizers>
                                                     </Label>
                                                     <Label HorizontalOptions="StartAndExpand"
                                                            Grid.Row="1"
