@@ -629,21 +629,21 @@ public class HelperMethods
 
                 if (isInternetConnected && !App.IsTokenUpdated && IsLogin && !string.IsNullOrEmpty(App.RefreshedToken) && !string.IsNullOrEmpty(AppSettings.Current.ApiUrl) && isPushNotificationEnable)
                 {
-                    //_nativeServices.GetDeviceID(async (deviceId) =>
-                    // {
-                    //     try
-                    //     {
-                    //         var result = await ApiHelper.PostRequest<OperationDetails>(string.Format(TextResource.UpdateTokenApiUrl, token, deviceId, Device.RuntimePlatform), AppSettings.Current.ApiUrl);
-                    //         if (result.Success)
-                    //         {
-                    //             App.IsTokenUpdated = true;
-                    //         }
-                    //     }
-                    //     catch (Exception ex)
-                    //     {
-                    //         await ApiHelper.HideProcessingIndicatorPopup();
-                    //     }
-                    // });
+                    _nativeServices.GetDeviceID(async (deviceId) =>
+                     {
+                         try
+                         {
+                             var result = await ApiHelper.PostRequest<OperationDetails>(string.Format(TextResource.UpdateTokenApiUrl, token, deviceId, Device.RuntimePlatform), AppSettings.Current.ApiUrl);
+                             if (result.Success)
+                             {
+                                 App.IsTokenUpdated = true;
+                             }
+                         }
+                         catch (Exception ex)
+                         {
+                             await ApiHelper.HideProcessingIndicatorPopup();
+                         }
+                     });
                 }
             }
             catch (Exception ex)

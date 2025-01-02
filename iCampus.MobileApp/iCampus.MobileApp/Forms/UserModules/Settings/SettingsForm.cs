@@ -175,10 +175,7 @@ public class SettingsForm : ViewModelBase
             {
                 reportanIssuePopupMessage = TextResource.ReportIssueAlertMsg;
             }
-            if (Device.RuntimePlatform == Device.Android)
-                await HelperMethods.ShowAlert(TextResource.ReportIssueAlertTitle, reportanIssuePopupMessage);
-            else
-                await HelperMethods.ShowAlert(TextResource.ReportIssueAlertTitle, reportanIssuePopupMessage);
+            await HelperMethods.ShowAlert(TextResource.ReportIssueAlertTitle, reportanIssuePopupMessage);
         }
         #endregion
     }

@@ -80,7 +80,7 @@
                     </Frame>
                 </StackLayout>
 
-                <StackLayout Padding="10,0,10,0" IsVisible="{Binding IsPayment}" VerticalOptions="FillAndExpand">
+                <StackLayout Padding="10,0,10,10" IsVisible="{Binding IsPayment}" VerticalOptions="FillAndExpand">
                     <Label Text="Pending PDC" FontSize="Medium" Style="{StaticResource TitleLabelStyle}"
                            IsVisible="{Binding PendingPdcLabel}" Margin="0,5,0,5" />
 
@@ -290,22 +290,19 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
-                </StackLayout>
-
-                <StackLayout Padding="10,0,10,0" IsVisible="{Binding IsPayment}" VerticalOptions="FillAndExpand">
+                    
                     <Label Text="Dishonoured PDC" FontSize="Medium" Style="{StaticResource TitleLabelStyle}"
-                           IsVisible="{Binding BouncedPdcLabel}" Margin="0,5,0,5" />
-                    <StackLayout VerticalOptions="Fill"
-                                 HorizontalOptions="Fill"
-                                 Margin="0,0,0,0">
-                        <ListView ItemsSource="{Binding BindableBouncePdcList,Mode=TwoWay}"
-                                  SelectedItem="{Binding SelectedBouncedPdcList, Mode=TwoWay}"
-                                  HasUnevenRows="True" VerticalScrollBarVisibility="Always"
-                                  BackgroundColor="{StaticResource ListViewBackgroundColor}"
-                                  x:Name="beamBouncedListView"
-                                  VerticalOptions="FillAndExpand"
-                                  SeparatorVisibility="None" SelectionMode="None"
-                                  Margin="0,0,0,0">
+                           IsVisible="{Binding BouncedPdcVisible}" Margin="0,5,0,5" />
+                    
+                    <ListView ItemsSource="{Binding BindableBouncePdcList,Mode=TwoWay}"
+                              SelectedItem="{Binding SelectedBouncedPdcList, Mode=TwoWay}"
+                              HasUnevenRows="True" VerticalScrollBarVisibility="Always"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              x:Name="beamBouncedListView"
+                              IsVisible="{Binding BouncedPdcVisible}"
+                              VerticalOptions="FillAndExpand"
+                              SeparatorVisibility="None" SelectionMode="None"
+                              Margin="0,0,0,0">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
@@ -506,12 +503,11 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                    </StackLayout>
                 </StackLayout>
 
                 <StackLayout IsVisible="{Binding IsPayNowVisible}">
                     <Frame CornerRadius="5"
-                           HasShadow="False" Margin="10,-5,10,0"
+                           HasShadow="False" Margin="10,0,10,0"
                            BorderColor="{StaticResource BorderColor}"
                            Padding="0"
                            IsClippedToBounds="true">

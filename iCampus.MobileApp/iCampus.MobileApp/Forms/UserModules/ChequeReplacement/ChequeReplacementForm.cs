@@ -349,14 +349,14 @@ public class ChequeReplacementForm : ViewModelBase
                 OnPropertyChanged(nameof(PendingPdcLabel));
             }
         }
-        private bool _bouncedPdcLabel;
-        public bool BouncedPdcLabel
+        private bool _bouncedPdcVisible;
+        public bool BouncedPdcVisible
         {
-            get => _bouncedPdcLabel;
+            get => _bouncedPdcVisible;
             set
             {
-                _bouncedPdcLabel = value;
-                OnPropertyChanged(nameof(BouncedPdcLabel));
+                _bouncedPdcVisible = value;
+                OnPropertyChanged(nameof(BouncedPdcVisible));
             }
         }
         private bool _noInvoiceFoundVisibility = false;
@@ -513,7 +513,7 @@ public class ChequeReplacementForm : ViewModelBase
                     IsExtraAmountVatEnabled = pdcRepalcementDetails.ChequeReplacementSettings.IsExtraAmountVatEnabled;
                     CanPayInSequenceOnly = pdcRepalcementDetails.ChequeReplacementSettings.CanPayInSequenceOnly;
                     PendingPdcLabel = BindablePendingPdcList.Count > 0;
-                    BouncedPdcLabel = BindableBouncePdcList.Count > 0;
+                    BouncedPdcVisible = BindableBouncePdcList.Count > 0;
                     foreach (var detail in BindableBouncePdcList)
                     {
                         bool isBouncedPdcDataExistForBothYears = BindableBouncePdcList.Select(x => x.FinancialBeginYear).Distinct().Count() > 1;
