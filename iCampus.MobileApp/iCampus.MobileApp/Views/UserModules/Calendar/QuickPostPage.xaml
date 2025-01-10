@@ -1076,9 +1076,7 @@
                                                         </StackLayout>
                                                     </Frame>
                                                 </StackLayout>
-                                                <StackLayout>
                                                     <ListView HasUnevenRows="True"
-                                                              IsVisible="{Binding AttachmentFiles.Count, Converter={StaticResource IntToBoolValueConverter}}"
                                                               HorizontalOptions="StartAndExpand"
                                                               ItemsSource="{Binding AttachmentFiles, Mode=TwoWay}"
                                                               SelectionMode="None"
@@ -1145,7 +1143,6 @@
                                                             </DataTemplate>
                                                         </ListView.ItemTemplate>
                                                     </ListView>
-                                                </StackLayout>
                                             </StackLayout>
                                         </ViewCell>
                                     </DataTemplate>

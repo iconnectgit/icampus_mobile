@@ -39,7 +39,7 @@
                 <Grid VerticalOptions="FillAndExpand" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*,Auto"
                       ColumnDefinitions="*"
                       Grid.Row="0" RowSpacing="0">
-                    <ContentView ControlTemplate="{StaticResource BeamHeader}" HeightRequest="55"
+                    <ContentView ControlTemplate="{StaticResource BeamHeader}" 
                                  BackgroundColor="White" Grid.Row="0" />
                     <ContentView ControlTemplate="{StaticResource BeamStudentSelection}"
                                  Grid.Row="1" />
@@ -214,112 +214,7 @@
                                        HorizontalOptions="StartAndExpand"
                                        VerticalOptions="CenterAndExpand" />
                             </Frame>
-                            <ListView HasUnevenRows="true" 
-                                      Margin="10,0,10,0" 
-                                      VerticalOptions="FillAndExpand"
-                                      ItemsSource="{Binding WeeklyPlanDataList}"
-                                      SelectedItem="{Binding WeeklySelectedQuickPostAgenda, Mode=TwoWay}"
-                                      SeparatorVisibility="None" 
-                                      VerticalScrollBarVisibility="Never"
-                                      BackgroundColor="{StaticResource ListViewBackgroundColor}"
-                                      x:Name="beamWeeklyPlanList">
-                                <x:Arguments>
-                                    <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
-                                </x:Arguments>
-
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <ViewCell>
-                                            <StackLayout>
-                                                <Frame HasShadow="False"
-                                                       Padding="5" IsClippedToBounds="True"
-                                                       BackgroundColor="White"
-                                                       BorderColor="{StaticResource BorderColor}"
-                                                       VerticalOptions="CenterAndExpand"
-                                                       HorizontalOptions="FillAndExpand"
-                                                       CornerRadius="5"
-                                                       Margin="0,5,0,5">
-
-                                                    <StackLayout Orientation="Horizontal">
-                                                        <BoxView Color="{Binding AgendaTypeColor}"
-                                                                 WidthRequest="5"
-                                                                 Margin="-5,0,5,0"
-                                                                 HeightRequest="25"
-                                                                 HorizontalOptions="Start" />
-                                                        <Label Text="{Binding Title}"
-                                                               HorizontalOptions="StartAndExpand"
-                                                               VerticalOptions="CenterAndExpand"
-                                                               Style="{StaticResource BoldLabels}" />
-                                                        <StackLayout VerticalOptions="CenterAndExpand">
-                                                            <ffimageloading:CachedImage Margin="10,0,0,0"
-                                                                Source="{Binding ArrowImageSource}"
-                                                                HorizontalOptions="EndAndExpand"
-                                                                VerticalOptions="CenterAndExpand"
-                                                                Scale="0.8" IsVisible="true">
-                                                                <ffimageloading:CachedImage.GestureRecognizers>
-                                                                    <TapGestureRecognizer
-                                                                        Command="{Binding BindingContext.WeeklyExpandCollapseClickCommand,Source={x:Reference CalendarPage}}"
-                                                                        CommandParameter="{Binding .}" />
-                                                                </ffimageloading:CachedImage.GestureRecognizers>
-                                                            </ffimageloading:CachedImage>
-                                                            <!--<StackLayout.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding BindingContext.WeeklyExpandCollapseClickCommand, Source={x:Reference CalendarPage}}"
-                                                    CommandParameter="{Binding .}" />
-                                            </StackLayout.GestureRecognizers>-->
-                                                        </StackLayout>
-                                                    </StackLayout>
-                                                    <!-- <Frame.GestureRecognizers> -->
-                                                    <!--     <TapGestureRecognizer Command="{Binding BindingContext.WeeklyExpandCollapseClickCommand, Source={x:Reference CalendarPage}}" -->
-                                                    <!--         CommandParameter="{Binding .}" /> -->
-                                                    <!-- </Frame.GestureRecognizers> -->
-                                                </Frame>
-                                                <Frame HasShadow="False"
-                                                       IsClippedToBounds="True"
-                                                       BackgroundColor="White"
-                                                       BorderColor="{StaticResource BorderColor}"
-                                                       VerticalOptions="CenterAndExpand"
-                                                       HorizontalOptions="FillAndExpand"
-                                                       CornerRadius="5"
-                                                       Padding="5,5,5,5"
-                                                       IsVisible="{Binding WeeklyPostDetailsVisibility}"
-                                                       Margin="0,0,0,0">
-                                                    <StackLayout>
-                                                        <Label Text="{Binding CurriculumStandards}"
-                                                               FontSize="Small"
-                                                               TextType="Html"
-                                                               Margin="0"
-                                                               IsVisible="{Binding IsDeleted,Converter={StaticResource ReverseBoolValueConverter}}"
-                                                               Style="{StaticResource DescriptionLabelStyle}"
-                                                               HorizontalOptions="StartAndExpand"
-                                                               VerticalOptions="CenterAndExpand" />
-                                                        <Label Text="{Binding Remarks}"
-                                                               FontSize="Small"
-                                                               TextType="Html"
-                                                               Margin="0"
-                                                               Style="{StaticResource DescriptionLabelStyle}"
-                                                               HorizontalOptions="StartAndExpand"
-                                                               VerticalOptions="CenterAndExpand" />
-                                                        <Label Text="{Binding CurriculumStandards}"
-                                                               FontSize="Small"
-                                                               TextType="Html"
-                                                               Margin="0"
-                                                               IsVisible="{Binding IsDeleted}"
-                                                               TextColor="Red"
-                                                               Style="{StaticResource DescriptionLabelStyle}"
-                                                               HorizontalOptions="StartAndExpand"
-                                                               VerticalOptions="CenterAndExpand" />
-                                                    </StackLayout>
-                                                </Frame>
-                                            </StackLayout>
-                                        </ViewCell>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                                <ListView.Behaviors>
-                                    <toolkit:EventToCommandBehavior EventName="ItemSelected"
-                                                                    Command="{Binding WeeklyListTappedCommand}"
-                                                                    CommandParameter="{Binding WeeklySelectedQuickPostAgenda}" />
-                                </ListView.Behaviors>
-                            </ListView>
+                            
                         </StackLayout>
                         
                         <StackLayout IsVisible="{Binding IsSearchVisible}">
@@ -427,6 +322,113 @@
                         </StackLayout>
 
                     </StackLayout>
+                    <ListView HasUnevenRows="true" 
+                              Grid.Row="6"
+                              Margin="15,0,15,0"
+                                      VerticalOptions="FillAndExpand"
+                                      ItemsSource="{Binding WeeklyPlanDataList}"
+                                      SelectedItem="{Binding WeeklySelectedQuickPostAgenda, Mode=TwoWay}"
+                                      SeparatorVisibility="None" 
+                                      VerticalScrollBarVisibility="Never"
+                                      BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                      x:Name="beamWeeklyPlanList">
+                                <x:Arguments>
+                                    <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                                </x:Arguments>
+
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell>
+                                            <StackLayout>
+                                                <Frame HasShadow="False"
+                                                       Padding="5" IsClippedToBounds="True"
+                                                       BackgroundColor="White"
+                                                       BorderColor="{StaticResource BorderColor}"
+                                                       VerticalOptions="CenterAndExpand"
+                                                       HorizontalOptions="FillAndExpand"
+                                                       CornerRadius="5"
+                                                       Margin="0,5,0,5">
+
+                                                    <StackLayout Orientation="Horizontal">
+                                                        <BoxView Color="{Binding AgendaTypeColor}"
+                                                                 WidthRequest="5"
+                                                                 Margin="{OnPlatform Android='-2,0,5,0', iOS='-5,0,5,0'}"
+                                                                 HeightRequest="25"
+                                                                 HorizontalOptions="Start" />
+                                                        <Label Text="{Binding Title}"
+                                                               HorizontalOptions="StartAndExpand"
+                                                               VerticalOptions="CenterAndExpand"
+                                                               Style="{StaticResource BoldLabels}" />
+                                                        <StackLayout VerticalOptions="CenterAndExpand">
+                                                            <ffimageloading:CachedImage Margin="10,0,0,0"
+                                                                Source="{Binding ArrowImageSource}"
+                                                                HorizontalOptions="EndAndExpand"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                Scale="0.8" IsVisible="true">
+                                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.WeeklyExpandCollapseClickCommand,Source={x:Reference CalendarPage}}"
+                                                                        CommandParameter="{Binding .}" />
+                                                                </ffimageloading:CachedImage.GestureRecognizers>
+                                                            </ffimageloading:CachedImage>
+                                                            <!--<StackLayout.GestureRecognizers>
+                                                <TapGestureRecognizer Command="{Binding BindingContext.WeeklyExpandCollapseClickCommand, Source={x:Reference CalendarPage}}"
+                                                    CommandParameter="{Binding .}" />
+                                            </StackLayout.GestureRecognizers>-->
+                                                        </StackLayout>
+                                                    </StackLayout>
+                                                    <!-- <Frame.GestureRecognizers> -->
+                                                    <!--     <TapGestureRecognizer Command="{Binding BindingContext.WeeklyExpandCollapseClickCommand, Source={x:Reference CalendarPage}}" -->
+                                                    <!--         CommandParameter="{Binding .}" /> -->
+                                                    <!-- </Frame.GestureRecognizers> -->
+                                                </Frame>
+                                                <Frame HasShadow="False"
+                                                       IsClippedToBounds="True"
+                                                       BackgroundColor="White"
+                                                       BorderColor="{StaticResource BorderColor}"
+                                                       VerticalOptions="FillAndExpand"
+                                                       HorizontalOptions="FillAndExpand"
+                                                       CornerRadius="5"
+                                                       Padding="5,5,5,5"
+                                                       IsVisible="{Binding WeeklyPostDetailsVisibility}"
+                                                       Margin="0,0,0,0">
+                                                    <StackLayout>
+                                                        <Label Text="{Binding CurriculumStandards}"
+                                                               FontSize="Small"
+                                                               TextType="Html"
+                                                               Margin="0"
+                                                               IsVisible="{Binding IsDeleted,Converter={StaticResource ReverseBoolValueConverter}}"
+                                                               Style="{StaticResource DescriptionLabelStyle}"
+                                                               HorizontalOptions="StartAndExpand"
+                                                               VerticalOptions="CenterAndExpand" />
+                                                        <Label Text="{Binding Remarks}"
+                                                               FontSize="Small"
+                                                               TextType="Html"
+                                                               Margin="0"
+                                                               Style="{StaticResource DescriptionLabelStyle}"
+                                                               HorizontalOptions="StartAndExpand"
+                                                               VerticalOptions="CenterAndExpand" />
+                                                        <Label Text="{Binding CurriculumStandards}"
+                                                               FontSize="Small"
+                                                               TextType="Html"
+                                                               Margin="0"
+                                                               IsVisible="{Binding IsDeleted}"
+                                                               TextColor="Red"
+                                                               Style="{StaticResource DescriptionLabelStyle}"
+                                                               HorizontalOptions="StartAndExpand"
+                                                               VerticalOptions="CenterAndExpand" />
+                                                    </StackLayout>
+                                                </Frame>
+                                            </StackLayout>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                                <ListView.Behaviors>
+                                    <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                                    Command="{Binding WeeklyListTappedCommand}"
+                                                                    CommandParameter="{Binding WeeklySelectedQuickPostAgenda}" />
+                                </ListView.Behaviors>
+                            </ListView>
 
 
                     <ListView HasUnevenRows="true" Margin="10,0,10,0" 

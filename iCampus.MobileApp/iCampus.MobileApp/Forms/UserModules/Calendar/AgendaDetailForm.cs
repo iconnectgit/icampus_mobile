@@ -538,7 +538,7 @@ public class AgendaDetailForm : ViewModelBase
                 }
                 var file = _mapper.Map<BindableAttachmentFileView>(fileData);
                 SubmissionAttachmentFiles.Add(file);
-                SubmissionListViewHeight = SubmissionAttachmentFiles.Count * 50;
+                SubmissionListViewHeight = SubmissionAttachmentFiles.Count * 40;
             }
             MessagingCenter.Send("", "UpdateAttachmentListView");
         }

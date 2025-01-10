@@ -22,7 +22,7 @@
             <ContentView ControlTemplate="{StaticResource BeamHeader}"
                          BackgroundColor="White" Grid.Row="0" />
             <ScrollView VerticalScrollBarVisibility="Never" Grid.Row="1">
-                <StackLayout BackgroundColor="White" Margin="15,15,15,10">
+                <StackLayout Spacing="0" BackgroundColor="White" Margin="15,15,15,10" VerticalOptions="FillAndExpand">
                     <StackLayout.Resources>
                         <ResourceDictionary>
                             <individual:DateFormatConverter x:Key="DateFormatConverter" />
@@ -67,417 +67,365 @@
                         </Frame.GestureRecognizers>
                     </Frame>
 
-
-                    
-                        
-                    <Grid VerticalOptions="FillAndExpand"
-                          BackgroundColor="White"
-                          RowSpacing="5"
-                          Margin="5,5,5,0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.6*" />
-                                <ColumnDefinition Width="0.4*" />
-                            </Grid.ColumnDefinitions>
-                            <Label FontSize="16"
-                                   Grid.Row="0"
-                                   Grid.Column="0"
-                                   Grid.ColumnSpan="2">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="{Binding SelectedAgenda.TypeTitle}"
-                                              Style="{StaticResource TitleLabelStyle}"
-                                              TextColor="{Binding SelectedAgenda.WorkTypeColor,Converter={StaticResource ColorCodeConverter}}" />
-                                        <Span
-                                            Text="{Binding SelectedAgenda.CurriculumName,Converter={StaticResource AgendaTitleAppendConverter}}"
-                                            Style="{StaticResource TitleLabelStyle}"
-                                            TextColor="{Binding SelectedAgenda.WorkTypeColor,Converter={StaticResource ColorCodeConverter}}" />
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-
-                            <Label IsVisible="{Binding SelectedAgenda.IsDeleted}" Grid.Row="1"
-                                   Grid.Column="0" Grid.ColumnSpan="2"
-                                   Text="{Binding SelectedAgenda,Converter={StaticResource AgendaCancellationTextConverter}}"
-                                   TextColor="Red" />
-                            <Grid HorizontalOptions="StartAndExpand" Padding="0" Grid.Row="1"
-                                  Grid.Column="0" Grid.ColumnSpan="2"
-                                  IsVisible="{Binding SelectedAgenda.IsDeleted,Converter={StaticResource ReverseBoolValueConverter}}">
-                                <Grid Padding="0"
-                                      IsVisible="{Binding SelectedAgenda.ApprovalStatus,Converter={StaticResource visiblityConverter}}">
-                                    <Label Text="Approved" Style="{StaticResource TitleLabelStyle}"
-                                           IsVisible="{Binding SelectedAgenda.IsApproved}"
-                                           TextColor="{StaticResource ApprovedTextColor}" />
-                                    <Label Text="Pending" Style="{StaticResource TitleLabelStyle}"
-                                           IsVisible="{Binding SelectedAgenda.IsPending}"
-                                           TextColor="{StaticResource PendingTextColor}" />
-                                </Grid>
+                    <StackLayout>
+                        <Label FontSize="16">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding SelectedAgenda.TypeTitle}"
+                                          Style="{StaticResource TitleLabelStyle}"
+                                          TextColor="{Binding SelectedAgenda.WorkTypeColor,Converter={StaticResource ColorCodeConverter}}" />
+                                    <Span
+                                        Text="{Binding SelectedAgenda.CurriculumName,Converter={StaticResource AgendaTitleAppendConverter}}"
+                                        Style="{StaticResource TitleLabelStyle}"
+                                        TextColor="{Binding SelectedAgenda.WorkTypeColor,Converter={StaticResource ColorCodeConverter}}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </StackLayout>
+                    <StackLayout>
+                        <Label IsVisible="{Binding SelectedAgenda.IsDeleted}"
+                               Text="{Binding SelectedAgenda,Converter={StaticResource AgendaCancellationTextConverter}}"
+                               TextColor="Red" />
+                        <Grid HorizontalOptions="StartAndExpand" Padding="0"
+                              IsVisible="{Binding SelectedAgenda.IsDeleted,Converter={StaticResource ReverseBoolValueConverter}}">
+                            <Grid Padding="0"
+                                  IsVisible="{Binding SelectedAgenda.ApprovalStatus,Converter={StaticResource visiblityConverter}}">
+                                <Label Text="Approved" Style="{StaticResource TitleLabelStyle}"
+                                       IsVisible="{Binding SelectedAgenda.IsApproved}"
+                                       TextColor="{StaticResource ApprovedTextColor}" />
+                                <Label Text="Pending" Style="{StaticResource TitleLabelStyle}"
+                                       IsVisible="{Binding SelectedAgenda.IsPending}"
+                                       TextColor="{StaticResource PendingTextColor}" />
                             </Grid>
-                            <Frame Grid.Row="2"
-                                   Grid.Column="0"
-                                   Grid.ColumnSpan="2"
-                                   Margin="0,0,0,0"
-                                   Padding="0"
-                                   HasShadow="False"
-                                   CornerRadius="5"
-                                   BorderColor="Transparent">
-                                <!-- <WebView -->
-                                <!--     IsVisible="{Binding SelectedAgenda.AgendaDescription,Converter={StaticResource visiblityConverter}}" -->
-                                <!--     HorizontalOptions="FillAndExpand" -->
-                                <!--     HeightRequest="{Binding AgendaDescriptionHeight}" -->
-                                <!--     VerticalOptions="FillAndExpand"> -->
-                                <!--     <WebView.Source> -->
-                                <!--         <HtmlWebViewSource Html="{Binding SelectedAgenda.AgendaDescription}" /> -->
-                                <!--     </WebView.Source> -->
-                                <!-- </WebView> -->
-                                <Label Text="{Binding SelectedAgenda.AgendaDescription}"
-                                       IsVisible="{Binding SelectedAgenda.AgendaDescription,Converter={StaticResource visiblityConverter}}"
-                                       TextType="Html" />
-                            </Frame>
-
-                            <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
-                                  IsVisible="{Binding IsSubmissionAllowed}">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-
-                                <Label HorizontalOptions="StartAndExpand" Grid.Row="0"
-                                       Grid.Column="0" Text="Submission: " Style="{StaticResource TitleLabelStyle}" />
-                                <Frame Grid.Row="0" Grid.Column="1" HasShadow="False" Padding="5"
-                                       BackgroundColor="Transparent" HorizontalOptions="StartAndExpand"
-                                       BorderColor="#E8E8E8">
-                                    <StackLayout Orientation="Horizontal"
-                                                 Spacing="0" IsClippedToBounds="True"
-                                                 HorizontalOptions="Start"
-                                                 VerticalOptions="CenterAndExpand">
-                                        <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
-                                                                    VerticalOptions="CenterAndExpand"
-                                                                    WidthRequest="15"
-                                                                    HeightRequest="15"
-                                                                    Aspect="AspectFit"
-                                                                    DownsampleToViewSize="True"
-                                                                    Source="attachment_icon.png" />
-                                        <Label HorizontalOptions="Start" VerticalOptions="CenterAndExpand"
-                                               Margin="5,0,0,0"
-                                               Text="Select File " Style="{StaticResource DescriptionLabelStyle }" />
-                                        <StackLayout.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding AddAttachmentClickCommand}" />
-                                        </StackLayout.GestureRecognizers>
-                                    </StackLayout>
-                                </Frame>
-
-
-                                <ListView HasUnevenRows="True" VerticalScrollBarVisibility="Never"
-                                          ItemsSource="{Binding SubmissionAttachmentFiles,Mode=TwoWay}"
-                                          Grid.Row="1" BackgroundColor="{StaticResource ListViewBackgroundColor}"
-                                          Grid.Column="0"
-                                          Grid.ColumnSpan="2"
-                                          SeparatorVisibility="None"
-                                          HeightRequest="{Binding SubmissionListViewHeight}">
-                                    <ListView.ItemTemplate>
-                                        <DataTemplate>
-                                            <ViewCell>
-                                                <Grid HorizontalOptions="FillAndExpand"
-                                                      VerticalOptions="CenterAndExpand"
-                                                      Margin="0,5,0,0">
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="Auto" />
-                                                        <ColumnDefinition Width="*" />
-                                                        <ColumnDefinition Width="Auto" />
-                                                    </Grid.ColumnDefinitions>
-                                                    <Grid.RowDefinitions>
-                                                        <RowDefinition Height="*" />
-                                                    </Grid.RowDefinitions>
-                                                    <ffimageloading:CachedImage
-                                                        Grid.Row="0" Grid.Column="0"
-                                                        HorizontalOptions="StartAndExpand"
-                                                        VerticalOptions="CenterAndExpand"
-                                                        WidthRequest="20"
-                                                        HeightRequest="20"
-                                                        Aspect="AspectFit"
-                                                        Margin="0,0,10,0"
-                                                        DownsampleToViewSize="True"
-                                                        Source="{Binding FileName,Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
-                                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding FileName}"
-                                                           HorizontalOptions="StartAndExpand"
-                                                           VerticalOptions="CenterAndExpand" MaxLines="1"
-                                                           LineBreakMode="TailTruncation"
-                                                           Margin="5,0,0,0"
-                                                           Style="{StaticResource AttachmentTextStyle}" />
-                                                    <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
-                                                        VerticalOptions="CenterAndExpand"
-                                                        WidthRequest="24"
-                                                        HeightRequest="24"
-                                                        Aspect="AspectFit"
-                                                        Grid.Row="0" Margin="0,0,10,0"
-                                                        Grid.Column="2"
-                                                        DownsampleToViewSize="True"
-                                                        Source="delete_bin_icon.png">
-                                                        <ffimageloading:CachedImage.GestureRecognizers>
-                                                            <TapGestureRecognizer
-                                                                Command="{Binding BindingContext.DeleteAttachmentClickCommand,Source={x:Reference agendaDetailPage}}"
-                                                                CommandParameter="{Binding .}" />
-                                                        </ffimageloading:CachedImage.GestureRecognizers>
-                                                    </ffimageloading:CachedImage>
-                                                </Grid>
-                                            </ViewCell>
-                                        </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
-
-
-                                <StackLayout Spacing="0" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-                                             VerticalOptions="StartAndExpand">
-                                    <Label Margin="2,0,0,0"
-                                           Style="{StaticResource TitleLabelStyle}"
-                                           VerticalOptions="StartAndExpand"
-                                           Text="Comments :" />
-                                    <OnPlatform x:TypeArguments="Frame">
-                                        <On Platform="Android">
-                                            <Frame BorderColor="#E8E8E8" VerticalOptions="FillAndExpand"
-                                                   Margin="0,10,0,0"
-                                                   HorizontalOptions="FillAndExpand" BackgroundColor="Transparent"
-                                                   HasShadow="False" Padding="5" CornerRadius="5">
-                                                <Entry BackgroundColor="White"
-                                                       Placeholder="Write your comment here"
-                                                       VerticalOptions="StartAndExpand"
-                                                       Text="{Binding SubmissionComments,Mode=TwoWay}"
-                                                       Style="{StaticResource EditorFontStyle}" />
-                                            </Frame>
-                                        </On>
-                                        <On Platform="iOS">
-                                            <Frame BorderColor="#E8E8E8" BackgroundColor="White" CornerRadius="5"
-                                                   HasShadow="False"
-                                                   Padding="5" Margin="0,10,0,0">
-                                                <controls:BorderlessEditor BackgroundColor="White"
-                                                                           Placeholder="Write your comment here"
-                                                                           VerticalOptions="StartAndExpand"
-                                                                           AutoSize="TextChanges"
-                                                                           Text="{Binding SubmissionComments,Mode=TwoWay}"
-                                                                           Style="{StaticResource EditorFontStyle}" />
-                                            </Frame>
-                                        </On>
-                                    </OnPlatform>
-
-                                </StackLayout>
-
-
-                                <Button Text="Submit"
-                                        CornerRadius="4"
-                                        Grid.ColumnSpan="2" WidthRequest="80"
-                                        HeightRequest="30"
-                                        Padding="5,0,5,0"
-                                        FontSize="Small"
-                                        Grid.Row="3" Margin="0,20,0,10"
-                                        VerticalOptions="EndAndExpand" HorizontalOptions="EndAndExpand"
-                                        Command="{Binding SubmitSubmissionClickCommand}"
-                                        BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                                        TextColor="White" />
-
-                            </Grid>
-
-
-                            <Frame Padding="5" HasShadow="False" Grid.Row="4" BorderColor="Transparent"
-                                   Grid.Column="0" Grid.ColumnSpan="2" Margin="-8,0,0,0" CornerRadius="5">
-                                <StackLayout Spacing="5" Margin="0">
-                                    <Label Text="{Binding SelectedAgenda.TeacherName,StringFormat='Teacher : {0}'}"
-                                           FontAttributes="Bold" Style="{StaticResource DateLabelStyle}"
-                                           IsVisible="{Binding IsCreatorVisible}"
-                                           VerticalOptions="EndAndExpand" />
-
-                                    <ListView HasUnevenRows="True" VerticalScrollBarVisibility="Never"
-                                              ItemsSource="{Binding AttachmentList,Mode=TwoWay}"
-                                              SelectionMode="None"
-                                              SeparatorVisibility="None"
-                                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
-                                              HeightRequest="{Binding AttachmentListViewHeight}" Margin="5">
-                                        <ListView.ItemTemplate>
-                                            <DataTemplate>
-                                                <ViewCell>
-                                                    <Grid RowDefinitions="*" ColumnDefinitions="Auto,Auto,*"
-                                                          BackgroundColor="White">
-                                                        <ffimageloading:CachedImage
-                                                            HorizontalOptions="EndAndExpand"
-                                                            VerticalOptions="CenterAndExpand"
-                                                            Grid.Row="0"
-                                                            Grid.Column="0"
-                                                            WidthRequest="25"
-                                                            HeightRequest="25"
-                                                            Aspect="AspectFit"
-                                                            CacheType="None"
-                                                            CacheDuration="0"
-                                                            DownsampleToViewSize="True"
-                                                            Source="{Binding FileStatus,Mode=TwoWay,Converter={StaticResource AttachmentFileStatusToSourceConverter}}">
-                                                            <ffimageloading:CachedImage.GestureRecognizers>
-                                                                <TapGestureRecognizer
-                                                                    Command="{Binding BindingContext.DownloadTappedCommand,Source={x:Reference agendaDetailPage}}"
-                                                                    CommandParameter="{Binding .}" />
-                                                            </ffimageloading:CachedImage.GestureRecognizers>
-                                                        </ffimageloading:CachedImage>
-                                                        <ffimageloading:CachedImage
-                                                            Grid.Row="0"
-                                                            Grid.Column="1"
-                                                            HorizontalOptions="StartAndExpand"
-                                                            VerticalOptions="CenterAndExpand"
-                                                            WidthRequest="20"
-                                                            HeightRequest="20"
-                                                            Aspect="AspectFit"
-                                                            Margin="10,0,0,0"
-                                                            DownsampleToViewSize="True"
-                                                            Source="{Binding FileType,Converter={StaticResource AttachmentTypeToImageSourceConverter}}" />
-                                                        <Label Text="{Binding DisplayName}"
-                                                               Grid.Row="0"
-                                                               Grid.Column="2"
-                                                               HorizontalOptions="StartAndExpand" MaxLines="1"
-                                                               LineBreakMode="TailTruncation"
-                                                               VerticalOptions="CenterAndExpand"
-                                                               Margin="10,0,0,0"
-                                                               Style="{StaticResource AttachmentTextStyle}">
-                                                            <Label.GestureRecognizers>
-                                                                <TapGestureRecognizer
-                                                                    Command="{Binding BindingContext.AttachmentListTappedCommand,Source={x:Reference agendaDetailPage}}"
-                                                                    CommandParameter="{Binding .}" />
-                                                            </Label.GestureRecognizers>
-                                                        </Label>
-                                                        <Grid.GestureRecognizers>
-                                                            <TapGestureRecognizer
-                                                                Command="{Binding BindingContext.AttachmentListTappedCommand,Source={x:Reference agendaDetailPage}}"
-                                                                CommandParameter="{Binding .}" />
-                                                        </Grid.GestureRecognizers>
-                                                    </Grid>
-                                                </ViewCell>
-                                            </DataTemplate>
-                                        </ListView.ItemTemplate>
-
-                                    </ListView>
-                                </StackLayout>
-                            </Frame>
-
-                            <ListView HasUnevenRows="True" VerticalScrollBarVisibility="Never"
-                                      ItemsSource="{Binding SelectedAgenda.WebsiteLinks,Mode=TwoWay}"
-                                      SelectedItem="{Binding SlectedWebsiteLink}"
-                                      Grid.Row="5" BackgroundColor="{StaticResource ListViewBackgroundColor}"
-                                      Grid.Column="0"
-                                      Grid.ColumnSpan="2"
-                                      SeparatorVisibility="None"
-                                      HeightRequest="{Binding LinkListViewHeight}">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <ViewCell>
-                                            <StackLayout Orientation="Horizontal"
-                                                         Margin="0,10,0,0"
-                                                         Spacing="0"
-                                                         IsVisible="{Binding Title,Converter={StaticResource visiblityConverter}}"
-                                                         HorizontalOptions="StartAndExpand"
-                                                         VerticalOptions="CenterAndExpand">
-                                                <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
-                                                                            VerticalOptions="CenterAndExpand"
-                                                                            WidthRequest="20"
-                                                                            HeightRequest="20"
-                                                                            Aspect="AspectFit"
-                                                                            Margin="4,0,0,0"
-                                                                            DownsampleToViewSize="True"
-                                                                            Source="attachment_icon.png" />
-                                                <Label Text="{Binding Title}" MaxLines="2"
-                                                       LineBreakMode="TailTruncation"
-                                                       Style="{StaticResource AttachmentTextStyle}"
-                                                       HorizontalOptions="StartAndExpand"
-                                                       VerticalOptions="CenterAndExpand" />
-                                            </StackLayout>
-                                        </ViewCell>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                                <ListView.Behaviors>
-                                    <toolkit:EventToCommandBehavior EventName="ItemSelected"
-                                                                    Command="{Binding WebsiteLinksTappedCommand}"
-                                                                    CommandParameter="{Binding SlectedWebsiteLink}" />
-                                </ListView.Behaviors>
-                            </ListView>
-
-
-                            <Label
-                                Text="{Binding SelectedAgenda.DueDate, Converter= {StaticResource DateFormatConverter},ConverterParameter=Due on }"
-                                Grid.Row="6"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="2"
-                                Style="{StaticResource DateLabelStyle}"
-                                VerticalOptions="StartAndExpand" />
-                            <Label
-                                Text="{Binding SelectedAgenda.FormatedPostDate,Converter= {StaticResource DateFormatConverter},ConverterParameter=Posted on }"
-                                Grid.Row="7"
-                                Grid.Column="0"
-                                Grid.ColumnSpan="2"
-                                Style="{StaticResource DateLabelStyle}"
-                                VerticalOptions="StartAndExpand" />
-                            <Label IsVisible="{Binding IsViewSubmissionVisible}"
-                                   Grid.Row="8"
-                                   Grid.Column="0"
-                                   Style="{StaticResource DateLabelStyle}"
-                                   Grid.ColumnSpan="2"
-                                   VerticalOptions="StartAndExpand">
-                                <Label.FormattedText>
-                                    <FormattedString>
-                                        <Span Text="Submission Count :  "
-                                              Style="{StaticResource DateLabelStyle}" />
-                                        <Span Text="{Binding SubmissionCount}"
-                                              Style="{StaticResource DateLabelStyle}" />
-                                        <Span Text=" of "
-                                              Style="{StaticResource DateLabelStyle}" />
-                                        <Span Text="{Binding TotalCount}"
-                                              Style="{StaticResource DateLabelStyle}" />
-                                    </FormattedString>
-                                </Label.FormattedText>
-                            </Label>
-                            <Label Text="" Grid.Row="10" Grid.ColumnSpan="2"
-                                   Grid.Column="0" />
-
-                            <Button Text="View Submission" Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2"
-                                    VerticalOptions="CenterAndExpand"
-                                    HorizontalOptions="FillAndExpand"
-                                    Margin="0,10,0,0"
-                                    TextColor="White"
-                                    HeightRequest="40"
-                                    Command="{Binding ViewSubmissionsClickedCommand}"
-                                    CornerRadius="5"
-                                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                                    IsVisible="{Binding IsTeacher, Source={x:Static local:AppSettings.Current}}"
-                                    AbsoluteLayout.LayoutFlags="All"
-                                    AbsoluteLayout.LayoutBounds="0,1,1,50" />
-                            <Button Text="View Students" Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2"
-                                    VerticalOptions="CenterAndExpand"
-                                    HorizontalOptions="FillAndExpand"
-                                    Margin="0,20,0,0"
-                                    TextColor="White"
-                                    HeightRequest="50"
-                                    WidthRequest="50"
-                                    Command="{Binding ViewSubmissionsClickedCommand}"
-                                    CornerRadius="5"
-                                    BackgroundColor="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}"
-                                    IsVisible="{Binding IsViewAgendaStudentsVisible}"
-                                    AbsoluteLayout.LayoutFlags="All"
-                                    AbsoluteLayout.LayoutBounds="1,1,50,50" />
                         </Grid>
-                   
+                    </StackLayout>
+                    <StackLayout Margin="0,10,0,0">
+                        <Frame
+                            Margin="0,0,0,0"
+                            Padding="0"
+                            HasShadow="False"
+                            CornerRadius="5"
+                            BorderColor="Transparent">
+                            <!-- <WebView -->
+                            <!--     IsVisible="{Binding SelectedAgenda.AgendaDescription,Converter={StaticResource visiblityConverter}}" -->
+                            <!--     HorizontalOptions="FillAndExpand" -->
+                            <!--     HeightRequest="{Binding AgendaDescriptionHeight}" -->
+                            <!--     VerticalOptions="FillAndExpand"> -->
+                            <!--     <WebView.Source> -->
+                            <!--         <HtmlWebViewSource Html="{Binding SelectedAgenda.AgendaDescription}" /> -->
+                            <!--     </WebView.Source> -->
+                            <!-- </WebView> -->
+                            <Label Text="{Binding SelectedAgenda.AgendaDescription}"
+                                   IsVisible="{Binding SelectedAgenda.AgendaDescription,Converter={StaticResource visiblityConverter}}"
+                                   TextType="Html" />
+                        </Frame>
+                    </StackLayout>
+
+                    <StackLayout Padding="0"
+                                 Margin="0,10,0,0"
+                                 IsVisible="{Binding IsSubmissionAllowed}">
+                        <StackLayout Orientation="Horizontal">
+                            <Label HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand"
+                                   Text="Submission: " Style="{StaticResource TitleLabelStyle}" />
+                            <Frame HasShadow="False" Padding="5" VerticalOptions="CenterAndExpand"
+                                   BackgroundColor="Transparent" HorizontalOptions="StartAndExpand"
+                                   BorderColor="#E8E8E8">
+                                <StackLayout Orientation="Horizontal"
+                                             Spacing="0" IsClippedToBounds="True"
+                                             HorizontalOptions="Start"
+                                             VerticalOptions="CenterAndExpand">
+                                    <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                WidthRequest="15"
+                                                                HeightRequest="15"
+                                                                Aspect="AspectFit"
+                                                                DownsampleToViewSize="True"
+                                                                Source="attachment_icon.png" />
+                                    <Label HorizontalOptions="Start" VerticalOptions="CenterAndExpand"
+                                           Margin="5,0,0,0"
+                                           Text="Select File " Style="{StaticResource DescriptionLabelStyle }" />
+                                    <StackLayout.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding AddAttachmentClickCommand}" />
+                                    </StackLayout.GestureRecognizers>
+                                </StackLayout>
+                            </Frame>
+                        </StackLayout>
+
+
+                        <ListView HasUnevenRows="True" VerticalScrollBarVisibility="Never" Margin="0,10,0,0"
+                                  ItemsSource="{Binding SubmissionAttachmentFiles,Mode=TwoWay}"
+                                  SeparatorVisibility="None"
+                                  VerticalOptions="FillAndExpand"
+                                  HeightRequest="{Binding SubmissionListViewHeight}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid HorizontalOptions="FillAndExpand"
+                                              VerticalOptions="CenterAndExpand"
+                                              Margin="0,5,0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="Auto" />
+                                            </Grid.ColumnDefinitions>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="*" />
+                                            </Grid.RowDefinitions>
+                                            <ffimageloading:CachedImage
+                                                Grid.Row="0" Grid.Column="0"
+                                                HorizontalOptions="StartAndExpand"
+                                                VerticalOptions="CenterAndExpand"
+                                                WidthRequest="20"
+                                                HeightRequest="20"
+                                                Aspect="AspectFit"
+                                                Margin="0,0,10,0"
+                                                DownsampleToViewSize="True"
+                                                Source="{Binding FileName,Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
+                                            <Label Grid.Row="0" Grid.Column="1" Text="{Binding FileName}"
+                                                   HorizontalOptions="StartAndExpand"
+                                                   VerticalOptions="CenterAndExpand" MaxLines="1"
+                                                   LineBreakMode="TailTruncation"
+                                                   Margin="5,0,0,0"
+                                                   Style="{StaticResource AttachmentTextStyle}" />
+                                            <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        WidthRequest="24"
+                                                                        HeightRequest="24"
+                                                                        Aspect="AspectFit"
+                                                                        Grid.Row="0" Margin="0,0,10,0"
+                                                                        Grid.Column="2"
+                                                                        DownsampleToViewSize="True"
+                                                                        Source="delete_bin_icon.png">
+                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding BindingContext.DeleteAttachmentClickCommand,Source={x:Reference agendaDetailPage}}"
+                                                        CommandParameter="{Binding .}" />
+                                                </ffimageloading:CachedImage.GestureRecognizers>
+                                            </ffimageloading:CachedImage>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </StackLayout>
+
+
+                    <StackLayout Spacing="0" IsVisible="{Binding IsSubmissionAllowed}" >
+                        <Label Margin="2,0,0,0"
+                               Style="{StaticResource TitleLabelStyle}"
+                               VerticalOptions="StartAndExpand"
+                               Text="Comments :" />
+                        <OnPlatform x:TypeArguments="Frame">
+                            <On Platform="Android">
+                                <Frame BorderColor="#E8E8E8" VerticalOptions="FillAndExpand"
+                                       Margin="0,10,0,0"
+                                       HorizontalOptions="FillAndExpand" BackgroundColor="Transparent"
+                                       HasShadow="False" Padding="5" CornerRadius="5">
+                                    <Entry BackgroundColor="White"
+                                           Placeholder="Write your comment here"
+                                           VerticalOptions="StartAndExpand"
+                                           Text="{Binding SubmissionComments,Mode=TwoWay}"
+                                           Style="{StaticResource EditorFontStyle}" />
+                                </Frame>
+                            </On>
+                            <On Platform="iOS">
+                                <Frame BorderColor="#E8E8E8" BackgroundColor="White" CornerRadius="5"
+                                       HasShadow="False"
+                                       Padding="5" Margin="0,10,0,0">
+                                    <controls:BorderlessEditor BackgroundColor="White"
+                                                               Placeholder="Write your comment here"
+                                                               VerticalOptions="StartAndExpand"
+                                                               AutoSize="TextChanges"
+                                                               Text="{Binding SubmissionComments,Mode=TwoWay}"
+                                                               Style="{StaticResource EditorFontStyle}" />
+                                </Frame>
+                            </On>
+                        </OnPlatform>
+
+                        <Button Text="Submit"
+                                CornerRadius="4"
+                                IsVisible="{Binding IsSubmissionAllowed}"
+                                WidthRequest="80"
+                                HeightRequest="30"
+                                Padding="5,0,5,0"
+                                FontSize="Small"
+                                Margin="0,10,0,10"
+                                VerticalOptions="StartAndExpand" HorizontalOptions="EndAndExpand"
+                                Command="{Binding SubmitSubmissionClickCommand}"
+                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                                TextColor="White" />
+                    </StackLayout>
+
+                    <StackLayout  Margin="0,0,0,0">
+                        <Label
+                            Text="{Binding SelectedAgenda.DueDate, Converter= {StaticResource DateFormatConverter},ConverterParameter=Due on }"
+                            Style="{StaticResource DateLabelStyle}"
+                            Margin="0,5,0,0"
+                            VerticalOptions="StartAndExpand" />
+                        <Label
+                            Text="{Binding SelectedAgenda.FormatedPostDate,Converter= {StaticResource DateFormatConverter},ConverterParameter=Posted on }"
+                            Style="{StaticResource DateLabelStyle}"
+                            Margin="0,5,0,0"
+                            VerticalOptions="StartAndExpand" />
+                        <Frame IsVisible="{Binding IsCreatorVisible}" Padding="5" HasShadow="False" Margin="0,0,0,0"
+                               CornerRadius="5" BorderColor="Transparent">
+                            <StackLayout Spacing="5" Margin="0">
+                                <Label Text="{Binding SelectedAgenda.TeacherName,StringFormat='Teacher : {0}'}"
+                                       FontAttributes="Bold" Style="{StaticResource DateLabelStyle}"
+                                       IsVisible="{Binding IsCreatorVisible}"
+                                       VerticalOptions="EndAndExpand" />
+                            </StackLayout>
+                        </Frame>
+                        <Label IsVisible="{Binding IsViewSubmissionVisible}"
+                               Style="{StaticResource DateLabelStyle}"
+                               Margin="0,5,0,0"
+                               VerticalOptions="StartAndExpand">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Submission Count :  "
+                                          Style="{StaticResource DateLabelStyle}" 
+                                          FontAttributes="Bold"/>
+                                    <Span Text="{Binding SubmissionCount}"
+                                          Style="{StaticResource DateLabelStyle}" />
+                                    <Span Text=" of "
+                                          Style="{StaticResource DateLabelStyle}" />
+                                    <Span Text="{Binding TotalCount}"
+                                          Style="{StaticResource DateLabelStyle}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        <Label Text="" />
+                        <ListView HasUnevenRows="True" VerticalScrollBarVisibility="Never"
+                                  ItemsSource="{Binding AttachmentList,Mode=TwoWay}"
+                                  SelectionMode="None"
+                                  SeparatorVisibility="None"
+                                  BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                  HeightRequest="{Binding AttachmentListViewHeight}" Margin="5">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid RowDefinitions="*" ColumnDefinitions="Auto,Auto,*"
+                                              BackgroundColor="White">
+                                            <ffimageloading:CachedImage
+                                                HorizontalOptions="EndAndExpand"
+                                                VerticalOptions="CenterAndExpand"
+                                                Grid.Row="0"
+                                                Grid.Column="0"
+                                                WidthRequest="25"
+                                                HeightRequest="25"
+                                                Aspect="AspectFit"
+                                                CacheType="None"
+                                                CacheDuration="0"
+                                                DownsampleToViewSize="True"
+                                                Source="{Binding FileStatus,Mode=TwoWay,Converter={StaticResource AttachmentFileStatusToSourceConverter}}">
+                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding BindingContext.DownloadTappedCommand,Source={x:Reference agendaDetailPage}}"
+                                                        CommandParameter="{Binding .}" />
+                                                </ffimageloading:CachedImage.GestureRecognizers>
+                                            </ffimageloading:CachedImage>
+                                            <ffimageloading:CachedImage
+                                                Grid.Row="0"
+                                                Grid.Column="1"
+                                                HorizontalOptions="StartAndExpand"
+                                                VerticalOptions="CenterAndExpand"
+                                                WidthRequest="20"
+                                                HeightRequest="20"
+                                                Aspect="AspectFit"
+                                                Margin="10,0,0,0"
+                                                DownsampleToViewSize="True"
+                                                Source="{Binding FileType,Converter={StaticResource AttachmentTypeToImageSourceConverter}}" />
+                                            <Label Text="{Binding DisplayName}"
+                                                   Grid.Row="0"
+                                                   Grid.Column="2"
+                                                   HorizontalOptions="StartAndExpand" MaxLines="1"
+                                                   LineBreakMode="TailTruncation"
+                                                   VerticalOptions="CenterAndExpand"
+                                                   Margin="10,0,0,0"
+                                                   Style="{StaticResource AttachmentTextStyle}">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding BindingContext.AttachmentListTappedCommand,Source={x:Reference agendaDetailPage}}"
+                                                        CommandParameter="{Binding .}" />
+                                                </Label.GestureRecognizers>
+                                            </Label>
+                                            <Grid.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding BindingContext.AttachmentListTappedCommand,Source={x:Reference agendaDetailPage}}"
+                                                    CommandParameter="{Binding .}" />
+                                            </Grid.GestureRecognizers>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                        <ListView HasUnevenRows="True" VerticalScrollBarVisibility="Never"
+                                  ItemsSource="{Binding SelectedAgenda.WebsiteLinks,Mode=TwoWay}"
+                                  SelectedItem="{Binding SlectedWebsiteLink}"
+                                  BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                  SeparatorVisibility="None"
+                                  HeightRequest="{Binding LinkListViewHeight}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Orientation="Horizontal"
+                                                     Margin="0,10,0,0"
+                                                     Spacing="0"
+                                                     IsVisible="{Binding Title,Converter={StaticResource visiblityConverter}}"
+                                                     HorizontalOptions="StartAndExpand"
+                                                     VerticalOptions="CenterAndExpand">
+                                            <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        WidthRequest="20"
+                                                                        HeightRequest="20"
+                                                                        Aspect="AspectFit"
+                                                                        Margin="4,0,0,0"
+                                                                        DownsampleToViewSize="True"
+                                                                        Source="attachment_icon.png" />
+                                            <Label Text="{Binding Title}" MaxLines="2"
+                                                   LineBreakMode="TailTruncation"
+                                                   Style="{StaticResource AttachmentTextStyle}"
+                                                   HorizontalOptions="StartAndExpand"
+                                                   VerticalOptions="CenterAndExpand" />
+                                        </StackLayout>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.Behaviors>
+                                <toolkit:EventToCommandBehavior EventName="ItemSelected"
+                                                                Command="{Binding WebsiteLinksTappedCommand}"
+                                                                CommandParameter="{Binding SlectedWebsiteLink}" />
+                            </ListView.Behaviors>
+                        </ListView>
+
+                    </StackLayout>
+
+
+                    <Button Text="View Submission"
+                            VerticalOptions="EndAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            Margin="0,10,0,0"
+                            TextColor="White"
+                            HeightRequest="40"
+                            Command="{Binding ViewSubmissionsClickedCommand}"
+                            CornerRadius="5"
+                            BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                            IsVisible="{Binding IsTeacher, Source={x:Static local:AppSettings.Current}}"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds="0,1,1,50" />
+                    <Button Text="View Students"
+                            VerticalOptions="EndAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            Margin="0,20,0,0"
+                            TextColor="White"
+                            HeightRequest="50"
+                            WidthRequest="50"
+                            Command="{Binding ViewSubmissionsClickedCommand}"
+                            CornerRadius="5"
+                            BackgroundColor="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}"
+                            IsVisible="{Binding IsViewAgendaStudentsVisible}"
+                            AbsoluteLayout.LayoutFlags="All"
+                            AbsoluteLayout.LayoutBounds="1,1,50,50" />
 
 
                 </StackLayout>

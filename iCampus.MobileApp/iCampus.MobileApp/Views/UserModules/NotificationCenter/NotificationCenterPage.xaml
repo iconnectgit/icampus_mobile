@@ -22,7 +22,7 @@
                 </ResourceDictionary>
             </Grid.Resources>
             <ContentView ControlTemplate="{StaticResource BeamHeader}" Grid.Row="0" Grid.Column="0"
-                         VerticalOptions="Start" BackgroundColor="White" HeightRequest="80" />
+                         VerticalOptions="CenterAndExpand" BackgroundColor="White" />
 
             <StackLayout Padding="0,20,0,0" VerticalOptions="StartAndExpand" Margin="15,0,15,0" Grid.Row="1"
                          Grid.Column="0"

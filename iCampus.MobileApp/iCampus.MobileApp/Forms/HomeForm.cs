@@ -190,7 +190,8 @@ public class HomeForm : ViewModelBase
         _mapper = mapper;
         _nativeServices = nativeServices;
         Navigation = navigation;
-        InitializePage(isFromNotification);  // Only call methods specific to HomeForm
+        App.HomePageInstance = this;
+        InitializePage(isFromNotification);  
     }
 
 
@@ -266,9 +267,6 @@ public class HomeForm : ViewModelBase
             // await App.Current.SavePropertiesAsync();
         }
     }
-    
-    
-
     private async void RefreshNews()
     {
         var isInternetConnected = Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
@@ -418,7 +416,7 @@ public class HomeForm : ViewModelBase
         return isInternetConnected;
     }
 
-    private async void GetHomePageData()
+    public async void GetHomePageData()
     {
         try
         {
@@ -662,7 +660,6 @@ public class HomeForm : ViewModelBase
                 string.Format(TextResource.CustomAlertsApiUrl, false), isLoader: false, attachStudentIdIfParent: false);
             if (alertData != null)
             {
-                App.IsUserAlertDone = true;
                 CustomAlertList = new ObservableCollection<FeedBackAlertMessageView>(alertData.FeedBackAlertList);
                 if (_customAlertsList.Count > 0)
                 {
@@ -676,6 +673,10 @@ public class HomeForm : ViewModelBase
                 else if (alertData.UserSurvey != null && alertData.UserSurvey.SurveyQuestions.Any())
                 {
                     ShowSurvey(alertData.UserSurvey);
+                }
+                else
+                {
+                    App.IsUserAlertDone = true;
                 }
             }
 
@@ -721,23 +722,17 @@ public class HomeForm : ViewModelBase
     public async void ShowSurvey(UserSurveyView surveyView)
     {
         var surveyId = surveyView.SurveyQuestions.FirstOrDefault().SurveyId;
-        if (App.SurveyIdList == null || !App.SurveyIdList.Contains(surveyId))
+        SurveyForm surveyForm = new (_mapper, _nativeServices, Navigation)
         {
-            SurveyForm surveyForm = new (_mapper, _nativeServices, Navigation)
-            {
-                PageTitle = TextResource.SurveyPageTitle,
-                UserSurvey = surveyView
-            };
-            surveyForm.GetSurveyDetails();
-            SurveyPage surveyPage = new()
-            {
-                BindingContext = surveyForm
-            };
-            await Navigation.PushAsync(surveyPage);
-            
-            // if (HostScreen.Router.GetCurrentViewModel().GetType() != typeof(SurveyForm))
-            //     HostScreen.Router.Navigate.Execute(surveyForm).Subscribe();
-        }
+            PageTitle = TextResource.SurveyPageTitle,
+            UserSurvey = surveyView
+        };
+        surveyForm.GetSurveyDetails();
+        SurveyPage surveyPage = new()
+        {
+            BindingContext = surveyForm
+        };
+        await Navigation.PushAsync(surveyPage);
     }
 
     public void ShowDataCollection(DataCollectionView dataCollectionView)

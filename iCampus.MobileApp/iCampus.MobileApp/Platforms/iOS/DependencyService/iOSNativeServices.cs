@@ -90,15 +90,29 @@ public class iOSNativeServices : INativeServices
 
         public void NotificationToggled(Action<bool> result = null)
         {
-            var settingsUrl = new NSUrl(UIApplication.OpenSettingsUrlString);
-            if (UIApplication.SharedApplication.CanOpenUrl(settingsUrl))
+            try
             {
-                UIApplication.SharedApplication.OpenUrl(settingsUrl);
-                // You can check notification settings here if needed
-                result?.Invoke(true);
+                NSUrl settingsUrl = new NSUrl(UIApplication.OpenSettingsUrlString);
+
+                if (UIApplication.SharedApplication.CanOpenUrl(settingsUrl))
+                {
+                    UIApplication.SharedApplication.OpenUrl(settingsUrl, new NSDictionary(), (success) =>
+                    {
+                        UNUserNotificationCenter.Current.GetNotificationSettings((settings) =>
+                        {
+                            bool isEnabled = settings.AuthorizationStatus == UNAuthorizationStatus.Authorized || 
+                                             settings.AuthorizationStatus == UNAuthorizationStatus.Provisional;
+
+                            AppSettings.Current.IsPushNotificationEnable = isEnabled;
+
+                            result?.Invoke(true);
+                        });
+                    });
+                }
             }
-            else
+            catch (Exception ex)
             {
+                HelperMethods.DisplayException(ex);
                 result?.Invoke(false);
             }
         }

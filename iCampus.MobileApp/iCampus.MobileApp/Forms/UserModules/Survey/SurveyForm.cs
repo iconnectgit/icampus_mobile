@@ -177,11 +177,19 @@ public class SurveyForm : ViewModelBase
 
                 IsSettingMenuHidden = IsMandateSurvey;
 
-                var list = _mapper.Map<List<BindableSurveyQuestionAnswerView>>(UserSurvey.SurveyQuestions);
+                try
+                {
+                    var list = _mapper.Map<List<BindableSurveyQuestionAnswerView>>(UserSurvey.SurveyQuestions);
 
-                list.Where(x => x.IsLinkedQuestion == false).Select(y => y.IsVisible = true).ToList();
+                    list.Where(x => x.IsLinkedQuestion == false).Select(y => y.IsVisible = true).ToList();
 
-                UserSurveyList = new ObservableCollection<BindableSurveyQuestionAnswerView>(list);
+                    UserSurveyList = new ObservableCollection<BindableSurveyQuestionAnswerView>(list);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
 
                 FirstSurvey = UserSurveyList.FirstOrDefault();
 
@@ -330,7 +338,7 @@ public class SurveyForm : ViewModelBase
                     var json = JsonConvert.SerializeObject(result.Output);
                     UserSurvey = JsonConvert.DeserializeObject<UserSurveyView>(json);
                     NoRecordVisibility = false;
-                    GetSurveyDetails();
+                    //GetSurveyDetails();
                 }
                 else if (IsFromMenu)
                 {
@@ -355,7 +363,7 @@ public class SurveyForm : ViewModelBase
                     await Navigation.PushAsync(homePage);
                 }
 
-                if (SurveyId == 0)
+                if (SurveyId > 0)
                 {
                     HomeForm homeForm = new(_mapper, Navigation, _nativeServices)
                     {

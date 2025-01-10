@@ -24,7 +24,7 @@
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>To get school location</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.50</string>
+	<string>2.0.99</string>
 	<key>CFBundleVersion</key>
 	<string>74</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
@@ -96,6 +96,8 @@
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>We need your permission to send you notifications.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires access to your photo library to allow you to select and upload photos.</string>
 	<key>NSDocumentsUsageDescription</key>

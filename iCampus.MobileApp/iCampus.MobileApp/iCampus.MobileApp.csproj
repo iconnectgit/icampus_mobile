@@ -174,7 +174,7 @@
         <AndroidSigningKeyAlias>iCampus Mobile</AndroidSigningKeyAlias>
         <AndroidSigningKeyPass>iconnect12345$</AndroidSigningKeyPass>
         <AndroidSigningStorePass>iconnect12345$</AndroidSigningStorePass>
-        <AndroidSigningKeyStore>/Users/zuberfarooqui/Documents/MAUI/iCampus.MobileApp/iCampus.MobileApp/Documents/MobileApp_Key/Android/Keystore/iCampusMobile.keystore</AndroidSigningKeyStore>
+        <AndroidSigningKeyStore>/Users/zuberfarooqui/Documents/icampus_mobile/iCampus.MobileApp/iCampus.MobileApp/Documents/MobileApp_Key/Android/Keystore/iCampusMobile.keystore</AndroidSigningKeyStore>
         <PublishTrimmed>false</PublishTrimmed>
         <RunAOTCompilation>false</RunAOTCompilation>
         <PublishTrimMode>link</PublishTrimMode>

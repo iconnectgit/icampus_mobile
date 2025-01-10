@@ -1093,6 +1093,7 @@ public class CalendarForm : ViewModelBase
 
     private async void NextClicked(object obj)
     {
+        WeeklyPlanDataList = new List<BindableAgendaWeeklyGroupView>();
         IsWeeklyPlanVisible = false;
         IsSearchVisible = true;
         IsAgendaListVisible = true;
@@ -1117,6 +1118,7 @@ public class CalendarForm : ViewModelBase
 
     private async void PreviousClicked(object obj)
     {
+        WeeklyPlanDataList = new List<BindableAgendaWeeklyGroupView>();
         IsWeeklyPlanVisible = false;
         IsSearchVisible = true;
         IsAgendaListVisible = true;

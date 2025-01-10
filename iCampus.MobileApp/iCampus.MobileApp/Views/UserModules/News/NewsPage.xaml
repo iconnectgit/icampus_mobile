@@ -21,7 +21,7 @@
                 </ResourceDictionary>
             </Grid.Resources>
             <ContentView ControlTemplate="{StaticResource BeamHeader}"
-                         BackgroundColor="White"
+                         BackgroundColor="White" HeightRequest="50"
                          Grid.Row="0" />
             <StackLayout Grid.Row="1" IsVisible="{Binding IsNewsSelectedFromFooter}" Margin="10,10,10,0">
                 <Label Text="News &amp; Events" 
@@ -87,11 +87,11 @@
                                                    BackgroundColor="Transparent"
                                                    MaxLines="2" />
                                             <Grid BackgroundColor="Transparent">
-                                                <Grid.GestureRecognizers>
-                                                    <TapGestureRecognizer
-                                                        Command="{Binding BindingContext.ListTappedCommand, Source={x:Reference newsPage}}"
-                                                        CommandParameter="{Binding .}" NumberOfTapsRequired="1" />
-                                                </Grid.GestureRecognizers>
+                                                <!-- <Grid.GestureRecognizers> -->
+                                                <!--     <TapGestureRecognizer -->
+                                                <!--         Command="{Binding BindingContext.ListTappedCommand, Source={x:Reference newsPage}}" -->
+                                                <!--         CommandParameter="{Binding .}" NumberOfTapsRequired="1" /> -->
+                                                <!-- </Grid.GestureRecognizers> -->
                                             </Grid>
                                         </Grid>
                                         <Label Text="{Binding FormattedDueDateTime}" Grid.Row="2" Grid.Column="0"

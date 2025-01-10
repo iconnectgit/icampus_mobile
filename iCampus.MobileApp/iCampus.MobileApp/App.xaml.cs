@@ -24,7 +24,7 @@ public partial class App : Application
     public static bool IsMandateDataCollection { get; set; }
     public static bool IsUserAlertDone { get; set; }
     private static NotificationData _notificationValues;
-
+    public static HomeForm HomePageInstance { get; set; }
     public static NotificationData NotificationValues
     {
         get => _notificationValues;
@@ -53,6 +53,7 @@ public partial class App : Application
         InitializeComponent();
 
         var nativeServices = Locator.Current.GetService<INativeServices>();
+        BlobCache.EnsureInitialized();
         BlobCache.ForcedDateTimeKind = DateTimeKind.Local;
         CultureInfo defaultCulture = new CultureInfo("en-US");
         CultureInfo.DefaultThreadCurrentCulture = defaultCulture;
@@ -77,6 +78,7 @@ public partial class App : Application
     {
         BlobCache.ApplicationName = "iCampus.MobileApp";
         BlobCache.EnsureInitialized();
+        BlobCache.ForcedDateTimeKind = DateTimeKind.Local;
 #if ANDROID
         Task<PermissionStatus> status = Permissions.RequestAsync<Permissions.PostNotifications>();
 #endif
@@ -89,6 +91,7 @@ public partial class App : Application
 
     protected override void OnResume()
     {
-        // Handle when your app resumes
+        base.OnResume();
+        HomePageInstance?.GetHomePageData();
     }
 }

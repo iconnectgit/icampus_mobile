@@ -220,7 +220,7 @@
                     </ListView>
                 </StackLayout>
                 <StackLayout IsVisible="{Binding IsHistory}">
-                    <StackLayout Padding="0" Margin="10,0,10,0"
+                    <StackLayout Padding="0" Margin="10,20,10,0"
                                  IsVisible="{Binding IsNoRecordHistory}">
                         <Frame Padding="10"
                                CornerRadius="5" HasShadow="False"

@@ -13,7 +13,7 @@ public partial class AgendaDetail : ContentPage
         InitializeComponent();
         MessagingCenter.Subscribe<string>("", "UpdateAttachmentListView", (arg) =>
         {
-            ForceNativeTableUpdate(AttachmentListView);
+            //ForceNativeTableUpdate(AttachmentListView);
         });
     }
     public void ForceNativeTableUpdate(ListView listView)

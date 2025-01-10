@@ -922,13 +922,13 @@ public class ViewModelBase : INotifyPropertyChanged
             if (obj != null)
                 IsPopUpPage = (bool)obj;
 
-            await Navigation.PopAsync();
+            //await Navigation.PopAsync();
             
-            // var currentPage = Navigation.NavigationStack.LastOrDefault();
-            // if (currentPage != null)
-            // {
-            //     Navigation.RemovePage(currentPage);  
-            // }
+            var currentPage = Navigation.NavigationStack.LastOrDefault();
+            if (currentPage != null)
+            {
+                Navigation.RemovePage(currentPage);  
+            }
 
             // if (IsPopUpPage)
             // {

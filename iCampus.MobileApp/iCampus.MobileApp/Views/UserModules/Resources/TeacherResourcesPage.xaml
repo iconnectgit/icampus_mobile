@@ -13,11 +13,12 @@
              x:Name="teacherResourcesPage">
     <ContentPage.Content>
 
-        <Grid BackgroundColor="{StaticResource BorderColor}">
+        <Grid BackgroundColor="White">
             <AbsoluteLayout>
                 <Grid RowDefinitions="Auto,Auto,*,Auto"
                       AbsoluteLayout.LayoutBounds="1,1,1,1"
-                      AbsoluteLayout.LayoutFlags="All">
+                      AbsoluteLayout.LayoutFlags="All"
+                      BackgroundColor="{StaticResource BorderColor}">
                     <Grid.Resources>
                         <ResourceDictionary>
                             <behaviours:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />

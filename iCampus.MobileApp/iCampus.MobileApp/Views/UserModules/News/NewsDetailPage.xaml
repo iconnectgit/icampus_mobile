@@ -27,17 +27,8 @@
             </Grid.Resources>
             <ContentView ControlTemplate="{StaticResource BeamHeader}" BackgroundColor="White" Grid.Row="0"
                          Grid.Column="0" />
-            <ListView Margin="20,10,20,20" HasUnevenRows="True"
-                      BackgroundColor="{StaticResource ListViewBackgroundColor}"
-                      SelectedItem="{Binding SelectedWebsiteLink,Mode=TwoWay}"
-                      ItemsSource="{Binding SiteNewsObject.WebsiteLinks,Mode=TwoWay}"
-                      SeparatorVisibility="None" VerticalScrollBarVisibility="Never"
-                      VerticalOptions="FillAndExpand" Grid.Row="1" Grid.Column="0">
-                <x:Arguments>
-                    <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
-                </x:Arguments>
-                <ListView.Header>
-                    <StackLayout BackgroundColor="White">
+            <StackLayout VerticalOptions="FillAndExpand" Grid.Row="1" Grid.Column="0" Margin="20,10,20,20">
+                
                         <Grid ColumnSpacing="0">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
@@ -47,9 +38,9 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Frame Padding="10,10,10,0"
-                                   CornerRadius="10"
-                                   Margin="0,0,15,0"
+                            <Frame Padding="10,10,10,10"
+                                   CornerRadius="0"
+                                   Margin="0,0,0,0"
                                    Grid.Row="0"
                                    Grid.Column="0"
                                    HasShadow="False"
@@ -63,7 +54,7 @@
                                                             DownsampleToViewSize="True"
                                                             Source="{Binding SiteNewsObject.NewsImageUrl}" />
                             </Frame>
-                            <StackLayout Grid.Row="1" Orientation="Vertical" BackgroundColor="White" Padding="10,0,10,0">
+                            <StackLayout Grid.Row="1" Orientation="Vertical" BackgroundColor="White" Padding="10,0,10,0" Margin="0,-1,0,0">
                             <Label Text="{Binding SiteNewsObject.NewsTitle}" 
                                    HorizontalOptions="StartAndExpand"
                                    FontSize="18" TextColor="Black" 
@@ -74,22 +65,25 @@
                             </StackLayout>
                         </Grid>
                         <StackLayout BackgroundColor="White" Padding="10,0,10,0">
-                                <WebView x:Name="beamDetails" 
-                                         HorizontalOptions="FillAndExpand"
-                                         VerticalOptions="FillAndExpand"
-                                         HeightRequest="{Binding WebViewHeight}"
-                                         Margin="0,0,0,0">
-                                    <WebView.Source>
-                                        <HtmlWebViewSource Html="{Binding SiteNewsObject.NewsData}" />
-                                    </WebView.Source>
-                                </WebView>
+                                <!-- <WebView x:Name="beamDetails"  -->
+                                <!--          HorizontalOptions="FillAndExpand" -->
+                                <!--          VerticalOptions="FillAndExpand" -->
+                                <!--          HeightRequest="{Binding WebViewHeight}" -->
+                                <!--          Margin="0,0,0,0"> -->
+                                <!--     <WebView.Source> -->
+                                <!--         <HtmlWebViewSource Html="{Binding SiteNewsObject.NewsData}" /> -->
+                                <!--     </WebView.Source> -->
+                                <!-- </WebView> -->
+                                <Label Text="{Binding SiteNewsObject.NewsData}"
+                                       TextType="Html" />
                         </StackLayout>
-                        <Frame Padding="5" HasShadow="False" InputTransparent="True" CornerRadius="5" BackgroundColor="White" BorderColor="Transparent"
-                               IsVisible="{Binding Attachment.FilePath, Converter={StaticResource VisiblityConverter}}">
+                        <Frame Padding="5" HasShadow="False" CornerRadius="0" BackgroundColor="White" BorderColor="Transparent" Margin="0,-1,0,0"
+                               IsVisible="{Binding Attachment.FilePath, Converter={StaticResource VisiblityConverter}}" >
                             <Grid RowDefinitions="*" ColumnDefinitions="Auto,Auto,*" BackgroundColor="White"
                                          IsVisible="{Binding Attachment.FilePath, Converter={StaticResource VisiblityConverter}}"
                                          HorizontalOptions="StartAndExpand"
-                                         VerticalOptions="CenterAndExpand">
+                                         VerticalOptions="CenterAndExpand"
+                                         >
                                 <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
                                                             VerticalOptions="CenterAndExpand"
                                                             Grid.Column="0"
@@ -101,8 +95,9 @@
                                                             DownsampleToViewSize="True"
                                                             Source="{Binding Attachment.FileStatus,Mode=TwoWay,Converter={StaticResource AttachmentFileStatusToSourceConverter}}">
                                     <ffimageloading:CachedImage.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding DownloadTappedCommand}"
-                                                              CommandParameter="{Binding Attachment.FilePath}" />
+                                        <TapGestureRecognizer Command="{Binding    DownloadTappedCommand}"
+                                                              CommandParameter="{Binding Attachment.FilePath}" 
+                                                              NumberOfTapsRequired="1"/>
                                     </ffimageloading:CachedImage.GestureRecognizers>
                                 </ffimageloading:CachedImage>
                                 <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
@@ -124,14 +119,21 @@
                                        Style="{StaticResource AttachmentTextStyle}">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
-                                                              CommandParameter="{Binding Attachment.FilePath}" />
+                                                              CommandParameter="{Binding Attachment.FilePath}" 
+                                                              NumberOfTapsRequired="1"/>
                                     </Label.GestureRecognizers>
                                 </Label>
                             </Grid>
                         </Frame>
-                    </StackLayout>
-
-                </ListView.Header>
+                <ListView HasUnevenRows="True"
+                          BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                          SelectedItem="{Binding SelectedWebsiteLink,Mode=TwoWay}"
+                          ItemsSource="{Binding SiteNewsObject.WebsiteLinks,Mode=TwoWay}"
+                          SeparatorVisibility="None" VerticalScrollBarVisibility="Never"
+                          VerticalOptions="FillAndExpand" >
+                <x:Arguments>
+                    <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                </x:Arguments>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -166,6 +168,7 @@
                                                     CommandParameter="{Binding SelectedWebsiteLink}" />
                 </ListView.Behaviors>
             </ListView>
+            </StackLayout>
             <Grid.GestureRecognizers>
                 <SwipeGestureRecognizer
                     Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference newsDetailPage}}"

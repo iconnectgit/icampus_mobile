@@ -578,7 +578,7 @@
 
             <ControlTemplate x:Key="BeamHeader">
                 <Grid ColumnDefinitions="Auto,*,0.2*,0.2*,0.2*" RowDefinitions="*" Padding="15,0,15,0"
-                      BackgroundColor="Transparent"  VerticalOptions="CenterAndExpand" >
+                      BackgroundColor="Transparent"  VerticalOptions="FillAndExpand" MinimumHeightRequest="50">
                     <StackLayout WidthRequest="35" VerticalOptions="CenterAndExpand">
                         <!-- Three bars icon -->
                         <Label

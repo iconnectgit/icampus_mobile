@@ -169,7 +169,7 @@ public class NewsForm:ViewModelBase
 
         private async void ListViewTapped(BindableSiteNewsView obj)
         {
-            string htmlContent = string.Empty;
+            
             if (obj != null)
             {
                 _ = await ApiHelper.GetObjectList<object>(string.Format(TextResource.InsertNewsLog, obj.SiteNewsId), isLoader: false);
@@ -183,16 +183,6 @@ public class NewsForm:ViewModelBase
                 {
                     SiteNewsObject = obj
                 };
-                if (DeviceInfo.Platform == DevicePlatform.iOS)
-                {
-                    htmlContent = "<html>" + "<head>" + "<style type=\"text/css\">" + "body {" + "font-size: 38;" + "text-align: justify;" + "}" + "</style>" + "</head>" + "<body>" + newsDetailForm.SiteNewsObject.NewsData + "</body>" + "</html>";
-                }
-                else
-                {
-                    htmlContent = "<html>" + "<head>" + "<style type=\"text/css\">" + "body {" + "font-size: 14;" + "text-align: justify;" + "}" + "</style>" + "</head>" + "<body>" + newsDetailForm.SiteNewsObject.NewsData + "</body>" + "</html>";
-                }
-                newsDetailForm.WebViewHeight = htmlContent.Length / 2;
-                newsDetailForm.SiteNewsObject.NewsData = htmlContent;
                 newsDetailForm.Attachment = bindableAttachmentFile;
                 NewsDetailPage newsDetailPage = new NewsDetailPage()
                 {

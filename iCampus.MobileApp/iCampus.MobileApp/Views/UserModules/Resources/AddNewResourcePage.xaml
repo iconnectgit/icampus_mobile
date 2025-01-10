@@ -261,7 +261,6 @@
                                 FontSize="Small" />
                     </StackLayout>
                     <ListView HasUnevenRows="True" Grid.Row="7" Grid.Column="0"
-                              IsVisible="{Binding AttachmentFiles.Count, Converter={StaticResource IntToBoolValueConverter}}"
                               HorizontalOptions="StartAndExpand"
                               ItemsSource="{Binding AttachmentFiles,Mode=TwoWay}"
                               SelectionMode="None"

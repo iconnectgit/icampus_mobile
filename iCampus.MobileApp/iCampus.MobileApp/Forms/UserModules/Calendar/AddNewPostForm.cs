@@ -1346,6 +1346,7 @@ public class AddNewPostForm : ViewModelBase
                             DeletedAttachmentFileName.Add(attachmentFile.FileName);
                         }
                         AttachmentFiles.Remove(attachmentFile);
+                        AttachmentListViewHeight = AttachmentFiles.Count *40 ;
                     }
                 }
             }
