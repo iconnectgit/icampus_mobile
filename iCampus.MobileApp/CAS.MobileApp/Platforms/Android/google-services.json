@@ -1,0 +1,227 @@
+{
+  "project_info": {
+    "project_number": "160654296363",
+    "firebase_url": "https://icampus-mobile.firebaseio.com",
+    "project_id": "icampus-mobile",
+    "storage_bucket": "icampus-mobile.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160654296363:android:bab7bd4d23e09f5f00f16e",
+        "android_client_info": {
+          "package_name": "com.CAS.CASMobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160654296363-tv52uun2am4lpvmill71cv0nc32vb8pm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOGpdf6JkWliL36aL-pjfhMKF1ts5Rjas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160654296363-tv52uun2am4lpvmill71cv0nc32vb8pm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "160654296363-0912hebeq4otg7kqera5359b59op0jmf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.madar.MadarMobile"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160654296363:android:a61900314b2ce86800f16e",
+        "android_client_info": {
+          "package_name": "com.Gipa.GipaMobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160654296363-tv52uun2am4lpvmill71cv0nc32vb8pm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOGpdf6JkWliL36aL-pjfhMKF1ts5Rjas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160654296363-tv52uun2am4lpvmill71cv0nc32vb8pm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "160654296363-0912hebeq4otg7kqera5359b59op0jmf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.madar.MadarMobile"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160654296363:android:0f98714b564c190b00f16e",
+        "android_client_info": {
+          "package_name": "com.beam.BeamSchoolsPortal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160654296363-tv52uun2am4lpvmill71cv0nc32vb8pm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOGpdf6JkWliL36aL-pjfhMKF1ts5Rjas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160654296363-tv52uun2am4lpvmill71cv0nc32vb8pm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "160654296363-0912hebeq4otg7kqera5359b59op0jmf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.madar.MadarMobile"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160654296363:android:72567aa53fa2a9af00f16e",
+        "android_client_info": {
+          "package_name": "com.cs.CsMobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160654296363-tv52uun2am4lpvmill71cv0nc32vb8pm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOGpdf6JkWliL36aL-pjfhMKF1ts5Rjas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160654296363-tv52uun2am4lpvmill71cv0nc32vb8pm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "160654296363-0912hebeq4otg7kqera5359b59op0jmf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.madar.MadarMobile"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160654296363:android:8ef5a8bbdbfb9f2500f16e",
+        "android_client_info": {
+          "package_name": "com.icampus.iCampusMobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160654296363-tv52uun2am4lpvmill71cv0nc32vb8pm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOGpdf6JkWliL36aL-pjfhMKF1ts5Rjas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160654296363-tv52uun2am4lpvmill71cv0nc32vb8pm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "160654296363-0912hebeq4otg7kqera5359b59op0jmf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.madar.MadarMobile"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:160654296363:android:0b7453ea533cc94000f16e",
+        "android_client_info": {
+          "package_name": "com.madar.MadarMobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "160654296363-tv52uun2am4lpvmill71cv0nc32vb8pm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOGpdf6JkWliL36aL-pjfhMKF1ts5Rjas"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "160654296363-tv52uun2am4lpvmill71cv0nc32vb8pm.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "160654296363-0912hebeq4otg7kqera5359b59op0jmf.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.madar.MadarMobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
