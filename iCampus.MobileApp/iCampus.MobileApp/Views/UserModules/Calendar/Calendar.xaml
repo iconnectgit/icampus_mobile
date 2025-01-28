@@ -489,9 +489,8 @@
                                                    HasShadow="False"
                                                    BorderColor="{StaticResource BorderColor}"
                                                    Padding="1"
-                                                   IsVisible="{Binding CurriculumName,Converter={StaticResource visiblityConverter}}"
-                                                   IsClippedToBounds="true">
-                                                <StackLayout BackgroundColor="WhiteSmoke">
+                                                   IsClippedToBounds="true" >
+                                                <StackLayout BackgroundColor="White">
                                                     <Frame Padding="0" HasShadow="False"
                                                            IsVisible="{Binding CurriculumName,Converter={StaticResource visiblityConverter}}"
                                                            CornerRadius="5"
@@ -555,7 +554,7 @@
                                                            BorderColor="Transparent"
                                                            Margin="0,5,0,0">
                                                         <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*"
-                                                              Padding="10,5,10,5">
+                                                              Padding="10,5,10,5" >
                                                             <Label Text="{Binding AgendaBrief}" Grid.Row="0"
                                                                    Grid.Column="0" Grid.ColumnSpan="2"
                                                                    Padding="0"

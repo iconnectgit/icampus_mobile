@@ -60,7 +60,7 @@
                     <ColumnDefinition Width="0.1*" />
                 </Grid.ColumnDefinitions>
                 <ffimageloading:CachedImage Source="{Binding LogoData, Source={x:Static forms:AppSettings.Current},Converter={StaticResource ImageUrlToSourceConverter}}"
-                                            RetryCount="10" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" HeightRequest="35" WidthRequest="35"
+                                            RetryCount="10" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" 
                                             Aspect="AspectFit" Scale="1" />
             </Grid>
 

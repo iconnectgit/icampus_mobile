@@ -468,14 +468,14 @@
                                     </VisualStateManager.VisualStateGroups>
                                     <ffimageloading:CachedImage HorizontalOptions="CenterAndExpand"
                                                                 IsVisible="{Binding FooterIconVisibilityExceptHomeAndNews}"
-                                                                VerticalOptions="CenterAndExpand"
+                                                                VerticalOptions="End"
                                                                 Aspect="AspectFit"
                                                                 DownsampleToViewSize="True"
                                                                 Source="{Binding ModuleImageUrl}"
                                                                 Style="{StaticResource MenuImageStyle}"
                                                                 BackgroundColor="Transparent" />
                                     <Label HorizontalOptions="CenterAndExpand"
-                                           VerticalOptions="CenterAndExpand"
+                                           VerticalOptions="End"
                                            IsVisible="{Binding NewsIconVisibility}"
                                            FontFamily="FontAwesomeRegular" 
                                            FontSize="22"
@@ -484,18 +484,8 @@
                                            BackgroundColor="Transparent"
                                            TextColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
                                            Style="{StaticResource MenuImageStyle}"></Label>
-                                    <!-- <Image HorizontalOptions="CenterAndExpand" IsVisible="{Binding NewsIconVisibility}" -->
-                                    <!--        VerticalOptions="CenterAndExpand" -->
-                                    <!--        Aspect="AspectFit" -->
-                                    <!--        Style="{StaticResource MenuImageStyle}" -->
-                                    <!--        BackgroundColor="Transparent"> -->
-                                    <!--     <Image.Source> -->
-                                    <!--         <bootstrapIcon:IconSource Icon="Newspaper" -->
-                                    <!--                                   Color="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}" /> -->
-                                    <!--     </Image.Source> -->
-                                    <!-- </Image> -->
                                     <Image HorizontalOptions="CenterAndExpand" IsVisible="{Binding HomeIconVisibility}"
-                                           VerticalOptions="CenterAndExpand"
+                                           VerticalOptions="End"
                                            Aspect="AspectFit"
                                            Source="{Binding HomeMenuImageUrl,Source={x:Static forms:AppSettings.Current}}"
                                            Style="{StaticResource MenuImageStyle}"
@@ -503,7 +493,7 @@
                                     <Label Text="{Binding ModuleShortName}" HorizontalOptions="CenterAndExpand"
                                            LineBreakMode="TailTruncation" MaxLines="1"
                                            Style="{StaticResource DescriptionLabelStyle}"
-                                           VerticalOptions="StartAndExpand"
+                                           VerticalOptions="End"
                                            TextColor="{Binding IsSelected, Converter={StaticResource FooterMenuTitleColorConverter}}" />
                                 </StackLayout>
                             </DataTemplate>

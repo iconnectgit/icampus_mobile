@@ -57,6 +57,8 @@
 
     <PropertyGroup Condition="$(TargetFramework.Contains('-android'))">
         <AppIconForegroundScale>0.60</AppIconForegroundScale>
+        <RunAOTCompilation>false</RunAOTCompilation>
+        <RuntimeIdentifier>android-arm64</RuntimeIdentifier>
     </PropertyGroup>
 
     <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
@@ -175,24 +177,25 @@
         <AndroidSigningKeyPass>iconnect12345$</AndroidSigningKeyPass>
         <AndroidSigningStorePass>iconnect12345$</AndroidSigningStorePass>
         <AndroidSigningKeyStore>/Users/zuberfarooqui/Documents/icampus_mobile/iCampus.MobileApp/iCampus.MobileApp/Documents/MobileApp_Key/Android/Keystore/iCampusMobile.keystore</AndroidSigningKeyStore>
-        <PublishTrimmed>false</PublishTrimmed>
+        <PublishTrimmed>true</PublishTrimmed>
         <RunAOTCompilation>false</RunAOTCompilation>
         <PublishTrimMode>link</PublishTrimMode>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-ios' and  '$(Configuration)' == 'Release' ">
         <CodesignKey>Apple Distribution: Maroun Osta (9ZG78T68HR)</CodesignKey>
-        <CodesignProvision>iCampus_Live_20241121</CodesignProvision>
+        <CodesignProvision>iCampus_Live_20250116</CodesignProvision>
         <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
         <PublishTrimmed>true</PublishTrimmed>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-ios' and  '$(Configuration)' == 'Ad-Hoc' ">
         <CodesignKey>Apple Distribution: Maroun Osta (9ZG78T68HR)</CodesignKey>
-        <CodesignProvision>iCampus_UAT_20241121</CodesignProvision>
+        <CodesignProvision>iCampus_UAT_20250116</CodesignProvision>
         <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
         <PublishTrimmed>true</PublishTrimmed>
         <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+        <AndroidPackageFormat>apk</AndroidPackageFormat>
     </PropertyGroup>
 
 </Project>

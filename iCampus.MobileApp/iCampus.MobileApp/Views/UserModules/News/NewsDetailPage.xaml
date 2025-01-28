@@ -12,8 +12,8 @@
              x:Name="newsDetailPage">
     <ContentPage.Content>
 
-
-        <Grid
+    
+        <Grid 
             BackgroundColor="{Binding BackgroundColor,Source={x:Static local:AppSettings.Current}}"
             RowDefinitions="Auto,*" ColumnDefinitions="*">
             <Grid.Resources>
@@ -27,7 +27,8 @@
             </Grid.Resources>
             <ContentView ControlTemplate="{StaticResource BeamHeader}" BackgroundColor="White" Grid.Row="0"
                          Grid.Column="0" />
-            <StackLayout VerticalOptions="FillAndExpand" Grid.Row="1" Grid.Column="0" Margin="20,10,20,20">
+            <ScrollView VerticalOptions="FillAndExpand" Grid.Row="1" Grid.Column="0" Margin="20,10,20,20">
+            <StackLayout >
                 
                         <Grid ColumnSpacing="0">
                             <Grid.RowDefinitions>
@@ -169,11 +170,13 @@
                 </ListView.Behaviors>
             </ListView>
             </StackLayout>
+            </ScrollView>
             <Grid.GestureRecognizers>
                 <SwipeGestureRecognizer
                     Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference newsDetailPage}}"
                     Direction="Right" />
             </Grid.GestureRecognizers>
         </Grid>
+    
     </ContentPage.Content>
 </ContentPage>

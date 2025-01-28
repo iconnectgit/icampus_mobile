@@ -209,6 +209,19 @@ public class LoginForm : ViewModelBase
             }
         }
     }
+    private string _logo = "icampus_icon_logo.png";
+    public string Logo
+    {
+        get => _logo;
+        set
+        {
+            if (_logo != value)
+            {
+                _logo = value;
+                OnPropertyChanged(nameof(Logo));
+            }
+        }
+    }
 
     private bool _poweredByInterconnectVisibility = true;
     public bool PoweredByInterconnectVisibility
@@ -661,11 +674,12 @@ public class LoginForm : ViewModelBase
             clientGroupCode= (!string.IsNullOrEmpty(App.ClientGroupCode)) ? App.ClientGroupCode : string.Empty;
             if (clientCode.Equals("CS"))
             {
-                CustomLoginScreenBackground = "CSLoginScreenBackground.png";
+                CustomLoginScreenBackground = "cs_loginscreen_background.png";
             }
             else if (clientCode.Equals("CAS"))
             {
-                CustomLoginScreenBackground = "CASLoginScreenBackground.png"; 
+                CustomLoginScreenBackground = "cas_loginscreen_background.png";
+                Logo = "cas_logo.png";
             }
             else if (clientGroupCode.Equals("Beam"))
             {
