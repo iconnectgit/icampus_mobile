@@ -16,5 +16,13 @@ public partial class NewsDetailPage : ContentPage
     {
         MessagingCenter.Send("", "ListViewRightSwipeNewsDetails");
     }
+    private async void WebView_Navigating(object sender, WebNavigatingEventArgs e)
+    {
+        if (e.Url.StartsWith("http") || e.Url.StartsWith("https"))
+        {
+            e.Cancel = true; 
+            await Launcher.OpenAsync(e.Url); 
+        }
+    }
    
 }

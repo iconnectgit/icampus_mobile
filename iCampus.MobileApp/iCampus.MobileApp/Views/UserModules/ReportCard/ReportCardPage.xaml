@@ -70,25 +70,25 @@
                     </Grid>
                 </StackLayout>
 
-                <StackLayout Padding="10"
+                <StackLayout Padding="10" VerticalOptions="FillAndExpand"
                              IsVisible="{Binding NoDataFoundFrameVisibility}">
                     <Frame Padding="5,7,5,7"
                            CornerRadius="5"
-                           HeightRequest="40"
+                           VerticalOptions="FillAndExpand"
                            IsClippedToBounds="True"
                            BorderColor="{StaticResource BorderColor}"
                            BackgroundColor="White"
                            HasShadow="False">
-                        <Label Text="{Binding ReportCardData.ReportCardBlockedMessage}"
-                               HorizontalOptions="StartAndExpand"
-                               VerticalOptions="CenterAndExpand"
-                               Style="{StaticResource AttachmentTextStyle}"
-                               TextType="Html" />
-                        <!-- <WebView > -->
-                        <!--     <WebView.Source> -->
-                        <!--         <HtmlWebViewSource Html="{Binding ReportCardData.ReportCardBlockedMessage}" /> -->
-                        <!--     </WebView.Source> -->
-                        <!-- </WebView> -->
+                        <!-- <Label Text="{Binding ReportCardData.ReportCardBlockedMessage}" -->
+                        <!--        HorizontalOptions="StartAndExpand" -->
+                        <!--        VerticalOptions="FillAndExpand" -->
+                        <!--        Style="{StaticResource AttachmentTextStyle}" -->
+                        <!--        TextType="Html" /> -->
+                        <WebView x:Name="ReportCardWebView" Navigating="WebView_Navigating" >
+                            <WebView.Source>
+                                <HtmlWebViewSource Html="{Binding ReportCardBlockedMessage}" />
+                            </WebView.Source>
+                        </WebView>
                     </Frame>
                 </StackLayout>
 

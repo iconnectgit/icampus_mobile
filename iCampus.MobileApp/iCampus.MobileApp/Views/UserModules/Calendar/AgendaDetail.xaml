@@ -364,30 +364,30 @@
                                   SelectedItem="{Binding SlectedWebsiteLink}"
                                   BackgroundColor="{StaticResource ListViewBackgroundColor}"
                                   SeparatorVisibility="None"
-                                  HeightRequest="{Binding LinkListViewHeight}">
+                                  VerticalOptions="FillAndExpand">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <ViewCell>
-                                        <StackLayout Orientation="Horizontal"
-                                                     Margin="0,10,0,0"
-                                                     Spacing="0"
-                                                     IsVisible="{Binding Title,Converter={StaticResource visiblityConverter}}"
-                                                     HorizontalOptions="StartAndExpand"
-                                                     VerticalOptions="CenterAndExpand">
+                                        <Grid RowDefinitions="*" ColumnDefinitions="Auto,*"
+                                              Margin="5,10,0,0"
+                                              IsVisible="{Binding Title,Converter={StaticResource visiblityConverter}}"
+                                              HorizontalOptions="StartAndExpand"
+                                              VerticalOptions="CenterAndExpand">
                                             <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
                                                                         VerticalOptions="CenterAndExpand"
+                                                                        Grid.Column="0"
                                                                         WidthRequest="20"
                                                                         HeightRequest="20"
                                                                         Aspect="AspectFit"
-                                                                        Margin="4,0,0,0"
                                                                         DownsampleToViewSize="True"
                                                                         Source="attachment_icon.png" />
-                                            <Label Text="{Binding Title}" MaxLines="2"
-                                                   LineBreakMode="TailTruncation"
-                                                   Style="{StaticResource AttachmentTextStyle}"
+                                            <Label Text="{Binding Title}"
+                                                   Grid.Column="1"
                                                    HorizontalOptions="StartAndExpand"
-                                                   VerticalOptions="CenterAndExpand" />
-                                        </StackLayout>
+                                                   VerticalOptions="CenterAndExpand"
+                                                   Margin="10,0,0,0"
+                                                   Style="{StaticResource AttachmentTextStyle}" />
+                                        </Grid>
                                     </ViewCell>
                                 </DataTemplate>
                             </ListView.ItemTemplate>

@@ -76,11 +76,9 @@
 
                 <StackLayout IsVisible="{Binding IsPendingInvoiceVisible}" VerticalOptions="FillAndExpand">
                     <ScrollView VerticalOptions="FillAndExpand">
-                    <Grid VerticalOptions="FillAndExpand"
-                          Padding="10"
-                          RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+                    <StackLayout VerticalOptions="FillAndExpand"
+                          Padding="10">
                         <StackLayout Padding="0"
-                                     Grid.Row="1"
                                      IsVisible="{Binding NoInvoiceFoundVisibility}">
                             <Frame Padding="5,7,5,7"
                                    CornerRadius="5"
@@ -288,7 +286,7 @@
                                                     <Frame Padding="5" CornerRadius="5"
                                                            HasShadow="False" Grid.Row="2"
                                                            BackgroundColor="WhiteSmoke" Grid.Column="2">
-                                                        <controls:NoUnderlineEntry
+                                                        <controls:NoUnderlineEntry 
                                                             Text="{Binding OtherAmountEntered}"
                                                             BackgroundColor="White" Keyboard="Numeric"
                                                             IsEnabled="{Binding IsOtherAmountEntryEnabled}"
@@ -422,7 +420,7 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                    </Grid>
+                    </StackLayout>
                     </ScrollView>
                 </StackLayout>
 

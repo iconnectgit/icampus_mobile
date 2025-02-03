@@ -62,6 +62,19 @@ public class NewsDetailForm:ViewModelBase
                 }
             }
         }
+        private string _formattedNewsData;
+        public string FormattedNewsData
+        {
+            get => _formattedNewsData;
+            set
+            {
+                if (_formattedNewsData != value)
+                {
+                    _formattedNewsData = value;
+                    OnPropertyChanged(nameof(FormattedNewsData));
+                }
+            }
+        }
         #endregion
 
         public NewsDetailForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)

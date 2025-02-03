@@ -71,12 +71,16 @@
                                     </Frame>
                                     <Grid Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" RowDefinitions="Auto,Auto,Auto">
                                         <Label Text="{Binding NewsTitle}"
-                                               VerticalTextAlignment="Start" Grid.Row="0" Grid.Column="0"
+                                               VerticalTextAlignment="Start" 
+                                               HorizontalTextAlignment="Start"
+                                               HorizontalOptions="StartAndExpand"
+                                               Grid.Row="0" Grid.Column="0"
                                                MaxLines="1"
                                                LineBreakMode="TailTruncation"
-                                               FontSize="18"
+                                               FontSize="16"
                                                TextColor="Black"
-                                               FontAttributes="Bold" />
+                                               FontAttributes="Bold" 
+                                               WidthRequest="200"/>
                                         <Grid
                                             IsVisible="{Binding NewsData,Converter={StaticResource VisiblityConverter}}"
                                             Grid.Row="1" Grid.Column="0">

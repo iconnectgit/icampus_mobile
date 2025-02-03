@@ -533,11 +533,18 @@ public class MessageFromSchoolForm : ViewModelBase
 
     private async void LinksClicked(CircularView sender)
     {
-        // WebsiteLinksPopupForm popupForm = new WebsiteLinksPopupForm();
-        // popupForm.PageTitle = this.PageTitle;
-        // popupForm.IsInternalPage = sender.IsInternalPage;
-        // popupForm.SelectedWebsiteLinks = sender.WebsiteLinks;
-        // await PopupNavigation.Instance.PushAsync(new WebsiteLinksPopup(popupForm), true);
+        WebsiteLinksPopupForm websiteLinksPopupForm = new WebsiteLinksPopupForm(_mapper, _nativeServices, Navigation)
+        {
+            PageTitle = this.PageTitle,
+            IsInternalPage = sender.IsInternalPage,
+            SelectedWebsiteLinks = sender.WebsiteLinks
+        };
+        var websiteLinksPopup = new WebsiteLinksPopup()
+        {
+            BindingContext = websiteLinksPopupForm
+        };
+        SetPopupInstance(websiteLinksPopup);
+        Application.Current.MainPage.ShowPopup(websiteLinksPopup);
     }
 
     private async void AttachmentClicked(CircularView sender)

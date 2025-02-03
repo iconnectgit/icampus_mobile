@@ -1204,9 +1204,16 @@ public class CalendarForm : ViewModelBase
 
     private async void LinksClicked(BindableAgendaView sender)
     {
-        // WebsiteLinksPopupForm popupForm = new WebsiteLinksPopupForm();
-        // popupForm.SelectedWebsiteLinks = sender.WebsiteLinks;
-        // await PopupNavigation.Instance.PushAsync(new WebsiteLinksPopup(popupForm), true);
+        WebsiteLinksPopupForm websiteLinksPopupForm = new WebsiteLinksPopupForm(_mapper, _nativeServices, Navigation)
+        {
+            SelectedWebsiteLinks = sender.WebsiteLinks
+        };
+        var websiteLinksPopup = new WebsiteLinksPopup()
+        {
+            BindingContext = websiteLinksPopupForm
+        };
+        SetPopupInstance(websiteLinksPopup);
+        Application.Current.MainPage.ShowPopup(websiteLinksPopup);
     }
 
     private void WebsiteLinkClicked(string sender)

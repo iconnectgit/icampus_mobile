@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:targetSandboxVersion="1" android:versionName="2.0.50" package="com.madar.MadarMobile" android:installLocation="internalOnly" android:versionCode="46">
+	<application
+			android:label="Madar Mobile"
+			android:allowBackup="true"
+			android:icon="@mipmap/madar_icon"
+			android:roundIcon="@mipmap/madar_icon_round"
+			android:supportsRtl="true"
+			android:usesCleartextTraffic="true"
+			android:name="androidx.multidex.MultiDexApplication"
+			android:theme="@style/Maui.SplashTheme">
+		<provider
+				android:name="androidx.core.content.FileProvider"
+				android:authorities="${applicationId}.provider"
+				android:exported="false"
+				android:grantUriPermissions="true">
+			<meta-data
+					android:name="android.support.FILE_PROVIDER_PATHS"
+					android:resource="@xml/file_paths" />
+		</provider>
+		<receiver android:name="com.google.firebase.iid.FirebaseInstanceIdInternalReceiver" android:exported="false" />
+		<receiver android:name="com.google.firebase.iid.FirebaseInstanceIdReceiver" android:exported="true" android:permission="com.google.android.c2dm.permission.SEND">
+			<intent-filter>
+				<action android:name="com.google.android.c2dm.intent.RECEIVE" />
+				<action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+				<category android:name="${applicationId}" />
+			</intent-filter>
+		</receiver>
+		<service android:name="icampus.mobileapp.platforms.android.MyFirebaseIIDService" android:exported="true">
+			<intent-filter>
+				<action android:name="com.google.firebase.MESSAGING_EVENT"></action>
+			</intent-filter>
+		</service>
+	</application>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+</manifest>

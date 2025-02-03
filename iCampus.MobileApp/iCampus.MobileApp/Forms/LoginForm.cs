@@ -675,11 +675,20 @@ public class LoginForm : ViewModelBase
             if (clientCode.Equals("CS"))
             {
                 CustomLoginScreenBackground = "cs_loginscreen_background.png";
+                Logo = "cs_logo.png";
             }
             else if (clientCode.Equals("CAS"))
             {
                 CustomLoginScreenBackground = "cas_loginscreen_background.png";
                 Logo = "cas_logo.png";
+            }
+            else if (clientCode.Equals("GIPA"))
+            {
+                Logo = "gipa_logo.png";
+            }
+            else if (clientCode.Equals("Madar"))
+            {
+                Logo = "madar_logo.png";
             }
             else if (clientGroupCode.Equals("Beam"))
             {

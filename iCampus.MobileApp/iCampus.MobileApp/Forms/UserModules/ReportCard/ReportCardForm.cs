@@ -414,7 +414,19 @@ public class ReportCardForm : ViewModelBase
             OnPropertyChanged(nameof(IsReportCardVisible));
         }
     }
-
+    private string _reportCardBlockedMessage;
+    public string ReportCardBlockedMessage
+    {
+        get => _reportCardBlockedMessage;
+        set
+        {
+            if (_reportCardBlockedMessage != value)
+            {
+                _reportCardBlockedMessage = value;
+                OnPropertyChanged(nameof(ReportCardBlockedMessage));
+            }
+        }
+    }
     #endregion
 
     public ReportCardForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null,
@@ -613,6 +625,10 @@ public class ReportCardForm : ViewModelBase
                     AppSettings.Current.SelectedStudentFromAllStudentList.ItemId, null, null, null), _isEnableCaching);
             if (ReportCardData != null)
             {
+                ReportCardBlockedMessage = "<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+                                           + "<style>body { font-size: 14px; font-family: Arial; font-weight: normal; color: #555555; }</style></head><body>"
+                                           + ReportCardData.ReportCardBlockedMessage + "</body></html>";
+                
                 IsReporCardsAvailable = !ReportCardData.IsReportCardBlocked;
 
                 if (IsReporCardsAvailable)

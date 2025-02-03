@@ -11,7 +11,7 @@
     <ContentPage.Content>
 
         <Grid VerticalOptions="FillAndExpand"
-              BackgroundColor="{StaticResource BorderColor}" RowDefinitions="Auto,*,Auto" ColumnDefinitions="*"
+              BackgroundColor="{StaticResource BorderColor}" RowDefinitions="Auto,Auto,*,Auto" ColumnDefinitions="*"
               Margin="0,0,0,0">
             <Grid.Resources>
                 <behaviours:VisiblityConverter x:Key="VisibilityConverter" />
@@ -21,8 +21,10 @@
             <ContentView ControlTemplate="{StaticResource BeamHeader}"
                          VerticalOptions="StartAndExpand"
                          BackgroundColor="White" Grid.Row="0" Grid.Column="0" />
+            <ContentView ControlTemplate="{StaticResource BeamStudentSelection}"
+                         BackgroundColor="{StaticResource BorderColor}" Grid.Row="1" Grid.Column="0" />
 
-            <StackLayout Grid.Row="1" Grid.Column="0" VerticalOptions="FillAndExpand">
+            <StackLayout Grid.Row="2" Grid.Column="0" VerticalOptions="FillAndExpand">
                 <StackLayout Margin="5,0,5,0">
                     <Grid Margin="0,0,0,0" ColumnSpacing="0">
                         <Grid.RowDefinitions>
@@ -330,7 +332,7 @@
                     </ListView>
                 </StackLayout>
             </StackLayout>
-            <StackLayout VerticalOptions="EndAndExpand" Margin="0,5,0,0" Grid.Row="2" Grid.Column="0">
+            <StackLayout VerticalOptions="EndAndExpand" Margin="0,5,0,0" Grid.Row="3" Grid.Column="0">
                 <Button Text="Search" CornerRadius="5"
                         IsVisible="{Binding IsSearchButtonVisible}"
                         BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"

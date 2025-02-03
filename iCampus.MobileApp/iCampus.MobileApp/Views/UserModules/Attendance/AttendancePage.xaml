@@ -306,17 +306,17 @@
                 </StackLayout>
             </ScrollView>
 
-            <StackLayout VerticalOptions="EndAndExpand" HeightRequest="130" Grid.Row="2">
+            <StackLayout VerticalOptions="EndAndExpand" Margin="0,0,0,0" Grid.Column="0" Grid.Row="2">
                 <Button Text="Search Attendance"
                         BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
                         TextColor="White"
-                        Margin="10,0,10,0"
+                        Margin="10,0,10,5"
                         Command="{Binding FilterClickCommand}"
+                        VerticalOptions="EndAndExpand"
                         HorizontalOptions="FillAndExpand" CornerRadius="5" />
                 <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"
                              VerticalOptions="EndAndExpand"
-                             HorizontalOptions="FillAndExpand"
-                             HeightRequest="60" />
+                             HorizontalOptions="FillAndExpand"/>
 
             </StackLayout>
             <Grid.GestureRecognizers>

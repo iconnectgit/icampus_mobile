@@ -181,8 +181,11 @@ public class NewsForm:ViewModelBase
                 
                 NewsDetailForm newsDetailForm = new NewsDetailForm(_mapper, _nativeServices, Navigation)
                 {
-                    SiteNewsObject = obj
+                    SiteNewsObject = obj,
                 };
+                newsDetailForm.FormattedNewsData = "<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+                                                   + "<style>body { font-size: 14px; font-family: Arial; font-weight: normal; color: #555555; }</style></head><body>"
+                                                   + obj.NewsData + "</body></html>";
                 newsDetailForm.Attachment = bindableAttachmentFile;
                 NewsDetailPage newsDetailPage = new NewsDetailPage()
                 {

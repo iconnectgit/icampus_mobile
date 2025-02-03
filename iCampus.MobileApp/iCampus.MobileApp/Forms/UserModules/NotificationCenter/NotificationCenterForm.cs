@@ -1,7 +1,11 @@
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using AutoMapper;
 using CommunityToolkit.Maui.Views;
+using iCampus.Common.ViewModels;
 using iCampus.MobileApp.DependencyService;
 using iCampus.MobileApp.Forms.PopupForms;
 using iCampus.MobileApp.Forms.UserModules.Appointment;
@@ -10,6 +14,8 @@ using iCampus.MobileApp.Helpers;
 using iCampus.MobileApp.Views.PopUpViews;
 using iCampus.MobileApp.Views.UserModules.Appointment;
 using iCampus.Portal.ViewModels;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Networking;
 
 namespace iCampus.MobileApp.Forms.UserModules.NotificationCenter;
 
@@ -145,6 +151,16 @@ public class NotificationCenterForm : ViewModelBase
             {
                 _selectedAttachmentList = value;
                 OnPropertyChanged(nameof(SelectedAttachmentList));
+            }
+        }
+        IEnumerable<WebsiteLinkView> _selectedWebsiteLinks;
+        public IEnumerable<WebsiteLinkView> SelectedWebsiteLinks
+        {
+            get => _selectedWebsiteLinks;
+            set
+            {
+                _selectedWebsiteLinks = value;
+                OnPropertyChanged(nameof(SelectedWebsiteLinks));
             }
         }
         #endregion Properties
@@ -305,9 +321,16 @@ public class NotificationCenterForm : ViewModelBase
 
         private async void LinksClicked(BindableAgendaView sender)
         {
-            // WebsiteLinksPopupForm popupForm = new WebsiteLinksPopupForm();
-            // popupForm.SelectedWebsiteLinks = sender.WebsiteLinks;
-            // await PopupNavigation.Instance.PushAsync(new WebsiteLinksPopup(popupForm), true);
+            WebsiteLinksPopupForm websiteLinksPopupForm = new WebsiteLinksPopupForm(_mapper, _nativeServices, Navigation)
+            {
+                SelectedWebsiteLinks = sender.WebsiteLinks
+            };
+            var websiteLinksPopup = new WebsiteLinksPopup()
+            {
+                BindingContext = websiteLinksPopupForm
+            };
+            SetPopupInstance(websiteLinksPopup);
+            Application.Current.MainPage.ShowPopup(websiteLinksPopup);
         }
         async void ArrowClicked(BindableAgendaView bindableAgendaView)
         {

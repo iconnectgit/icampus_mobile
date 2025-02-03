@@ -34,7 +34,7 @@
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -141,32 +141,33 @@
                                       Grid.Column="0"
                                       Grid.ColumnSpan="2"
                                       SeparatorVisibility="None"
-                                      HeightRequest="{Binding LinkListViewHeight}">
+                                      VerticalOptions="FillAndExpand">
                                 <ListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <ViewCell>
-                                            <StackLayout Orientation="Horizontal"
-                                                         Margin="0,10,0,0"
-                                                         Spacing="0"
-                                                         IsVisible="{Binding Title,Converter={StaticResource visiblityConverter}}"
-                                                         HorizontalOptions="StartAndExpand"
-                                                         VerticalOptions="CenterAndExpand">
-                                                <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
-                                                                            VerticalOptions="CenterAndExpand"
-                                                                            WidthRequest="20"
-                                                                            HeightRequest="20"
-                                                                            Aspect="AspectFit"
-                                                                            Margin="4,0,0,0"
-                                                                            DownsampleToViewSize="True"
-                                                                            Source="attachment_icon.png" />
-                                                <Label Text="{Binding Title}"
-                                                       HorizontalOptions="StartAndExpand"
-                                                       VerticalOptions="CenterAndExpand"
-                                                       Margin="10,0,0,0" Style="{StaticResource AttachmentTextStyle}" />
-                                            </StackLayout>
-                                        </ViewCell>
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid RowDefinitions="*" ColumnDefinitions="Auto,*"
+                                              Margin="5,10,0,0"
+                                              IsVisible="{Binding Title,Converter={StaticResource visiblityConverter}}"
+                                              HorizontalOptions="StartAndExpand"
+                                              VerticalOptions="CenterAndExpand">
+                                            <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        Grid.Column="0"
+                                                                        WidthRequest="20"
+                                                                        HeightRequest="20"
+                                                                        Aspect="AspectFit"
+                                                                        DownsampleToViewSize="True"
+                                                                        Source="attachment_icon.png" />
+                                            <Label Text="{Binding Title}"
+                                                   Grid.Column="1"
+                                                   HorizontalOptions="StartAndExpand"
+                                                   VerticalOptions="CenterAndExpand"
+                                                   Margin="10,0,0,0"
+                                                   Style="{StaticResource AttachmentTextStyle}" />
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
                                 <ListView.Behaviors>
                                     <toolkit:EventToCommandBehavior EventName="ItemSelected"
                                                                     Command="{Binding WebsiteLinksTappedCommand}"
