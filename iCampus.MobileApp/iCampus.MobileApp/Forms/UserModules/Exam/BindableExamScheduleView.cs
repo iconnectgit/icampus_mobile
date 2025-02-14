@@ -271,6 +271,19 @@ public class BindableExamScheduleView : INotifyPropertyChanged
 				OnPropertyChanged("ArrowImageSourceVisibility");
 			}
 		}
+		private string _formattedExamRequirements;
+		public string FormattedExamRequirements
+		{
+			get => _formattedExamRequirements;
+			set
+			{
+				if (_formattedExamRequirements != value)
+				{
+					_formattedExamRequirements = value;
+					OnPropertyChanged(nameof(FormattedExamRequirements));
+				}
+			}
+		}
 		public event PropertyChangedEventHandler PropertyChanged;
 		protected virtual void OnPropertyChanged(string propertyName)
 		{

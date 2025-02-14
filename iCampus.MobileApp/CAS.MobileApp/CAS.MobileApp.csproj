@@ -83,6 +83,7 @@
         <PackageReference Include="akavache" Version="10.0.1" />
         <PackageReference Include="AutoMapper" Version="13.0.1" />
         <PackageReference Include="CommunityToolkit.Maui" Version="9.0.3" />
+        <PackageReference Include="CommunityToolkit.Maui.Markup" Version="4.0.0" />
         <PackageReference Include="DLToolkit.Maui.Controls.FlowListView" Version="1.0.0" />
         <PackageReference Include="FFImageLoading.Maui" Version="1.2.7" />
         <PackageReference Include="InputKit.Maui" Version="4.4.7" />

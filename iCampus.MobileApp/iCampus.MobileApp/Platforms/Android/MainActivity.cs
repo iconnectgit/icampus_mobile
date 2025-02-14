@@ -14,14 +14,14 @@ using Firebase.Messaging;
 using iCampus.MobileApp.DependencyService;
 using iCampus.MobileApp.Forms;
 using iCampus.MobileApp.Helpers;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.PlatformConfiguration;
 using Newtonsoft.Json;
 using Splat;
 using Boolean = Java.Lang.Boolean;
-using Toast = Android.Widget.Toast;
 
 namespace iCampus.MobileApp;
-
 [Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, LaunchMode = LaunchMode.SingleTop,
     ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode |
                            ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
@@ -137,7 +137,7 @@ public class MainActivity : MauiAppCompatActivity, IOnSuccessListener
             {
                 if (!GoogleApiAvailability.Instance.IsUserResolvableError(resultCode))
                 {
-                    Toast.MakeText(this, "This device is not supported",ToastLength.Short).Show();
+                    Android.Widget.Toast.MakeText(this, "This device is not supported",ToastLength.Short).Show();
                     Finish();
                 }
                 return false;

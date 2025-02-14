@@ -77,12 +77,12 @@ public class MyFirebaseIIDService : FirebaseMessagingService
                 var pendingActivityIntent = PendingIntent.GetActivity(this, MainActivity.NOTIFICATION_ID, intent, pendingIntentFlags);
 
 
-                var notificationBuilder = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID).
-                    SetSmallIcon(Resource.Drawable.icampus_icon_logo).SetContentTitle(title)
-                    .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Notification))
-                    .SetContentText(messageBody).SetAutoCancel(true).SetContentIntent(pendingActivityIntent);
-                var notificationManager = NotificationManagerCompat.From(this);
-                notificationManager.Notify(notification_ID, notificationBuilder.Build());
+                // var notificationBuilder = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID).
+                //     SetSmallIcon(Resource.Drawable.icampus_icon_logo).SetContentTitle(title)
+                //     .SetSound(RingtoneManager.GetDefaultUri(RingtoneType.Notification))
+                //     .SetContentText(messageBody).SetAutoCancel(true).SetContentIntent(pendingActivityIntent);
+                // var notificationManager = NotificationManagerCompat.From(this);
+                // notificationManager.Notify(notification_ID, notificationBuilder.Build());
             }
             catch (Exception ex)
             {

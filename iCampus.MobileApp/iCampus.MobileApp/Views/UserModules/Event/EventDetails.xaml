@@ -27,7 +27,7 @@
                          BackgroundColor="White" Grid.Row="0" />
 
             <ScrollView VerticalOptions="FillAndExpand" VerticalScrollBarVisibility="Never" Grid.Row="1">
-                <Frame HasShadow="False" Margin="0,0,0,10" BackgroundColor="White"
+                <Frame HasShadow="False" Margin="0,0,0,10" BackgroundColor="White" BorderColor="Transparent"
                        VerticalOptions="FillAndExpand" Padding="5">
                     <Grid VerticalOptions="FillAndExpand"
                           Margin="10,10,10,10">

@@ -68,7 +68,8 @@
         <MauiIcon Include="Resources\AppIcon\madar_icon.png" Color="White" ForegroundScale="$(AppIconForegroundScale)" />
 
         <!-- Splash Screen -->
-        <MauiSplashScreen Include="Resources\Splash\splash.png" Color="White" ForegroundScale="0.50" />
+        <MauiSplashScreen Include="Resources\Splash\splash.png" Color="White"/>
+
         <!-- Images -->
         <MauiImage Include="Resources\Images\*"/>
 
@@ -83,6 +84,7 @@
         <PackageReference Include="akavache" Version="10.0.1" />
         <PackageReference Include="AutoMapper" Version="13.0.1" />
         <PackageReference Include="CommunityToolkit.Maui" Version="9.0.3" />
+        <PackageReference Include="CommunityToolkit.Maui.Markup" Version="4.0.0" />
         <PackageReference Include="DLToolkit.Maui.Controls.FlowListView" Version="1.0.0" />
         <PackageReference Include="FFImageLoading.Maui" Version="1.2.7" />
         <PackageReference Include="InputKit.Maui" Version="4.4.7" />
@@ -157,8 +159,6 @@
         <PublishTrimmed>true</PublishTrimmed>
         <RunAOTCompilation>false</RunAOTCompilation>
         <PublishTrimMode>link</PublishTrimMode>
-        <CodesignKey>Apple Distribution: Maroun Osta (9ZG78T68HR)</CodesignKey>
-        <CodesignProvision>Madar_Live_PP_20250116</CodesignProvision>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-ios' and  '$(Configuration)' == 'Release' ">
@@ -170,7 +170,7 @@
 
     <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-ios' and  '$(Configuration)' == 'Ad-Hoc' ">
         <CodesignKey>Apple Distribution: Maroun Osta (9ZG78T68HR)</CodesignKey>
-        <CodesignProvision>Madar_Live_PP_20250116</CodesignProvision>
+        <CodesignProvision>Madar_UAT_20250116</CodesignProvision>
         <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
         <PublishTrimmed>true</PublishTrimmed>
         <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>

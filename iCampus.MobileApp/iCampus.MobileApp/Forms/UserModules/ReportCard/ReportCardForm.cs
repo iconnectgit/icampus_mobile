@@ -495,7 +495,7 @@ public class ReportCardForm : ViewModelBase
     {
         ReportCardOption = ReportCardOptions.MarksReportCard;
         IsSkillReportCardVisible = false;
-        IsReportCardVisible = !NoDataFoundFrameVisibility;
+        //IsReportCardVisible = !NoDataFoundFrameVisibility;
         ReportCardButtonOpacity = 1.0m;
         SkillReportCardButtonOpacity = 0.5m;
     }
@@ -503,7 +503,7 @@ public class ReportCardForm : ViewModelBase
     private void SkillReportCardClicked(object obj)
     {
         ReportCardOption = ReportCardOptions.SkillsReportCard;
-        IsSkillReportCardVisible = !NoDataFoundFrameVisibility;
+        //IsSkillReportCardVisible = !NoDataFoundFrameVisibility;
         IsReportCardVisible = false;
         ReportCardButtonOpacity = 0.5m;
         SkillReportCardButtonOpacity = 1.0m;
@@ -511,34 +511,41 @@ public class ReportCardForm : ViewModelBase
 
     private async void FilterClicked(object obj)
     {
-        IsMarksTermVisible = ReportCardOption == ReportCardOptions.MarksReportCard;
-        IsPopUpPage = true;
-        MenuVisible = false;
-        BackVisible = true;
-        SelectedTermMarksReport = null;
-        SelectedTermSkillReport = null;
-        SelectedAcademicYear = SelectedAcademicYear != null && !string.IsNullOrEmpty(SelectedAcademicYear.ItemId)
-            ? SelectedAcademicYear
-            : AcademicYearList != null &&
-              AcademicYearList.Where(x => x.ItemId.Contains(ReportCardData.CurrentAcademicBeginYear.ToString())) != null
-                ? AcademicYearList.Where(x => x.ItemId.Contains(ReportCardData.CurrentAcademicBeginYear.ToString()))
-                    .FirstOrDefault()
-                : new ExtPickListItem();
-
-        IsAcademicYearsVisible = (ReportCardOption == ReportCardOptions.MarksReportCard &&
-                                  ReportCardData.PreviousReportCardSettings.ShowPrevious) ||
-                                 (ReportCardOption == ReportCardOptions.SkillsReportCard &&
-                                  ReportCardData.PreviousReportCardSettings.PreviousSkillReport);
-        ReportPageTitle = PageTitle;
-        PageTitle = ReportCardOption == ReportCardOptions.MarksReportCard
-            ? TextResource.ReportCardText
-            : TextResource.SkillReportCardText;
-        ReportCardFilterPage reportCardFilterPage = new ()
+        try
         {
-            BindingContext = this
-        };
-        await Navigation.PushAsync(reportCardFilterPage);
-        //await PopupNavigation.Instance.PushAsync(new ReportCardFilterPage(this), true);
+            IsMarksTermVisible = ReportCardOption == ReportCardOptions.MarksReportCard;
+            IsPopUpPage = true;
+            MenuVisible = false;
+            BackVisible = true;
+            SelectedTermMarksReport = null;
+            SelectedTermSkillReport = null;
+            SelectedAcademicYear = SelectedAcademicYear != null && !string.IsNullOrEmpty(SelectedAcademicYear.ItemId)
+                ? SelectedAcademicYear
+                : AcademicYearList != null &&
+                  AcademicYearList.Where(x => x.ItemId.Contains(ReportCardData.CurrentAcademicBeginYear.ToString())) != null
+                    ? AcademicYearList.Where(x => x.ItemId.Contains(ReportCardData.CurrentAcademicBeginYear.ToString()))
+                        .FirstOrDefault()
+                    : new ExtPickListItem();
+
+            IsAcademicYearsVisible = (ReportCardOption == ReportCardOptions.MarksReportCard &&
+                                      ReportCardData.PreviousReportCardSettings.ShowPrevious) ||
+                                     (ReportCardOption == ReportCardOptions.SkillsReportCard &&
+                                      ReportCardData.PreviousReportCardSettings.PreviousSkillReport);
+            ReportPageTitle = PageTitle;
+            PageTitle = ReportCardOption == ReportCardOptions.MarksReportCard
+                ? TextResource.ReportCardText
+                : TextResource.SkillReportCardText;
+            ReportCardFilterPage reportCardFilterPage = new ()
+            {
+                BindingContext = this
+            };
+            await Navigation.PushAsync(reportCardFilterPage);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
     }
 
     private async void SearchClicked(object obj)
@@ -585,6 +592,9 @@ public class ReportCardForm : ViewModelBase
                 _isEnableCaching);
             if (ReportCardData != null)
             {
+                ReportCardBlockedMessage = "<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+                                           + "<style>body { font-size: 14px; font-family: Arial; font-weight: normal; color: #555555; }</style></head><body>"
+                                           + ReportCardData.ReportCardBlockedMessage + "</body></html>";
                 IsReporCardsAvailable = !ReportCardData.IsReportCardBlocked;
 
                 if (IsReporCardsAvailable)
@@ -737,6 +747,9 @@ public class ReportCardForm : ViewModelBase
                     AppSettings.Current.SelectedStudentFromAllStudentList.ItemId, termId, null, selectedYear), _isEnableCaching);
             if (ReportCardData != null)
             {
+                ReportCardBlockedMessage = "<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+                                           + "<style>body { font-size: 14px; font-family: Arial; font-weight: normal; color: #555555; }</style></head><body>"
+                                           + ReportCardData.ReportCardBlockedMessage + "</body></html>";
                 IsReporCardsAvailable = !ReportCardData.IsReportCardBlocked;
 
                 if (IsReporCardsAvailable)

@@ -475,6 +475,10 @@ public class ApiHelper
             try
             {
                 _processingPopup = new ProcessingIndicatorPopup();
+                if (MopupService.Instance.PopupStack.Any(p => p is ProcessingIndicatorPopup))
+                {
+                    return;
+                }
                 await MopupService.Instance.PushAsync(_processingPopup);
             }
             catch (Exception e)

@@ -1,10 +1,12 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
 using Android.Runtime;
+using Microsoft.Maui;
 using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Controls.PlatformConfiguration;
+using Microsoft.Maui.Hosting;
 
 namespace iCampus.MobileApp;
-
 [Application]
 public class MainApplication : MauiApplication
 {

@@ -15,6 +15,6 @@ public partial class EditHtmlContentPopup : Popup
     }
     private void MenuClosedClick(object? sender, EventArgs eventArgs)
     {
-        this.Close();
+        Close();
     }
 }

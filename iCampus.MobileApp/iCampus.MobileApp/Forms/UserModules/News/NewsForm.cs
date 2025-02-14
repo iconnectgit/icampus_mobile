@@ -184,8 +184,13 @@ public class NewsForm:ViewModelBase
                     SiteNewsObject = obj,
                 };
                 newsDetailForm.FormattedNewsData = "<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'>"
-                                                   + "<style>body { font-size: 14px; font-family: Arial; font-weight: normal; color: #555555; }</style></head><body>"
-                                                   + obj.NewsData + "</body></html>";
+                                                      + "<style>body { font-size: 14px; font-family: Arial; font-weight: normal; color: #555555; margin: 0; padding: 0; }</style>"
+                                                      + "<script type='text/javascript'>"
+                                                      + "function getHeight() { window.location.href = 'webview://height=' + document.body.scrollHeight; }"
+                                                      + "window.onload = getHeight;"
+                                                      + "</script>"
+                                                      + "</head><body>" + obj.NewsData + "</body></html>";
+
                 newsDetailForm.Attachment = bindableAttachmentFile;
                 NewsDetailPage newsDetailPage = new NewsDetailPage()
                 {

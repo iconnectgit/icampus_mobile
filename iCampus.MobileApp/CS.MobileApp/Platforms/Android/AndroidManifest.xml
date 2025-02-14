@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:targetSandboxVersion="1" android:versionName="2.0.49" package="com.CS.CSMobile" android:installLocation="internalOnly" android:versionCode="201">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:targetSandboxVersion="1" android:versionName="2.0.49" package="com.cs.CsMobile" android:installLocation="internalOnly" android:versionCode="201">
 	<application
 			android:label="CS Mobile App"
 			android:allowBackup="true"

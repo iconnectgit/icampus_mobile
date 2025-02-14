@@ -6,6 +6,7 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using iCampus.MobileApp.DependencyService;
+using iCampus.MobileApp.Helpers;
 using Microsoft.Maui.Controls; // Required for Dependency attribute
 
 [assembly: Dependency(typeof(Gipa.MobileApp.DependencyService.FilePreviewerImplementation))]
@@ -20,20 +21,25 @@ namespace Gipa.MobileApp.DependencyService
         {
             try
             {
-                // Download file locally
+                await ApiHelper.ShowProcessingIndicatorPopup();
+
                 localFilePath = await DownloadFileAsync(fileUrl);
+
+                await ApiHelper.HideProcessingIndicatorPopup(); 
 
                 if (!string.IsNullOrEmpty(localFilePath))
                 {
-                    // Instantiate QLPreviewController
                     var previewController = new QLPreviewController
                     {
                         DataSource = new FilePreviewControllerDataSource(this)
                     };
 
-                    // Present the QLPreviewController
                     var viewController = UIApplication.SharedApplication.KeyWindow?.RootViewController;
-                    viewController?.PresentViewController(previewController, true, null);
+
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
+                        viewController?.PresentViewController(previewController, true, null);
+                    });
                 }
                 else
                 {
@@ -42,9 +48,11 @@ namespace Gipa.MobileApp.DependencyService
             }
             catch (Exception ex)
             {
+                await ApiHelper.HideProcessingIndicatorPopup();
                 Console.WriteLine($"Exception in PreviewFile: {ex.Message}");
             }
         }
+
 
         // Async method to download file from URL
         private async Task<string> DownloadFileAsync(string url)

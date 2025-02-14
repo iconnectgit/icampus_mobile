@@ -53,14 +53,14 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="$(TargetFramework.Contains('-android'))">
-        <AppIconForegroundScale>0.50</AppIconForegroundScale>
+        <AppIconForegroundScale>0.40</AppIconForegroundScale>
         <RunAOTCompilation>false</RunAOTCompilation>
         <RuntimeIdentifier>android-arm64</RuntimeIdentifier>
 
     </PropertyGroup>
 
     <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
-        <AppIconForegroundScale>0.80</AppIconForegroundScale>
+        <AppIconForegroundScale>1.0</AppIconForegroundScale>
     </PropertyGroup>
 
     <ItemGroup>
@@ -83,6 +83,7 @@
         <PackageReference Include="akavache" Version="10.0.1" />
         <PackageReference Include="AutoMapper" Version="13.0.1" />
         <PackageReference Include="CommunityToolkit.Maui" Version="9.0.3" />
+        <PackageReference Include="CommunityToolkit.Maui.Markup" Version="4.0.0" />
         <PackageReference Include="DLToolkit.Maui.Controls.FlowListView" Version="1.0.0" />
         <PackageReference Include="FFImageLoading.Maui" Version="1.2.7" />
         <PackageReference Include="InputKit.Maui" Version="4.4.7" />
@@ -150,7 +151,7 @@
     <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-android' and '$(Configuration)' == 'Release'">
         <AndroidKeyStore>true</AndroidKeyStore>
         <AndroidPackageFormat>apk</AndroidPackageFormat>
-        <AndroidApkName>com.CS.CSMobile.apk</AndroidApkName>
+        <AndroidApkName>com.cs.CsMobile.apk</AndroidApkName>
         <AndroidSigningKeyAlias>CS</AndroidSigningKeyAlias>
         <AndroidSigningKeyPass>iconnect1234$</AndroidSigningKeyPass>
         <AndroidSigningStorePass>iconnect1234$</AndroidSigningStorePass>

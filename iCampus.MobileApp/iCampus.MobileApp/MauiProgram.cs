@@ -43,6 +43,7 @@ public static class MauiProgram
     {
         var builder = MauiApp.CreateBuilder();
         builder.UseMauiApp<App>()
+            .UseFFImageLoading()
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -64,39 +65,50 @@ public static class MauiProgram
                 handlers.AddHandler<NoUnderlineEntry, EntryHandler>();
                 NoUnderlineEntryHandler.MapBorderlessEntry(EntryHandler.Mapper);
                 handlers.AddHandler<BorderlessEditor, BorderlessEditorHandler>();
+#if ANDROID
+                handlers.AddHandler(typeof(CustomWebView), typeof(CustomWebViewHandler));
+#elif IOS
+                handlers.AddHandler(typeof(CustomWebView), typeof(CustomWebViewHandler));
+#endif
+#if ANDROID
+                handlers.AddHandler<WebView, AndroidWebViewHandler>();
+#endif
             });
-        
+
         DatePickerHandler.Mapper.AppendToMapping("MyCustomization", (handler, view) =>
         {
 #if ANDROID
-            handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+            handler.PlatformView.BackgroundTintList =
+                Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
 #endif
         });
         EditorHandler.Mapper.AppendToMapping("MyCustomization", (handler, view) =>
         {
 #if ANDROID
-            handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+            handler.PlatformView.BackgroundTintList =
+                Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
 #endif
         });
 
         PickerHandler.Mapper.AppendToMapping("MyCustomization", (handler, view) =>
         {
 #if ANDROID
-            handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+            handler.PlatformView.BackgroundTintList =
+                Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
 #endif
         });
-        
+
         BlobCache.ApplicationName = "iCampus.MobileApp";
         BlobCache.EnsureInitialized();
         BlobCache.ForcedDateTimeKind = DateTimeKind.Local;
-        CultureInfo defaultCulture = new CultureInfo("en-US");
+        var defaultCulture = new CultureInfo("en-US");
         CultureInfo.DefaultThreadCurrentCulture = defaultCulture;
         CultureInfo.DefaultThreadCurrentUICulture = defaultCulture;
 
 #if ANDROID
         Locator.CurrentMutable.RegisterConstant<INativeServices>(new AndroidNativeServices());
         Locator.CurrentMutable.RegisterConstant<IPrintService>(new AndroidPrintService());
-#elif IOS       
+#elif IOS
         Locator.CurrentMutable.RegisterConstant<INativeServices>(new iOSNativeServices());
         Locator.CurrentMutable.RegisterConstant<IPrintService>(new iOSPrintService());
 #endif

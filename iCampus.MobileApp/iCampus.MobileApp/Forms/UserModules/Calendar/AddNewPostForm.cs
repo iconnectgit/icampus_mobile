@@ -1875,10 +1875,11 @@ public class AddNewPostForm : ViewModelBase
                 AgendaClassData = await ApiHelper.GetObject<AgendaClassModel>(string.Format(TextResource.GetClassesForAgendaApi, agendaID, isWeekly, null, gradeid, curriculumId, null));
                 if (AgendaClassData != null)
                 {
+                    ClassListViewHeight = 0;
                     ClassList = AgendaClassData.AgendaClassList != null ? _mapper.Map<ObservableCollection<BindableAgendaClassView>>(AgendaClassData.AgendaClassList) : new ObservableCollection<BindableAgendaClassView>();
                     if(ClassList!=null)
                     {
-                        ClassListViewHeight = ClassList != null && ClassList.Count > 0 ? (ClassList.Count % 3 == 0 ? (ClassList.Count / 3) * 70 : (ClassList.Count / 3) * 70) : ClassListViewHeight;
+                        ClassListViewHeight = (ClassList.Count / 3) * 50 + (ClassList.Count % 3 == 0 ? 0 : 50);
                         ClassesVisibility = true;
                         foreach (var item in ClassList)
                         {

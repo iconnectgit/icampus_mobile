@@ -53,7 +53,7 @@ public class EventForm : ViewModelBase
         }
     }
 
-    private DateTime _fromDate = DateTime.Now;
+    private DateTime _fromDate;
 
     public DateTime FromDate
     {
@@ -73,7 +73,7 @@ public class EventForm : ViewModelBase
         }
     }
 
-    private DateTime _toDate = DateTime.Now;
+    private DateTime _toDate;
 
     public DateTime ToDate
     {
@@ -262,6 +262,8 @@ public class EventForm : ViewModelBase
         MenuVisible = false;
         BackVisible = true;
         IsPopUpPage = true;
+        ToDate = DateTime.Now;
+        FromDate = ToDate;  
         EventFilterPage eventFilterPage = new()
         {
             BindingContext = this

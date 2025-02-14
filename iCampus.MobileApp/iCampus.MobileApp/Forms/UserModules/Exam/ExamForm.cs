@@ -68,7 +68,7 @@ public class ExamForm : ViewModelBase
             OnPropertyChanged(nameof(IsNoRecordMsg));
         }
     }
-
+    
     #endregion
 
     public ExamForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)
@@ -164,6 +164,14 @@ public class ExamForm : ViewModelBase
                 string.Format("{0}?userRefId={1}&gradeId=&examDate=&examId=&isPostedByMe=false&loadAllCourses=false",
                     TextResource.ExamApiUrl, AppSettings.Current.SelectedStudent.ItemId), _isEnableCaching);
             ExamScheduleList = _mapper.Map<IList<BindableExamScheduleView>>(examList);
+
+            // foreach (var item in ExamScheduleList)
+            // {
+            //     item.ExamRequirements = "<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+            //                             + "<style>body { font-size: 12px; font-family: Arial; font-weight: normal; color: #555555; }</style></head><body>"
+            //                             + item.ExamRequirements + "</body></html>";
+            // }
+           
 
             foreach (var exam in ExamScheduleList)
                 if (exam.ExamFiles != null && exam.ExamFiles.Count() > 0)

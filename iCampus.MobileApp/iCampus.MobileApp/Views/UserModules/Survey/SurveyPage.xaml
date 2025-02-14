@@ -79,9 +79,9 @@
                                            IsVisible="{Binding UserSurvey.StudentName,Converter={StaticResource VisiblityConverter}}">
                                         <Label.FormattedText>
                                             <FormattedString>
-                                                <Span Text="{Binding UserSurvey.StudentId}" />
-                                                <Span Text=" - " />
-                                                <Span Text="{Binding UserSurvey.StudentName}" />
+                                                <Span Text="{Binding UserSurvey.StudentId}" Style="{StaticResource TitleLabelStyle}"/>
+                                                <Span Text=" - "  Style="{StaticResource TitleLabelStyle}"/>
+                                                <Span Text="{Binding UserSurvey.StudentName}" Style="{StaticResource TitleLabelStyle}"/>
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>

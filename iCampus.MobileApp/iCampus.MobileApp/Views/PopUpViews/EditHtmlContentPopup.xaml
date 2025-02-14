@@ -19,7 +19,7 @@
             VerticalOptions="CenterAndExpand"
             HorizontalOptions="CenterAndExpand"
             BorderColor="Transparent"
-            WidthRequest="{OnPlatform iOS='380', Android='340'}"
+            WidthRequest="{OnPlatform iOS='360', Android='340'}"
             HeightRequest="{OnPlatform iOS='450', Android='420'}">
         <StackLayout Spacing="0">
             
@@ -34,15 +34,16 @@
             </StackLayout>
             
             <!-- Content Section -->
-            <ScrollView VerticalScrollBarVisibility="Never"
-                        HorizontalScrollBarVisibility="Never"
-                        BackgroundColor="White"
-                        Padding="10"
-                        VerticalOptions="FillAndExpand">
-                <Editor Text="{Binding EditedHtmlContent}" HeightRequest="300" />
-            </ScrollView>
+            <Grid>
+                <Editor Text="{Binding EditedHtmlContent}" 
+                        HeightRequest="320"
+                        VerticalOptions="FillAndExpand"
+                        BackgroundColor="Transparent"
+                        AutoSize="TextChanges"/>
+            </Grid>
+
             
-            <Grid Padding="10,5" BackgroundColor="White" ColumnSpacing="20">
+            <Grid Padding="10,5" BackgroundColor="White" ColumnSpacing="20" VerticalOptions="EndAndExpand">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />

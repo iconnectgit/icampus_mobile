@@ -151,7 +151,7 @@
                                IsClippedToBounds="True"
                                BorderColor="{StaticResource BorderColor}"
                                BackgroundColor="White">
-                            <Label Text="No agenda found" Style="{StaticResource DescriptionLabelStyle}"
+                            <Label Text="No records are currently available" Style="{StaticResource DescriptionLabelStyle}"
                                    VerticalTextAlignment="Center"
                                    HorizontalTextAlignment="Start" />
                         </Frame>
@@ -190,7 +190,7 @@
                                    IsClippedToBounds="True"
                                    BorderColor="{StaticResource BorderColor}"
                                    BackgroundColor="White">
-                                <Label Text="No weekly agenda found" Style="{StaticResource DescriptionLabelStyle}"
+                                <Label Text="No weekly records are currently available" Style="{StaticResource DescriptionLabelStyle}"
                                        VerticalTextAlignment="Center"
                                        HorizontalTextAlignment="Start" />
                             </Frame>
@@ -479,12 +479,12 @@
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <Grid Padding="0,0,0,0">
+                                    <Grid Padding="0,0,0,0" VerticalOptions="FillAndExpand">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="Auto" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <StackLayout Padding="2" Grid.Column="1">
+                                        <StackLayout Padding="2" Grid.Column="1" VerticalOptions="FillAndExpand">
                                             <Frame CornerRadius="0"
                                                    HasShadow="False"
                                                    BorderColor="{StaticResource BorderColor}"

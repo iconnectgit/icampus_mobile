@@ -518,11 +518,11 @@
                                     <!--     </Image.GestureRecognizers> -->
                                     <!-- </Image> -->
                                     <Label
-                                        Text="&#x2b;"
+                                        Text="&#xf067;"
                                         FontFamily="FontAwesomeSolid"
                                         TextColor="{Binding Settings.ThemeColor,Source={x:Static local:AppSettings.Current}}"
-                                        Margin="0,0,0,5"
-                                        FontSize="40"
+                                        Margin="0,0,0,0"
+                                        FontSize="23"
                                         VerticalOptions="CenterAndExpand">
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer

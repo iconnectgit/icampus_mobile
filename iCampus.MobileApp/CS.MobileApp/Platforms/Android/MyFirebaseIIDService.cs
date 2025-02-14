@@ -1,4 +1,5 @@
 using _Microsoft.Android.Resource.Designer;
+using Android;
 using Android.App;
 using Android.Content;
 using Android.Media;
@@ -9,7 +10,7 @@ using Firebase.Messaging;
 using iCampus.MobileApp.Forms;
 using iCampus.MobileApp.Helpers;
 using Newtonsoft.Json;
-using Resource = Microsoft.Maui.Resource;
+using Resource = Android.Resource;
 
 namespace CS.MobileApp;
 

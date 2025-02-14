@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using iCampus.MobileApp.Forms;
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Controls;
 
 namespace iCampus.MobileApp.Views.UserModules.Exam;
 
@@ -39,6 +41,31 @@ public partial class ExamPage : ContentPage
             var nativeListView = listView.Handler.PlatformView as UIKit.UITableView;
             nativeListView?.ReloadData();
 #endif
+        }
+    }
+    private async void WebView_Navigating(object? sender, WebNavigatingEventArgs e)
+    {
+        if (sender is WebView webView) // Get the WebView instance from the sender
+        {
+            if (e.Url.StartsWith("http") || e.Url.StartsWith("https"))
+            {
+                e.Cancel = true; 
+                await Launcher.OpenAsync(e.Url); 
+                return;
+            }
+
+            if (e.Url.StartsWith("webview://height="))
+            {
+                e.Cancel = true;
+                var heightStr = e.Url.Replace("webview://height=", "");
+                if (int.TryParse(heightStr, out int height))
+                {
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        webView.HeightRequest = height; // Set the height for the specific WebView
+                    });
+                }
+            }
         }
     }
 }

@@ -415,11 +415,15 @@ public class BindableInvoiceDetails: INotifyPropertyChanged
             get => _otherAmountEntered <= 0 ? string.Empty : Convert.ToString(_otherAmountEntered);
             set
             {
-                if (decimal.TryParse(HelperMethods.ConvertNumerals(value), out decimal input))
-                {
-                    _otherAmountEntered = input;
-                    OnPropertyChanged("_otherAmountEntered");
-                }
+	            if (decimal.TryParse(HelperMethods.ConvertNumerals(value), out decimal input))
+	            {
+		            _otherAmountEntered = input;
+	            }
+	            else
+	            {
+		            _otherAmountEntered = 0; // Reset value to 0 if input is invalid
+	            }
+	            OnPropertyChanged(nameof(OtherAmountEntered)); // Correct property name
             }
         }
         private bool _isOtherAmountEntryEnabled;

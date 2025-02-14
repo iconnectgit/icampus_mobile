@@ -56,12 +56,11 @@ public class TopupHistoryForm : ViewModelBase
             get => _paymentHistoryList;
             set
             {
-                IsPaymentHistoryNoDataFoundVisibility = _paymentHistoryList != null && _paymentHistoryList.Count > 0 ? false : true; ;
                 _paymentHistoryList = value;
                 OnPropertyChanged(nameof(PaymentHistoryList));
             }
         }
-        bool _isPaymentHistoryNoDataFoundVisibility;
+        bool _isPaymentHistoryNoDataFoundVisibility = false;
         public bool IsPaymentHistoryNoDataFoundVisibility
         {
             get
@@ -109,7 +108,7 @@ public class TopupHistoryForm : ViewModelBase
                             item.TransactionDateTime = item.TransactionDate.ToString("dd-MMM-yyyy", System.Globalization.CultureInfo.InvariantCulture);
                         }
                     }
-
+                    IsPaymentHistoryNoDataFoundVisibility = _paymentHistoryList is not { Count: > 0 };
                 }
             }
             catch (Exception ex)

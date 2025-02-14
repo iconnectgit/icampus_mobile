@@ -1260,7 +1260,7 @@ public class CalendarForm : ViewModelBase
                     SelectedAgenda = obj,
                     SelectedDate = DateTime.Now,
                     AttachmentList = _mapper.Map<List<BindableAttachmentFileView>>(obj.AttachmentList),
-                    AttachmentListViewHeight = obj.AttachmentCount * 40,
+                    AttachmentListViewHeight = obj.AttachmentCount * 30,
                     LinkListViewHeight = obj.WebsiteLinksCount * 40,
                     PageTitle = obj.TypeTitle,
                 };
