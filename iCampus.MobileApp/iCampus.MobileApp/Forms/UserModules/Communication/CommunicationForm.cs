@@ -172,6 +172,7 @@ public class CommunicationForm : ViewModelBase
 
     private async void InitializePage()
     {
+        HelperMethods.GetSelectedStudent();
         PageTitle = TextResource.InboxText;
         MenuVisible = true;
         IsVisiblBackIconAndPageTitle = false;
@@ -284,15 +285,29 @@ public class CommunicationForm : ViewModelBase
             {
                 var messageDetails = (BindableCommunicationMessageView)obj;
                 var cacheKeyPrefix = $"MessageDetail_{messageDetails.MessageId}";
+                CommunicationMessageDetails?.Clear();
                 CommunicationMessageDetails = await ApiHelper.GetObjectList<BindableCommunicationMessageView>(
                     TextResource.CommunicationDetailsAPIUrl + "?messageId=" + messageDetails.MessageId +
                     "&folderType=" + parameter,
                     cacheKeyPrefix: cacheKeyPrefix, cacheType: ApiHelper.CacheTypeParam.LoadFromCache);
 
+                
+                var updatedMessageDetails = new ObservableCollection<BindableCommunicationMessageView>(CommunicationMessageDetails);
+                foreach (var item in updatedMessageDetails)
+                {
+                    if (item.AttachmentList != null)
+                    {
+                        item.BindableAttachmentList = new List<BindableAttachmentFileView>(); // Reset before mapping
+                        item.BindableAttachmentList = _mapper.Map<List<BindableAttachmentFileView>>(item.AttachmentList);
+                        item.MapMessageIdToAttachment(); // Ensure mapping is correct
+                    }
+                }
+                
+                
+                
                 CommunicationDetailsForm communicationDetailsForm = new(_mapper, _nativeServices, Navigation)
                 {
-                    CommunicationMessageDetails =
-                        new ObservableCollection<BindableCommunicationMessageView>(CommunicationMessageDetails),
+                    CommunicationMessageDetails = updatedMessageDetails,
                     PageTitle = PageTitle,
                     MenuVisible = false,
                     BackVisible = true,
@@ -303,6 +318,7 @@ public class CommunicationForm : ViewModelBase
                 };
                 BindableCommunicationMessageList.Where(i => i.MessageId == messageDetails.MessageId).FirstOrDefault()
                     .IsRead = true;
+                
                 CommunicationDetails communicationDetails = new()
                 {
                     BindingContext = communicationDetailsForm

@@ -246,6 +246,7 @@ public class MiscellaneousPaymentForm : ViewModelBase
 
     private async void InitializePage()
     {
+        HelperMethods.GetSelectedStudent();
         DetailsExpandCollapseClickCommand = new Command<BindableProformaInvoiceDetails>(DetailsExpandCollapseClicked);
         CheckboxClickCommand = new Command(CheckboxClick);
         PayNowCommand = new Command(PayNowCommandClicked);

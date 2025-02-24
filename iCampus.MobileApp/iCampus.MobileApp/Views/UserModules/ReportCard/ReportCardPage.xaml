@@ -97,199 +97,199 @@
                 </StackLayout>
 
                 <StackLayout IsVisible="{Binding IsReportCardVisible}" VerticalOptions="FillAndExpand">
-                    <StackLayout>
-                        <Label HorizontalOptions="StartAndExpand" Margin="10,15,10,0"
-                               Style="{StaticResource TitleLabelStyle}"
-                               IsVisible="{Binding TermLabelVisibility}">
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <FormattedString.Spans>
-                                        <Span Text="Term : " />
-                                        <Span Text="{Binding SelectedMarksReportCardTerm,Source={x:Static local:AppSettings.Current}}" />
-                                        <Span Text="{Binding YearText}" />
-                                    </FormattedString.Spans>
-                                </FormattedString>
-                            </Label.FormattedText>
+        <StackLayout>
+            <Label HorizontalOptions="StartAndExpand" Margin="10,15,10,0"
+                   Style="{StaticResource TitleLabelStyle}"
+                   IsVisible="{Binding TermLabelVisibility}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <FormattedString.Spans>
+                            <Span Text="Term : " />
+                            <Span Text="{Binding SelectedMarksReportCardTerm,Source={x:Static local:AppSettings.Current}}" />
+                            <Span Text="{Binding YearText}" />
+                        </FormattedString.Spans>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <StackLayout Padding="10,10,10,10" IsVisible="{Binding TermLabelVisibility}">
+                <Frame Padding="10"
+                       BackgroundColor="White"
+                       CornerRadius="5" HasShadow="False"
+                       IsClippedToBounds="True"
+                       BorderColor="{StaticResource BorderColor}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                    VerticalOptions="CenterAndExpand"
+                                                    Grid.Row="0"
+                                                    Grid.Column="0"
+                                                    WidthRequest="20"
+                                                    HeightRequest="20"
+                                                    Margin="0,0,10,0"
+                                                    Aspect="AspectFit"
+                                                    IsVisible="{Binding MarksReportCardsVisibility}"
+                                                    DownsampleToViewSize="True"
+                                                    Source="{Binding MarksReportCardFileView.FileType,Converter={StaticResource AttachmentTypeToImageSourceConverter}}">
+                            <ffimageloading:CachedImage.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
+                                                      CommandParameter="{Binding MarksReportCardFileView.FilePath}" />
+                            </ffimageloading:CachedImage.GestureRecognizers>
+                        </ffimageloading:CachedImage>
+
+                        <Label Text="{Binding MarksReportCardFileView.DisplayName}"
+                               Grid.Row="0"
+                               Grid.Column="1"
+                               HorizontalOptions="StartAndExpand"
+                               VerticalOptions="CenterAndExpand"
+                               Style="{StaticResource AttachmentTextStyle}">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
+                                                      CommandParameter="{Binding MarksReportCardFileView.FilePath}" />
+                            </Label.GestureRecognizers>
                         </Label>
-                        <StackLayout Padding="10,10,10,10">
-                            <Frame Padding="10"
-                                   BackgroundColor="White"
-                                   CornerRadius="5" HasShadow="False"
-                                   IsClippedToBounds="True"
-                                   BorderColor="{StaticResource BorderColor}">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="Auto" />
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                        <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
-                                                                    VerticalOptions="CenterAndExpand"
-                                                                    Grid.Row="0"
-                                                                    Grid.Column="0"
-                                                                    WidthRequest="20"
-                                                                    HeightRequest="20"
-                                                                    Margin="0,0,10,0"
-                                                                    Aspect="AspectFit"
-                                                                    IsVisible="{Binding MarksReportCardsVisibility}"
-                                                                    DownsampleToViewSize="True"
-                                                                    Source="{Binding MarksReportCardFileView.FileType,Converter={StaticResource AttachmentTypeToImageSourceConverter}}">
-                                            <ffimageloading:CachedImage.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
-                                                                      CommandParameter="{Binding MarksReportCardFileView.FilePath}" />
-                                            </ffimageloading:CachedImage.GestureRecognizers>
-                                        </ffimageloading:CachedImage>
-                                        <Label Text="{Binding MarksReportCardFileView.DisplayName}"
-                                               Grid.Row="0"
-                                               Grid.Column="1"
-                                               HorizontalOptions="StartAndExpand"
-                                               VerticalOptions="CenterAndExpand"
-                                               Style="{StaticResource AttachmentTextStyle}">
-                                            <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
-                                                                      CommandParameter="{Binding MarksReportCardFileView.FilePath}" />
-                                            </Label.GestureRecognizers>
-                                        </Label>
-                                    <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
-                                                                VerticalOptions="CenterAndExpand"
-                                                                WidthRequest="25"
-                                                                HeightRequest="25"
-                                                                Grid.Row="0"
-                                                                Grid.Column="2"
-                                                                Aspect="AspectFit"
-                                                                CacheType="None"
-                                                                CacheDuration="0"
-                                                                DownsampleToViewSize="True"
-                                                                IsVisible="{Binding MarksReportCardsVisibility}"
-                                                                Source="{Binding SelectedAttachment.FileStatus,Mode=TwoWay,Converter={StaticResource AttachmentFileStatusToSourceConverter}}">
-                                        <ffimageloading:CachedImage.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding DownloadTappedCommand}"
-                                                                  CommandParameter="{Binding .}" />
-                                        </ffimageloading:CachedImage.GestureRecognizers>
-                                    </ffimageloading:CachedImage>
 
-                                </Grid>
-                            </Frame>
-                        </StackLayout>
-                        
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
-                                                  CommandParameter="{Binding MarksReportCardFileView.FilePath}" />
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                    <StackLayout Spacing="0" IsVisible="{Binding IsReporCardsAvailable}"
-                                 VerticalOptions="EndAndExpand">
-                        <Button Text="Select Term"
-                                BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                                IsVisible="{Binding SelectTermsOptionForMarksVisibility}"
-                                TextColor="White"
-                                Margin="10,0,10,10"
-                                Command="{Binding FilterClickCommand}"
-                                HorizontalOptions="FillAndExpand" />
-                    </StackLayout>
-                </StackLayout>
-                
+                        <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
+                                                    VerticalOptions="CenterAndExpand"
+                                                    WidthRequest="25"
+                                                    HeightRequest="25"
+                                                    Grid.Row="0"
+                                                    Grid.Column="2"
+                                                    Aspect="AspectFit"
+                                                    CacheType="None"
+                                                    CacheDuration="0"
+                                                    DownsampleToViewSize="True"
+                                                    IsVisible="{Binding MarksReportCardsVisibility}"
+                                                    Source="{Binding SelectedAttachment.FileStatus,Mode=TwoWay,Converter={StaticResource AttachmentFileStatusToSourceConverter}}">
+                            <ffimageloading:CachedImage.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding DownloadTappedCommand}"
+                                                      CommandParameter="{Binding .}" />
+                            </ffimageloading:CachedImage.GestureRecognizers>
+                        </ffimageloading:CachedImage>
+                    </Grid>
+                </Frame>
+            </StackLayout>
+        </StackLayout>
 
+        <!-- Select Term Button for Report Card -->
+        <StackLayout Spacing="0"
+                     VerticalOptions="EndAndExpand"
+                     IsVisible="{Binding SelectTermsOptionForMarksVisibility}">
+            <Button Text="Select Term"
+                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                    TextColor="White"
+                    Margin="10,0,10,10"
+                    Command="{Binding FilterClickCommand}"
+                    HorizontalOptions="FillAndExpand" />
+        </StackLayout>
+    </StackLayout>
+
+    <!-- Skill Report Card Section -->
                 <StackLayout IsVisible="{Binding IsSkillReportCardVisible}" VerticalOptions="FillAndExpand">
-                    <StackLayout>
-                        <Label HorizontalOptions="StartAndExpand"
-                               Margin="10,10,10,5"
-                               Style="{StaticResource TitleLabelStyle}"
-                               IsVisible="{Binding SkillReportCardTermLabelVisibility}">
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <FormattedString.Spans>
-                                        <Span Text="Term : " />
-                                        <Span
-                                            Text="{Binding SelectedSkillReportCardTerm,Source={x:Static local:AppSettings.Current}}" />
-                                        <Span Text="{Binding YearText}" />
-                                    </FormattedString.Spans>
-                                </FormattedString>
-                            </Label.FormattedText>
-                        </Label>
-                        <StackLayout Padding="10,10,10,10" >
-                            <Frame Padding="10"
-                                   CornerRadius="5" HasShadow="False"
-                                   IsClippedToBounds="True"
-                                   BorderColor="{StaticResource BorderColor}"
-                                   BackgroundColor="White">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="*" />
-                                    </Grid.RowDefinitions>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
-                                    <StackLayout Orientation="Horizontal"
-                                                 Spacing="0" HorizontalOptions="StartAndExpand"
-                                                 Grid.Row="0"
-                                                 Grid.Column="0">
-                                        <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
-                                                                    VerticalOptions="CenterAndExpand"
-                                                                    WidthRequest="20"
-                                                                    HeightRequest="20"
-                                                                    Margin="0,0,10,0"
-                                                                    Aspect="AspectFit"
-                                                                    IsVisible="{Binding SkillReportCardsVisibility}"
-                                                                    DownsampleToViewSize="True"
-                                                                    Source="{Binding SkillsReportCardFileView.FileType,Converter={StaticResource AttachmentTypeToImageSourceConverter}}">
-                                            <ffimageloading:CachedImage.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
-                                                                      CommandParameter="{Binding SkillsReportCardFileView.FilePath}" />
-                                            </ffimageloading:CachedImage.GestureRecognizers>
-                                        </ffimageloading:CachedImage>
-                                        <Label Text="{Binding SkillsReportCardFileView.DisplayName}"
-                                               HorizontalOptions="StartAndExpand"
-                                               VerticalOptions="CenterAndExpand"
-                                               Style="{StaticResource AttachmentTextStyle}">
-                                            <Label.GestureRecognizers>
-                                                <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
-                                                                      CommandParameter="{Binding SkillsReportCardFileView.FilePath}" />
-                                            </Label.GestureRecognizers>
-                                        </Label>
-                                    </StackLayout>
-                                    <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
-                                                                VerticalOptions="CenterAndExpand"
-                                                                WidthRequest="25"
-                                                                HeightRequest="25"
-                                                                Grid.Column="1"
-                                                                Aspect="AspectFit"
-                                                                CacheType="None"
-                                                                CacheDuration="0"
-                                                                DownsampleToViewSize="True"
-                                                                IsVisible="{Binding SkillReportCardsVisibility}"
-                                                                Source="{Binding SelectedAttachment.FileStatus,Mode=TwoWay,Converter={StaticResource AttachmentFileStatusToSourceConverter}}">
-                                        <ffimageloading:CachedImage.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding DownloadTappedCommand}"
-                                                                  CommandParameter="{Binding .}" />
-                                        </ffimageloading:CachedImage.GestureRecognizers>
-                                    </ffimageloading:CachedImage>
-                                </Grid>
-                            </Frame>
+        <StackLayout>
+            <Label HorizontalOptions="StartAndExpand"
+                   Margin="10,10,10,5"
+                   Style="{StaticResource TitleLabelStyle}"
+                   IsVisible="{Binding SkillReportCardTermLabelVisibility}">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <FormattedString.Spans>
+                            <Span Text="Term : " />
+                            <Span Text="{Binding SelectedSkillReportCardTerm,Source={x:Static local:AppSettings.Current}}" />
+                            <Span Text="{Binding YearText}" />
+                        </FormattedString.Spans>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <StackLayout Padding="10,10,10,10" IsVisible="{Binding SkillReportCardTermLabelVisibility}">
+                <Frame Padding="10"
+                       CornerRadius="5" HasShadow="False"
+                       IsClippedToBounds="True"
+                       BorderColor="{StaticResource BorderColor}"
+                       BackgroundColor="White">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <StackLayout Orientation="Horizontal"
+                                     Spacing="0"
+                                     HorizontalOptions="StartAndExpand"
+                                     Grid.Row="0"
+                                     Grid.Column="0">
+                            <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                        VerticalOptions="CenterAndExpand"
+                                                        WidthRequest="20"
+                                                        HeightRequest="20"
+                                                        Margin="0,0,10,0"
+                                                        Aspect="AspectFit"
+                                                        IsVisible="{Binding SkillReportCardsVisibility}"
+                                                        DownsampleToViewSize="True"
+                                                        Source="{Binding SkillsReportCardFileView.FileType,Converter={StaticResource AttachmentTypeToImageSourceConverter}}">
+                                <ffimageloading:CachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
+                                                          CommandParameter="{Binding SkillsReportCardFileView.FilePath}" />
+                                </ffimageloading:CachedImage.GestureRecognizers>
+                            </ffimageloading:CachedImage>
+
+                            <Label Text="{Binding SkillsReportCardFileView.DisplayName}"
+                                   HorizontalOptions="StartAndExpand"
+                                   VerticalOptions="CenterAndExpand"
+                                   Style="{StaticResource AttachmentTextStyle}">
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
+                                                          CommandParameter="{Binding SkillsReportCardFileView.FilePath}" />
+                                </Label.GestureRecognizers>
+                            </Label>
                         </StackLayout>
-                        <StackLayout.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
-                                                  CommandParameter="{Binding SkillsReportCardFileView.FilePath}" />
-                        </StackLayout.GestureRecognizers>
-                    </StackLayout>
-                </StackLayout>
-                
-                
-                
-                
-                <StackLayout Spacing="0" IsVisible="{Binding IsReporCardsAvailable}" VerticalOptions="EndAndExpand">
-                    <Button Text="Select Term"
-                            BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}" 
-                            IsVisible="{Binding SelectTermsOptionForSkillVisibility}"
-                            TextColor="White" 
-                            Margin="10,0,10,10"
-                            Command="{Binding FilterClickCommand}"
-                            HorizontalOptions="FillAndExpand" />
-                </StackLayout>
+
+                        <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
+                                                    VerticalOptions="CenterAndExpand"
+                                                    WidthRequest="25"
+                                                    HeightRequest="25"
+                                                    Grid.Column="1"
+                                                    Aspect="AspectFit"
+                                                    CacheType="None"
+                                                    CacheDuration="0"
+                                                    DownsampleToViewSize="True"
+                                                    IsVisible="{Binding SkillReportCardsVisibility}"
+                                                    Source="{Binding SelectedAttachment.FileStatus,Mode=TwoWay,Converter={StaticResource AttachmentFileStatusToSourceConverter}}">
+                            <ffimageloading:CachedImage.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding DownloadTappedCommand}"
+                                                      CommandParameter="{Binding .}" />
+                            </ffimageloading:CachedImage.GestureRecognizers>
+                        </ffimageloading:CachedImage>
+                    </Grid>
+                </Frame>
+            </StackLayout>
+        </StackLayout>
+
+        <!-- Select Term Button for Skill Report Card -->
+        <StackLayout Spacing="0"
+                     VerticalOptions="EndAndExpand"
+                     IsVisible="{Binding SelectTermsOptionForSkillVisibility}">
+            <Button Text="Select Term"
+                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
+                    TextColor="White"
+                    Margin="10,0,10,10"
+                    Command="{Binding FilterClickCommand}"
+                    HorizontalOptions="FillAndExpand" />
+        </StackLayout>
+    </StackLayout>
+
             </StackLayout>
             <StackLayout VerticalOptions="EndAndExpand" Margin="0,0,0,0" Grid.Row="3" Grid.Column="0">
                 <ContentView ControlTemplate="{StaticResource BeamFooterMenuTemplate}"

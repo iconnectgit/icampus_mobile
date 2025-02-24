@@ -55,6 +55,7 @@ public class SettingsForm : ViewModelBase
         {
             try
             {
+                HelperMethods.GetSelectedStudent();
                 BeamMenuClickCommand = new Command(BeamMenuClicked);
                 BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
                 BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);

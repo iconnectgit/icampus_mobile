@@ -132,6 +132,7 @@ public class SurveyForm : ViewModelBase
 
     public SurveyForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)
     {
+        HelperMethods.GetSelectedStudent();
         _mapper = mapper;
         _nativeServices = nativeServices;
         Navigation = navigation;

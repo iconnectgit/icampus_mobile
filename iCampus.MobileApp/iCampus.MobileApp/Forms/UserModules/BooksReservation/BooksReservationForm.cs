@@ -414,6 +414,7 @@ public class BooksReservationForm : ViewModelBase
         
         async void InitializePage()
         {
+            HelperMethods.GetSelectedStudent();
             CheckBoxCheckedCommand = new Command<BindableStudentBookMasterView>(OnCheckBoxChecked);
             StudentChangeCommand = new Command(StudentChangeClicked);
             SkipStudentCommand = new Command(SkipStudentClicked);

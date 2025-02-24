@@ -75,8 +75,8 @@ public class CustomWebViewHandler : ViewHandler<CustomWebView, WKWebView>
     private void LoadHtml(WKWebView webView, string html)
     {
         var currentPage = Application.Current.MainPage?.Navigation?.NavigationStack?.LastOrDefault();
-        bool isAgendaDetailsPage = currentPage?.GetType().Name.Equals("AgendaDetail", StringComparison.CurrentCultureIgnoreCase) == true;
-        var isAgendaDetailsPageJsValue = isAgendaDetailsPage ? "true" : "false";
+        bool isExamPage = currentPage?.GetType().Name.Equals("ExamPage", StringComparison.CurrentCultureIgnoreCase) == true;
+        var isExamPageJsValue = isExamPage ? "true" : "false";
 
         
         if (webView == null || string.IsNullOrEmpty(html))
@@ -90,7 +90,7 @@ public class CustomWebViewHandler : ViewHandler<CustomWebView, WKWebView>
                 body {{ margin: 0; padding: 0; overflow-x: hidden; }}
             </style>
             <script>
-                var isAgendaDetailsPage = {isAgendaDetailsPageJsValue};
+                var isExamPage = {isExamPageJsValue};
 
 
                 function reportHeight() {{
@@ -106,7 +106,7 @@ public class CustomWebViewHandler : ViewHandler<CustomWebView, WKWebView>
                         let deviceScale = window.devicePixelRatio || 1;
                         let adjustedHeight = height / deviceScale;
                         
-                        let finalHeight = isAgendaDetailsPage ? height : adjustedHeight;
+                        let finalHeight = isExamPage ? adjustedHeight : height;
                         
                         window.webkit.messageHandlers.heightHandler.postMessage(finalHeight);
                     }}, 100);

@@ -211,6 +211,8 @@ public class ResourcesFilterForm : ViewModelBase
 
     private async void SearchClicked()
     {
+        if(DateErrorMessageVisibility)
+            return;
         var curriculumId = SelectedCourse != null && SelectedCourse.CurriculumId != 0
             ? SelectedCourse.CurriculumId.ToString()
             : null;

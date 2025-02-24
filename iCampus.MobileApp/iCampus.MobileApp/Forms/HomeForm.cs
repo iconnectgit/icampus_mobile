@@ -700,6 +700,11 @@ public class HomeForm : ViewModelBase
                 {
                     CustomAlertObject = feedBackAlertMessageView,
                     IsFromHomePage = true,
+                    CustomAlertsMessage = "<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'>"
+                                          + "<style>body { font-size: 14px; font-family: Arial; font-weight: normal; color: #555555; text-align: justify; }</style>"
+                                          + "</head><body>"
+                                          + feedBackAlertMessageView.CustomAlertsMessage 
+                                          + "</body></html>",
                     ListViewHeight = feedBackAlertMessageView.CustomAlertUserButtonList.Count * 40,
                     TitleColor = feedBackAlertMessageView.CategoryColor,
                     IsCloseOption = (CustomAlertMessageTypes)feedBackAlertMessageView.CustomCategoryMsgId == CustomAlertMessageTypes.Regular ? true : false

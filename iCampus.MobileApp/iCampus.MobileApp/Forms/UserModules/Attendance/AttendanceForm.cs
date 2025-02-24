@@ -296,6 +296,7 @@ public class AttendanceForm : ViewModelBase
     public AttendanceForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(mapper, null,
         null)
     {
+        HelperMethods.GetSelectedStudent();
         _mapper = mapper;
         _nativeServices = nativeServices;
         Navigation = navigation;
@@ -554,8 +555,10 @@ public class AttendanceForm : ViewModelBase
         {
             sumOfChartSeriesValues = ChartDataPercentageList.Sum(x => x.y);
             foreach (var item in ChartDataPercentageList)
+            {
                 if (item != null)
-                    item.CountPercentage = Math.Round(item.y / sumOfChartSeriesValues * 100);
+                    item.CountPercentage = Math.Round((item.y / sumOfChartSeriesValues * 100), 1);
+            }
         }
     }
 

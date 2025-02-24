@@ -18,34 +18,34 @@ public partial class NewsDetailPage : ContentPage
     {
         MessagingCenter.Send("", "ListViewRightSwipeNewsDetails");
     }
-    private async void WebView_Navigating(object? sender, WebNavigatingEventArgs e)
-    {
-        if (e.Url.StartsWith("http") || e.Url.StartsWith("https"))
-        {
-            e.Cancel = true; 
-            await Launcher.OpenAsync(e.Url); 
-            return;
-        }
-
-        if (e.Url.StartsWith("webview://height="))
-        {
-            e.Cancel = true;
-            var heightStr = e.Url.Replace("webview://height=", "");
-            if (int.TryParse(heightStr, out int height))
-            {
-                MainThread.BeginInvokeOnMainThread(() =>
-                {
-                    beamDetails.HeightRequest = height;
-                });
-            }
-        }
-    }
-    
-    protected override void OnNavigatedTo(NavigatedToEventArgs args)
-    {
-        base.OnNavigatedTo(args);
-        beamDetails.Navigating += WebView_Navigating;
-    }
+    // private async void WebView_Navigating(object? sender, WebNavigatingEventArgs e)
+    // {
+    //     if (e.Url.StartsWith("http") || e.Url.StartsWith("https"))
+    //     {
+    //         e.Cancel = true; 
+    //         await Launcher.OpenAsync(e.Url); 
+    //         return;
+    //     }
+    //
+    //     if (e.Url.StartsWith("webview://height="))
+    //     {
+    //         e.Cancel = true;
+    //         var heightStr = e.Url.Replace("webview://height=", "");
+    //         if (int.TryParse(heightStr, out int height))
+    //         {
+    //             MainThread.BeginInvokeOnMainThread(() =>
+    //             {
+    //                 beamDetails.HeightRequest = height;
+    //             });
+    //         }
+    //     }
+    // }
+    //
+    // protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    // {
+    //     base.OnNavigatedTo(args);
+    //     beamDetails.Navigating += WebView_Navigating;
+    // }
 
    
 }

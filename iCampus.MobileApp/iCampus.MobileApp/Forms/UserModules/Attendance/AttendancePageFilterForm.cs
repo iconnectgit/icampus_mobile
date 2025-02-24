@@ -158,8 +158,10 @@ public class AttendancePageFilterForm : ViewModelBase
 
     private void SearchClicked(object obj)
     {
-        MessagingCenter.Send(this, "Search");
-        Navigation.PopAsync();
-        //HostScreen.Router.NavigateBack.Execute();
+        if (!DateErrorMessageVisibility)
+        {
+            MessagingCenter.Send(this, "Search");
+            Navigation.PopAsync();
+        }
     }
 }

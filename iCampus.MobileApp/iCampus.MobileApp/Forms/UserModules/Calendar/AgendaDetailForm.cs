@@ -686,7 +686,17 @@ public class AgendaDetailForm : ViewModelBase
 
     public override async void GetStudentData()
     {
-        CalendarForm calendarForm = new(_mapper, _nativeServices, Navigation);
-        calendarForm.GetStudentData();
+        CalendarForm calendarForm = new(_mapper, _nativeServices, Navigation, true)
+        {
+            PageTitle = PageTitle,
+            MenuVisible = true
+        };
+        AppSettings.Current.IsDisplayAllStudentList = false;
+        calendarForm.OpenStudentSelection();
+        Views.UserModules.Calendar.Calendar calendar = new()
+        {
+            BindingContext = calendarForm
+        };
+        await Navigation.PushAsync(calendar);
     }
 }

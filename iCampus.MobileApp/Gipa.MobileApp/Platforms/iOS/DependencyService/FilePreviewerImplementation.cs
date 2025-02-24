@@ -4,6 +4,7 @@ using UIKit;
 using System;
 using System.IO;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 using iCampus.MobileApp.DependencyService;
 using iCampus.MobileApp.Helpers;
@@ -63,6 +64,7 @@ namespace Gipa.MobileApp.DependencyService
                 {
                     var data = await client.GetByteArrayAsync(url);
                     var fileName = Path.GetFileName(url);
+                    fileName = SanitizeFileName(fileName);
                     var tempPath = Path.Combine(Path.GetTempPath(), fileName);
 
                     File.WriteAllBytes(tempPath, data);
@@ -76,6 +78,24 @@ namespace Gipa.MobileApp.DependencyService
             }
         }
 
+        
+        private string SanitizeFileName(string fileName)
+        {
+            fileName = Uri.UnescapeDataString(fileName);
+
+            foreach (char c in Path.GetInvalidFileNameChars())
+            {
+                fileName = fileName.Replace(c, '_');
+            }
+
+            fileName = fileName.Normalize(NormalizationForm.FormC).Trim();
+
+            if (fileName.Length > 100)
+                fileName = fileName.Substring(0, 100);
+
+            return fileName;
+        }
+        
         // Required for IQLPreviewItem
         [Export("previewItemURL")]
         public NSUrl PreviewItemURL => NSUrl.FromFilename(localFilePath);

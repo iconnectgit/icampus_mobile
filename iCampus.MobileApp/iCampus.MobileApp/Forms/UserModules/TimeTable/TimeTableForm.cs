@@ -79,6 +79,7 @@ public class TimeTableForm : ViewModelBase
 
     private async void InitializePage()
     {
+        HelperMethods.GetSelectedStudent();
         AttachmentClickCommand = new Command(AttachmentClicked);
         DownloadTappedCommand = new Command(DownloadClicked);
         BeamMenuClickCommand = new Command(BeamMenuClicked);

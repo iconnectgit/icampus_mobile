@@ -7,6 +7,7 @@
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              x:Class="iCampus.MobileApp.Views.UserModules.MessageFromSchool.CircularDetail"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:controls="clr-namespace:iCampus.MobileApp.Controls"
              BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
              NavigationPage.HasNavigationBar="false"
              x:Name="cirularDetailsPage">
@@ -16,7 +17,7 @@
             <StackLayout BackgroundColor="{Binding BackgroundColor,Source={x:Static local:AppSettings.Current}}">
                 <ContentView ControlTemplate="{StaticResource BeamHeader}"
                              BackgroundColor="White" />
-                <StackLayout>
+                <StackLayout VerticalOptions="FillAndExpand">
                     <StackLayout.Resources>
                         <ResourceDictionary>
                             <behaviours:AttachmentTypeToImageSourceConverter
@@ -28,13 +29,9 @@
                     </StackLayout.Resources>
                     <ScrollView VerticalScrollBarVisibility="Never" VerticalOptions="FillAndExpand"
                                 HorizontalOptions="FillAndExpand">
-                        <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="5"
+                        <Grid VerticalOptions="StartAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="5"
                               Margin="10" BackgroundColor="White" Padding="5">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="*" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="Auto" />
@@ -51,36 +48,24 @@
                                    Grid.ColumnSpan="2"
                                    HorizontalOptions="StartAndExpand"
                                    Style="{StaticResource TitleLabelStyle}" VerticalOptions="StartAndExpand" />
-                            <Label Text="{Binding CircularObject.CircularData}" 
-                                   Grid.Row="1"
-                                   Grid.Column="0" 
-                                   Grid.ColumnSpan="2"
-                                   TextType="Html"
-                                   HorizontalOptions="StartAndExpand"
-                                   Style="{StaticResource TitleLabelStyle}" 
-                                   VerticalOptions="StartAndExpand" />
-
-                            <!-- <WebView x:Name="beamDetails"  -->
-                            <!--          HeightRequest="100" -->
-                            <!--          Grid.Row="1"  -->
-                            <!--          Grid.Column="0"  -->
-                            <!--          Grid.ColumnSpan="2" -->
-                            <!--          Margin="0,0,0,0"> -->
-                            <!--     <WebView.Source> -->
-                            <!--         <HtmlWebViewSource Html="{Binding CircularObject.CircularData}" /> -->
-                            <!--     </WebView.Source> -->
-                            <!-- </WebView> -->
+                            <controls:CustomWebView Grid.Row="1"
+                                                    Grid.Column="0"
+                                                    Grid.ColumnSpan="2" 
+                                                    HorizontalOptions="FillAndExpand"
+                                                    VerticalOptions="FillAndExpand"
+                                                    HtmlContent="{Binding CircularObject.CircularData}">
+                            </controls:CustomWebView>
                             <ListView HasUnevenRows="True" VerticalScrollBarVisibility="Never" BackgroundColor="White"
                                       ItemsSource="{Binding AttachmentList,Mode=TwoWay}"
                                       IsVisible="{Binding CircularObject.AttachmentCount,Converter={StaticResource IntToBoolValueConverter},ConverterParameter=attachmentVisiblityConverter}"
                                       SelectionMode="None"
-                                      Grid.Row="2"
+                                      Grid.Row="3"
                                       Grid.Column="0"
                                       Grid.ColumnSpan="2"
                                       SeparatorVisibility="None"
                                       VerticalOptions="FillAndExpand"
                                       HorizontalOptions="FillAndExpand"
-                                      HeightRequest="{Binding AttachmentListViewHeight}">
+                                      >
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <ViewCell>
@@ -133,11 +118,11 @@
                                 </ListView.ItemTemplate>
                             </ListView>
 
-                            <ListView HasUnevenRows="True" VerticalScrollBarVisibility="Never"
+                            <ListView HasUnevenRows="True" VerticalScrollBarVisibility="Never" 
                                       ItemsSource="{Binding CircularObject.WebsiteLinks,Mode=TwoWay}"
                                       SelectedItem="{Binding CurrentWebsiteLink, Mode=TwoWay}"
                                       BackgroundColor="{StaticResource ListViewBackgroundColor}"
-                                      Grid.Row="3"
+                                      Grid.Row="4"
                                       Grid.Column="0"
                                       Grid.ColumnSpan="2"
                                       SeparatorVisibility="None"
@@ -176,7 +161,7 @@
                             </ListView>
                             <Label
                                 Text="{Binding CircularObject.FormattedCircularDate,StringFormat='Circular Date : {0}'}"
-                                Grid.Row="4"
+                                Grid.Row="2"
                                 Grid.Column="0"
                                 Grid.ColumnSpan="2"
                                 Margin="0,0,0,10"

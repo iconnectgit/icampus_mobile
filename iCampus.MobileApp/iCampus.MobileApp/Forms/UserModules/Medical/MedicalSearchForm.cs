@@ -229,6 +229,8 @@ public class MedicalSearchForm : ViewModelBase
     {
         try
         {
+            if(DateErrorMessageVisibility)
+                return;
             IncidantsAndAilmentsDataList = new ObservableCollection<MedicalIncidentView>();
             //IncidentType = SelectedType?.ItemName;
             if (ValidateData())

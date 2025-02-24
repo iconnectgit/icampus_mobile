@@ -1,6 +1,8 @@
 using AutoMapper;
 using iCampus.MobileApp.DependencyService;
+using iCampus.MobileApp.Views.UserModules.Conduct;
 using iCampus.Portal.ViewModels;
+using Microsoft.Maui.Controls;
 
 namespace iCampus.MobileApp.Forms.UserModules.Conduct;
 
@@ -32,4 +34,21 @@ public class ConductDetailForm : ViewModelBase
         BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
         BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
     }
+    
+    public override async void GetStudentData()
+    {
+        ConductForm conductForm = new(_mapper, _nativeServices, Navigation, true)
+        {
+            PageTitle = PageTitle,
+            MenuVisible = true
+        };
+        AppSettings.Current.IsDisplayAllStudentList = false;
+        conductForm.OpenStudentSelection();
+        ConductPage conductPage = new()
+        {
+            BindingContext = conductForm
+        };
+        await Navigation.PushAsync(conductPage);
+    }
+
 }

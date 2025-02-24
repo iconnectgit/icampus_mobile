@@ -181,6 +181,7 @@ public class ParentStudentResourcesForm : ViewModelBase
         }
         private async void InitializePage()
         {
+            HelperMethods.GetSelectedStudent();
             this.MenuVisible = true;
             SearchCommand = new Command(Search);
             FilterClickCommand = new Command(FilterClicked);

@@ -405,7 +405,7 @@ public class ChequeReplacementForm : ViewModelBase
 
         private async void InitializePage()
         {
-            
+            HelperMethods.GetSelectedStudent();
             PaymentButtonOpacity = 1.0m;
             HistoryButtonOpacity = 0.5m;
             PaymentsCommand = new Command(PaymentsCommandClicked);

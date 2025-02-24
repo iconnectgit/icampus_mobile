@@ -118,6 +118,7 @@ public class BusTrackingForm : ViewModelBase
 
     private async void InitializePage()
     {
+        HelperMethods.GetSelectedStudent();
         FormTitle = TextResource.BusTrackingPageTitle;
         BackVisible = false;
         MenuVisible = true;

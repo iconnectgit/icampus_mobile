@@ -18,10 +18,10 @@
            Margin="20,0,20,0"
            Padding="0"
            VerticalOptions="Center"
-           HeightRequest="{OnPlatform iOS='250', Android='220'}"
-           WidthRequest="{OnPlatform iOS='400', Android='350'}"
+           HeightRequest="{OnPlatform iOS='280', Android='280'}"
+           WidthRequest="{OnPlatform iOS='350', Android='350'}"
            IsClippedToBounds="true">
-        <Grid Padding="10" RowDefinitions="Auto,Auto,*,Auto,Auto">
+        <Grid Padding="10" RowDefinitions="Auto,0.2*,Auto,Auto,Auto">
             <Grid.Resources>
                 <ResourceDictionary>
                     <behaviours:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter" />
@@ -49,30 +49,12 @@
                     </Label.GestureRecognizers>
                 </Label>
             </StackLayout>
-            <Label Text="{Binding CustomAlertObject.CustomAlertsMessage}"
-                   Grid.Row="1"
-                   Margin="5"
-                   TextType="Html"
-                   HorizontalOptions="FillAndExpand"
-                   VerticalOptions="FillAndExpand">
-                <Label.IsVisible>
-                    <OnPlatform x:TypeArguments="x:Boolean">
-                        <On Platform="iOS" Value="True" />
-                        <On Platform="Android" Value="False" />
-                    </OnPlatform>
-                </Label.IsVisible>
-            </Label>
             <WebView x:Name="Details"
                      Grid.Row="1"
-                     HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-                <WebView.IsVisible>
-                    <OnPlatform x:TypeArguments="x:Boolean">
-                        <On Platform="iOS" Value="False" />
-                        <On Platform="Android" Value="True" />
-                    </OnPlatform>
-                </WebView.IsVisible>
+                     HorizontalOptions="FillAndExpand" 
+                     VerticalOptions="FillAndExpand">
                 <WebView.Source>
-                    <HtmlWebViewSource Html="{Binding CustomAlertObject.CustomAlertsMessage}" x:Name="webViewRenderer" />
+                    <HtmlWebViewSource Html="{Binding CustomAlertsMessage}" />
                 </WebView.Source>
             </WebView>
             <StackLayout Padding="1" Grid.Row="2">
@@ -109,7 +91,7 @@
                         <ViewCell>
                             <Frame Padding="5" HasShadow="False" BackgroundColor="White" CornerRadius="5" Margin="2" BorderColor="Transparent">
                                 <Button CornerRadius="5"
-                                        HeightRequest="30"
+                                        MinimumHeightRequest="30"
                                         Padding="5,0,5,0"
                                         FontSize="Small"
                                         Text="{Binding ButtonText}"
@@ -125,7 +107,7 @@
             </ListView>
             <StackLayout HorizontalOptions="End" Grid.Row="4">
                 <Button CornerRadius="5"
-                        HeightRequest="30"
+                        MinimumHeightRequest="30"
                         WidthRequest="60"
                         Padding="5,0,5,0"
                         IsVisible="{Binding ShowFeedBackField}"

@@ -217,11 +217,15 @@ public class ConductForm : ViewModelBase
 
     #endregion
 
-    public ConductForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)
+    public ConductForm(IMapper mapper, INativeServices nativeServices, INavigation navigation, bool skipStudentSelection = false) : base(null, null, null)
     {
         _mapper = mapper;
         _nativeServices = nativeServices;
         Navigation = navigation;
+        if (!skipStudentSelection)
+        {
+            HelperMethods.GetSelectedStudent();  
+        }
         InitializePage();
     }
 
@@ -244,7 +248,7 @@ public class ConductForm : ViewModelBase
         await GetStudentConductData();
     }
 
-    private async Task<StudentConductViewModel> GetStudentConductData()
+    public async Task<StudentConductViewModel> GetStudentConductData()
     {
         try
         {

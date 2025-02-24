@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
              xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:controls="clr-namespace:iCampus.MobileApp.Controls"
              x:Class="iCampus.MobileApp.Views.UserModules.MessageFromSchool.HistoryDetailsPage"
              BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
              NavigationPage.HasNavigationBar="false"
@@ -32,21 +33,27 @@
                                    HorizontalTextAlignment="Start"
                                    Margin="0,0,0,0"
                                    IsVisible="{Binding IsTitleAvailable}" />
-                            <ScrollView>
-                                <Label IsVisible="{Binding IsMessageAvailable}"
-                                       Text="{Binding HistoryDetailsObject.CustomAlertsMessage}"
-                                       TextType="Html" />
-
-                                <!-- <WebView x:Name="beamDetails" HeightRequest="100"  -->
-                                <!--                   IsVisible="{Binding IsMessageAvailable}" -->
-                                <!--                   InputTransparent="False" -->
-                                <!--                   Margin="-8,0,0,0"> -->
-                                <!-- -->
-                                <!--     <WebView.Source> -->
-                                <!--         <HtmlWebViewSource Html="{Binding HistoryDetailsObject.CustomAlertsMessage}"/> -->
-                                <!--     </WebView.Source> -->
-                                <!-- </WebView> -->
-                            </ScrollView>
+                            <controls:CustomWebView
+                                IsVisible="{Binding IsMessageAvailable}"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand"
+                                HtmlContent="{Binding HistoryDetailsObject.CustomAlertsMessage}">
+                            </controls:CustomWebView>
+                            <!-- <ScrollView> -->
+                            <!--     <Label IsVisible="{Binding IsMessageAvailable}" -->
+                            <!--            Text="{Binding HistoryDetailsObject.CustomAlertsMessage}" -->
+                            <!--            TextType="Html" /> -->
+                            <!-- -->
+                            <!--     ~1~ <WebView x:Name="beamDetails" HeightRequest="100"  @1@ -->
+                            <!--     ~1~                   IsVisible="{Binding IsMessageAvailable}" @1@ -->
+                            <!--     ~1~                   InputTransparent="False" @1@ -->
+                            <!--     ~1~                   Margin="-8,0,0,0"> @1@ -->
+                            <!--     ~1~ @1@ -->
+                            <!--     ~1~     <WebView.Source> @1@ -->
+                            <!--     ~1~         <HtmlWebViewSource Html="{Binding HistoryDetailsObject.CustomAlertsMessage}"/> @1@ -->
+                            <!--     ~1~     </WebView.Source> @1@ -->
+                            <!--     ~1~ </WebView> @1@ -->
+                            <!-- </ScrollView> -->
                             <Label HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start"
                                    Margin="0,0,0,5" IsVisible="{Binding IsDateAvailable}">
                                 <Label.FormattedText>

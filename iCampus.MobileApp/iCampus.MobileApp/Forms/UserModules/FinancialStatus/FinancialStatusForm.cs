@@ -135,6 +135,7 @@ public class FinancialStatusForm : ViewModelBase
         #region Methods
         private async void InitializePage()
         {
+            HelperMethods.GetSelectedStudent();
             IsFinancialVisible = true;
             IsHistoryVisible = false;
             FinancialButtonOpacity = 1.0m;

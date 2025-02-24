@@ -122,8 +122,8 @@ public class BindableCommunicationMessageView : INotifyPropertyChanged
             set
             {
                 _attachmentList = value;
-                BindableAttachmentList = _mapper.Map<List<BindableAttachmentFileView>>(value);
-                MapMessageIdToAttachment();
+                //BindableAttachmentList = _mapper.Map<List<BindableAttachmentFileView>>(value);
+                //MapMessageIdToAttachment();
             }
         }
         private IEnumerable<BindableAttachmentFileView> _bindableAttachmentList { get; set; }
@@ -216,7 +216,7 @@ public class BindableCommunicationMessageView : INotifyPropertyChanged
             CommunicationSettings = new CommunicationSettingView();
         }
         #region Private methods
-        private void MapMessageIdToAttachment()
+        public void MapMessageIdToAttachment()
         {
             foreach (var item in BindableAttachmentList)
             {

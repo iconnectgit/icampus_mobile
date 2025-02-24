@@ -333,7 +333,7 @@
                                                 Margin="10,0,0,0"
                                                 DownsampleToViewSize="True"
                                                 Source="{Binding FileType,Converter={StaticResource AttachmentTypeToImageSourceConverter}}" />
-                                            <Label Text="{Binding DisplayName}"
+                                            <Label Text="{Binding FileName}"
                                                    Grid.Row="0"
                                                    Grid.Column="2"
                                                    HorizontalOptions="StartAndExpand" MaxLines="1"
@@ -408,7 +408,7 @@
                             Command="{Binding ViewSubmissionsClickedCommand}"
                             CornerRadius="5"
                             BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                            IsVisible="{Binding IsTeacher, Source={x:Static local:AppSettings.Current}}"
+                            IsVisible="{Binding IsViewSubmissionVisible}"
                             AbsoluteLayout.LayoutFlags="All"
                             AbsoluteLayout.LayoutBounds="0,1,1,50" />
                     <Button Text="View Students"

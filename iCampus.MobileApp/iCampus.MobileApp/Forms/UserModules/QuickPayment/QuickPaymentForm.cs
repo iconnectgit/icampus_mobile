@@ -181,6 +181,7 @@ public class QuickPaymentForm : ViewModelBase
         
         private async void InitializePage()
         {
+            HelperMethods.GetSelectedStudent();
             HelperMethods.LogEvent("Device token Info", $"DEVICETOKEN");
             PayNowCommand = new Command(PayNowCommandClicked);
             ShowHistoryCommand = new Command(ShowHistoryCommandClicked);

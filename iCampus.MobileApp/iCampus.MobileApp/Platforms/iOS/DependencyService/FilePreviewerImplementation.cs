@@ -1,7 +1,9 @@
+using System.Text;
 using Foundation;
 using QuickLook;
 using UIKit;
 using iCampus.MobileApp.DependencyService;
+using iCampus.MobileApp.Helpers;
 
 [assembly: Dependency(typeof(FilePreviewerImplementation))]
 
@@ -15,20 +17,25 @@ public class FilePreviewerImplementation : NSObject, IFilePreviewer, IQLPreviewI
     {
         try
         {
-            // Download file locally
+            await ApiHelper.ShowProcessingIndicatorPopup();
+
             localFilePath = await DownloadFileAsync(fileUrl);
 
-            if (localFilePath != null)
+            await ApiHelper.HideProcessingIndicatorPopup(); 
+
+            if (!string.IsNullOrEmpty(localFilePath))
             {
-                // Instantiate QLPreviewController
                 var previewController = new QLPreviewController
                 {
                     DataSource = new FilePreviewControllerDataSource(this)
                 };
 
-                // Present the QLPreviewController
-                var viewController = UIApplication.SharedApplication.KeyWindow.RootViewController;
-                viewController.PresentViewController(previewController, true, null);
+                var viewController = UIApplication.SharedApplication.KeyWindow?.RootViewController;
+
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    viewController?.PresentViewController(previewController, true, null);
+                });
             }
             else
             {
@@ -37,9 +44,11 @@ public class FilePreviewerImplementation : NSObject, IFilePreviewer, IQLPreviewI
         }
         catch (Exception ex)
         {
+            await ApiHelper.HideProcessingIndicatorPopup();
             Console.WriteLine($"Exception in PreviewFile: {ex.Message}");
         }
     }
+
 
     // Async method to download file from URL
     private async Task<string> DownloadFileAsync(string url)
@@ -50,6 +59,7 @@ public class FilePreviewerImplementation : NSObject, IFilePreviewer, IQLPreviewI
             {
                 var data = await client.GetByteArrayAsync(url);
                 var fileName = Path.GetFileName(url);
+                fileName = SanitizeFileName(fileName);
                 var tempPath = Path.Combine(Path.GetTempPath(), fileName);
 
                 File.WriteAllBytes(tempPath, data);
@@ -63,6 +73,23 @@ public class FilePreviewerImplementation : NSObject, IFilePreviewer, IQLPreviewI
         }
     }
 
+    private string SanitizeFileName(string fileName)
+    {
+        fileName = Uri.UnescapeDataString(fileName);
+
+        foreach (char c in Path.GetInvalidFileNameChars())
+        {
+            fileName = fileName.Replace(c, '_');
+        }
+
+        fileName = fileName.Normalize(NormalizationForm.FormC).Trim();
+
+        if (fileName.Length > 100)
+            fileName = fileName.Substring(0, 100);
+
+        return fileName;
+    }
+    
     // Required for IQLPreviewItem
     [Export("previewItemURL")] public NSUrl PreviewItemURL => NSUrl.FromFilename(localFilePath);
 

@@ -178,6 +178,7 @@ public class TestDetailsForm : ViewModelBase
 
     private async void InitializePage()
     {
+        HelperMethods.GetSelectedStudent();
         SearchClickCommand = new Command(SearchClicked);
         BeamMenuClickCommand = new Command(BeamMenuClicked);
         BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
@@ -232,6 +233,8 @@ public class TestDetailsForm : ViewModelBase
     {
         try
         {
+            if(DateErrorMessageVisibility)
+                return;
             MenuVisible = true;
             BackVisible = false;
             IsPopUpPage = false;

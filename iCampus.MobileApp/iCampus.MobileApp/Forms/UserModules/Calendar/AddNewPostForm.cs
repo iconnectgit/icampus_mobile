@@ -1833,7 +1833,7 @@ public class AddNewPostForm : ViewModelBase
                     if(SelectedAgenda.AttachmentList!=null&& SelectedAgenda.AttachmentList.Count>0)
                     {
                         AttachmentFiles = new ObservableCollection<AttachmentFileView>(SelectedAgenda.AttachmentList);
-                        AttachmentListViewHeight = AttachmentFiles.Count * 40;
+                        AttachmentListViewHeight = AttachmentFiles.Count * 45;
                     }
                     await GetClassesForAgenda(selectedAgenda);
                     if(ClassList!=null)

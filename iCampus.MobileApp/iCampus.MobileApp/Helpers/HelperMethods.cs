@@ -892,6 +892,22 @@ public class HelperMethods
                 Console.WriteLine($"Error recording exception in Crashlytics: {ex.Message}");
             }
         }
-
+        
+        public static void GetSelectedStudent()
+        {
+            if (AppSettings.Current.StudentList != null && AppSettings.Current.StudentList.Count > 0)
+                AppSettings.Current.SelectedStudent = AppSettings.Current.StudentList.FirstOrDefault();
+            if (AppSettings.Current.IsParent)
+            {
+                AppSettings.Current.IsRegisteredStudentListVisible = true;
+                AppSettings.Current.IsAllStudentListVisible = false;
+            }
+            else
+            {
+                AppSettings.Current.IsRegisteredStudentListVisible = AppSettings.Current.IsAllStudentListVisible = false;
+            }
+        }
+        
+        
         #endregion
     }

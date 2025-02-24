@@ -124,6 +124,17 @@ public class CampusKeyForm : ViewModelBase
             OnPropertyChanged(nameof(IsTopupDetailVisible));
         }
     }
+    private bool _isTopupButtonVisible;
+
+    public bool IsTopupButtonVisible
+    {
+        get => _isTopupButtonVisible;
+        set
+        {
+            _isTopupButtonVisible = value;
+            OnPropertyChanged(nameof(IsTopupButtonVisible));
+        }
+    }
 
     private bool _isPayNow;
 
@@ -398,6 +409,7 @@ public class CampusKeyForm : ViewModelBase
 
     private async void InitializePage()
     {
+        HelperMethods.GetSelectedStudent();
         FormTitle = TextResource.CampusKeyPageTitle;
         BackVisible = false;
         MenuVisible = true;
@@ -434,9 +446,7 @@ public class CampusKeyForm : ViewModelBase
                 TextResource.CampusKeyApiUrl + "?studentId=" + AppSettings.Current.SelectedStudent.ItemId,
                 cacheKeyPrefix: cacheKeyPrefix, cacheType: ApiHelper.CacheTypeParam.LoadFromCache);
             IsTransactionalDetailsAvailable = CampusKeyData.TransactionDetails.Any();
-            if (IsTransactionalDetailsAvailable)
-                CampusKeyData.TransactionDetails.ToList().ForEach(x =>
-                    x.TransactionDateFormatted = x.TransactionDate.ToString("MMM dd, yyyy"));
+            
 
 
             CurrentAcademicYear = Convert.ToString(CampusKeyData.FinancialYear);
@@ -461,11 +471,15 @@ public class CampusKeyForm : ViewModelBase
                 StudentCardNumberFormatted = string.Empty;
                 LastTopUpAmount = string.Empty;
             }
+            
+            bool enableTopUp = CampusKeyData.CampusKeySettings.EnableCardTopUp;
+            bool hasStudentCard = !string.IsNullOrEmpty(StudentCardNumber);
 
-            if (CampusKeyData.CampusKeySettings.EnableCardTopUp && !string.IsNullOrEmpty(StudentCardNumber))
-                IsTopupDetailVisible = true;
+            IsTopupDetailVisible = enableTopUp || hasStudentCard;
+            IsTopupButtonVisible = enableTopUp && hasStudentCard;
+            NoActiveCardExist = !hasStudentCard;
 
-            NoActiveCardExist = !IsTopupDetailVisible;
+
             NoDataExist = NoActiveCardExist ? false : !IsTransactionalDetailsAvailable;
         }
         catch (Exception ex)
@@ -685,6 +699,8 @@ public class CampusKeyForm : ViewModelBase
             await GetDetails();
             await GetCampusKeyList();
             TopupAmount = Convert.ToString(decimal.MinValue);
+            ShowUpdatingDailyLimit = false;
+            ShowDailyLimit = true;
             base.GetStudentData();
         }
         catch (Exception ex)

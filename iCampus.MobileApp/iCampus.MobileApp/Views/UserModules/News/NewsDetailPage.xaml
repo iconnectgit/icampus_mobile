@@ -66,14 +66,18 @@
                         </StackLayout>
                     </Grid>
                     <StackLayout BackgroundColor="White" Padding="10,0,10,0" VerticalOptions="FillAndExpand">
-                        <WebView x:Name="beamDetails" Navigating="WebView_Navigating"
-                                 HorizontalOptions="FillAndExpand"
-                                 VerticalOptions="FillAndExpand"
-                                 Margin="0,0,0,0">
-                            <WebView.Source>
-                                <HtmlWebViewSource Html="{Binding FormattedNewsData}" />
-                            </WebView.Source>
-                        </WebView>
+                        <!-- <WebView x:Name="beamDetails" Navigating="WebView_Navigating" -->
+                        <!--          HorizontalOptions="FillAndExpand" -->
+                        <!--          VerticalOptions="FillAndExpand" -->
+                        <!--          Margin="0,0,0,0"> -->
+                        <!--     <WebView.Source> -->
+                        <!--         <HtmlWebViewSource Html="{Binding FormattedNewsData}" /> -->
+                        <!--     </WebView.Source> -->
+                        <!-- </WebView> -->
+                        <controls:CustomWebView 
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand"
+                                                HtmlContent="{Binding SiteNewsObject.NewsData}" />
                         <!-- <Label Text="{Binding SiteNewsObject.NewsData}" -->
                         <!--        TextType="Html" /> -->
                     </StackLayout>

@@ -83,9 +83,11 @@ public class MessageFromSchoolFilterForm : ViewModelBase
 
     private async void SearchClicked(object obj)
     {
-        MessagingCenter.Send(this, "SearchMessageFromSchool");
-        await Navigation.PopAsync();
-        //HostScreen.Router.NavigateBack.Execute();
+        if (!DateErrorMessageVisibility)
+        {
+            MessagingCenter.Send(this, "SearchMessageFromSchool");
+            await Navigation.PopAsync();
+        }
     }
 
     #endregion

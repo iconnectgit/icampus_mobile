@@ -319,6 +319,7 @@ public class MessageFromSchoolForm : ViewModelBase
     {
         try
         {
+            HelperMethods.GetSelectedStudent();
             IsCircularsVisible = true;
             IsAlertsVisible = false;
             IsAlertHistoryVisible = false;

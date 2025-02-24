@@ -195,6 +195,11 @@
                                                             </Span>
                                                         </FormattedString>
                                                     </Label.FormattedText>
+                                                    <Label.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.LinksClickCommand,Source={x:Reference MessagePage}}"
+                                                            CommandParameter="{Binding .}" />
+                                                    </Label.GestureRecognizers>
                                                 </Label>
                                             </Grid>
                                         </Frame>

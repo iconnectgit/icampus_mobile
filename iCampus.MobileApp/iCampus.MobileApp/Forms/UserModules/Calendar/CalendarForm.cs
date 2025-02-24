@@ -701,8 +701,12 @@ public class CalendarForm : ViewModelBase
 
     #endregion
 
-    public CalendarForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)
+    public CalendarForm(IMapper mapper, INativeServices nativeServices, INavigation navigation, bool skipStudentSelection = false) : base(null, null, null)
     {
+        if (!skipStudentSelection)
+        {
+            HelperMethods.GetSelectedStudent();  
+        }
         _mapper = mapper;
         _nativeServices = nativeServices;
         Navigation = navigation;
@@ -1409,6 +1413,10 @@ public class CalendarForm : ViewModelBase
 
             var weeklyTypeColor = AgendaList.Where(x => x.TypeTitle.ToLower().Contains("weekly")).FirstOrDefault()
                 ?.WorkTypeColor;
+            
+            var announcementItems = AgendaList
+                .Where(x => x.TypeTitle.ToLower() == "annoucement") 
+                .ToList();
 
             if (isRefresh)
             {
@@ -1433,6 +1441,21 @@ public class CalendarForm : ViewModelBase
                         day.Date >= AgendaData.WeekStartDate.Date &&
                         day.Date <= AgendaData.WeekEndDate.Date)
                         day.Colors.Add(weeklyTypeColor);
+                    
+                    foreach (var item in announcementItems)
+                    {
+                        if (DateTime.TryParseExact(item.FormatedPostDate, "dd-MMM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime postDate) &&
+                            DateTime.TryParseExact(item.DueDate, "dd-MMM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime dueDate))
+                        {
+                            if (day.Date >= postDate.Date && day.Date <= dueDate.Date)
+                            {
+                                if (!day.Colors.Contains(item.WorkTypeColor))
+                                {
+                                    day.Colors.Add(item.WorkTypeColor);
+                                }
+                            }
+                        }
+                    }
                 });
             }
 

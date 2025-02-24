@@ -343,7 +343,7 @@ public class ReportCardForm : ViewModelBase
         }
     }
 
-    private bool _selectTermsOptionForSkillVisibility = true;
+    private bool _selectTermsOptionForSkillVisibility;
 
     public bool SelectTermsOptionForSkillVisibility
     {
@@ -355,7 +355,7 @@ public class ReportCardForm : ViewModelBase
         }
     }
 
-    private bool _selectTermsOptionForMarksVisibility = true;
+    private bool _selectTermsOptionForMarksVisibility;
 
     public bool SelectTermsOptionForMarksVisibility
     {
@@ -443,8 +443,10 @@ public class ReportCardForm : ViewModelBase
 
     private async void InitializePage()
     {
+        HelperMethods.GetSelectedStudent();
         ReportCardButtonOpacity = 1.0m;
         SkillReportCardButtonOpacity = 0.5m;
+        IsReportCardVisible = true;
         ReportCardCommand = new Command(ReportCardCommandClicked);
         SkillReportCardCommand = new Command(SkillReportCardClicked);
         MessagingCenter.Subscribe<string>(this, "NavigateToReportCard", async (res) =>
@@ -495,7 +497,7 @@ public class ReportCardForm : ViewModelBase
     {
         ReportCardOption = ReportCardOptions.MarksReportCard;
         IsSkillReportCardVisible = false;
-        //IsReportCardVisible = !NoDataFoundFrameVisibility;
+        IsReportCardVisible = !NoDataFoundFrameVisibility;
         ReportCardButtonOpacity = 1.0m;
         SkillReportCardButtonOpacity = 0.5m;
     }
@@ -503,7 +505,7 @@ public class ReportCardForm : ViewModelBase
     private void SkillReportCardClicked(object obj)
     {
         ReportCardOption = ReportCardOptions.SkillsReportCard;
-        //IsSkillReportCardVisible = !NoDataFoundFrameVisibility;
+        IsSkillReportCardVisible = !NoDataFoundFrameVisibility;
         IsReportCardVisible = false;
         ReportCardButtonOpacity = 0.5m;
         SkillReportCardButtonOpacity = 1.0m;
@@ -697,8 +699,8 @@ public class ReportCardForm : ViewModelBase
                 else
                 {
                     NoDataFoundFrameVisibility = true;
-                    IsReportCardVisible = !NoDataFoundFrameVisibility;
-                    IsSkillReportCardVisible = !NoDataFoundFrameVisibility;
+                    //IsReportCardVisible = !NoDataFoundFrameVisibility;
+                    //IsSkillReportCardVisible = !NoDataFoundFrameVisibility;
                 }
             }
             else

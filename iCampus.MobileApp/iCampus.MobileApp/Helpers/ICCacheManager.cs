@@ -32,6 +32,24 @@ public class ICCacheManager
                     }
                 }
                 var result = await BlobCache.UserAccount.GetObject<T>(key);
+                if (result != null)
+                {
+                    Type modelType = result.GetType();
+                    PropertyInfo[] properties = modelType.GetProperties();
+
+                    foreach (PropertyInfo property in properties)
+                    {
+                        if (property.PropertyType == typeof(DateTime) || property.PropertyType == typeof(DateTime?))
+                        {
+                            var dateTimeValue = property.GetValue(result) as DateTime?;
+                            if (dateTimeValue.HasValue)
+                            {
+                                // Ensure DateTime is converted to Local time
+                                property.SetValue(result, dateTimeValue.Value.ToLocalTime());
+                            }
+                        }
+                    }
+                }
                 return (true, result);
             }
             catch (KeyNotFoundException ex)
@@ -107,6 +125,14 @@ public class ICCacheManager
                 PropertyInfo[] sourceValue = modelType.GetProperties();
                 foreach (PropertyInfo property in sourceValue)
                 {
+                    if (property.PropertyType == typeof(DateTime) || property.PropertyType == typeof(DateTime?))
+                    {
+                        var dateTimeValue = property.GetValue(data) as DateTime?;
+                        if (dateTimeValue.HasValue)
+                        {
+                            property.SetValue(data, DateTime.SpecifyKind(dateTimeValue.Value, DateTimeKind.Local));
+                        }
+                    }
                     if (property.PropertyType.IsGenericType && (property.PropertyType.GetGenericTypeDefinition() == typeof(List<>) || property.PropertyType.GetGenericTypeDefinition() == typeof(IEnumerable<>)))
                     {
                         var result = property.GetValue(data);

@@ -138,6 +138,19 @@ public class CustomAlertPopupForm : ViewModelBase
             OnPropertyChanged(nameof(TitleColor));
         }
     }
+    private string _customAlertsMessage;
+    public string CustomAlertsMessage
+    {
+        get => _customAlertsMessage;
+        set
+        {
+            if (_customAlertsMessage != value)
+            {
+                _customAlertsMessage = value;
+                OnPropertyChanged(nameof(CustomAlertsMessage));
+            }
+        }
+    }
 
     public CustomAlertPopupForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)
     {

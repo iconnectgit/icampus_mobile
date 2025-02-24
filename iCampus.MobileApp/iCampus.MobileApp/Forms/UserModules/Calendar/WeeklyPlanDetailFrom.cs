@@ -94,7 +94,7 @@ public class WeeklyPlanDetailFrom : ViewModelBase
                     quickPostForm.CourseList = quickPostForm.FilteredCourseList = EditQuickPostData.AgendaForList;
                     quickPostForm.CourseListViewHeight = quickPostForm.CourseList.Count * 32;
                     quickPostForm.SelectedCourse = quickPostForm.FilteredCourseList.FirstOrDefault(x => x.ItemId == EditQuickPostData.AgendaWeeklyGroupDetails.CurriculumId.ToString());
-                    quickPostForm.SelectedAgendaForText = quickPostForm.SelectedCourse.ItemName;
+                    quickPostForm.SelectedAgendaForText = quickPostForm.SelectedCourse?.ItemName;
                     quickPostForm.MonthList = EditQuickPostData.Months;
                     quickPostForm.MonthListViewHeight = quickPostForm.MonthList.Count * 32;
                     quickPostForm.SelectedMonthList = EditQuickPostData.Months.FirstOrDefault(x => x.ItemId == EditQuickPostData.AgendaWeeklyGroupDetails.MonthOfWeekStartDate.ToString());
@@ -106,6 +106,7 @@ public class WeeklyPlanDetailFrom : ViewModelBase
                     quickPostForm.GroupTitle = EditQuickPostData.AgendaWeeklyGroupDetails.Title;
                     quickPostForm.IsTitleVisible = true;
                     quickPostForm.DateRangeText = EditQuickPostData.AgendaWeeklyGroupDetails.DateRange;
+                    quickPostForm.IsDateRangeVisible = true;
                     quickPostForm.IsFromEditButton = true;
                     quickPostForm.AgendaWeeklyGroupId = EditQuickPostData.AgendaWeeklyGroupDetails.AgendaWeeklyGroupId;
                     quickPostForm.TypeId = EditQuickPostData.AgendaWeeklyGroupDetails.AgendaTypeId;
@@ -138,23 +139,34 @@ public class WeeklyPlanDetailFrom : ViewModelBase
                     var groupedAgendaData = EditQuickPostData.GroupedAgendaData.ToList();
                     var agendaAttachmentList = EditQuickPostData.AgendaAttachmentList;
 
-                    for (int i = 0; i < groupedAgendaData.Count; i++)
+                    foreach (var item in groupedAgendaData)
                     {
-                        var item = groupedAgendaData[i];
-                        var bindableQuickPost = quickPostForm.DateWiseQuickPost[i];
+                        if (DateTime.TryParse(item.DueDate, out DateTime dueDate))
+                        {
+                            var bindableQuickPost = quickPostForm.DateWiseQuickPost
+                                .FirstOrDefault(qp => DateTime.TryParse(qp.AgendaWeekDatesFormatted, out DateTime qpDate) 
+                                                      && qpDate.Date == dueDate.Date);
 
-                        bindableQuickPost.AgendaUId = item.AgendaUId;
-                        bindableQuickPost.AgendaId = item.AgendaId;
-                        bindableQuickPost.AgendaDescription = item.AgendaDescription;
-                        bindableQuickPost.LearningOutcomes = item.LearningOutcomes;
-                        bindableQuickPost.IsDeleted = item.IsDeleted;
-                        bindableQuickPost.AttachmentFiles = new ObservableCollection<AttachmentFileView>(agendaAttachmentList
-                            .Where(a => a.AgendaId == item.AgendaId)
-                            .Select(a => new AttachmentFileView
+                            if (bindableQuickPost != null)
                             {
-                                FileName = a.Attachment,
-                            }));
-                        bindableQuickPost.AttachmentListViewHeight = bindableQuickPost.AttachmentFiles.Count * 40;
+                                bindableQuickPost.AgendaUId = item.AgendaUId;
+                                bindableQuickPost.AgendaId = item.AgendaId;
+                                bindableQuickPost.AgendaDescription = item.AgendaDescription;
+                                bindableQuickPost.LearningOutcomes = item.LearningOutcomes;
+                                bindableQuickPost.IsDeleted = item.IsDeleted;
+
+                                bindableQuickPost.AttachmentFiles = new ObservableCollection<AttachmentFileView>(
+                                    agendaAttachmentList
+                                        .Where(a => a.AgendaId == item.AgendaId)
+                                        .Select(a => new AttachmentFileView
+                                        {
+                                            FileName = a.Attachment,
+                                        }));
+
+                                // Adjust the attachment list height dynamically
+                                bindableQuickPost.AttachmentListViewHeight = bindableQuickPost.AttachmentFiles.Count * 40;
+                            }
+                        }
                     }
                     var datesList = EditQuickPostData.AgendaWeekDates;
                     for (int i = 0; i < datesList.Count; i++)

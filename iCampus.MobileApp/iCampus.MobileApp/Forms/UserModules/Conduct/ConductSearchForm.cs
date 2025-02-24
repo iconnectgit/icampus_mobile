@@ -314,6 +314,8 @@ public class ConductSearchForm : ViewModelBase
     {
         try
         {
+            if(DateErrorMessageVisibility)
+                return;
             if (ValidateData())
             {
                 var filteredList = StudentConductData.StudentConducts
