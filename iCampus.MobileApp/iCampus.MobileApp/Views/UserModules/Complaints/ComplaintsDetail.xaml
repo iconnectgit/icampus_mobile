@@ -23,6 +23,7 @@
                     <behaviours:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter" />
                     <behaviours:AttachmentFileToImageSourceConverter x:Key="AttachmentFileToImageSourceConverter" />
                     <behaviours:AttachmentFileStatusToSourceConverter x:Key="AttachmentFileStatusToSourceConverter" />
+                    <behaviours:UrlDecodeConverter x:Key="UrlDecodeConverter" />
                     <individual:ComplaintStatusConverter x:Key="ComplaintStatusConverter"/>
                 </ResourceDictionary>
             </StackLayout.Resources>
@@ -105,7 +106,7 @@
                                                                 Source="{Binding FilePath,Converter={StaticResource AttachmentFileToImageSourceConverter}}">
 
                                     </ffimageloading:CachedImage>
-                                    <Label Text="{Binding DisplayName}"
+                                    <Label Text="{Binding DisplayName, Converter={StaticResource UrlDecodeConverter}}"
                                            HorizontalOptions="StartAndExpand"
                                            VerticalOptions="CenterAndExpand"
                                            Margin="10,0,0,0" Style="{StaticResource AttachmentTextStyle}">

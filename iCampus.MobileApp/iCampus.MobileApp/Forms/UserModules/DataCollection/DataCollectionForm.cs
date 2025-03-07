@@ -151,6 +151,15 @@ public class DataCollectionForm : ViewModelBase
             var fileData = obj.FieldTypeId == (int)DataCollectionFieldTypeEnum.ImageUploader
                 ? await HelperMethods.PickImageFromDevice()
                 : await HelperMethods.PickFileFromDevice();
+            
+            if (fileData == null || string.IsNullOrEmpty(fileData.FileName))
+                return;
+            
+            if (obj.AttachmentList != null && obj.AttachmentList.Any(x => x.FileName != null && x.FileName.Equals(fileData.FileName, StringComparison.OrdinalIgnoreCase)))
+            {
+                await HelperMethods.ShowAlert("", "This file has already been added.");
+                return;
+            }
             if (fileData != null && fileData.FilePath != null)
             {
                 var bindableAttachmentFileView = _mapper.Map<BindableAttachmentFileView>(fileData);

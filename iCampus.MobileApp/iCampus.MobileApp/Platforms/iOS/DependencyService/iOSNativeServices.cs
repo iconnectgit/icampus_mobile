@@ -98,16 +98,30 @@ public class iOSNativeServices : INativeServices
                 {
                     UIApplication.SharedApplication.OpenUrl(settingsUrl, new NSDictionary(), (success) =>
                     {
-                        UNUserNotificationCenter.Current.GetNotificationSettings((settings) =>
+                        if (success)
                         {
-                            bool isEnabled = settings.AuthorizationStatus == UNAuthorizationStatus.Authorized || 
-                                             settings.AuthorizationStatus == UNAuthorizationStatus.Provisional;
+                            Task.Delay(3000).ContinueWith(_ =>
+                            {
+                                UNUserNotificationCenter.Current.GetNotificationSettings((settings) =>
+                                {
+                                    bool isEnabled = settings.AuthorizationStatus == UNAuthorizationStatus.Authorized ||
+                                                     settings.AuthorizationStatus == UNAuthorizationStatus.Provisional;
 
-                            AppSettings.Current.IsPushNotificationEnable = isEnabled;
+                                    AppSettings.Current.IsPushNotificationEnable = isEnabled;
 
-                            result?.Invoke(true);
-                        });
+                                    result?.Invoke(isEnabled);
+                                });
+                            });
+                        }
+                        else
+                        {
+                            result?.Invoke(false);
+                        }
                     });
+                }
+                else
+                {
+                    result?.Invoke(false);
                 }
             }
             catch (Exception ex)

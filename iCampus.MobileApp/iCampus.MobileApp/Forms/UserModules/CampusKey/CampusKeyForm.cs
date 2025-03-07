@@ -1,5 +1,6 @@
 using System.Windows.Input;
 using AutoMapper;
+using CommunityToolkit.Maui.Views;
 using iCampus.Common.Enums;
 using iCampus.Common.Helpers;
 using iCampus.Common.Helpers.Extensions;
@@ -7,6 +8,7 @@ using iCampus.Common.ViewModels;
 using iCampus.MobileApp.DependencyService;
 using iCampus.MobileApp.Forms.UserModules.OnlinePayment;
 using iCampus.MobileApp.Helpers;
+using iCampus.MobileApp.Views.PopUpViews;
 using iCampus.MobileApp.Views.UserModules.CampusKey;
 using iCampus.MobileApp.Views.UserModules.OnlinePayment;
 using iCampus.Portal.ViewModels;
@@ -42,7 +44,17 @@ public class CampusKeyForm : ViewModelBase
             OnPropertyChanged(nameof(IsTransactionalDetailsAvailable));
         }
     }
+    private bool _isTransactionalDetailsVisible = false;
 
+    public bool IsTransactionalDetailsVisible
+    {
+        get => _isTransactionalDetailsVisible;
+        set
+        {
+            _isTransactionalDetailsVisible = value;
+            OnPropertyChanged(nameof(IsTransactionalDetailsVisible));
+        }
+    }
     private bool _noDataExist = false;
 
     public bool NoDataExist
@@ -64,6 +76,17 @@ public class CampusKeyForm : ViewModelBase
         {
             _noActiveCardExist = value;
             OnPropertyChanged(nameof(NoActiveCardExist));
+        }
+    }
+    private bool _isLowBalanceTextVisible;
+
+    public bool IsLowBalanceTextVisible
+    {
+        get => _isLowBalanceTextVisible;
+        set
+        {
+            _isLowBalanceTextVisible = value;
+            OnPropertyChanged(nameof(IsLowBalanceTextVisible));
         }
     }
 
@@ -367,18 +390,37 @@ public class CampusKeyForm : ViewModelBase
         }
     }
 
-    private decimal _updatingDailyLimitAmount;
+    private string _balanceAmount;
 
-    public string UpdatingDailyLimitAmount
+    public string BalanceAmount
     {
-        get => _updatingDailyLimitAmount <= 0 ? string.Empty : Convert.ToString(_updatingDailyLimitAmount);
+        get => _balanceAmount;
         set
         {
-            if (decimal.TryParse(HelperMethods.ConvertNumerals(value), out var input))
-            {
-                _updatingDailyLimitAmount = input;
-                OnPropertyChanged(nameof(UpdatingDailyLimitAmount));
-            }
+            _balanceAmount = value;
+            OnPropertyChanged(nameof(BalanceAmount));
+        }
+    }
+    private decimal _updatingDailyLimitAmount;
+
+    public decimal UpdatingDailyLimitAmount
+    {
+        get => _updatingDailyLimitAmount;
+        set
+        {
+            _updatingDailyLimitAmount = value;
+            OnPropertyChanged(nameof(UpdatingDailyLimitAmount));
+        }
+    }
+    
+    private decimal _updatingMinimumBalanceAmount;
+    public decimal UpdatingMinimumBalanceAmount
+    {
+        get => _updatingMinimumBalanceAmount;
+        set
+        {
+            _updatingMinimumBalanceAmount = value;
+            OnPropertyChanged(nameof(UpdatingMinimumBalanceAmount));
         }
     }
 
@@ -393,7 +435,52 @@ public class CampusKeyForm : ViewModelBase
             OnPropertyChanged(nameof(MinDailyLimit));
         }
     }
+    private string _dailyLimitErrorMessage;
 
+    public string DailyLimitErrorMessage
+    {
+        get => _dailyLimitErrorMessage;
+        set
+        {
+            _dailyLimitErrorMessage = value;
+            OnPropertyChanged(nameof(DailyLimitErrorMessage));
+        }
+    }
+    private bool _isDailyLimitErrorVisible;
+
+    public bool IsDailyLimitErrorVisible
+
+    {
+        get => _isDailyLimitErrorVisible;
+        set
+        {
+            _isDailyLimitErrorVisible = value;
+            OnPropertyChanged(nameof(IsDailyLimitErrorVisible));
+        }
+    }
+
+    private decimal _limitAmount;
+
+    public decimal LimitAmount
+    {
+        get => _limitAmount;
+        set
+        {
+            _limitAmount = value;
+            OnPropertyChanged(nameof(LimitAmount));
+        }
+    }
+    private decimal _minbalanceAmount;
+
+    public decimal MinbalanceAmount
+    {
+        get => _minbalanceAmount;
+        set
+        {
+            _minbalanceAmount = value;
+            OnPropertyChanged(nameof(MinbalanceAmount));
+        }
+    }
     #endregion
 
     public CampusKeyForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(mapper, null, null)
@@ -444,11 +531,11 @@ public class CampusKeyForm : ViewModelBase
             var cacheKeyPrefix = "cashlessdata";
             CampusKeyData = await ApiHelper.GetObject<CampusKeyView>(
                 TextResource.CampusKeyApiUrl + "?studentId=" + AppSettings.Current.SelectedStudent.ItemId,
-                cacheKeyPrefix: cacheKeyPrefix, cacheType: ApiHelper.CacheTypeParam.LoadFromCache);
+                cacheKeyPrefix: cacheKeyPrefix, cacheType: ApiHelper.CacheTypeParam.LoadFromServerAndCache);
             IsTransactionalDetailsAvailable = CampusKeyData.TransactionDetails.Any();
             
-
-
+            IsLowBalanceTextVisible = CampusKeyData.StudentCardInformation.BalanceAmount < 100;
+            
             CurrentAcademicYear = Convert.ToString(CampusKeyData.FinancialYear);
             MinTopUpAmount = Convert.ToDecimal(CampusKeyData.CampusKeySettings.MinTopUpAmount.ToFormattedAmount(AppSettings.Current.OnlinePaymentCurrencyRoundingDigits));
             CurrencyCode = CampusKeyData.StudentCardInformation.CurrencyCode;
@@ -457,6 +544,21 @@ public class CampusKeyForm : ViewModelBase
             MinDailyLimit = CampusKeyData.CampusKeySettings.MinDailyLimit;
             var studentdata =
                 CampusKeyData.StudentCardInformationList.FirstOrDefault(x => x.StudentId.ToString() == studentId);
+            var balanceAmount = Math.Round(
+                CampusKeyData.StudentCardInformation.BalanceAmount, 
+                (int)(AppSettings.Current.OnlinePaymentCurrencyRoundingDigits ?? 2));
+
+            BalanceAmount = $"{balanceAmount} {CampusKeyData.StudentCardInformation.CurrencyCode}";
+
+            LimitAmount = Math.Round(
+                CampusKeyData.StudentCardInformation.LimitAmount, 
+                (int)(AppSettings.Current.OnlinePaymentCurrencyRoundingDigits ?? 2));
+
+            MinbalanceAmount = Math.Round(
+                 CampusKeyData.StudentCardInformation.MinimumBalanceAmount, 
+                 (int)(AppSettings.Current.OnlinePaymentCurrencyRoundingDigits ?? 2));
+            
+            
             if (studentdata != null)
             {
                 ExpenseLimit = studentdata.ExpenseLimit;
@@ -471,16 +573,25 @@ public class CampusKeyForm : ViewModelBase
                 StudentCardNumberFormatted = string.Empty;
                 LastTopUpAmount = string.Empty;
             }
-            
+
             bool enableTopUp = CampusKeyData.CampusKeySettings.EnableCardTopUp;
             bool hasStudentCard = !string.IsNullOrEmpty(StudentCardNumber);
 
-            IsTopupDetailVisible = enableTopUp || hasStudentCard;
-            IsTopupButtonVisible = enableTopUp && hasStudentCard;
-            NoActiveCardExist = !hasStudentCard;
+            IsTopupDetailVisible = hasStudentCard;  
+            IsTopupButtonVisible = enableTopUp && hasStudentCard; 
+            NoActiveCardExist = !hasStudentCard; 
 
+            if (NoActiveCardExist)
+            {
+                NoDataExist = false;
+                IsTransactionalDetailsVisible = false;
+            }
+            else
+            {
+                NoDataExist = !NoActiveCardExist && !IsTopupDetailVisible;
+                IsTransactionalDetailsVisible = !IsTransactionalDetailsAvailable && !NoDataExist;
+            }
 
-            NoDataExist = NoActiveCardExist ? false : !IsTransactionalDetailsAvailable;
         }
         catch (Exception ex)
         {
@@ -621,24 +732,35 @@ public class CampusKeyForm : ViewModelBase
                 decimal.Parse(
                     _updatingDailyLimitAmount.ToFormattedAmount(AppSettings.Current
                         .OnlinePaymentCurrencyRoundingDigits));
-            if (MinDailyLimit > _updatingDailyLimitAmount)
+            _updatingMinimumBalanceAmount =
+                decimal.Parse(
+                    _updatingMinimumBalanceAmount.ToFormattedAmount(AppSettings.Current
+                        .OnlinePaymentCurrencyRoundingDigits));
+            if (MinDailyLimit >= _updatingDailyLimitAmount)
             {
-                var action = Application.Current.MainPage.DisplayAlert("",
-                    TextResource.DailyLimitText + MinDailyLimit + " " + CurrencyCode, TextResource.OkText);
-                UpdatingDailyLimitAmount = Convert.ToString(decimal.MinValue);
+                DailyLimitErrorMessage = TextResource.DailyLimitText + MinDailyLimit + " " + CurrencyCode;
+                IsDailyLimitErrorVisible = true;
+            }
+            else if (MinbalanceAmount >= _updatingMinimumBalanceAmount)
+            {
+                DailyLimitErrorMessage = TextResource.MinAmountLimitText + MinDailyLimit + " " + CurrencyCode;
+                IsDailyLimitErrorVisible = true;
             }
             else
             {
+                AppSettings.Current.CurrentPopup.Close();
                 ShowDailyLimit = true;
                 ShowUpdatingDailyLimit = false;
                 var studentId = AppSettings.Current.SelectedStudent.ItemId;
                 var operationDetails = await ApiHelper.PostRequest<OperationDetails>(
-                    string.Format(TextResource.SaveDailyLimitApiUrl, studentId, _updatingDailyLimitAmount),
+                    string.Format(TextResource.SaveDailyLimitApiUrl, studentId, _updatingDailyLimitAmount, _updatingMinimumBalanceAmount),
                     AppSettings.Current.ApiUrl);
                 if (operationDetails.Success)
                 {
                     await HelperMethods.ShowAlert("", TextResource.DailyLimitSaveSuccessMessage);
                     ExpenseLimit = Convert.ToString(_updatingDailyLimitAmount) + " " + CurrencyCode;
+                    LimitAmount = _updatingDailyLimitAmount;
+                    MinbalanceAmount = _updatingMinimumBalanceAmount;
                     await ClearCampusKeyCacheData(studentId);
                 }
                 else
@@ -657,9 +779,18 @@ public class CampusKeyForm : ViewModelBase
     {
         try
         {
-            UpdatingDailyLimitAmount = Convert.ToString(decimal.MinValue);
-            ShowDailyLimit = false;
-            ShowUpdatingDailyLimit = true;
+            IsDailyLimitErrorVisible = false;
+            UpdatingDailyLimitAmount = LimitAmount;
+            UpdatingMinimumBalanceAmount = MinbalanceAmount;
+            EditDailyLimitPopup editDailyLimitPopup = new ()
+            {
+                BindingContext = this
+            };
+            SetPopupInstance(editDailyLimitPopup);
+            Application.Current.MainPage.ShowPopup(editDailyLimitPopup);
+            // UpdatingDailyLimitAmount = Convert.ToString(decimal.MinValue);
+            // ShowDailyLimit = false;
+            // ShowUpdatingDailyLimit = true;
         }
         catch (Exception ex)
         {
@@ -748,6 +879,10 @@ public class CampusKeyForm : ViewModelBase
         foreach (var key in allKeys)
             if (key.StartsWith("cashlessdata") && key.EndsWith($"_{studentId}"))
                 ICCacheManager.InvalidateObject<CampusKeyView>(key);
+    }
+    public void SetPopupInstance(Popup popup)
+    {
+        AppSettings.Current.CurrentPopup = popup;
     }
 
     #endregion

@@ -9,7 +9,7 @@ public partial class AddNewResourcePage : ContentPage
         InitializeComponent();
         MessagingCenter.Subscribe<string>("", "UpdateAttachmentListView", (arg) =>
         {
-            ForceNativeTableUpdate(listView);
+            //ForceNativeTableUpdate(listView);
         });
     }
 

@@ -25,6 +25,7 @@
                             <behaviours:AttachmentFileStatusToSourceConverter
                                 x:Key="AttachmentFileStatusToSourceConverter" />
                             <behaviours:VisiblityConverter x:Key="visiblityConverter" />
+                            <behaviours:UrlDecodeConverter x:Key="UrlDecodeConverter" />
                         </ResourceDictionary>
                     </StackLayout.Resources>
                     <ScrollView VerticalScrollBarVisibility="Never" VerticalOptions="FillAndExpand"
@@ -93,7 +94,7 @@
                                                         Margin="10,0,0,0"
                                                         DownsampleToViewSize="True"
                                                         Source="{Binding FileType,Converter={StaticResource AttachmentTypeToImageSourceConverter}}" />
-                                                    <Label Text="{Binding DisplayName}"
+                                                    <Label Text="{Binding FileName, Converter={StaticResource UrlDecodeConverter}}"
                                                            Grid.Column="2"
                                                            HorizontalOptions="StartAndExpand"
                                                            VerticalOptions="CenterAndExpand"

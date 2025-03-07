@@ -202,31 +202,27 @@
                                        IsVisible="{Binding IsTestResultErrorMessageVisible}"
                                        Margin="0,0,0,10"
                                        TextColor="Red" />
-                                <ListView HasUnevenRows="True"
+                                <CollectionView 
                                           BackgroundColor="{StaticResource BorderColor}"
                                           HorizontalOptions="StartAndExpand"
                                           ItemsSource="{Binding AttachmentFiles,Mode=TwoWay}"
                                           SelectionMode="None"
-                                          SeparatorVisibility="None"
+                                          
                                           HeightRequest="{Binding AttachmentListViewHeight}"
                                           VerticalOptions="FillAndExpand"
                                           Margin="0,5,0,0">
-                                    <ListView.ItemTemplate>
+                                    <CollectionView.ItemTemplate>
                                         <DataTemplate>
-                                            <ViewCell>
+                                            
                                                 <Grid HorizontalOptions="FillAndExpand"
                                                       Margin="0,8,0,0"
                                                       VerticalOptions="CenterAndExpand">
                                                     <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="0.8*" />
-                                                        <ColumnDefinition Width="0.2*" />
+                                                        <ColumnDefinition Width="Auto" />
+                                                        <ColumnDefinition Width="*" />
                                                     </Grid.ColumnDefinitions>
-                                                    <StackLayout Orientation="Horizontal"
-                                                                 HorizontalOptions="StartAndExpand"
-                                                                 Spacing="0"
-                                                                 Grid.Row="0"
-                                                                 Grid.Column="0">
                                                         <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                            Grid.Column="0"
                                                             VerticalOptions="CenterAndExpand"
                                                             WidthRequest="20"
                                                             HeightRequest="20"
@@ -234,18 +230,17 @@
                                                             Margin="10,0,0,0"
                                                             DownsampleToViewSize="True"
                                                             Source="{Binding FileName,Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
-                                                        <Label Text="{Binding FileName}"
+                                                        <Label Grid.Column="1" Text="{Binding FileName}"
                                                                TextColor="{StaticResource GrayTextColor}"
                                                                HorizontalOptions="StartAndExpand"
                                                                VerticalOptions="CenterAndExpand"
                                                                Margin="5,0,0,0"
                                                                Style="{StaticResource AttachmentTextStyle}" />
-                                                    </StackLayout>
                                                 </Grid>
-                                            </ViewCell>
+                                            
                                         </DataTemplate>
-                                    </ListView.ItemTemplate>
-                                </ListView>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
                             </StackLayout>
                         </Grid>
 

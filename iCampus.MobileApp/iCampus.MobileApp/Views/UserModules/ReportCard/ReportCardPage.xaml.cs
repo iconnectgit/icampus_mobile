@@ -18,6 +18,8 @@ public partial class ReportCardPage : ContentPage
     {
         InitializeComponent();
         ReportCardWebView.Navigating += WebView_Navigating;
+        ReportCardButton.Loaded += (s, e) => AlignButtonText(ReportCardButton);
+        SkillReportCardButton.Loaded += (s, e) => AlignButtonText(SkillReportCardButton);
         MessagingCenter.Subscribe<ReportCardSettingsView, bool>(this, "ReportCardData", (res, isStudentChange) =>
         {
             try
@@ -103,5 +105,24 @@ public partial class ReportCardPage : ContentPage
             e.Cancel = true;
             await Launcher.OpenAsync(e.Url);
         }
+    }
+    private void AlignButtonText(Button button)
+    {
+        if (button.Handler == null)
+            return;
+#if ANDROID
+        var androidButton = button.Handler.PlatformView as Google.Android.Material.Button.MaterialButton;
+        if (androidButton != null)
+        {
+            androidButton.TextAlignment = Android.Views.TextAlignment.ViewStart;
+        }
+#elif IOS
+        var iosButton = button.Handler.PlatformView as UIKit.UIButton;
+        if (iosButton != null)
+        {
+            iosButton.HorizontalAlignment = UIKit.UIControlContentHorizontalAlignment.Left;
+            iosButton.TitleLabel.TextAlignment = UIKit.UITextAlignment.Left;
+        }
+#endif
     }
 }

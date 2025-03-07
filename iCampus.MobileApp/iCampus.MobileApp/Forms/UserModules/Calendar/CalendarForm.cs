@@ -1382,7 +1382,6 @@ public class CalendarForm : ViewModelBase
                 LoadFilterPanelList = false;
             }
 
-            IsNoRecordMsg = DefaultAgendaList.Count > 0 ? false : true;
 
             if (DefaultAgendaList != null && DefaultAgendaList.Count > 0)
             {
@@ -1458,7 +1457,7 @@ public class CalendarForm : ViewModelBase
                     }
                 });
             }
-
+            IsNoRecordMsg = AgendaList.Count <= 0;
             AgendaDataApiAlreadyRunning = false;
             if (!string.IsNullOrEmpty(NotificationItemId))
             {

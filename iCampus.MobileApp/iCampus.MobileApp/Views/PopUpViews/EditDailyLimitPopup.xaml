@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<toolkit:Popup
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:forms="clr-namespace:iCampus.MobileApp.Forms"
+    xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+    x:Class="iCampus.MobileApp.Views.PopUpViews.EditDailyLimitPopup"
+    CanBeDismissedByTappingOutsideOfPopup="True"
+    x:Name="editDailyLimitPopup"
+    Color="Transparent">
+
+    <Frame CornerRadius="10"
+       HasShadow="False"
+       Padding="0"
+       IsClippedToBounds="true"
+       BackgroundColor="White"
+       VerticalOptions="CenterAndExpand"
+       HorizontalOptions="CenterAndExpand"
+       BorderColor="Transparent"
+       WidthRequest="{OnPlatform iOS='250', Android='240'}"
+       HeightRequest="{OnPlatform iOS='220', Android='220'}">
+    
+    <Grid RowDefinitions="Auto, Auto, Auto, *" Padding="10,20,10,20">
+        
+        <!-- Labels Row -->
+        <Grid Padding="10,5" ColumnDefinitions="*,*" ColumnSpacing="20" HorizontalOptions="FillAndExpand" Grid.Row="1">
+            <Label Text="Daily Limit" 
+                   FontSize="14" 
+                   TextColor="Gray" 
+                   FontAttributes="Bold"
+                   FontFamily=""
+                   Style="{StaticResource TitleLabelStyle}" 
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="CenterAndExpand"/>
+            <Label Text="Min Balance" 
+                   FontSize="14" 
+                   TextColor="Gray" 
+                   FontAttributes="Bold"
+                   FontFamily=""
+                   Style="{StaticResource TitleLabelStyle}" 
+                   HorizontalOptions="FillAndExpand"
+                   Grid.Column="1" VerticalOptions="CenterAndExpand"/>
+        </Grid>
+
+        <!-- Entry Fields Row -->
+        <Grid Padding="10,5" ColumnDefinitions="*,*" ColumnSpacing="20" HorizontalOptions="FillAndExpand" Grid.Row="2">
+            <Frame CornerRadius="5" 
+                   HasShadow="False" 
+                   IsClippedToBounds="True" 
+                   Padding="0"
+                   HeightRequest="{OnPlatform iOS='30', Android='40'}" 
+                   Margin="0,0,0,0"
+                   BorderColor="{StaticResource BorderColor}" 
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="CenterAndExpand">
+                        <Entry Text="{Binding UpdatingDailyLimitAmount}" Keyboard="Numeric" MaxLength="7"
+                           FontSize="Small" VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center"/>
+            </Frame>
+
+            <Frame CornerRadius="5" 
+                   Grid.Column="1" 
+                   HasShadow="False" 
+                   IsClippedToBounds="True"
+                   Padding="0" 
+                   HeightRequest="{OnPlatform iOS='30', Android='40'}" 
+                   Margin="0,0,0,0"
+                   BorderColor="{StaticResource BorderColor}" 
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="CenterAndExpand">
+                <Grid Padding="{OnPlatform iOS='5,0,5,0', Android='0,0,0,0'}"> 
+                    <Entry Text="{Binding UpdatingMinimumBalanceAmount}" Keyboard="Numeric" MaxLength="7"
+                           FontSize="Small" VerticalOptions="CenterAndExpand"
+                           HorizontalOptions="FillAndExpand" VerticalTextAlignment="Center"/>
+                </Grid>
+            </Frame>
+        </Grid>
+
+        <!-- Error Message Row -->
+        <Label Text="{Binding DailyLimitErrorMessage}"
+               Margin="10,0,10,0"
+               TextColor="Red" 
+               IsVisible="{Binding IsDailyLimitErrorVisible}"
+               HorizontalOptions="FillAndExpand" 
+               Grid.Row="0"/>
+
+        <!-- Buttons Row -->
+        <Grid Padding="10,5" ColumnSpacing="20" VerticalOptions="End" Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Button Text="Cancel"
+                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                    TextColor="White"
+                    CornerRadius="5"
+                    Grid.Column="0"
+                    MinimumHeightRequest="{OnPlatform iOS=30, Android=40}"
+                    HeightRequest="{OnPlatform iOS=30, Android=40}"
+                    Clicked="MenuClosedClick"/>
+
+            <Button Text="Save"
+                    BackgroundColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                    TextColor="White"
+                    CornerRadius="5"
+                    Grid.Column="1"
+                    MinimumHeightRequest="{OnPlatform iOS=30, Android=40}"
+                    HeightRequest="{OnPlatform iOS=30, Android=40}"
+                    Command="{Binding SaveDailyLimitCommand}"/>
+        </Grid>
+
+    </Grid>
+
+    <!-- Swipe Gesture -->
+    <Frame.GestureRecognizers>
+        <SwipeGestureRecognizer Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference editDailyLimitPopup}}"
+                                Direction="Right"/>
+    </Frame.GestureRecognizers>
+
+</Frame>
+
+
+</toolkit:Popup>

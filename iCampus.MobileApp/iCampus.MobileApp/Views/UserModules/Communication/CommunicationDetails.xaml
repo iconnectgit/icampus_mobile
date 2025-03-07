@@ -20,10 +20,9 @@
                     <StackLayout.Resources>
                         <ResourceDictionary>
                             <behaviours:VisiblityConverter x:Key="VisiblityConverter" />
-                            <behaviours:TodaysDateTimeConverter x:Key="TodaysDateTimeConverter" />
                             <behaviours:AttachmentFileStatusToSourceConverter
                                 x:Key="AttachmentFileStatusToSourceConverter" />
-                            <individual:TruncateSenderNameConverter x:Key="TruncateSenderNameConverter" />
+                            <behaviours:UrlDecodeConverter x:Key="UrlDecodeConverter" />
                             <behaviours:AttachmentFileToImageSourceConverter
                                 x:Key="AttachmentFileToImageSourceConverter" />
                             <individual:SentMessageStatusToIconConverter x:Key="SentMessageStatusToIconConverter" />
@@ -33,183 +32,200 @@
                               HasUnevenRows="True"
                               BackgroundColor="{StaticResource ListViewBackgroundColor}"
                               SeparatorVisibility="None"
-                              Margin="{OnPlatform iOS='5,12,0,12', Android='5,10,0,10'}"
+                              Margin="5"
                               VerticalScrollBarVisibility="Never">
 
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
-                                    <Grid BackgroundColor="White" Padding="10,5,0,5" VerticalOptions="FillAndExpand">
-    <!-- Define rows to align content properly -->
-    <Grid.RowDefinitions>
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="Auto" />
-        <RowDefinition Height="*" /> <!-- Allows the list to take remaining space -->
-        <RowDefinition Height="1" /> <!-- For BoxView separator -->
-    </Grid.RowDefinitions>
+                                    <Grid BackgroundColor="White" Padding="10,5,10,5" VerticalOptions="FillAndExpand">
+                                        <!-- Define rows to align content properly -->
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="Auto" />
+                                            <RowDefinition Height="*" />
+                                            <!-- Allows the list to take remaining space -->
+                                            <RowDefinition Height="1" /> <!-- For BoxView separator -->
+                                        </Grid.RowDefinitions>
 
-    <!-- Message Subject -->
-    <Label Grid.Row="0"
-           Text="{Binding MessageSubject}"
-           Style="{StaticResource TitleLabelStyle}"
-           VerticalTextAlignment="Start"
-           VerticalOptions="Start"
-           HorizontalOptions="StartAndExpand"
-           HorizontalTextAlignment="Start"
-           Margin="{OnPlatform iOS='0,5,0,0', Android='0,5,0,0'}" />
+                                        <!-- Message Subject -->
+                                        <Label Grid.Row="0"
+                                               Text="{Binding MessageSubject}"
+                                               FontAttributes="Bold"
+                                               FontSize="16"
+                                               FontFamily=""
+                                               TextColor="#707070"
+                                               VerticalTextAlignment="Start"
+                                               VerticalOptions="Start"
+                                               HorizontalOptions="StartAndExpand"
+                                               HorizontalTextAlignment="Start"
+                                               Margin="{OnPlatform iOS='0,5,0,0', Android='0,5,0,0'}" />
 
-    <!-- Sender and Icons -->
-    <StackLayout Grid.Row="1"
-                 Orientation="Horizontal"
-                 Spacing="0"
-                 Margin="0"
-                 Padding="0">
-        <ffimageloading:CachedImage Source="{Binding IsPending,Converter={StaticResource SentMessageStatusToIconConverter}}"
-                                    Margin="0,0,2,0"
-                                    Scale="0.4"
-                                    IsVisible="{Binding IsSentMessageDetailsIconVisible}" />
-        <Label Text="{Binding SenderName,Converter={StaticResource TruncateSenderNameConverter}}"
-               FontAttributes="Bold"
-               Margin="0,0,20,0"
-               TextColor="{StaticResource LightGrayColor}"
-               Style="{StaticResource DescriptionLabelStyle}"
-               VerticalTextAlignment="Center"
-               VerticalOptions="CenterAndExpand"
-               HorizontalOptions="StartAndExpand"
-               HorizontalTextAlignment="Start" />
-        <ffimageloading:CachedImage Source="reply_all_button"
-                                    Scale="0.2"
-                                    HorizontalOptions="EndAndExpand"
-                                    VerticalOptions="CenterAndExpand"
-                                    Margin="10,0,0,0">
-            <ffimageloading:CachedImage.GestureRecognizers>
-                <TapGestureRecognizer Command="{Binding BindingContext.ReplyIconTappedCommand,Source={x:Reference communicationdetails}}"
-                                      CommandParameter="{Binding .}"
-                                      NumberOfTapsRequired="1" />
-            </ffimageloading:CachedImage.GestureRecognizers>
-        </ffimageloading:CachedImage>
-    </StackLayout>
+                                        <!-- Sender and Icons -->
+                                        <!-- Sender and Icons -->
+                                        <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto" Margin="0" Padding="0">
 
-    <!-- Receiver Name -->
-    <Label Grid.Row="2"
-           VerticalOptions="StartAndExpand"
-           HorizontalOptions="StartAndExpand"
-           Style="{StaticResource DescriptionLabelStyle}"
-           Margin="0,5,0,0">
-        <Label.FormattedText>
-            <FormattedString>
-                <Span Text="{Binding ReceiverName, StringFormat='To: {0}'}"
-                      Style="{StaticResource DescriptionLabelStyle}" />
-            </FormattedString>
-        </Label.FormattedText>
-    </Label>
+                                            <!-- Status Icon -->
+                                            <ffimageloading:CachedImage Grid.Column="0"
+                                                                        Source="{Binding IsPending,Converter={StaticResource SentMessageStatusToIconConverter}}"
+                                                                        Margin="0,0,2,0"
+                                                                        Scale="0.4"
+                                                                        IsVisible="{Binding IsSentMessageDetailsIconVisible}" />
 
-    <!-- Sent Date -->
-    <Label Grid.Row="3"
-           VerticalOptions="StartAndExpand"
-           HorizontalOptions="StartAndExpand"
-           Style="{StaticResource DescriptionLabelStyle}"
-           Margin="0,5,0,0">
-        <Label.FormattedText>
-            <FormattedString>
-                <Span Text="{Binding SentDateFormatted, StringFormat='Date: {0}', Converter={StaticResource TodaysDateTimeConverter}}"
-                      Style="{StaticResource DescriptionLabelStyle}" />
-            </FormattedString>
-        </Label.FormattedText>
-    </Label>
+                                            <!-- Sender Name -->
+                                            <Label Grid.Column="1"
+                                                   Text="{Binding SenderName}"
+                                                   FontAttributes="Bold"
+                                                   FontFamily=""
+                                                   Margin="0,0,0,0"
+                                                   TextColor="{StaticResource LightGrayColor}"
+                                                   Style="{StaticResource DescriptionLabelStyle}"
+                                                   VerticalTextAlignment="Center"
+                                                   HorizontalTextAlignment="Start"
+                                                   
+                                                    />
 
-    <!-- Message Text -->
-    <Label Grid.Row="4"
-           Text="{Binding MessageText}"
-           Style="{StaticResource DescriptionLabelStyle}"
-           Margin="{OnPlatform iOS='0,5,0,0', Android='0,5,0,0'}"
-           FontSize="{OnPlatform iOS='15', Android='15'}"
-           TextType="Html" />
+                                            <!-- Reply Icon -->
+                                            <ffimageloading:CachedImage Grid.Column="2"
+                                                                        Source="reply_all_button"
+                                                                        Scale="0.2"
+                                                                        HorizontalOptions="End"
+                                                                        VerticalOptions="Center"
+                                                                        Margin="10,0,0,0">
+                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding BindingContext.ReplyIconTappedCommand,Source={x:Reference communicationdetails}}"
+                                                        CommandParameter="{Binding .}"
+                                                        NumberOfTapsRequired="1" />
+                                                </ffimageloading:CachedImage.GestureRecognizers>
+                                            </ffimageloading:CachedImage>
 
-    <!-- Attachments Title -->
-    <Label Grid.Row="5"
-           Text="Attachments"
-           Style="{StaticResource TitleLabelStyle}"
-           VerticalOptions="StartAndExpand"
-           HorizontalOptions="StartAndExpand"
-           Margin="0,5,0,0"
-           FontAttributes="Bold"
-           IsVisible="{Binding AttachmentCount, Converter={StaticResource IntToBoolValueConverter}, ConverterParameter=attachmentVisibility}" />
+                                        </Grid>
 
-    <!-- Attachment List -->
-    <ListView Grid.Row="6"
-              HasUnevenRows="True"
-              Margin="0,0,0,10"
-              IsVisible="{Binding AttachmentCount, Converter={StaticResource IntToBoolValueConverter}, ConverterParameter=attachmentVisibility}"
-              ItemsSource="{Binding BindableAttachmentList, Mode=TwoWay}"
-              SelectionMode="None"
-              BackgroundColor="{StaticResource ListViewBackgroundColor}"
-              SeparatorVisibility="None"
-              VerticalScrollBarVisibility="Never"
-              HeightRequest="{Binding AttachmentListViewHeight}">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <Grid RowDefinitions="Auto" ColumnDefinitions="Auto,Auto,*"
-                          IsVisible="{Binding FilePath, Converter={StaticResource VisiblityConverter}}"
-                          Margin="0,10,0,0">
-                        <ffimageloading:CachedImage Grid.Column="0"
-                                                    HorizontalOptions="EndAndExpand"
-                                                    VerticalOptions="CenterAndExpand"
-                                                    WidthRequest="25"
-                                                    HeightRequest="25"
-                                                    Aspect="AspectFit"
-                                                    CacheType="None"
-                                                    CacheDuration="0"
-                                                    DownsampleToViewSize="True"
-                                                    Source="{Binding FileStatus, Mode=TwoWay, Converter={StaticResource AttachmentFileStatusToSourceConverter}}">
-                            <ffimageloading:CachedImage.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding BindingContext.DownloadTappedCommand,Source={x:Reference communicationdetails}}"
-                                                      CommandParameter="{Binding .}" />
-                            </ffimageloading:CachedImage.GestureRecognizers>
-                        </ffimageloading:CachedImage>
-                        <ffimageloading:CachedImage Grid.Column="1"
-                                                    HorizontalOptions="StartAndExpand"
-                                                    VerticalOptions="CenterAndExpand"
-                                                    WidthRequest="20"
-                                                    HeightRequest="20"
-                                                    Aspect="AspectFit"
-                                                    Margin="10,0,0,0"
-                                                    DownsampleToViewSize="True"
-                                                    Source="{Binding FileName, Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
-                        <Label Grid.Column="2"
-                               Text="{Binding FileName}"
-                               HorizontalOptions="StartAndExpand"
-                               VerticalOptions="CenterAndExpand"
-                               Margin="10,0,0,0"
-                               Style="{StaticResource AttachmentTextStyle}"
-                               LineBreakMode="TailTruncation"
-                               MaxLines="1">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding BindingContext.PreviewIconTappedCommand,Source={x:Reference communicationdetails}}"
-                                                      CommandParameter="{Binding .}" />
-                            </Label.GestureRecognizers>
-                        </Label>
-                        <Grid.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding BindingContext.PreviewIconTappedCommand,Source={x:Reference communicationdetails}}"
-                                                  CommandParameter="{Binding .}" />
-                        </Grid.GestureRecognizers>
-                    </Grid>
-                </ViewCell>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
 
-    <!-- Separator Line -->
-    <BoxView Grid.Row="7"
-             HeightRequest="1"
-             BackgroundColor="LightGray" />
-</Grid>
+                                        <!-- Receiver Name -->
+                                        <Label Grid.Row="2"
+                                               VerticalOptions="StartAndExpand"
+                                               HorizontalOptions="StartAndExpand"
+                                               Style="{StaticResource DescriptionLabelStyle}"
+                                               Margin="0,5,0,0">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding ReceiverName, StringFormat='To: {0}'}"
+                                                          Style="{StaticResource DescriptionLabelStyle}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                        <!-- Sent Date -->
+                                        <Label Grid.Row="3"
+                                               VerticalOptions="StartAndExpand"
+                                               HorizontalOptions="StartAndExpand"
+                                               Style="{StaticResource DescriptionLabelStyle}"
+                                               Margin="0,5,0,0">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding SentDateFormatted, StringFormat='Date: {0}'}"
+                                                          Style="{StaticResource DescriptionLabelStyle}" />
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
+                                        <!-- Message Text -->
+                                        <Label Grid.Row="4"
+                                               Text="{Binding MessageText}"
+                                               Style="{StaticResource DescriptionLabelStyle}"
+                                               Margin="{OnPlatform iOS='0,5,0,0', Android='0,5,0,0'}"
+                                               FontSize="{OnPlatform iOS='15', Android='15'}"
+                                               TextType="Html" />
+
+                                        <!-- Attachments Title -->
+                                        <Label Grid.Row="5"
+                                               Text="Attachments"
+                                               Style="{StaticResource TitleLabelStyle}"
+                                               VerticalOptions="StartAndExpand"
+                                               HorizontalOptions="StartAndExpand"
+                                               Margin="0,5,0,0"
+                                               FontAttributes="Bold"
+                                               IsVisible="{Binding AttachmentCount, Converter={StaticResource IntToBoolValueConverter}, ConverterParameter=attachmentVisibility}" />
+
+                                        <!-- Attachment List -->
+                                        <ListView Grid.Row="6"
+                                                  HasUnevenRows="True"
+                                                  Margin="0,0,0,10"
+                                                  IsVisible="{Binding AttachmentCount, Converter={StaticResource IntToBoolValueConverter}, ConverterParameter=attachmentVisibility}"
+                                                  ItemsSource="{Binding BindableAttachmentList, Mode=TwoWay}"
+                                                  SelectionMode="None"
+                                                  BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                                  SeparatorVisibility="None"
+                                                  VerticalScrollBarVisibility="Never"
+                                                  HeightRequest="{Binding AttachmentListViewHeight}">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ViewCell>
+                                                        <Grid RowDefinitions="Auto" ColumnDefinitions="Auto,Auto,*"
+                                                              IsVisible="{Binding FilePath, Converter={StaticResource VisiblityConverter}}"
+                                                              Margin="0,10,0,0">
+                                                            <ffimageloading:CachedImage Grid.Column="0"
+                                                                HorizontalOptions="EndAndExpand"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                WidthRequest="25"
+                                                                HeightRequest="25"
+                                                                Aspect="AspectFit"
+                                                                CacheType="None"
+                                                                CacheDuration="0"
+                                                                DownsampleToViewSize="True"
+                                                                Source="{Binding FileStatus, Mode=TwoWay, Converter={StaticResource AttachmentFileStatusToSourceConverter}}">
+                                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.DownloadTappedCommand,Source={x:Reference communicationdetails}}"
+                                                                        CommandParameter="{Binding .}" />
+                                                                </ffimageloading:CachedImage.GestureRecognizers>
+                                                            </ffimageloading:CachedImage>
+                                                            <ffimageloading:CachedImage Grid.Column="1"
+                                                                HorizontalOptions="StartAndExpand"
+                                                                VerticalOptions="CenterAndExpand"
+                                                                WidthRequest="20"
+                                                                HeightRequest="20"
+                                                                Aspect="AspectFit"
+                                                                Margin="10,0,0,0"
+                                                                DownsampleToViewSize="True"
+                                                                Source="{Binding FileName, Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
+                                                            <Label Grid.Column="2"
+                                                                   Text="{Binding FileName, Converter={StaticResource UrlDecodeConverter}}"
+                                                                   HorizontalOptions="StartAndExpand"
+                                                                   VerticalOptions="CenterAndExpand"
+                                                                   Margin="10,0,0,0"
+                                                                   Style="{StaticResource AttachmentTextStyle}"
+                                                                   LineBreakMode="TailTruncation"
+                                                                   MaxLines="1">
+                                                                <Label.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.PreviewIconTappedCommand,Source={x:Reference communicationdetails}}"
+                                                                        CommandParameter="{Binding .}" />
+                                                                </Label.GestureRecognizers>
+                                                            </Label>
+                                                            <Grid.GestureRecognizers>
+                                                                <TapGestureRecognizer
+                                                                    Command="{Binding BindingContext.PreviewIconTappedCommand,Source={x:Reference communicationdetails}}"
+                                                                    CommandParameter="{Binding .}" />
+                                                            </Grid.GestureRecognizers>
+                                                        </Grid>
+                                                    </ViewCell>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
+
+                                        <!-- Separator Line -->
+                                        <BoxView Grid.Row="7"
+                                                 HeightRequest="1"
+                                                 BackgroundColor="LightGray" />
+                                    </Grid>
 
                                 </ViewCell>
                             </DataTemplate>

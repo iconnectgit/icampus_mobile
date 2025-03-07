@@ -348,10 +348,26 @@ public class AddTestDetailsForm : ViewModelBase
 
     private async void SelectFileClicked(object obj)
     {
-        var fileData = await HelperMethods.PickFileFromDevice();
-        AttachmentFiles = new ObservableCollection<AttachmentFileView>();
-        AttachmentFiles.AddFileToList(fileData);
-        AttachmentListViewHeight = AttachmentFiles.Count * 60;
+        try
+        {
+            var fileData = await HelperMethods.PickFileFromDevice();
+            if (fileData == null)
+            {
+                return;
+            }
+            if (AttachmentFiles.Any(x => x.FileName.Equals(fileData.FileName, StringComparison.OrdinalIgnoreCase)))
+            {
+                await HelperMethods.ShowAlert("", "This file has already been added.");
+                return;
+            }
+            AttachmentFiles = new ObservableCollection<AttachmentFileView>();
+            AttachmentFiles.AddFileToList(fileData);
+            AttachmentListViewHeight = AttachmentFiles.Count * 60;
+        }
+        catch (Exception ex)
+        {
+            HelperMethods.DisplayException(ex, PageTitle);
+        }
     }
 
     private async void PositiveClicked()

@@ -266,6 +266,10 @@ public class RaiseComplaintsForm : ViewModelBase
         private async void AddAttachmentClicked(object obj)
         {
             AttachmentFileView fileData = await HelperMethods.PickFileFromDevice();
+            if (fileData == null)
+            {
+                return;
+            }
             if (AttachmentFiles.Any(x => x.FileName.Equals(fileData.FileName, StringComparison.OrdinalIgnoreCase)))
             {
                 await HelperMethods.ShowAlert("", "This file has already been added.");

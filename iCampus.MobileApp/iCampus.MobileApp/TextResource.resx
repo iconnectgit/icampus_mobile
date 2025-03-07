@@ -1027,10 +1027,13 @@
     <value>api/guestuser/InsertNewsOpenLog?newsId={0}</value>
   </data>
   <data name="DailyLimitText" xml:space="preserve">
-    <value>Amount cannot be less than Minimum Amount </value>
+    <value>Daily limit cannot be less than Minimum Amount </value>
+  </data>
+  <data name="MinAmountLimitText" xml:space="preserve">
+    <value>Minimum balance cannot be less than Minimum Amount </value>
   </data>
   <data name="SaveDailyLimitApiUrl" xml:space="preserve">
-    <value>api/cashless/SaveCashlessCardDailyLimit?userRefId={0}&amp;dailyLimit={1}</value>
+    <value>api/cashless/SaveCashlessCardDailyLimit?userRefId={0}&amp;dailyLimit={1}&amp;minimumBalance={2}</value>
   </data>
   <data name="DailyLimitSaveSuccessMessage" xml:space="preserve">
     <value>Updated successfully</value>

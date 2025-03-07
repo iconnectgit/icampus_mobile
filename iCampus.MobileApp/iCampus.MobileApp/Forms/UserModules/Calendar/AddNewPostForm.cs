@@ -1445,6 +1445,7 @@ public class AddNewPostForm : ViewModelBase
                         }
                     }
                     AttachmentListViewHeight = AttachmentFiles.Count *40 ;
+                    MessagingCenter.Send("", "UpdateAttachmentListView");
                 }
                 FilteredFileBankAttachmentList.ToList().ForEach(x => x.IsChecked = false);
             }
@@ -1469,7 +1470,7 @@ public class AddNewPostForm : ViewModelBase
                         agendaEditPostData.AttachmentsArray = fileNames;
                     }
                     agendaEditPostData.AgendaId = IsEditMode ? Convert.ToInt32(SelectedAgenda.AgendaId) : 0;
-                    if (SelectedAgendaTypes.ItemName.ToLower().Equals("weekly"))
+                    if (int.TryParse(SelectedAgendaTypes.ItemId, out int itemId) && itemId == 3)
                     {
                         agendaEditPostData.GradeId = Convert.ToInt16(SelectedCourse.ItemId);
                     }
@@ -1565,7 +1566,9 @@ public class AddNewPostForm : ViewModelBase
                 SelectedCourse = new PickListItem();
                 ClassesVisibility = false;
                 IsClassesSelected = false;
-                FilteredCourseList = SelectedAgendaTypes.ItemName.ToLower().Equals("weekly") ? GradeList : CourseList;
+                FilteredCourseList = int.TryParse(SelectedAgendaTypes.ItemId, out int itemId) && itemId == 3 
+                    ? GradeList 
+                    : CourseList;
                 CourseListViewHeight = Math.Min(FilteredCourseList.Count * 32, 300);
                 AllowSubmissionsVisibility = true;
                 switch (SelectedAgendaTypes.StudentSubmissionType.ToLower())
@@ -1868,7 +1871,7 @@ public class AddNewPostForm : ViewModelBase
                 else
                 {
                     agendaID =  null;
-                    isWeekly = SelectedAgendaTypes != null && SelectedAgendaTypes.ItemName.ToLower().Equals("weekly") ? true : false;
+                    isWeekly = SelectedAgendaTypes != null && int.TryParse(SelectedAgendaTypes.ItemId, out int itemId) && itemId == 3 ? true : false;
                     gradeid = isWeekly ? SelectedCourse.ItemId : null;
                     curriculumId = isWeekly ? null : SelectedCourse.ItemId ;
                 }

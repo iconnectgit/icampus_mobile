@@ -41,7 +41,14 @@ public class CustomWebViewHandler : ViewHandler<CustomWebView, WKWebView>
         var webView = new WKWebView(CGRect.Empty, config)
         {
             NavigationDelegate = new CustomWebViewDelegate(this),
-            ScrollView = { ScrollEnabled = false, Bounces = false }
+            ScrollView =
+            {
+                ScrollEnabled = true, 
+                Bounces = false,
+                AlwaysBounceVertical = false,
+                AlwaysBounceHorizontal = true, 
+                ShowsHorizontalScrollIndicator = true 
+            }
         };
 
         _userContentController.AddScriptMessageHandler(new ScriptMessageHandler(this), HeightScriptHandler);

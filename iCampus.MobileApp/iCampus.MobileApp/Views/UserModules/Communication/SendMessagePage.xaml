@@ -552,19 +552,19 @@
                             </Label.FormattedText>
                         </Label>
                     </StackLayout>
-                    <ListView HasUnevenRows="True"
+                    <CollectionView 
                               IsVisible="{Binding AttachmentFiles.Count, Converter={StaticResource IntToBoolValueConverter}}"
                               HorizontalOptions="StartAndExpand"
                               ItemsSource="{Binding AttachmentFiles,Mode=TwoWay}"
                               SelectionMode="None"
-                              SeparatorVisibility="None"
+                              
                               HeightRequest="{Binding AttachmentListViewHeight}"
-                              Margin="0"
+                              Margin="0,0,0,10"
                               Grid.RowSpan="2"
                               Grid.Row="11" Grid.Column="0">
-                        <ListView.ItemTemplate>
+                        <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <ViewCell>
+                                
                                     <Grid HorizontalOptions="FillAndExpand"
                                           Margin="0,8,0,0"
                                           VerticalOptions="CenterAndExpand">
@@ -604,10 +604,10 @@
                                             </ffimageloading:CachedImage.GestureRecognizers>
                                         </ffimageloading:CachedImage>
                                     </Grid>
-                                </ViewCell>
+                               
                             </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </Grid>
 
             </Grid>

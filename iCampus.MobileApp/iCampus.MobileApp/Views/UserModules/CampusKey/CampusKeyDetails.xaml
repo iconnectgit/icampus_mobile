@@ -52,7 +52,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Label Grid.Row="0"
                                        Grid.Column="0"
-                                       Text="{Binding CampusKeyObject.TransactionDate, StringFormat='{0:MMMM dd, yyyy}'}"
+                                       Text="{Binding CampusKeyObject.TransactionDateFormatted}"
                                        Style="{StaticResource TitleLabelStyle}" />
                                 <Label Grid.Row="0"
                                        Grid.Column="1"
@@ -154,7 +154,7 @@
                                                        VerticalTextAlignment="Center" />
                                                 <Label Grid.Row="0"
                                                        Grid.Column="3"
-                                                       Text="{Binding BalanceAmount}"
+                                                       Text="{Binding FormattedBalanceAmount}"
                                                        HorizontalTextAlignment="End"
                                                        Style="{StaticResource DescriptionLabelStyle}"
                                                        VerticalTextAlignment="Center" />
@@ -192,7 +192,7 @@
                                         <FormattedString>
                                             <Span Text="Bill Amount :"
                                                   Style="{StaticResource TitleLabelStyle}" />
-                                            <Span Text="{Binding TotalBalance,StringFormat=' {0} AED' }"
+                                            <Span Text="{Binding CampusKeyObject.Amount}"
                                                   Style="{StaticResource DescriptionLabelStyle}" />
                                         </FormattedString>
                                     </Label.FormattedText>

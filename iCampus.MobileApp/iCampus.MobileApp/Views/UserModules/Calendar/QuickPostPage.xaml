@@ -19,13 +19,15 @@
             <Grid.Resources>
                 <ResourceDictionary>
                     <behaviours:AttachmentFileToImageSourceConverter x:Key="AttachmentFileToImageSourceConverter" />
+                    <behaviours:UrlDecodeConverter x:Key="UrlDecodeConverter" />
                 </ResourceDictionary>
             </Grid.Resources>
 
             <ContentView ControlTemplate="{StaticResource BeamHeader}"
                          BackgroundColor="White" Grid.Row="0" Grid.Column="0" HeightRequest="40" />
-            <StackLayout Grid.Row="1" Grid.Column="0" VerticalOptions="FillAndExpand">
-                <ScrollView VerticalOptions="FillAndExpand">
+            <ScrollView Grid.Row="1" Grid.Column="0" VerticalOptions="FillAndExpand">
+            <StackLayout VerticalOptions="FillAndExpand">
+                
                     <Grid Margin="10"
                           RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                           ColumnDefinitions="0.4*,0.6*"
@@ -329,7 +331,7 @@
                                                             VerticalOptions="CenterAndExpand"
                                                             Text="Select All"
                                                             Color="Gray"
-                                                            CheckChangedCommand="{Binding ClassesSelectionCommand}"/>
+                                                            CheckChangedCommand="{Binding ClassesSelectionCommand}" />
                                         </StackLayout>
                                     </StackLayout>
                                 </Frame>
@@ -766,7 +768,7 @@
                                          Spacing="0"
                                          VerticalOptions="FillAndExpand"
                                          IsVisible="{Binding ClassesVisibility}">
-                                
+
                                 <Frame HasShadow="False" Padding="10" IsClippedToBounds="True"
                                        IsVisible="{Binding ClassesVisibility}"
                                        BackgroundColor="{StaticResource BorderColor}" Margin="5,5,5,10">
@@ -778,7 +780,7 @@
                                                             VerticalOptions="CenterAndExpand"
                                                             Text="Select All"
                                                             Color="Gray"
-                                                            CheckChangedCommand="{Binding ClassesSelectionCommand}"/>
+                                                            CheckChangedCommand="{Binding ClassesSelectionCommand}" />
                                         </StackLayout>
                                     </StackLayout>
                                 </Frame>
@@ -1076,73 +1078,71 @@
                                                         </StackLayout>
                                                     </Frame>
                                                 </StackLayout>
-                                                    <ListView HasUnevenRows="True"
-                                                              HorizontalOptions="StartAndExpand"
-                                                              ItemsSource="{Binding AttachmentFiles, Mode=TwoWay}"
-                                                              SelectionMode="None"
-                                                              BackgroundColor="Transparent"
-                                                              VerticalOptions="FillAndExpand"
-                                                              SeparatorVisibility="None"
-                                                              x:Name="attachmentListView"
-                                                              HeightRequest="{Binding AttachmentListViewHeight}"
-                                                              Margin="0">
-                                                        <x:Arguments>
-                                                            <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
-                                                        </x:Arguments>
-                                                        <ListView.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <ViewCell>
-                                                                    <StackLayout>
-                                                                        <Grid HorizontalOptions="FillAndExpand"
-                                                                              Margin="0,8,0,0" RowDefinitions="Auto"
-                                                                              VerticalOptions="CenterAndExpand"
-                                                                              BackgroundColor="Transparent">
-                                                                            <Grid.ColumnDefinitions>
-                                                                                <ColumnDefinition Width="Auto" />
-                                                                                <ColumnDefinition Width="*" />
-                                                                                <ColumnDefinition Width="Auto" />
-                                                                            </Grid.ColumnDefinitions>
-                                                                                <ffimageloading:CachedImage
-                                                                                    HorizontalOptions="StartAndExpand"
-                                                                                    VerticalOptions="CenterAndExpand"
-                                                                                    WidthRequest="20"
-                                                                                    HeightRequest="20"
-                                                                                    Grid.Row="0"
-                                                                                    Grid.Column="0"
-                                                                                    Aspect="AspectFit"
-                                                                                    Margin="10,0,0,0"
-                                                                                    DownsampleToViewSize="True"
-                                                                                    Source="{Binding FileName,Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
-                                                                                <Label Text="{Binding FileName}"
-                                                                                    TextColor="{StaticResource GrayTextColor}"
-                                                                                    HorizontalOptions="StartAndExpand"
-                                                                                    VerticalOptions="CenterAndExpand"
-                                                                                    Grid.Row="0"
-                                                                                    Grid.Column="1"
-                                                                                    Margin="5,0,0,0"
-                                                                                    Style="{StaticResource AttachmentTextStyle}" />
-                                                                            <ffimageloading:CachedImage
-                                                                                HorizontalOptions="EndAndExpand"
-                                                                                VerticalOptions="CenterAndExpand"
-                                                                                WidthRequest="24"
-                                                                                HeightRequest="24"
-                                                                                Aspect="AspectFit"
-                                                                                Grid.Row="0"
-                                                                                Grid.Column="2"
-                                                                                DownsampleToViewSize="True"
-                                                                                Source="delete_bin_icon.png">
-                                                                                <ffimageloading:CachedImage.GestureRecognizers>
-                                                                                    <TapGestureRecognizer
-                                                                                        Command="{Binding BindingContext.DeleteAttachmentClickCommand,Source={x:Reference quickPostPage}}"
-                                                                                        CommandParameter="{Binding .}" />
-                                                                                </ffimageloading:CachedImage.GestureRecognizers>
-                                                                            </ffimageloading:CachedImage>
-                                                                        </Grid>
-                                                                    </StackLayout>
-                                                                </ViewCell>
-                                                            </DataTemplate>
-                                                        </ListView.ItemTemplate>
-                                                    </ListView>
+                                                <CollectionView
+                                                    HorizontalOptions="StartAndExpand"
+                                                    ItemsSource="{Binding AttachmentFiles, Mode=TwoWay}"
+                                                    SelectionMode="None"
+                                                    BackgroundColor="Transparent"
+                                                    VerticalOptions="FillAndExpand"
+
+                                                    x:Name="attachmentListView"
+                                                    HeightRequest="{Binding AttachmentListViewHeight}"
+                                                    Margin="0">
+                                                    <CollectionView.ItemTemplate>
+                                                        <DataTemplate>
+
+                                                            <StackLayout>
+                                                                <Grid HorizontalOptions="FillAndExpand"
+                                                                      Margin="0,8,0,0" RowDefinitions="Auto"
+                                                                      VerticalOptions="CenterAndExpand"
+                                                                      BackgroundColor="Transparent">
+                                                                    <Grid.ColumnDefinitions>
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                        <ColumnDefinition Width="*" />
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                    </Grid.ColumnDefinitions>
+                                                                    <ffimageloading:CachedImage
+                                                                        HorizontalOptions="StartAndExpand"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        WidthRequest="20"
+                                                                        HeightRequest="20"
+                                                                        Grid.Row="0"
+                                                                        Grid.Column="0"
+                                                                        Aspect="AspectFit"
+                                                                        Margin="10,0,0,0"
+                                                                        DownsampleToViewSize="True"
+                                                                        Source="{Binding FileName,Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
+                                                                    <Label
+                                                                        Text="{Binding FileName, Converter={StaticResource UrlDecodeConverter}}"
+                                                                        TextColor="{StaticResource GrayTextColor}"
+                                                                        HorizontalOptions="StartAndExpand"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        Grid.Row="0"
+                                                                        Grid.Column="1"
+                                                                        Margin="5,0,0,0"
+                                                                        Style="{StaticResource AttachmentTextStyle}" />
+                                                                    <ffimageloading:CachedImage
+                                                                        HorizontalOptions="EndAndExpand"
+                                                                        VerticalOptions="CenterAndExpand"
+                                                                        WidthRequest="24"
+                                                                        HeightRequest="24"
+                                                                        Aspect="AspectFit"
+                                                                        Grid.Row="0"
+                                                                        Grid.Column="2"
+                                                                        DownsampleToViewSize="True"
+                                                                        Source="delete_bin_icon.png">
+                                                                        <ffimageloading:CachedImage.GestureRecognizers>
+                                                                            <TapGestureRecognizer
+                                                                                Command="{Binding BindingContext.DeleteAttachmentClickCommand,Source={x:Reference quickPostPage}}"
+                                                                                CommandParameter="{Binding .}" />
+                                                                        </ffimageloading:CachedImage.GestureRecognizers>
+                                                                    </ffimageloading:CachedImage>
+                                                                </Grid>
+                                                            </StackLayout>
+
+                                                        </DataTemplate>
+                                                    </CollectionView.ItemTemplate>
+                                                </CollectionView>
                                             </StackLayout>
                                         </ViewCell>
                                     </DataTemplate>
@@ -1153,8 +1153,9 @@
 
 
                     </Grid>
-                </ScrollView>
+                
             </StackLayout>
+            </ScrollView>
             <StackLayout Margin="5" Grid.Row="2" Grid.Column="0" Orientation="Horizontal">
                 <Button Text="Cancel"
                         IsVisible="{Binding IsCancelButtonVisibleForTeacher}"

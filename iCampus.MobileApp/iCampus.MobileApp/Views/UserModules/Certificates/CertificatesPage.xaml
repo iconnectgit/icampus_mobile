@@ -32,7 +32,7 @@
                                HorizontalOptions="StartAndExpand"
                                VerticalOptions="StartAndExpand"
                                LineBreakMode="WordWrap"
-                               FontSize="Medium"
+                               FontSize="14"
                                TextType="Html"
                                Margin="10,5,10,5"
                                Style="{StaticResource DescriptionLabelStyle}" />
@@ -63,7 +63,10 @@
                                             <StackLayout Orientation="Horizontal">
                                                 <Label Text="{Binding CertificateName}"
                                                        HorizontalOptions="StartAndExpand"
-                                                       Style="{StaticResource OnlinePaymentBoldLabels}" />
+                                                       FontSize="16"
+                                                       Style="{StaticResource OnlinePaymentBoldLabels}" 
+                                                       FontAttributes="Bold"
+                                                       FontFamily=""/>
                                             </StackLayout>
                                         </StackLayout>
                                         <Frame.GestureRecognizers>

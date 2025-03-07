@@ -22,6 +22,7 @@
                 <behaviours:VisiblityConverter x:Key="VisiblityConverter" />
                 <behaviours:AttachmentTypeToImageSourceConverter x:Key="AttachmentTypeToImageSourceConverter" />
                 <behaviours:AttachmentFileStatusToSourceConverter x:Key="AttachmentFileStatusToSourceConverter" />
+                <behaviours:ColumnSpanConverter x:Key="ColumnSpanConverter"/>
             </Grid.Resources>
 
             <ContentView ControlTemplate="{StaticResource BeamHeader}"
@@ -40,31 +41,33 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <StackLayout Spacing="0" Grid.Column="0">
-                            <Button Text="Report Card"
+                        <StackLayout Spacing="0" Grid.Column="0" Grid.ColumnSpan="{Binding SelectTermsOptionForSkillVisibility, Converter={StaticResource ColumnSpanConverter}}">
+                            <Button x:Name="ReportCardButton"
+                                    Text="Marks Report Card"
                                     FontSize="16"
                                     BackgroundColor="White"
-                                    HorizontalOptions="FillAndExpand"
+                                    HorizontalOptions="Fill"
                                     VerticalOptions="Center"
                                     TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
                                     CornerRadius="0"
                                     Margin="0,10,0,0"
                                     HeightRequest="40"
-                                    Padding="0"
+                                    Padding="5,0,0,0"
                                     Command="{Binding ReportCardCommand}"
                                     Opacity="{Binding ReportCardButtonOpacity}" />
                         </StackLayout>
-                        <StackLayout Spacing="0" Grid.Column="1">
-                            <Button Text="Skill Report Card"
+                        <StackLayout Spacing="0" Grid.Column="1" IsVisible="{Binding SelectTermsOptionForSkillVisibility}">
+                            <Button x:Name="SkillReportCardButton"
+                                    Text="Skill Report Card"
                                     FontSize="16"
                                     BackgroundColor="White"
-                                    HorizontalOptions="FillAndExpand"
+                                    HorizontalOptions="Fill"
                                     VerticalOptions="Center"
                                     TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
                                     CornerRadius="0"
                                     Margin="0,10,0,0"
                                     HeightRequest="40"
-                                    Padding="0"
+                                    Padding="5,0,0,0"
                                     Command="{Binding SkillReportCardCommand}"
                                     Opacity="{Binding SkillReportCardButtonOpacity}" />
                         </StackLayout>

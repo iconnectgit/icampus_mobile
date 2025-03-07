@@ -12,6 +12,23 @@ public partial class AddNewPostPage : ContentPage
     public AddNewPostPage()
     {
         InitializeComponent();
+        MessagingCenter.Subscribe<string>("", "UpdateAttachmentListView", (arg) =>
+        {
+            //ForceNativeTableUpdate(attachmentlistview);
+        });
+    }
+    public void ForceNativeTableUpdate(ListView listView)
+    {
+        if (listView.Handler != null)
+        {
+#if ANDROID
+            var nativeListView = listView.Handler.PlatformView as AndroidX.RecyclerView.Widget.RecyclerView;
+            nativeListView?.GetAdapter()?.NotifyDataSetChanged();
+#elif IOS || MACCATALYST
+            var nativeListView = listView.Handler.PlatformView as UIKit.UITableView;
+            nativeListView?.ReloadData();
+#endif
+        }
     }
     
     private async void CustomDatePicker_DateSelected(object? sender, DateChangedEventArgs e)

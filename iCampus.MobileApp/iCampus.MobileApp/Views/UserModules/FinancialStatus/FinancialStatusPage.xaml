@@ -51,7 +51,7 @@
                                     Opacity="{Binding FinancialButtonOpacity}" />
                         </StackLayout>
                         <StackLayout Spacing="0" Grid.Column="1">
-                            <Button Text="Statement History"
+                            <Button Text="Payment History"
                                     FontSize="16"
                                     BackgroundColor="White"
                                     HorizontalOptions="FillAndExpand"
@@ -103,14 +103,25 @@
                                        Grid.Column="0"
                                        Style="{StaticResource TitleLabelStyle}"
                                        Text="Description"
-                                       FontAttributes="Bold" />
+                                       FontSize="16"
+                                       FontAttributes="Bold" 
+                                       FontFamily=""
+                                       TextColor="Black"/>
                                 <Label Grid.Row="0"
                                        Style="{StaticResource TitleLabelStyle}"
                                        Text="Credit"
+                                       FontSize="16"
+                                       TextColor="Green"
+                                       FontFamily=""
+                                       FontAttributes="Bold" 
                                        Grid.Column="1" HorizontalOptions="EndAndExpand" />
                                 <Label Grid.Row="0"
                                        Style="{StaticResource TitleLabelStyle}"
                                        Text="Debit"
+                                       TextColor="Red"
+                                       FontFamily=""
+                                       FontSize="16"
+                                       FontAttributes="Bold" 
                                        Grid.Column="2" HorizontalOptions="EndAndExpand" />
                             </Grid>
                         </Frame>
@@ -257,7 +268,8 @@
                                Padding="10"
                                BorderColor="{StaticResource BorderColor}"
                                IsClippedToBounds="True"
-                               BackgroundColor="White">
+                               BackgroundColor="White"
+                               IsVisible="{Binding IsNoStmtHistory, Converter={StaticResource ReverseBoolValueConverter}}">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto" />

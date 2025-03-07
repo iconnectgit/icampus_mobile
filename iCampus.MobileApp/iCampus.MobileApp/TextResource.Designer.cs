@@ -1869,6 +1869,12 @@ namespace iCampus.MobileApp {
             }
         }
         
+        internal static string MinAmountLimitText {
+            get {
+                return ResourceManager.GetString("MinAmountLimitText", resourceCulture);
+            }
+        }
+        
         internal static string SaveDailyLimitApiUrl {
             get {
                 return ResourceManager.GetString("SaveDailyLimitApiUrl", resourceCulture);

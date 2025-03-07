@@ -481,6 +481,10 @@ public class AddNewResourcesForm : ViewModelBase
         try
         {
             var fileData = await HelperMethods.PickFileFromDevice();
+            if (fileData == null)
+            {
+                return;
+            }
             if (AttachmentFiles.Any(x => x.FileName.Equals(fileData.FileName, StringComparison.OrdinalIgnoreCase)))
             {
                 await HelperMethods.ShowAlert("", "This file has already been added.");

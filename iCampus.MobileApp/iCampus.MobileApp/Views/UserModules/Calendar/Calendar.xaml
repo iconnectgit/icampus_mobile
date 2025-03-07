@@ -511,7 +511,7 @@
                                                             <Label Style="{StaticResource TitleLabelStyle}"
                                                                    FontSize="14"
                                                                    VerticalOptions="Center"
-                                                                   Grid.Row="0" Text="{Binding CurriculumName}"
+                                                                   Grid.Row="0" Text="{Binding Assignment}"
                                                                    IsVisible="{Binding CurriculumName,Converter={StaticResource visiblityConverter}}"
                                                                    Grid.Column="0" Padding="0"
                                                                    Grid.ColumnSpan="2" />

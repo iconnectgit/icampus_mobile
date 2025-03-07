@@ -1557,8 +1557,14 @@ public class QuickPostForm : ViewModelBase
                     await HelperMethods.ShowAlert("", "This file has already been added.");
                     return;
                 }
+                if (bindableQuickPost.AttachmentFiles == null)
+                {
+                    bindableQuickPost.AttachmentFiles = new ObservableCollection<AttachmentFileView>();
+                }
+                
                 bindableQuickPost.AttachmentFiles.AddFileToList(fileData);
                 bindableQuickPost.AttachmentListViewHeight = bindableQuickPost.AttachmentFiles.Count * 40;
+
                 MessagingCenter.Send("", "UpdateAttachmentListView");
                 var agendaItem = new AgendaView
                 {
@@ -1570,12 +1576,12 @@ public class QuickPostForm : ViewModelBase
                     agendaItem.IsDeleted = false;
                     agendaItem.AgendaUId = bindableQuickPost.AgendaUId;
                 }
-
+                
                 GroupedAgendaAttachmentDataString.Add(agendaItem);
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
+                HelperMethods.DisplayException(ex, this.PageTitle);
                 throw;
             }
         }

@@ -94,7 +94,7 @@
                                                 <Label
                                                     Grid.Row="0"
                                                     Grid.Column="1"
-                                                    FontAttributes="{Binding IsRead,Converter={StaticResource TitleFontWeightConverter}}"
+                                                    TextColor="{Binding IsRead,Converter={StaticResource TitleFontWeightConverter}}"
                                                     Margin="0,0,0,0" Style="{StaticResource TitleLabelStyle}"
                                                     Text="{Binding SenderName,Converter={StaticResource TruncateSenderNameConverter}}"
                                                     VerticalTextAlignment="Center"
@@ -104,7 +104,7 @@
                                                 <Label
                                                     Grid.Row="0"
                                                     Grid.Column="2"
-                                                    FontAttributes="{Binding IsRead,Converter={StaticResource TitleFontWeightConverter}}"
+                                                    TextColor="{Binding IsRead,Converter={StaticResource TitleFontWeightConverter}}"
                                                     Text="{Binding MessagesCount,StringFormat=' ({0})'}"
                                                     Style="{StaticResource TitleLabelStyle}"
                                                     IsVisible="{Binding MessagesCount,Converter={StaticResource IntToBoolValueConverter}}"
@@ -176,6 +176,7 @@
                                                    MaxLines="2"
                                                    VerticalTextAlignment="Start"
                                                    HorizontalTextAlignment="Start"
+                                                   TextColor="{Binding IsRead,Converter={StaticResource TitleFontWeightConverter}}"
                                                    IsVisible="{Binding MessageSubject,Converter={StaticResource VisiblityConverter}}"
                                                    Style="{StaticResource DescriptionLabelStyle}"
                                                    Grid.Row="1"
@@ -184,6 +185,7 @@
                                                    Text="{Binding MessageSubject}"
                                                    FontAttributes="Bold" />
                                             <Label Text="{Binding MessageBrief}"
+                                                   TextColor="{Binding IsRead,Converter={StaticResource TitleFontWeightConverter}}"
                                                    Style="{StaticResource DescriptionLabelStyle}"
                                                    Grid.Row="2"
                                                    Grid.Column="0"
@@ -195,6 +197,7 @@
                                                 Grid.Row="3"
                                                 Grid.Column="0"
                                                 Grid.ColumnSpan="2"
+                                                TextColor="{Binding IsRead,Converter={StaticResource TitleFontWeightConverter}}"
                                                 Style="{StaticResource DateLabelStyle}"
                                                 Margin="5,0,10,2"
                                                 VerticalTextAlignment="Start"

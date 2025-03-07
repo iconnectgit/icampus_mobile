@@ -400,7 +400,15 @@ public class HelperMethods
         
         public async static Task<AttachmentFileView> PickFileFromDevice()
         {
-            return await GetUploadedFileFromDevice(DocumentUploadType.File);
+            try
+            {
+                return await GetUploadedFileFromDevice(DocumentUploadType.File);
+            }
+            catch (Exception ex)
+            {
+                DisplayException(ex);
+                throw;
+            }
         }
 
         public async static Task<AttachmentFileView> PickImageFromDevice()
@@ -421,22 +429,36 @@ public class HelperMethods
 
                     byte[] imageArray = null;
 
-                    using (MemoryStream memory = new MemoryStream())
+                    try
                     {
-
-                        var stream = await fileData.OpenReadAsync();
-                        stream.CopyTo(memory);
-                        imageArray = memory.ToArray();
-                        attachmentFileView.FileData = imageArray;
+                        using (var stream = await fileData.OpenReadAsync())
+                        {
+                            if (stream == null)
+                            {
+                                throw new Exception("Failed to open file stream.");
+                            }
+                            using (MemoryStream memory = new MemoryStream())
+                            {
+                                await stream.CopyToAsync(memory);
+                                imageArray = memory.ToArray();
+                                attachmentFileView.FileData = imageArray;
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        DisplayException(ex);
+                        return null;  
                     }
 
                     attachmentFileView.FileName = fileData.FileName.Replace(" ", "_");
-                    attachmentFileView.FilePath = fileData.FullPath;
+                    attachmentFileView.FilePath = fileData.FullPath ?? fileData.FileName;
                 }
                 return attachmentFileView;
             }
             catch (Exception ex)
             {
+                DisplayException(ex);
                 return attachmentFileView;
             }
         }
@@ -448,22 +470,30 @@ public class HelperMethods
 
         public static bool ValidateDocumentType(string fileName, int? fileSize, DocumentUploadType documentUploadType)
         {
-            if (string.IsNullOrEmpty(fileName))
-                return false;
-            string fileExt = Path.GetExtension(fileName).ToLower();
-            string[] validExtensions = documentUploadType == DocumentUploadType.File ?
-                AppSettings.Current.FileUploadSettings.AllowedFileExtensionsArray : AppSettings.Current.FileUploadSettings.AllowedImageExtensionsArray;
-            if (!validExtensions.Contains(fileExt.Replace(".", "")))
+            try
             {
-                App.Current.MainPage.DisplayAlert(TextResource.Error, string.Format(TextResource.FileTypeNotAllowed, fileExt), TextResource.OkText);
-                return false;
+                if (string.IsNullOrEmpty(fileName))
+                    return false;
+                string fileExt = Path.GetExtension(fileName).ToLower();
+                string[] validExtensions = documentUploadType == DocumentUploadType.File ?
+                    AppSettings.Current.FileUploadSettings.AllowedFileExtensionsArray : AppSettings.Current.FileUploadSettings.AllowedImageExtensionsArray;
+                if (!validExtensions.Contains(fileExt.Replace(".", "")))
+                {
+                    App.Current.MainPage.DisplayAlert(TextResource.Error, string.Format(TextResource.FileTypeNotAllowed, fileExt), TextResource.OkText);
+                    return false;
+                }
+                else if (fileSize.HasValue && (fileSize > (AppSettings.Current.FileUploadSettings.FileUploadLimit * 1024 * 1024)))
+                {
+                    App.Current.MainPage.DisplayAlert(TextResource.Error, string.Format(TextResource.LargeFileSize, AppSettings.Current.FileUploadSettings.FileUploadLimit), TextResource.OkText);
+                    return false;
+                }
+                else return true;
             }
-            else if (fileSize.HasValue && (fileSize > (AppSettings.Current.FileUploadSettings.FileUploadLimit * 1024 * 1024)))
+            catch (Exception e)
             {
-                App.Current.MainPage.DisplayAlert(TextResource.Error, string.Format(TextResource.LargeFileSize, AppSettings.Current.FileUploadSettings.FileUploadLimit), TextResource.OkText);
-                return false;
+                DisplayException(e);
+                throw;
             }
-            else return true;
         }
 
 
@@ -561,6 +591,18 @@ public class HelperMethods
             DateTime startDate = date.AddDays(((int)date.DayOfWeek - AppSettings.Current.WeekStartDay) * -1);
             return startDate.AddDays(7).AddSeconds(-1);
         }
+        // public static DateTime GetWeekStartDate(DateTime date)
+        // {
+        //     int adjustedWeekStart = (AppSettings.Current.WeekStartDay + 6) % 7; 
+        //     int daysToSubtract = ((int)date.DayOfWeek - adjustedWeekStart + 7) % 7;
+        //     return date.AddDays(-daysToSubtract);
+        // }
+        //
+        // public static DateTime GetWeekEndDate(DateTime date)
+        // {
+        //     DateTime startDate = GetWeekStartDate(date);
+        //     return startDate.AddDays(7).AddSeconds(-1);
+        // }
 
         public static async Task ShowAlert(string title, string message)
         {
@@ -768,6 +810,8 @@ public class HelperMethods
                  {
                      output?.Invoke(false);
                      DisplayException(ex);
+                     LogEvent("HelpersSettingsPage", $"HelpersSettingsPage - {ex.Message}");
+
                  }
              });
         }

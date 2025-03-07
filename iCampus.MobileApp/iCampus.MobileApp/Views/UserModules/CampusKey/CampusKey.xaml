@@ -184,7 +184,7 @@
                                             <Span Text="Balance  "
                                                   FontSize="12"
                                                   TextColor="Black" />
-                                            <Span Text="{Binding CampusKeyData.StudentCardInformation.Balance}"
+                                            <Span Text="{Binding BalanceAmount}"
                                                   Style="{StaticResource TitleLabelStyle}"
                                                   FontSize="12" />
                                         </FormattedString>
@@ -246,6 +246,21 @@
 
                         </Frame>
                     </Grid>
+                    <StackLayout Margin="0,5,0,0" IsVisible="{Binding IsLowBalanceTextVisible}">
+                        <Frame Padding="5"
+                               CornerRadius="5" HasShadow="False"
+                               IsClippedToBounds="True"
+                               BorderColor="{StaticResource BorderColor}"
+                               BackgroundColor="#F19A91">
+                            <Label VerticalOptions="CenterAndExpand" Style="{StaticResource DescriptionLabelStyle}"
+                                   Text="Low balance, Please top-up"
+                                   FontSize="14"
+                                   TextColor="Black"
+                                   FontAttributes="Bold"
+                                   FontFamily=""
+                                   HorizontalTextAlignment="Start" />
+                        </Frame>
+                    </StackLayout>
 
                     <Grid Margin="0,5,0,0"
                           ColumnSpacing="5"
@@ -329,6 +344,19 @@
                     </Frame>
                 </StackLayout>
 
+                <StackLayout Padding="10,10,10,10"
+                             IsVisible="{Binding IsTransactionalDetailsVisible}">
+                    <Frame Padding="10,10,10,10"
+                           CornerRadius="5" HasShadow="False"
+                           IsClippedToBounds="True"
+                           BorderColor="{StaticResource BorderColor}"
+                           BackgroundColor="White">
+                        <Label VerticalOptions="CenterAndExpand" Style="{StaticResource DescriptionLabelStyle}"
+                               Text="No transaction details available"
+                               FontSize="14"
+                               HorizontalTextAlignment="Start" />
+                    </Frame>
+                </StackLayout>
                 <Frame Padding="5,10,5,10"
                        CornerRadius="5" HasShadow="False" IsClippedToBounds="True"
                        BorderColor="{StaticResource BorderColor}"

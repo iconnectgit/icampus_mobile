@@ -92,6 +92,11 @@ public partial class App : Application
     protected override void OnResume()
     {
         base.OnResume();
-        HomePageInstance?.GetHomePageData();
+        var currentPage = Application.Current.MainPage?.Navigation?.NavigationStack?.LastOrDefault();
+    
+        if (currentPage is not LoginPage) 
+        {
+            HomePageInstance?.GetHomePageData();
+        }
     }
 }

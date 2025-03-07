@@ -96,7 +96,7 @@
                                    HorizontalTextAlignment="Start" />
                         </Frame>
                     </StackLayout>
-                    <ScrollView >
+                    <ScrollView VerticalOptions="FillAndExpand">
                         <StackLayout BindableLayout.ItemsSource="{Binding DataCollectionFieldList}"
                                      Orientation="Vertical"
                                      VerticalOptions="FillAndExpand"
@@ -212,29 +212,29 @@
                                                              BackgroundColor="{StaticResource BorderColor}" />
                                                 </StackLayout>
 
-                                                <ListView HasUnevenRows="True" BackgroundColor="White"
+                                                <CollectionView  BackgroundColor="White"
                                                           HorizontalOptions="StartAndExpand"
                                                           VerticalOptions="FillAndExpand"
                                                           HeightRequest="{Binding AttachmentListHeight}"
                                                           ItemsSource="{Binding AttachmentList,Mode=TwoWay}"
                                                           SelectionMode="None" VerticalScrollBarVisibility="Never"
                                                           IsVisible="{Binding FieldTypeId,Converter={StaticResource QuestionTypeConverter},ConverterParameter=6}"
-                                                          SeparatorVisibility="None">
+                                                          >
 
-                                                    <ListView.ItemTemplate>
+                                                    <CollectionView.ItemTemplate>
                                                         <DataTemplate>
-                                                            <ViewCell>
+                                                            
                                                                 <Grid HorizontalOptions="FillAndExpand"
                                                                       Margin="10,10,10,0"
                                                                       VerticalOptions="CenterAndExpand">
                                                                     <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="0.8*" />
-                                                                        <ColumnDefinition Width="0.2*" />
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                        <ColumnDefinition Width="*" />
+                                                                        <ColumnDefinition Width="Auto" />
                                                                     </Grid.ColumnDefinitions>
-                                                                    <StackLayout Orientation="Horizontal"
-                                                                        HorizontalOptions="StartAndExpand" Spacing="0"
-                                                                        Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
-                                                                        <ffimageloading:CachedImage
+                                                                    
+                                                                        <ffimageloading:CachedImage Grid.Column="0"
                                                                             HorizontalOptions="EndAndExpand"
                                                                             VerticalOptions="CenterAndExpand"
                                                                             WidthRequest="25"
@@ -250,7 +250,7 @@
                                                                                     CommandParameter="{Binding .}" />
                                                                             </ffimageloading:CachedImage.GestureRecognizers>
                                                                         </ffimageloading:CachedImage>
-                                                                        <ffimageloading:CachedImage
+                                                                        <ffimageloading:CachedImage Grid.Column="1"
                                                                             HorizontalOptions="StartAndExpand"
                                                                             VerticalOptions="CenterAndExpand"
                                                                             WidthRequest="20"
@@ -259,7 +259,7 @@
                                                                             Margin="10,0,0,0"
                                                                             DownsampleToViewSize="True"
                                                                             Source="{Binding FileName,Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
-                                                                        <Label Text="{Binding FileName}"
+                                                                        <Label Grid.Column="2" Text="{Binding FileName}"
                                                                                HorizontalOptions="StartAndExpand"
                                                                                VerticalOptions="CenterAndExpand"
                                                                                Margin="5,0,0,0"
@@ -270,15 +270,14 @@
                                                                                     CommandParameter="{Binding .}" />
                                                                             </Label.GestureRecognizers>
                                                                         </Label>
-                                                                    </StackLayout>
                                                                     <ffimageloading:CachedImage
                                                                         HorizontalOptions="EndAndExpand"
                                                                         VerticalOptions="CenterAndExpand"
                                                                         WidthRequest="24"
                                                                         HeightRequest="24"
                                                                         Aspect="AspectFit"
-                                                                        Grid.Row="0" Margin="0,0,10,0"
-                                                                        Grid.Column="1"
+                                                                        Grid.Row="0" Margin="0,0,0,0"
+                                                                        Grid.Column="3"
                                                                         DownsampleToViewSize="True"
                                                                         Source="delete_bin_icon.png">
                                                                         <ffimageloading:CachedImage.GestureRecognizers>
@@ -288,33 +287,34 @@
                                                                         </ffimageloading:CachedImage.GestureRecognizers>
                                                                     </ffimageloading:CachedImage>
                                                                 </Grid>
-                                                            </ViewCell>
+                                                            
                                                         </DataTemplate>
-                                                    </ListView.ItemTemplate>
-                                                </ListView>
+                                                    </CollectionView.ItemTemplate>
+                                                </CollectionView>
 
-                                                <ListView HasUnevenRows="True" BackgroundColor="White"
+                                                <CollectionView  BackgroundColor="White"
                                                           HorizontalOptions="StartAndExpand"
+                                                          VerticalOptions="FillAndExpand"
                                                           HeightRequest="{Binding AttachmentListHeight}"
                                                           ItemsSource="{Binding AttachmentList,Mode=TwoWay}"
                                                           SelectionMode="None" VerticalScrollBarVisibility="Never"
                                                           IsVisible="{Binding FieldTypeId,Converter={StaticResource QuestionTypeConverter},ConverterParameter=8}"
-                                                          SeparatorVisibility="None">
+                                                          >
 
-                                                    <ListView.ItemTemplate>
+                                                    <CollectionView.ItemTemplate>
                                                         <DataTemplate>
-                                                            <ViewCell>
+                                                            
                                                                 <Grid HorizontalOptions="FillAndExpand"
                                                                       Margin="10,10,10,0"
                                                                       VerticalOptions="CenterAndExpand">
                                                                     <Grid.ColumnDefinitions>
-                                                                        <ColumnDefinition Width="0.8*" />
-                                                                        <ColumnDefinition Width="0.2*" />
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                        <ColumnDefinition Width="Auto" />
+                                                                        <ColumnDefinition Width="*" />
+                                                                        <ColumnDefinition Width="Auto" />
                                                                     </Grid.ColumnDefinitions>
-                                                                    <StackLayout Orientation="Horizontal"
-                                                                        HorizontalOptions="StartAndExpand" Spacing="0"
-                                                                        Grid.Row="0" Grid.Column="0">
-                                                                        <ffimageloading:CachedImage
+                                                                    
+                                                                        <ffimageloading:CachedImage Grid.Column="0"
                                                                             HorizontalOptions="EndAndExpand"
                                                                             VerticalOptions="CenterAndExpand"
                                                                             WidthRequest="25"
@@ -330,7 +330,7 @@
                                                                                     CommandParameter="{Binding .}" />
                                                                             </ffimageloading:CachedImage.GestureRecognizers>
                                                                         </ffimageloading:CachedImage>
-                                                                        <ffimageloading:CachedImage
+                                                                        <ffimageloading:CachedImage Grid.Column="1"
                                                                             HorizontalOptions="StartAndExpand"
                                                                             VerticalOptions="CenterAndExpand"
                                                                             WidthRequest="20"
@@ -339,7 +339,7 @@
                                                                             Margin="10,0,0,0"
                                                                             DownsampleToViewSize="True"
                                                                             Source="{Binding FileName,Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
-                                                                        <Label Text="{Binding FileName}"
+                                                                        <Label Grid.Column="2" Text="{Binding FileName}"
                                                                                HorizontalOptions="StartAndExpand"
                                                                                VerticalOptions="CenterAndExpand"
                                                                                Margin="5,0,0,0"
@@ -350,15 +350,14 @@
                                                                                     CommandParameter="{Binding .}" />
                                                                             </Label.GestureRecognizers>
                                                                         </Label>
-                                                                    </StackLayout>
-                                                                    <ffimageloading:CachedImage
+                                                                    <ffimageloading:CachedImage 
                                                                         HorizontalOptions="EndAndExpand"
                                                                         VerticalOptions="CenterAndExpand"
                                                                         WidthRequest="24"
                                                                         HeightRequest="24"
                                                                         Aspect="AspectFit"
-                                                                        Grid.Row="0" Margin="0,0,10,0"
-                                                                        Grid.Column="1"
+                                                                        Grid.Row="0" Margin="0,0,0,0"
+                                                                        Grid.Column="3"
                                                                         DownsampleToViewSize="True"
                                                                         Source="delete_bin_icon.png">
                                                                         <ffimageloading:CachedImage.GestureRecognizers>
@@ -368,10 +367,10 @@
                                                                         </ffimageloading:CachedImage.GestureRecognizers>
                                                                     </ffimageloading:CachedImage>
                                                                 </Grid>
-                                                            </ViewCell>
+                                                            
                                                         </DataTemplate>
-                                                    </ListView.ItemTemplate>
-                                                </ListView>
+                                                    </CollectionView.ItemTemplate>
+                                                </CollectionView>
                                             </StackLayout>
                                         </Frame>
                                     </StackLayout>

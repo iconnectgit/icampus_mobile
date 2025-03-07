@@ -1,17 +1,21 @@
+using System;
 using System.Globalization;
-using iCampus.Common.Helpers.Extensions;
-
+using Microsoft.Maui.Controls;
 namespace iCampus.MobileApp.Behaviours;
 
-public class TitleFontWeightConverter : IValueConverter
+public class UrlDecodeConverter : IValueConverter
 {
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        return value.ToBoolean() ? Colors.Gray : Colors.Black; // Red for unread messages
+        if (value is string encodedFileName)
+        {
+            return Uri.UnescapeDataString(encodedFileName);
+        }
+        return value;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        return Colors.Black;
+        throw new NotImplementedException();
     }
 }

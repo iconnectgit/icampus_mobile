@@ -1069,14 +1069,25 @@ public class SendMessageForm : ViewModelBase
 
     private async void AttachmentTapped(object obj)
     {
-        var fileData = await HelperMethods.PickFileFromDevice();
-        if (AttachmentFiles.Any(x => x.FileName.Equals(fileData.FileName, StringComparison.OrdinalIgnoreCase)))
+        try
         {
-            await HelperMethods.ShowAlert("", "This file has already been added.");
-            return;
+            var fileData = await HelperMethods.PickFileFromDevice();
+            if (fileData == null)
+            {
+                return;
+            }
+            if (AttachmentFiles.Any(x => x.FileName.Equals(fileData.FileName, StringComparison.OrdinalIgnoreCase)))
+            {
+                await HelperMethods.ShowAlert("", "This file has already been added.");
+                return;
+            }
+            AttachmentFiles.AddFileToList(fileData);
+            AttachmentListViewHeight = AttachmentFiles.Count * 40;
         }
-        AttachmentFiles.AddFileToList(fileData);
-        AttachmentListViewHeight = AttachmentFiles.Count * 40;
+        catch (Exception ex)
+        {
+            HelperMethods.DisplayException(ex, PageTitle);
+        }
     }
 
     private void SelectRecipientTapped(object obj)

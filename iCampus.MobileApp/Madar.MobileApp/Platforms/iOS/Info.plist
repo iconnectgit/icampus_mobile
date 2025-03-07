@@ -102,6 +102,12 @@
 		<string>We need your permission to send you notifications.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>This app requires access to your photo library to allow you to select and upload photos.</string>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>Allow saving files</string>
+		<key>NSDocumentsDirectory</key>
+		<string>Allow access to document storage</string>
+		<key>NSDocumentsFolderUsageDescription</key>
+		<string>We need access to your documents to attach files.</string>
 		<key>NSDocumentsUsageDescription</key>
 		<string>We need access to your documents to save and preview files.</string>
 		<key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
@@ -110,7 +116,11 @@
 		<true/>
 		<key>UIFileSharingEnabled</key>
 		<true/>
+		<key>UIMSupportsDocumentBrowser</key>
+		<true/>
 		<key>LSSupportsOpeningDocumentsInPlace</key>
+		<true/>
+		<key>UISupportsDocumentBrowser</key>
 		<true/>
 		<key>UIApplicationMainClassName</key>
 		<string>MadarAppDelegate</string>
