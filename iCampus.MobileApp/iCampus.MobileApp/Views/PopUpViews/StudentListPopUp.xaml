@@ -82,14 +82,25 @@
                                                 <transformations:CircleTransformation/>
                                             </ffimageloading:CachedImage.Transformations>
                                         </ffimageloading:CachedImage>
-                                        <Label Text="{Binding ItemName}" Style="{StaticResource TitleLabelStyle}" 
-                                               HorizontalOptions="StartAndExpand" LineBreakMode="TailTruncation"
-                                               Grid.Row="1" Grid.Column="1"/>
+                                        <Label Text="{Binding ItemName}" Style="{StaticResource DescriptionLabelStyle}" 
+                                               HorizontalOptions="StartAndExpand" LineBreakMode="TailTruncation" FontSize="18"
+                                               Grid.Row="1" Grid.Column="1" FontFamily="">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter Property="FontAttributes" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
                                         <Label Text="{Binding AlternateId,StringFormat='ID:{0}'}"
                                                HorizontalOptions="StartAndExpand"
                                                Grid.Row="2" Style="{StaticResource DescriptionLabelStyle}"
-                                               Grid.Column="1"
-                                               FontAttributes="Bold" />
+                                               Grid.Column="1" FontFamily="">
+                                            <Label.Triggers>
+                                                <DataTrigger TargetType="Label" Binding="{Binding IsSelected}" Value="True">
+                                                    <Setter Property="FontAttributes" Value="Bold"/>
+                                                </DataTrigger>
+                                            </Label.Triggers>
+                                        </Label>
                                     </Grid>
                                     <Frame.GestureRecognizers>
                                         <TapGestureRecognizer

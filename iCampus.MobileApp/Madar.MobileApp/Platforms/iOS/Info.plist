@@ -24,9 +24,9 @@
 		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 		<string>To get school location</string>
 		<key>CFBundleShortVersionString</key>
-		<string>2.0.50</string>
+		<string>3.0.0</string>
 		<key>CFBundleVersion</key>
-		<string>44</string>
+		<string>8</string>
 		<key>UISupportedInterfaceOrientations~ipad</key>
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>
@@ -98,8 +98,6 @@
 			<string>fetch</string>
 			<string>remote-notification</string>
 		</array>
-		<key>NSUserTrackingUsageDescription</key>
-		<string>We need your permission to send you notifications.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
 		<string>This app requires access to your photo library to allow you to select and upload photos.</string>
 		<key>NSPhotoLibraryAddUsageDescription</key>
@@ -124,5 +122,7 @@
 		<true/>
 		<key>UIApplicationMainClassName</key>
 		<string>MadarAppDelegate</string>
+		<key>UIUserInterfaceStyle</key>
+		<string>Light</string>
 	</dict>
 </plist>

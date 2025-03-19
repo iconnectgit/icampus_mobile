@@ -98,7 +98,7 @@
                                 <ffimageloading:CachedImage Grid.Row="0" Grid.Column="0" IsVisible="{Binding ShowIcon}"
                                                             DownsampleToViewSize="true" Source="{Binding ModuleImageUrl}"
                                                             BackgroundColor="Transparent" HeightRequest="25" WidthRequest="25" Style="{StaticResource MenuImageStyle}"/>
-                                <Label Text="{Binding ModuleName,Converter={StaticResource HtmlTagRemoverConverter}}" Style="{StaticResource MenuLabelStyle}"
+                                <Label Text="{Binding ModuleName,Converter={StaticResource HtmlTagRemoverConverter}}" Style="{StaticResource MenuLabelStyle}" FontAttributes="Bold" FontFamily=""
                                        LineBreakMode="TailTruncation" MaxLines="2" VerticalOptions="CenterAndExpand"
                                        Grid.Row="0" Grid.Column="1"/>
                                 <Grid.GestureRecognizers>
@@ -134,7 +134,7 @@
                                             DownsampleToViewSize="true" Source="{Binding LogoutItem.ModuleImageUrl,Source={x:Static forms:AppSettings.Current}}"
                                             BackgroundColor="Transparent" HeightRequest="25" WidthRequest="25" Style="{StaticResource MenuImageStyle}"/>
                 <Label Text="{Binding LogoutItem.ModuleName,Source={x:Static forms:AppSettings.Current}}"
-                       MaxLines="2" VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="1"
+                       MaxLines="2" VerticalOptions="CenterAndExpand" Grid.Row="0" Grid.Column="1" FontAttributes="Bold" FontFamily=""
                        Style="{StaticResource MenuLabelStyle}"/>
                 <Grid.GestureRecognizers>
                     <TapGestureRecognizer Command="{Binding LogoutClickCommand}"/>

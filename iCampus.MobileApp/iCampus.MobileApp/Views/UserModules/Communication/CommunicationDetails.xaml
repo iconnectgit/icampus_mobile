@@ -91,19 +91,30 @@
                                                     />
 
                                             <!-- Reply Icon -->
-                                            <ffimageloading:CachedImage Grid.Column="2"
-                                                                        Source="reply_all_button"
-                                                                        Scale="0.2"
-                                                                        HorizontalOptions="End"
-                                                                        VerticalOptions="Center"
-                                                                        Margin="10,0,0,0">
-                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                            <Frame Padding="0" CornerRadius="0"  BorderColor="Transparent"
+                                                   HorizontalOptions="StartAndExpand"
+                                                   HasShadow="False" Margin="0,0,0,0"
+                                                   BackgroundColor="Transparent" Grid.Column="2">
+                                                <ffimageloading:CachedImage
+                                                    Source="reply_all_button"
+                                                    Scale="0.3"
+                                                    HorizontalOptions="End"
+                                                    VerticalOptions="Center"
+                                                    Margin="0,0,0,0">
+                                                    <ffimageloading:CachedImage.GestureRecognizers>
+                                                        <TapGestureRecognizer
+                                                            Command="{Binding BindingContext.ReplyIconTappedCommand,Source={x:Reference communicationdetails}}"
+                                                            CommandParameter="{Binding .}"
+                                                            NumberOfTapsRequired="1" />
+                                                    </ffimageloading:CachedImage.GestureRecognizers>
+                                                </ffimageloading:CachedImage>
+                                                <Frame.GestureRecognizers>
                                                     <TapGestureRecognizer
                                                         Command="{Binding BindingContext.ReplyIconTappedCommand,Source={x:Reference communicationdetails}}"
                                                         CommandParameter="{Binding .}"
                                                         NumberOfTapsRequired="1" />
-                                                </ffimageloading:CachedImage.GestureRecognizers>
-                                            </ffimageloading:CachedImage>
+                                                </Frame.GestureRecognizers>
+                                            </Frame>
 
                                         </Grid>
 

@@ -24,7 +24,7 @@
                 </ResourceDictionary>
             </Grid.Resources>
             <ContentView ControlTemplate="{StaticResource BeamHeader}" BackgroundColor="White" Grid.Row="0" />
-            <StackLayout Grid.Row="1" VerticalOptions="FillAndExpand">
+            <StackLayout Grid.Row="1" VerticalOptions="FillAndExpand" Orientation="Vertical">
                 <StackLayout Padding="20,20,20,0" Spacing="0" BackgroundColor="{StaticResource BorderColor}">
                     <Grid RowSpacing="10" Margin="0,0,0,10" BackgroundColor="{StaticResource BorderColor}"
                           IsVisible="{Binding IsEdit}">
@@ -54,7 +54,7 @@
                                Grid.Row="0"
                                Style="{StaticResource DescriptionLabelStyle}"
                                IsVisible="{Binding SelectedComplaint.CreatedDate,Converter={StaticResource visiblityConverter}}"
-                               Text="{Binding SelectedComplaint.CreatedDate, StringFormat='{0:MMMM dd, yyyy}'}"
+                               Text="{Binding SelectedComplaint.CreatedDateFormatted, StringFormat='{0:MMMM dd, yyyy}'}"
                                FontSize="16" />
                         <Label FontAttributes="Bold"
                                FontSize="16"
@@ -63,14 +63,43 @@
                                Style="{StaticResource DescriptionLabelStyle}"
                                Text="{Binding SelectedComplaint.StatusName,Converter={StaticResource ComplaintStatusConverter}}" />
                     </Grid>
-                    <Label Text="Category"
+                    <Label Text="Message Title"
                            FontSize="16"
                            FontAttributes="Bold"
-                           Margin="0,10,0,5"
+                           Margin="0,5,0,0"
                            Style="{StaticResource TitleLabelStyle}"
                            VerticalOptions="EndAndExpand" VerticalTextAlignment="End"
                            IsVisible="{Binding IsEdit}" />
-                    <Grid BackgroundColor="White">
+                    <Frame HasShadow="False"
+                           CornerRadius="0"
+                           BorderColor="Transparent" 
+                           Margin="0,5,0,5"
+                           Padding="{OnPlatform iOS='5,0,0,0', Android='0,0,0,0'}"
+                           HorizontalOptions="FillAndExpand">
+                        <Entry
+                            Text="{Binding SelectedComplaint.ComplaintTitle}"
+                            FontSize="Small"
+                            HeightRequest="40"
+                            MinimumHeightRequest="40"
+                            Style="{StaticResource TitleLabelStyle}"
+                            Margin="0,0,0,0"
+                            Placeholder="Message Title"
+                            Keyboard="Text"
+                            PlaceholderColor="Gray"
+                            VerticalOptions="FillAndExpand"
+                            HorizontalOptions="FillAndExpand"
+                            VerticalTextAlignment="Center"
+                            HorizontalTextAlignment="Start" />
+                    </Frame>
+
+                    <Label Text="Category"
+                           FontSize="16"
+                           FontAttributes="Bold"
+                           Margin="0,0,0,0"
+                           Style="{StaticResource TitleLabelStyle}"
+                           VerticalOptions="EndAndExpand" VerticalTextAlignment="End"
+                           IsVisible="{Binding IsEdit}" />
+                    <Grid BackgroundColor="White" Margin="0,5,0,0">
                         <Picker Title="Select Category"
                                 Style="{StaticResource PickerFontStyle}" BackgroundColor="White"
                                 TextColor="Gray"
@@ -127,32 +156,39 @@
                     <!--                          VerticalOptions="EndAndExpand"> -->
                     <!-- </custom:PickerWithBorder> -->
                 </StackLayout>
-                <StackLayout Padding="20,0,20,10" Spacing="0" VerticalOptions="FillAndExpand">
-                    <StackLayout Orientation="Horizontal">
-                        <Label Text="Message" Margin="0,15,0,0"
-                               FontSize="16"
-                               FontAttributes="Bold"
-                               Style="{StaticResource TitleLabelStyle}"
-                               VerticalOptions="EndAndExpand"
-                               VerticalTextAlignment="End" />
-                        <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
-                                                    Margin="10,15,0,0"
-                                                    Aspect="AspectFit"
-                                                    HeightRequest="20"
-                                                    WidthRequest="20"
-                                                    IsVisible="{Binding IsResolved}"
-                                                    DownsampleToViewSize="True"
-                                                    Source="edit.png">
-                            <ffimageloading:CachedImage.GestureRecognizers>
-                                <TapGestureRecognizer Command="{Binding EditClickCommand}" />
-                            </ffimageloading:CachedImage.GestureRecognizers>
-                        </ffimageloading:CachedImage>
-                    </StackLayout>
-                    <StackLayout>
+                <Grid Padding="20,0,20,10">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Message Section -->
+                    <StackLayout Grid.Row="0" Spacing="0">
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Message"
+                                   Margin="0,15,0,0"
+                                   FontSize="16"
+                                   FontAttributes="Bold"
+                                   Style="{StaticResource TitleLabelStyle}"
+                                   VerticalOptions="EndAndExpand"
+                                   VerticalTextAlignment="End" />
+                            <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
+                                                        Margin="10,15,0,0"
+                                                        Aspect="AspectFit"
+                                                        HeightRequest="20"
+                                                        WidthRequest="20"
+                                                        IsVisible="{Binding IsResolved}"
+                                                        DownsampleToViewSize="True"
+                                                        Source="edit.png">
+                                <ffimageloading:CachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding EditClickCommand}" />
+                                </ffimageloading:CachedImage.GestureRecognizers>
+                            </ffimageloading:CachedImage>
+                        </StackLayout>
+
                         <WebView x:Name="BeamDetails"
                                  HeightRequest="200"
                                  HorizontalOptions="FillAndExpand"
-                                 VerticalOptions="FillAndExpand"
                                  Margin="0,5,0,0">
                             <WebView.Source>
                                 <HtmlWebViewSource Html="{Binding ComplaintDescription}" />
@@ -160,61 +196,57 @@
                         </WebView>
                     </StackLayout>
 
+                    <!-- Attachment Section -->
+                    <StackLayout Grid.Row="1"
+                                 Orientation="Horizontal"
+                                 Margin="0,10,0,0">
+                        <Label HorizontalOptions="Start"
+                               VerticalOptions="Center"
+                               Text="Attachments: "
+                               FontSize="16"
+                               FontAttributes="Bold"
+                               Style="{StaticResource TitleLabelStyle}" />
 
-                </StackLayout>
+                        <Frame HasShadow="False"
+                               Padding="5"
+                               Margin="40,0,0,0"
+                               BackgroundColor="White"
+                               HorizontalOptions="StartAndExpand"
+                               BorderColor="#E8E8E8"
+                               CornerRadius="5"
+                               HeightRequest="35">
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="5"
+                                         HorizontalOptions="CenterAndExpand"
+                                         VerticalOptions="Center">
+                                <ffimageloading:CachedImage HorizontalOptions="Start"
+                                                            VerticalOptions="Center"
+                                                            WidthRequest="15"
+                                                            HeightRequest="15"
+                                                            Aspect="AspectFit"
+                                                            DownsampleToViewSize="True"
+                                                            Source="attachment_icon.png" />
+                                <Label HorizontalOptions="Start"
+                                       VerticalOptions="Center"
+                                       Margin="5,0,0,0"
+                                       Text="Select File"
+                                       FontSize="14"
+                                       Style="{StaticResource DescriptionLabelStyle}" />
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding AddAttachmentClickCommand}" />
+                                </StackLayout.GestureRecognizers>
+                            </StackLayout>
+                        </Frame>
+                    </StackLayout>
+                </Grid>
 
                 <ListView HasUnevenRows="True" BackgroundColor="{StaticResource BorderColor}"
                           HorizontalOptions="StartAndExpand"
                           VerticalOptions="FillAndExpand"
-                          Margin="20,20,20,5"
+                          Margin="20,0,20,5"
                           ItemsSource="{Binding AttachmentFiles,Mode=TwoWay}"
                           SelectionMode="None" VerticalScrollBarVisibility="Never"
                           SeparatorVisibility="None">
-                    <ListView.Header>
-                        <StackLayout Orientation="Horizontal" Margin="0,30,0,0">
-                            <Label HorizontalOptions="Start"
-                                   Text="Attachments: "
-                                   FontSize="16"
-                                   FontAttributes="Bold"
-                                   Style="{StaticResource TitleLabelStyle}" />
-
-                            <Frame HasShadow="False"
-                                   Padding="5"
-                                   Margin="40,0,0,0"
-                                   BackgroundColor="White"
-                                   HorizontalOptions="StartAndExpand"
-                                   BorderColor="#E8E8E8"
-                                   CornerRadius="5"
-                                   HeightRequest="35">
-
-                                <StackLayout Orientation="Horizontal"
-                                             Spacing="5"
-                                             HorizontalOptions="CenterAndExpand"
-                                             VerticalOptions="Center">
-
-                                    <ffimageloading:CachedImage HorizontalOptions="Start"
-                                                                VerticalOptions="Center"
-                                                                WidthRequest="15"
-                                                                HeightRequest="15"
-                                                                Aspect="AspectFit"
-                                                                DownsampleToViewSize="True"
-                                                                Source="attachment_icon.png" />
-
-                                    <Label HorizontalOptions="Start"
-                                           VerticalOptions="Center"
-                                           Margin="5,0,0,0"
-                                           Text="Select File"
-                                           FontSize="14"
-                                           Style="{StaticResource DescriptionLabelStyle}" />
-
-                                    <StackLayout.GestureRecognizers>
-                                        <TapGestureRecognizer Command="{Binding AddAttachmentClickCommand}" />
-                                    </StackLayout.GestureRecognizers>
-
-                                </StackLayout>
-                            </Frame>
-                        </StackLayout>
-                    </ListView.Header>
 
                     <ListView.ItemTemplate>
                         <DataTemplate>

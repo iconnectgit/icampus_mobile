@@ -22,7 +22,6 @@ using Mopups.Services;
 using Application = Microsoft.Maui.Controls.Application;
 #if IOS
     using Foundation;
-    using Firebase.Crashlytics;
 #elif ANDROID
     using Firebase;
     using Firebase.Crashlytics;
@@ -582,27 +581,27 @@ public class HelperMethods
             return GetCurrentWeekStartDate().AddDays(7).AddSeconds(-1);
         }
 
-        public static DateTime GetWeekStartDate(DateTime date)
-        {
-            return date.AddDays(((int)date.DayOfWeek - AppSettings.Current.WeekStartDay) * -1);
-        }
-        public static DateTime GetWeekEndDate(DateTime date)
-        {
-            DateTime startDate = date.AddDays(((int)date.DayOfWeek - AppSettings.Current.WeekStartDay) * -1);
-            return startDate.AddDays(7).AddSeconds(-1);
-        }
         // public static DateTime GetWeekStartDate(DateTime date)
         // {
-        //     int adjustedWeekStart = (AppSettings.Current.WeekStartDay + 6) % 7; 
-        //     int daysToSubtract = ((int)date.DayOfWeek - adjustedWeekStart + 7) % 7;
-        //     return date.AddDays(-daysToSubtract);
+        //     return date.AddDays(((int)date.DayOfWeek - AppSettings.Current.WeekStartDay) * -1);
         // }
-        //
         // public static DateTime GetWeekEndDate(DateTime date)
         // {
-        //     DateTime startDate = GetWeekStartDate(date);
+        //     DateTime startDate = date.AddDays(((int)date.DayOfWeek - AppSettings.Current.WeekStartDay) * -1);
         //     return startDate.AddDays(7).AddSeconds(-1);
         // }
+        public static DateTime GetWeekStartDate(DateTime date)
+        {
+            int adjustedWeekStart = (AppSettings.Current.WeekStartDay + 6) % 7; 
+            int daysToSubtract = ((int)date.DayOfWeek - adjustedWeekStart + 7) % 7;
+            return date.AddDays(-daysToSubtract);
+        }
+        
+        public static DateTime GetWeekEndDate(DateTime date)
+        {
+            DateTime startDate = GetWeekStartDate(date);
+            return startDate.AddDays(7).AddSeconds(-1);
+        }
 
         public static async Task ShowAlert(string title, string message)
         {
@@ -916,15 +915,15 @@ public class HelperMethods
             try
             {
 #if IOS
-            var errorInfo = new Dictionary<object, object> {
-                { NSError.LocalizedDescriptionKey, exception.Message },
-                { NSError.LocalizedFailureReasonErrorKey, "Managed Failure" },
-                { NSError.LocalizedRecoverySuggestionErrorKey, "Check your code or logs for more details." }
-            };
-        var error = new NSError(new NSString("NonFatalError"),-1001,
-                    NSDictionary.FromObjectsAndKeys(errorInfo.Values.ToArray(), errorInfo.Keys.ToArray(), errorInfo.Keys.Count));
-
-                Crashlytics.SharedInstance.RecordError(error);
+        //     var errorInfo = new Dictionary<object, object> {
+        //         { NSError.LocalizedDescriptionKey, exception.Message },
+        //         { NSError.LocalizedFailureReasonErrorKey, "Managed Failure" },
+        //         { NSError.LocalizedRecoverySuggestionErrorKey, "Check your code or logs for more details." }
+        //     };
+        // var error = new NSError(new NSString("NonFatalError"),-1001,
+        //             NSDictionary.FromObjectsAndKeys(errorInfo.Values.ToArray(), errorInfo.Keys.ToArray(), errorInfo.Keys.Count));
+        //
+        //         Crashlytics.SharedInstance.RecordError(error);
 
 #elif ANDROID
                 FirebaseCrashlytics.Instance.RecordException(Java.Lang.Throwable.FromException(exception));

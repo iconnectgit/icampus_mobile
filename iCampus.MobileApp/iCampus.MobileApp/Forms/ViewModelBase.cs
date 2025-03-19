@@ -778,6 +778,10 @@ public class ViewModelBase : INotifyPropertyChanged
         //     AppSettings.Current.StudentList = AppSettings.Current.RegisteredStudentList;
         // await PopupNavigation.Instance.PushAsync(new StudentListPopUp(this), true);
         AppSettings.Current.StudentList = AppSettings.Current.RegisteredStudentList;
+        foreach (var student in AppSettings.Current.StudentList)
+        {
+            student.IsSelected = (student.ItemId == AppSettings.Current.SelectedStudent?.ItemId);
+        }
         _popup = new StudentListPopUp()
         {
             BindingContext = this

@@ -11,8 +11,8 @@ public class CertificatesForm : ViewModelBase
     {
         protected INativeServices _nativeServices;
         public ICommand CertificateClickCommand { get; set; }
-        IList<CertificateView> _certificateDetailedList = new List<CertificateView>();
-        public IList<CertificateView> CertificateDetailedList
+        IList<BindableCertificateView> _certificateDetailedList = new List<BindableCertificateView>();
+        public IList<BindableCertificateView> CertificateDetailedList
         {
             get => _certificateDetailedList;
             set
@@ -31,8 +31,8 @@ public class CertificatesForm : ViewModelBase
                 OnPropertyChanged(nameof(CertificateList));
             }        }
 
-        IList<CertificateView> _selectedCertificate;
-        public IList<CertificateView> SelectedCertificate
+        IList<BindableCertificateView> _selectedCertificate;
+        public IList<BindableCertificateView> SelectedCertificate
         {
             get => _selectedCertificate;
             set
@@ -95,7 +95,7 @@ public class CertificatesForm : ViewModelBase
         private async void InitializePage()
         {
             HelperMethods.GetSelectedStudent();
-            CertificateClickCommand = new Command<CertificateView>(CertificateViewClicked);
+            CertificateClickCommand = new Command<BindableCertificateView>(CertificateViewClicked);
             BeamMenuClickCommand = new Command(BeamMenuClicked);
             BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
             BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
@@ -113,9 +113,10 @@ public class CertificatesForm : ViewModelBase
                             ? TextResource.CertificateNotAvailableMessage
                             : data.CertificateSettings.NotAvailableMessage;
 
+
                 CertificateDetailedList = data.CertificateSettings.HideCertificateIfNoFileUploaded
-                            ? data.CertificateDetailedList.Where(x => x.FileExist).ToList()
-                            : data.CertificateDetailedList.ToList();
+                            ? _mapper?.Map<List<BindableCertificateView>>(data.CertificateDetailedList).Where(x => x.FileExist).ToList()
+                            : _mapper?.Map<List<BindableCertificateView>>(data.CertificateDetailedList).ToList();
 
                 ShowErrorMessage = CertificateDetailedList.Count == 0;
             }
@@ -126,42 +127,42 @@ public class CertificatesForm : ViewModelBase
         }
 
 
-        private void CertificateViewClicked(CertificateView certificate)
+        private void CertificateViewClicked(BindableCertificateView certificate)
         {
             try
             {
-                if (certificate != null)
-                {
-                    foreach (var item in CertificateDetailedList)
-                    {
-                        if (item != null)
-                        {
-                            if (item.CertificateId == certificate.CertificateId)
-                            {
-                                if (!item.FileExist)
-                                {
-                                    if (!string.IsNullOrEmpty(certificate.ErrorMessage))
-                                    {
-                                        NotAvailableMessage = certificate.ErrorMessage;
-                                    }
-                                    ShowErrorMessage = true;
-                                }
-                                else
-                                {
-                                    HelperMethods.OpenFileForPreview(certificate.CertificateFilePath, _nativeServices);
-                                    ShowErrorMessage = false;
+                if (certificate == null)
+                    return;
 
-                                }
-                            }
+                foreach (var item in CertificateDetailedList)
+                {
+                    item.IsSelected = item.CertificateId == certificate.CertificateId;
+
+                    if (item.CertificateId == certificate.CertificateId)
+                    {
+                        if (!item.FileExist)
+                        {
+                            NotAvailableMessage = !string.IsNullOrEmpty(item.ErrorMessage)
+                                ? item.ErrorMessage
+                                : TextResource.CertificateNotAvailableMessage;
+                    
+                            ShowErrorMessage = true;
+                        }
+                        else
+                        {
+                            HelperMethods.OpenFileForPreview(item.CertificateFilePath, _nativeServices);
+                            ShowErrorMessage = false;
                         }
                     }
                 }
+                MessagingCenter.Send("", "UpdateCertificateList");
             }
             catch (Exception ex)
             {
-                Helpers.HelperMethods.DisplayException(ex, this.PageTitle);
+                HelperMethods.DisplayException(ex, this.PageTitle);
             }
         }
+
 
         public async override void GetStudentData()
         {

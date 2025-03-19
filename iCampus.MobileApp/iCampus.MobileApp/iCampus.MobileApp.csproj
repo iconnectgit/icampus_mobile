@@ -146,7 +146,6 @@
         <PackageReference Include="Xamarin.Firebase.iOS.CloudMessaging" Version="8.10.0.3" />
         <PackageReference Include="Xamarin.Firebase.iOS.Core" Version="8.10.0.3" />
         <PackageReference Include="Xamarin.Firebase.iOS.Analytics" Version="8.10.0.3" />
-        <PackageReference Include="Xamarin.Firebase.iOS.Crashlytics" Version="8.10.0.3" />
     </ItemGroup>
     <!-- Android-specific packages -->
     <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">

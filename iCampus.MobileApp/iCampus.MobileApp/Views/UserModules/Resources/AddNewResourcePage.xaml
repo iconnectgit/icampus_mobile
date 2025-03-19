@@ -140,19 +140,7 @@
                     <StackLayout Grid.Row="2" Grid.Column="0">
                         <Label Text="Grade" Style="{StaticResource TitleLabelStyle}" VerticalOptions="CenterAndExpand"
                                Margin="0,5,0,5" />
-                        <!-- <Frame HasShadow="False" Padding="5" IsClippedToBounds="True" BackgroundColor="White" -->
-                        <!--        BorderColor="{StaticResource BorderColor}" -->
-                        <!--        HeightRequest="40" -->
-                        <!--        VerticalOptions="CenterAndExpand" HorizontalOptions="FillAndExpand" -->
-                        <!--        CornerRadius="5"> -->
-                        <!--     <custom:PickerWithBorder Image="dropdown_gray_picker" -->
-                        <!--                              Title="Select" ios:Picker.UpdateMode="WhenFinished" -->
-                        <!--                              Style="{StaticResource PickerFontStyle}" -->
-                        <!--                              TextColor="Gray" -->
-                        <!--                              ItemsSource="{Binding GradeList}" -->
-                        <!--                              SelectedItem="{Binding SelectedGrade}" -->
-                        <!--                              ItemDisplayBinding="{Binding ItemName}" /> -->
-                        <!-- </Frame> -->
+                       
                         <Grid HeightRequest="40"
                               VerticalOptions="CenterAndExpand"
                               HorizontalOptions="FillAndExpand"
@@ -191,32 +179,7 @@
                                 </StackLayout>
                             </StackLayout>
                         </Frame>
-                        <!-- <CollectionView ItemsSource="{Binding ClassesList}" SelectionMode="Single" -->
-                        <!-- -->
-                        <!--                 HeightRequest="{Binding CollectionViewHeight}"> -->
-                        <!--     <CollectionView.ItemsLayout> -->
-                        <!--         <GridItemsLayout Orientation="Vertical" -->
-                        <!--                          Span="3" /> -->
-                        <!--     </CollectionView.ItemsLayout> -->
-                        <!--     <CollectionView.ItemTemplate> -->
-                        <!--         <DataTemplate> -->
-                        <!--             <Grid RowDefinitions="Auto" ColumnDefinitions="Auto" Padding="5,0,5,0" Margin="0"> -->
-                        <!--                 <VisualStateManager.VisualStateGroups> -->
-                        <!--                     <VisualStateGroup x:Name="CommonStates"> -->
-                        <!--                         <VisualState x:Name="Normal"> -->
-                        <!--                             <VisualState.Setters> -->
-                        <!--                                 <Setter Property="BackgroundColor" Value="White" /> -->
-                        <!--                             </VisualState.Setters> -->
-                        <!--                         </VisualState> -->
-                        <!--                     </VisualStateGroup> -->
-                        <!--                 </VisualStateManager.VisualStateGroups> -->
-                        <!--                 <input:CheckBox VerticalOptions="CenterAndExpand" IsChecked="{Binding IsSelected,Mode=TwoWay}" Scale="0.8" -->
-                        <!--                                 HorizontalOptions="StartAndExpand" Text="{Binding ItemName,Mode=TwoWay}"  CheckChanged="Class_CheckChanged" /> -->
-                        <!-- -->
-                        <!--             </Grid> -->
-                        <!--         </DataTemplate> -->
-                        <!--     </CollectionView.ItemTemplate> -->
-                        <!-- </CollectionView> -->
+                       
                         <Frame CornerRadius="5" Margin="5,0,5,5" Padding="0" HasShadow="false"
                                BorderColor="{StaticResource BorderColor}" IsClippedToBounds="True">
                             <flowListView:FlowListView
@@ -226,10 +189,10 @@
                                 HasUnevenRows="True">
                                 <flowListView:FlowListView.FlowColumnTemplate>
                                     <DataTemplate>
-                                        <Frame CornerRadius="5" Margin="5,0,5,5" Padding="0" HasShadow="false"
+                                        <Frame CornerRadius="5" Margin="5,0,0,5" Padding="0" HasShadow="false"
                                                BorderColor="{StaticResource BorderColor}" IsClippedToBounds="True">
                                             <StackLayout BackgroundColor="{Binding SelectedTimeSlotBackgroundColor}"
-                                                         Padding="5" Spacing="0" Orientation="Horizontal">
+                                                         Padding="2" Spacing="0" Orientation="Horizontal">
                                                 <input:CheckBox VerticalOptions="CenterAndExpand"
                                                                 IsChecked="{Binding IsSelected,Mode=TwoWay}"
                                                                 Scale="0.8" Color="Gray"

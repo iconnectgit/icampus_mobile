@@ -5,6 +5,7 @@ using iCampus.MobileApp.Forms.UserModules;
 using iCampus.MobileApp.Forms.UserModules.Attendance;
 using iCampus.MobileApp.Forms.UserModules.BooksReservation;
 using iCampus.MobileApp.Forms.UserModules.Calendar;
+using iCampus.MobileApp.Forms.UserModules.Certificates;
 using iCampus.MobileApp.Forms.UserModules.Communication;
 using iCampus.MobileApp.Forms.UserModules.DailyMarks;
 using iCampus.MobileApp.Forms.UserModules.DataCollection;
@@ -40,6 +41,7 @@ public class MyMappingProfile : Profile
         CreateMap<BindableFinancialStatementHistoryView, FinancialStatementHistoryView>().ReverseMap();
         CreateMap<BindableStudentBookMasterView, StudentBookMasterView>().ReverseMap();
         CreateMap<BindableAppointmentAvailableTimeView, AppointmentAvailableTimeView>().ReverseMap();
+        CreateMap<CertificateView, BindableCertificateView>().ReverseMap();
         CreateMap<StudentGradingBookDataView, BindableStudentGradingBookDataView>()
             .ForMember(dest => dest.EffortsResultModel,
                 src => src.MapFrom(x =>

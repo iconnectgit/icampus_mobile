@@ -1,6 +1,7 @@
 ﻿using System;
 using Android.App;
 using Android.Runtime;
+using AndroidX.AppCompat.App;
 using Microsoft.Maui;
 using Microsoft.Maui.Controls.Compatibility.Platform.Android;
 using Microsoft.Maui.Controls.PlatformConfiguration;
@@ -14,6 +15,7 @@ public class MainApplication : MauiApplication
     public MainApplication(IntPtr handle, JniHandleOwnership ownership)
         : base(handle, ownership)
     {
+        AppCompatDelegate.DefaultNightMode = AppCompatDelegate.ModeNightNo;
     }
     
     protected override MauiApp CreateMauiApp()

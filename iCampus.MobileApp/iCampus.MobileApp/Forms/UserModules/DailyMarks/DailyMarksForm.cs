@@ -180,6 +180,7 @@ public class DailyMarksForm : ViewModelBase
         public override async void GetStudentData()
         {
             base.GetStudentData();
+            SearchOptionVisibility = true;
             UpdateFilterValues();
             await GetMarksListByStudent();
         }
@@ -204,14 +205,18 @@ public class DailyMarksForm : ViewModelBase
                     loadFilterPanelList, selectedCourseId, null, selectedTermId, null,null), loadFromCacheWhenNoInternetConnection: true,isLoader:false);
                 if(DailyMarksData!=null&&DailyMarksData.Permissions!=null)
                 {
-                    if(!String.IsNullOrEmpty(DailyMarksData.Permissions.NoModuleAccessMessage))
+                    string noAccessMessage = DailyMarksData.Permissions.NoModuleAccessMessage;
+                    string blockedStudentMessage = DailyMarksData.Permissions.DisableBlockedStudentMessage;
+
+                    if (!string.IsNullOrEmpty(noAccessMessage) || !string.IsNullOrEmpty(blockedStudentMessage))
                     {
                         IsNoRecordMsg = true;
                         SearchOptionVisibility = false;
-                        NoDataFound = DailyMarksData.Permissions.NoModuleAccessMessage;
+                        NoDataFound = !string.IsNullOrEmpty(noAccessMessage) ? noAccessMessage : blockedStudentMessage;
                         await ApiHelper.HideProcessingIndicatorPopup();
                         return new BindableGradingBookView();
                     }
+
                 }
                 if (loadFilterPanelList)
                 {

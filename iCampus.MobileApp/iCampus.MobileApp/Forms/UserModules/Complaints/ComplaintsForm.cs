@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Runtime.Serialization.Formatters;
 using System.Windows.Input;
 using AutoMapper;
@@ -213,9 +214,19 @@ public class ComplaintsForm : ViewModelBase
             {
                 bool loadFilterPanelLists = true;
                 var complaintData = await ApiHelper.GetObject<UserComplaintViewModel>(string.Format(TextResource.ComplaintsListApiUrl, loadFilterPanelLists), cacheKeyPrefix: "complaints", cacheType: AppSettings.Current.RefreshComplaintsList ? ApiHelper.CacheTypeParam.LoadFromServerAndCache : ApiHelper.CacheTypeParam.LoadFromCache);
-                this.ComplaintList = new ObservableCollection<UserComplaintView>(complaintData.UserComplaintList);
+                ComplaintList = new ObservableCollection<UserComplaintView>(complaintData.UserComplaintList);
                 if (Connectivity.Current.NetworkAccess == NetworkAccess.Internet)
                     AppSettings.Current.RefreshComplaintsList = false;
+                foreach (var item in ComplaintList)
+                {
+                    string[] formats = { "d-MMM-yyyy h:mmtt", "dd-MMM-yyyy h:mmtt" };
+
+                    if (DateTime.TryParseExact(item.CreatedDateFormatted, formats, 
+                            CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime parsedDate))
+                    {
+                        item.CreatedDateFormatted = parsedDate.ToString("MMMM dd, yyyy");
+                    }
+                }
                 CategoryList = complaintData.ComplaintCategories;
                 IsNoRecordMsg = this.ComplaintList.ToList().Count > 0 ? false : true;
 

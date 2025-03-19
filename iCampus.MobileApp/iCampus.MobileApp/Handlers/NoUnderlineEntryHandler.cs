@@ -12,6 +12,7 @@ public class NoUnderlineEntryHandler
         {
 #if ANDROID
             handler.PlatformView.Background = null; // Removes border in Android
+            handler.PlatformView.SetTextColor(Android.Graphics.Color.Black);
 #elif IOS || MACCATALYST
             handler.PlatformView.BorderStyle = UIKit.UITextBorderStyle.None; // Removes border in iOS
 #endif

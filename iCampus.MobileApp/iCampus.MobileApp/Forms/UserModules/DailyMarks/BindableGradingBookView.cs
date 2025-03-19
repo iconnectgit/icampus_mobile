@@ -107,4 +107,5 @@ public class BindablePermissions
     public bool ViewAverageColumns { get; set; }
     public bool ViewPreAverageColumn { get; set; }
     public string NoModuleAccessMessage { get; set; }
+    public string DisableBlockedStudentMessage { get; set; }
 }

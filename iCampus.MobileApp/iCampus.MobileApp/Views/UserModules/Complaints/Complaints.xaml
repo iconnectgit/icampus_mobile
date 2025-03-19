@@ -63,8 +63,8 @@
                                                     <RowDefinition Height="Auto" />
                                                 </Grid.RowDefinitions>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="0.45*" />
                                                     <ColumnDefinition Width="0.55*" />
+                                                    <ColumnDefinition Width="0.45*" />
                                                 </Grid.ColumnDefinitions>
                                                 <StackLayout Orientation="Horizontal"
                                                              Grid.Row="0"
@@ -101,22 +101,26 @@
                                                     </Frame>
                                                 </StackLayout>
 
-                                                <Label Text="{Binding CategoryName}"
+                                                <Label Text="{Binding ComplaintTitle}"
                                                        Grid.Row="0"
+                                                       Grid.Column="0"
+                                                       FontFamily=""
                                                        Style="{StaticResource TitleLabelStyle}"
                                                        VerticalOptions="CenterAndExpand"
-                                                       Grid.Column="0" />
+                                                       LineBreakMode="TailTruncation"
+                                                       MaxLines="1" />
+
                                                 <Label Text="{Binding ComplaintBrief}"
                                                        Grid.Row="1"
-                                                       Margin="0,5,0,0"
+                                                       Margin="0,0,0,0"
                                                        Style="{StaticResource DescriptionLabelStyle}"
                                                        Grid.Column="0"
                                                        Grid.ColumnSpan="2"
                                                        VerticalOptions="StartAndExpand" />
-                                                <Label Text="{Binding FormattedComplaintDate}"
+                                                <Label Text="{Binding CreatedDateFormatted}"
                                                        Grid.Row="2"
                                                        Grid.Column="0"
-                                                       IsVisible="{Binding FormattedComplaintDate,Converter={StaticResource visiblityConverter}}"
+                                                       IsVisible="{Binding CreatedDateFormatted, Converter={StaticResource visiblityConverter}}"
                                                        Style="{StaticResource DateLabelStyle}"
                                                        VerticalOptions="EndAndExpand" />
                                                 <Label HorizontalOptions="EndAndExpand"

@@ -627,21 +627,21 @@ public class HomeForm : ViewModelBase
             {
                 var currentVersion = new Version(VersionTracking.CurrentVersion);
                 var latestVersion = new Version(AppSettings.Current.VersionNumber);
-                // if (latestVersion.CompareTo(currentVersion) > 0)
-                // {
-                //     AppUpdatePopupForm appUpdatePopupForm = new ()
-                //     {
-                //         UpdateMessage = TextResource.UpdateAppMessage,
-                //         IsForceUpdate = AppSettings.Current.IsMandatoryUpdate,
-                //         UpdateTitle = TextResource.UpdateAppTitle
-                //     };
-                //     AppUpdatePopup appUpdatePopup = new ()
-                //     {
-                //         BindingContext = appUpdatePopupForm
-                //     };
-                //     SetPopupInstance(appUpdatePopup);
-                //     Application.Current.MainPage.ShowPopup(appUpdatePopup);
-                // }
+                if (latestVersion.CompareTo(currentVersion) > 0)
+                {
+                    AppUpdatePopupForm appUpdatePopupForm = new ()
+                    {
+                        UpdateMessage = TextResource.UpdateAppMessage,
+                        IsForceUpdate = AppSettings.Current.IsMandatoryUpdate,
+                        UpdateTitle = TextResource.UpdateAppTitle
+                    };
+                    AppUpdatePopup appUpdatePopup = new ()
+                    {
+                        BindingContext = appUpdatePopupForm
+                    };
+                    SetPopupInstance(appUpdatePopup);
+                    Application.Current.MainPage.ShowPopup(appUpdatePopup);
+                }
             }
 
             return false;

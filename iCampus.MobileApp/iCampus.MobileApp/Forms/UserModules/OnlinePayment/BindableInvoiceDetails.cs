@@ -136,7 +136,7 @@ public class BindableInvoiceDetails: INotifyPropertyChanged
 						item.TotalString = item.Total.ToString();
                     }
                 }
-				_bindableInvoiceSubDetailsList.Insert(0, new BindableOnlinePaymentInvoiceSubDetails() { CostCategoryGroupName = "Category Name", TotalString = String.Concat("Total Amount"," ",AppSettings.Current.OnlinePaymentCurrencyCode), GroupType = "NET" });
+				_bindableInvoiceSubDetailsList.Insert(0, new BindableOnlinePaymentInvoiceSubDetails() { CostCategoryGroupName = "Category Name", TotalString = String.Concat("Total Amount"," ","(",AppSettings.Current.OnlinePaymentCurrencyCode,")"), GroupType = "NET" });
 				foreach (var item in _bindableInvoiceSubDetailsList)
 				{
 					if (item != null)

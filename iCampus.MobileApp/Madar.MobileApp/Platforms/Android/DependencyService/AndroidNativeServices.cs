@@ -100,20 +100,10 @@ public class AndroidNativeServices : INativeServices
                     var intent = new Intent(Intent.ActionView);
                     intent.SetDataAndType(uri, mimeType);
                     intent.AddFlags(ActivityFlags.GrantReadUriPermission | ActivityFlags.NewTask);
-
-
-                    // if (intent.ResolveActivity(Android.App.Application.Context.PackageManager) != null)
-                    // {
-                    //     Application.Context.StartActivity(intent);
-                    // }
-                    // else
-                    // {
-                    //     Toast.MakeText(Android.App.Application.Context, "No app available to open this file", ToastLength.Short).Show();
-                    // }
+                    
                     try
                     {
                         MainActivity.Instance.StartActivity(intent);
-                         //Android.App.Application.Context.StartActivity(intent);
                     }
                     catch (Exception ex)
                     {

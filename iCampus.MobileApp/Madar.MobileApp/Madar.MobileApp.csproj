@@ -108,7 +108,6 @@
         <PackageReference Include="Xamarin.Firebase.iOS.CloudMessaging" Version="8.10.0.3" />
         <PackageReference Include="Xamarin.Firebase.iOS.Core" Version="8.10.0.3" />
         <PackageReference Include="Xamarin.Firebase.iOS.Analytics" Version="8.10.0.3" />
-        <PackageReference Include="Xamarin.Firebase.iOS.Crashlytics" Version="8.10.0.3" />
     </ItemGroup>
     <!-- Android-specific packages -->
     <ItemGroup Condition="'$(TargetFramework)' == 'net8.0-android'">
@@ -170,7 +169,7 @@
 
     <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-ios' and  '$(Configuration)' == 'Ad-Hoc' ">
         <CodesignKey>Apple Distribution: Maroun Osta (9ZG78T68HR)</CodesignKey>
-        <CodesignProvision>Madar_UAT_20250217</CodesignProvision>
+        <CodesignProvision>Madar_Live_PP_20250116</CodesignProvision>
         <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
         <PublishTrimmed>true</PublishTrimmed>
         <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
@@ -187,6 +186,5 @@
     <!--    <Target Name="RenameIpaFile" AfterTargets="Publish">-->
     <!--        <Move SourceFiles="$(PublishDir)Madar.MobileApp.ipa" DestinationFiles="$(PublishDir)iCampus Mobile.ipa" />-->
     <!--    </Target>-->
-
-
+    
 </Project>

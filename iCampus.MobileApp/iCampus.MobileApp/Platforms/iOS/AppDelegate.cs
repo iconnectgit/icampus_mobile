@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Firebase.CloudMessaging;
-using Firebase.Crashlytics;
 using Foundation;
 using iCampus.MobileApp.Forms;
 using iCampus.MobileApp.Helpers;
@@ -25,7 +24,6 @@ public class AppDelegate : MauiUIApplicationDelegate, IMessagingDelegate, IUNUse
         NSDictionary dict = new NSDictionary("FIRAnalyticsDebugEnabled", true);
         NSUserDefaults.StandardUserDefaults.RegisterDefaults(dict);
         Firebase.Core.App.Configure();     
-        Crashlytics.SharedInstance.SetCrashlyticsCollectionEnabled(true);
 
         if (UIDevice.CurrentDevice.CheckSystemVersion(10, 0))
         {

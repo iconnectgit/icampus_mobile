@@ -98,8 +98,6 @@
 		<string>fetch</string>
 		<string>remote-notification</string>
 	</array>
-	<key>NSUserTrackingUsageDescription</key>
-	<string>We need your permission to send you notifications.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app requires access to your photo library to allow you to select and upload photos.</string>
 	<key>NSDocumentsUsageDescription</key>
@@ -114,5 +112,7 @@
 	<true/>
 	<key>UIApplicationMainClassName</key>
 	<string>CASAppDelegate</string>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
 </dict>
 </plist>

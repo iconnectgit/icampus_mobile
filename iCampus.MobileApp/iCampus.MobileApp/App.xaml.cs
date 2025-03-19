@@ -51,7 +51,7 @@ public partial class App : Application
     public App(bool flag = false)
     {
         InitializeComponent();
-
+        Application.Current.UserAppTheme = AppTheme.Light;
         var nativeServices = Locator.Current.GetService<INativeServices>();
         BlobCache.EnsureInitialized();
         BlobCache.ForcedDateTimeKind = DateTimeKind.Local;

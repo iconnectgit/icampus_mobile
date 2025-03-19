@@ -13,7 +13,6 @@ using iCampus.MobileApp.Views;
 using iCampus.MobileApp.Views.PopUpViews;
 #if IOS
     using Foundation;
-    using Firebase.Crashlytics;
 #elif ANDROID
     using Firebase;
     using Firebase.Crashlytics;

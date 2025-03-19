@@ -595,9 +595,7 @@ public class AddNewResourcesForm : ViewModelBase
                     Convert.ToInt16(curriculumId)));
             ClassList = _mapper.Map<List<BindableResourcesPickListItem>>(classList);
             ClassesList = new ObservableCollection<BindableResourcesPickListItem>(ClassList);
-            CollectionViewHeight = ClassesList != null && ClassesList.Count > 0
-                ? (ClassList.Count % 3 == 0 ? ClassList.Count / 3 * 50 : ClassList.Count / 3 * 50)
-                : CollectionViewHeight;
+            CollectionViewHeight = (ClassList.Count / 3) * 50 + (ClassList.Count % 3 == 0 ? 0 : 50);
             if (SelectedClassList != null && SelectedClassList.Count > 0)
             {
                 var selectedClassList = ClassesList

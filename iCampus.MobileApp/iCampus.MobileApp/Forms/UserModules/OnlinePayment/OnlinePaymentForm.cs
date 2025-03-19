@@ -551,7 +551,16 @@ public class OnlinePaymentForm : ViewModelBase
                 OnPropertyChanged(nameof(HistoryButtonOpacity));
             }
         }     
-        
+        private bool _isPaymentHistoryNoDataVisible;
+        public bool IsPaymentHistoryNoDataVisible
+        {
+            get => _isPaymentHistoryNoDataVisible;
+            set
+            {
+                _isPaymentHistoryNoDataVisible = value;
+                OnPropertyChanged(nameof(IsPaymentHistoryNoDataVisible));
+            }
+        }
         
         #endregion
         public OnlinePaymentForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)
@@ -678,6 +687,7 @@ public class OnlinePaymentForm : ViewModelBase
 
                             #region PaymentHistory
                             PaymentHistoryList = new ObservableCollection<BindableReceiptDetailView>(_mapper.Map<List<BindableReceiptDetailView>>(data.PaymentHistory));
+                            IsPaymentHistoryNoDataVisible = PaymentHistoryList.Count == 0;
                             foreach (var item in PaymentHistoryList)
                             {
                                 if(item!=null)

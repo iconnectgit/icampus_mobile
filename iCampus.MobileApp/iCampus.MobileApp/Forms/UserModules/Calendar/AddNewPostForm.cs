@@ -1021,39 +1021,7 @@ public class AddNewPostForm : ViewModelBase
             try
             {
                 OpenHtmlEditPopup(LearningOutcomeText, "learningoutcomes", LearningOutcomeLabel);
-                // if (Device.RuntimePlatform == Device.iOS)
-                //     IsNavigationBarVisible = true;
-                //
-                // CrossTEditor.PageTitle = this.PageTitle;
-                // CrossTEditor.SaveText = "Save";
-                // CrossTEditor.CancelText = " ";
-                //
-                // string color = AppSettings.Current.Settings.ThemeColor;// "#000000";
-                // await Task.Delay(100);
-                // Task.Run(async () =>
-                // {
-                //     await Task.Delay(500);
-                //     Device.BeginInvokeOnMainThread(() =>
-                //     {
-                //         Xamarin.Forms.DependencyService.Get<INativeServices>().SetToolBarColor(color);
-                //     });
-                // });
-                // //if (string.IsNullOrEmpty(this.AssignmentsText))
-                // //{
-                // //    this.AssignmentsText = "<html></html>";
-                // //}
-                // TEditorResponse response = await CrossTEditor.Current.ShowTEditor(this.LearningOutcomeText,characterLimit:LimitCount);
-                // IsNavigationBarVisible = false;
-                // if (response.IsSave)
-                // {
-                //     if (response.HTML != null)
-                //     {
-                //         if (Device.RuntimePlatform == Device.Android)
-                //             this.LearningOutcomeText = "<html><head><meta name='viewport' content='width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;'/></head><body>" + response.HTML + "</body></html>";
-                //         else
-                //             this.LearningOutcomeText = "<html><head><meta name='viewport' content='width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;'/></head><body>" + response.HTML + "</body></html>";
-                //     }
-                // }
+                
             }
             catch (Exception ex)
             {
@@ -1066,39 +1034,7 @@ public class AddNewPostForm : ViewModelBase
             try
             {
                 OpenHtmlEditPopup(AssignmentsText, "assignmenttext", AssignmentLabel);
-                // if (Device.RuntimePlatform == Device.iOS)
-                //     IsNavigationBarVisible = true;
-                //
-                // CrossTEditor.PageTitle = this.PageTitle;
-                // CrossTEditor.SaveText = "Save";
-                // CrossTEditor.CancelText = "";
-                //
-                // string color = AppSettings.Current.Settings.ThemeColor;// "#000000";
-                // await Task.Delay(100);
-                // Task.Run(async () =>
-                // {
-                //     await Task.Delay(500);
-                //     Device.BeginInvokeOnMainThread(() =>
-                //     {
-                //         Xamarin.Forms.DependencyService.Get<INativeServices>().SetToolBarColor(color);
-                //     });
-                // });
-                // //if (string.IsNullOrEmpty(this.AssignmentsText))
-                // //{
-                // //    this.AssignmentsText = "<html></html>";
-                // //}
-                // TEditorResponse response = await CrossTEditor.Current.ShowTEditor(this.AssignmentsText,characterLimit:LimitCount);
-                // IsNavigationBarVisible = false;
-                // if (response.IsSave)
-                // {
-                //     if (response.HTML != null)
-                //     {
-                //         if (Device.RuntimePlatform == Device.Android)
-                //             this.AssignmentsText = "<html><head><meta name='viewport' content='width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;'/></head><body>" + response.HTML + "</body></html>";
-                //         else
-                //             this.AssignmentsText = "<html><head><meta name='viewport' content='width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;'/></head><body>" + response.HTML + "</body></html>";
-                //     }
-                // }
+                
             }
             catch (Exception ex)
             {

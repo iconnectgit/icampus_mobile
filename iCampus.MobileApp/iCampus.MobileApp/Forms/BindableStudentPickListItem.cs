@@ -39,6 +39,16 @@ public class BindableStudentPickListItem : INotifyPropertyChanged
             OnPropertyChanged("SerialNumber");
         }
     }
+    private bool _isSelected;
+    public bool IsSelected
+    {
+        get => _isSelected;
+        set
+        {
+            _isSelected = value;
+            OnPropertyChanged(nameof(IsSelected));
+        }
+    }
     protected virtual void OnPropertyChanged(string propertyName)
     {
         if (PropertyChanged == null)
