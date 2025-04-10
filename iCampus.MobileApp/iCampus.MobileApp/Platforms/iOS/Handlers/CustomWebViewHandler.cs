@@ -94,7 +94,7 @@ public class CustomWebViewHandler : ViewHandler<CustomWebView, WKWebView>
         <head>
             <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>
             <style>
-                body {{ margin: 0; padding: 0; overflow-x: hidden; }}
+                body {{ margin: 0; padding-top: 10px;; overflow-x: hidden; }}
             </style>
             <script>
                 var isExamPage = {isExamPageJsValue};

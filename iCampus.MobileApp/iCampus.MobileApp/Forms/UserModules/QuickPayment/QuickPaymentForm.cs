@@ -237,7 +237,11 @@ public class QuickPaymentForm : ViewModelBase
 
                 if (receiptDetailList != null)
                 {
-                    PaymentHistoryList = new ObservableCollection<BindableReceiptDetailView>(_mapper.Map<List<BindableReceiptDetailView>>(receiptDetailList));
+                    PaymentHistoryList = new ObservableCollection<BindableReceiptDetailView>(
+                        _mapper.Map<List<BindableReceiptDetailView>>(receiptDetailList)
+                            .GroupBy(x => x.OrderId)
+                            .Select(g => g.First())
+                        );
                     foreach (var item in PaymentHistoryList)
                     {
                         if (item != null)

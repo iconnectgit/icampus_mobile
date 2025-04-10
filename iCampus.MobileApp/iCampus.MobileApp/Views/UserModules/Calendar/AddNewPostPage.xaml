@@ -20,7 +20,7 @@
               Margin="0,0,0,0">
             <Grid.Resources>
                 <behaviours:AttachmentFileToImageSourceConverter x:Key="AttachmentFileToImageSourceConverter" />
-
+                <behaviours:UrlDecodeConverter x:Key="UrlDecodeConverter" />
             </Grid.Resources>
 
             <ContentView ControlTemplate="{StaticResource BeamHeader}"
@@ -692,7 +692,7 @@
                                             Margin="5,0,0,0"
                                             DownsampleToViewSize="True"
                                             Source="{Binding FileName,Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
-                                        <Label Text="{Binding FileName}"
+                                        <Label Text="{Binding FileName, Converter={StaticResource UrlDecodeConverter}}"
                                                Grid.Row="0"
                                                Grid.Column="1"
                                                TextColor="{StaticResource GrayTextColor}"

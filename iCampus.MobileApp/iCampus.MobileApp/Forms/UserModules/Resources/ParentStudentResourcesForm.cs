@@ -208,7 +208,7 @@ public class ParentStudentResourcesForm : ViewModelBase
             {
                 string cacheKeyPrefix = "resources";
                 var curriculumId = SelectedCourse.CurriculumId == 0 ? null : SelectedCourse.CurriculumId.ToString();
-                bool loadFilterPanelLists = !TermList.Any();
+                bool loadFilterPanelLists = true;
                 var apiUrl = string.Format(TextResource.ResourcesDataAPIUrl, AppSettings.Current.SelectedStudent.ItemId, "", "", "", "", loadFilterPanelLists);
                 ResourceData = await ApiHelper.GetObject<ResourceViewModel>(apiUrl, cacheKeyPrefix: cacheKeyPrefix, cacheType: ApiHelper.CacheTypeParam.LoadFromCache);
                 if (ResourceData != null)
@@ -223,11 +223,9 @@ public class ParentStudentResourcesForm : ViewModelBase
                     {
                         ResourceList = new ObservableCollection<BindableResourceView>();
                     }
-                    if (loadFilterPanelLists)
-                    {
-                        TermList = ResourceData.Terms != null ? ResourceData.Terms.ToList() : new List<PickListItem>();
-                        CourseList = ResourceData.Courses != null ? ResourceData.Courses.ToList() : new List<CurriculumView>();
-                    }
+                    
+                    TermList = ResourceData.Terms != null ? ResourceData.Terms.ToList() : new List<PickListItem>();
+                    CourseList = ResourceData.Courses != null ? ResourceData.Courses.ToList() : new List<CurriculumView>();
                     var sortedResources = ResourceList.OrderByDescending(r => DateTime.Parse(r.Date));
                     ResourceList = new ObservableCollection<BindableResourceView>(sortedResources);
 
@@ -274,6 +272,7 @@ public class ParentStudentResourcesForm : ViewModelBase
                 TermList = TermList,
                 CourseList = CourseList
             };
+            await resourcesFilterForm.GetResourceData();
             resourcesFilterForm.SetList();
             resourcesFilterForm.ResourceList = ResourceList;
             FilterResources filterResources = new ()

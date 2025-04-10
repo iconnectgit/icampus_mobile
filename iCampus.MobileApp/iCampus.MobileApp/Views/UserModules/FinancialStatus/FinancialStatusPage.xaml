@@ -75,10 +75,10 @@
                                 <FormattedString>
                                     <Span Text="Your Current Balance: " Style="{StaticResource TitleLabelStyle}" />
                                     <Span Text="{Binding FinancialStatementData.BalanceAmount}"
-                                          Style="{StaticResource DescriptionLabelStyle}" />
+                                          Style="{StaticResource DescriptionLabelStyle}" FontAttributes="Bold" FontFamily=""/>
                                     <Span
                                         Text="{Binding FinancialStatementData.CurrencyData.CurrencyCode,StringFormat=' {0}'}"
-                                        Style="{StaticResource DescriptionLabelStyle}" />
+                                        Style="{StaticResource DescriptionLabelStyle}" FontAttributes="Bold" FontFamily=""/>
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
@@ -227,7 +227,8 @@
                                                        Style="{StaticResource DescriptionLabelStyle}"
                                                        VerticalTextAlignment="Center"
                                                        Grid.RowSpan="3"
-                                                       HorizontalOptions="EndAndExpand" />
+                                                       HorizontalOptions="EndAndExpand" 
+                                                       FontAttributes="Bold" FontFamily=""/>
                                                 <Label Grid.Row="0"
                                                        Text="{Binding DebitAmount}"
                                                        Style="{StaticResource DescriptionLabelStyle}"
@@ -235,7 +236,8 @@
                                                        VerticalTextAlignment="Center"
                                                        VerticalOptions="CenterAndExpand"
                                                        Grid.RowSpan="3"
-                                                       HorizontalOptions="EndAndExpand" />
+                                                       HorizontalOptions="EndAndExpand" 
+                                                       FontAttributes="Bold" FontFamily=""/>
                                             </Grid>
                                         </Frame>
                                     </StackLayout>
@@ -254,10 +256,10 @@
                                 <FormattedString>
                                     <Span Text="Your Current Balance: " Style="{StaticResource TitleLabelStyle}" />
                                     <Span Text="{Binding FinancialStatementData.BalanceAmount}"
-                                          Style="{StaticResource DescriptionLabelStyle}" />
+                                          Style="{StaticResource DescriptionLabelStyle}" FontAttributes="Bold" FontFamily=""/>
                                     <Span
                                         Text="{Binding FinancialStatementData.CurrencyData.CurrencyCode,StringFormat=' {0}'}"
-                                        Style="{StaticResource DescriptionLabelStyle}" />
+                                        Style="{StaticResource DescriptionLabelStyle}" FontAttributes="Bold" FontFamily=""/>
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>

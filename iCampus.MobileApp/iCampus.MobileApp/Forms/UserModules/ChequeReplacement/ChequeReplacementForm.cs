@@ -369,6 +369,16 @@ public class ChequeReplacementForm : ViewModelBase
                 OnPropertyChanged(nameof(NoInvoiceFoundVisibility));
             }
         }
+        private bool _noHistoryFoundVisibility = false;
+        public bool NoHistoryFoundVisibility
+        {
+            get => _noHistoryFoundVisibility;
+            set
+            {
+                _noHistoryFoundVisibility = value;
+                OnPropertyChanged(nameof(NoHistoryFoundVisibility));
+            }
+        }
         private decimal _paymentButtonOpacity;
         public decimal PaymentButtonOpacity
         {
@@ -543,6 +553,7 @@ public class ChequeReplacementForm : ViewModelBase
                         }
                     }
                     NoInvoiceFoundVisibility = BindablePendingPdcList.Count <= 0 && BindableBouncePdcList.Count <= 0;
+                    NoHistoryFoundVisibility = PdcHistoryList.Count <= 0;
                    
                     PayNowAmountCalculation();
 

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:targetSandboxVersion="1" android:versionName="3.0.0" package="com.Gipa.GipaMobile" android:installLocation="internalOnly" android:versionCode="56">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:targetSandboxVersion="1" android:versionName="3.0.2" package="com.Gipa.GipaMobile" android:installLocation="internalOnly" android:versionCode="58">
 	<application
 			android:label="GIPA"
 			android:allowBackup="true"

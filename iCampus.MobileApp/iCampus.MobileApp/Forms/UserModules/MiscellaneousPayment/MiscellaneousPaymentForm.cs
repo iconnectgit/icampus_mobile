@@ -226,6 +226,27 @@ public class MiscellaneousPaymentForm : ViewModelBase
             OnPropertyChanged(nameof(NoInvoiceFoundVisibility));
         }
     }
+    private bool _errorMessageVisibility = false;
+
+    public bool ErrorMessageVisibility 
+    {
+        get => _errorMessageVisibility;
+        set
+        {
+            _errorMessageVisibility = value;
+            OnPropertyChanged(nameof(ErrorMessageVisibility));
+        }
+    }
+    private string _descriptionMessage;
+    public string DescriptionMessage
+    {
+        get => _descriptionMessage;
+        set
+        {
+            _descriptionMessage = value;
+            OnPropertyChanged(nameof(DescriptionMessage));
+        }
+    }
 
     private List<BindableProformaInvoiceDetails> SelectedList = new();
     public List<int> SelectedPaymentId = new();
@@ -283,8 +304,9 @@ public class MiscellaneousPaymentForm : ViewModelBase
                     item.CheckBoxOpacity = isPaid ? 0.5F : 1.0F;
                     item.DownloadIconVisibility = isPaid;
                 }
-
                 NoInvoiceFoundVisibility = ProformaList.Count <= 0;
+                DescriptionMessage  = data.PaymentSettings.DescriptionMessage;
+                ErrorMessageVisibility = !string.IsNullOrEmpty(DescriptionMessage);
             }
         }
         catch (Exception ex)

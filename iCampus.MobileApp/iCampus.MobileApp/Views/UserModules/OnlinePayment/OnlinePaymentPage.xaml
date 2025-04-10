@@ -552,7 +552,7 @@
                                                         <FormattedString>
                                                             <Span Text="Payment Module"
                                                                   Style="{StaticResource DescriptionLabelStyle}" />
-                                                            <Span Text=" " />
+                                                            <Span Text=" : " />
                                                             <Span Text="{Binding PaymentModule}"
                                                                   Style="{StaticResource OnlinePaymentBoldLabels}" />
                                                         </FormattedString>

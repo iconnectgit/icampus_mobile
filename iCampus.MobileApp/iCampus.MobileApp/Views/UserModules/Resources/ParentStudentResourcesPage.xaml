@@ -119,7 +119,9 @@
                                                        Grid.Row="0" Grid.ColumnSpan="2"
                                                        Style="{StaticResource TitleLabelStyle}"
                                                        VerticalOptions="CenterAndExpand"
-                                                       Grid.Column="0" />
+                                                       Grid.Column="0" 
+                                                       FontAttributes="Bold" 
+                                                       FontFamily=""/>
                                                 <ffimageloading:CachedImage Source="{Binding ArrowImageSource}"
                                                                             Grid.Row="1" Grid.Column="1"
                                                                             HorizontalOptions="EndAndExpand"
@@ -145,7 +147,7 @@
                                                BorderColor="{StaticResource BorderColor}"
                                                Padding="5"
                                                IsClippedToBounds="true">
-                                            <Grid RowSpacing="5"
+                                            <Grid RowSpacing="0"
                                                   ColumnSpacing="5"
                                                   Padding="5,2,5,5">
                                                 <Grid.RowDefinitions>
@@ -166,13 +168,15 @@
                                                     Style="{StaticResource DateLabelStyle}"
                                                     Margin="-2,0,0,5"
                                                     Padding="0"
-                                                    VerticalOptions="StartAndExpand" />
+                                                    VerticalOptions="StartAndExpand" 
+                                                    FontAttributes="Bold" FontFamily=""/>
 
                                                 <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
-                                                             Orientation="Horizontal" Margin="0,-10,0,0"
+                                                             Orientation="Horizontal" Margin="0,0,0,0"
                                                              Padding="0,0,0,0">
                                                     <Label Text="Date :"
-                                                           Style="{StaticResource TitleLabelStyle}" />
+                                                           Style="{StaticResource TitleLabelStyle}" 
+                                                           FontAttributes="Bold" FontFamily=""/>
                                                     <Label Text="{Binding Date}"
                                                            Margin="5,0,0,0"
                                                            Style="{StaticResource DescriptionLabelStyle}"
@@ -182,7 +186,8 @@
                                                              Orientation="Horizontal" Margin="0,0,0,0"
                                                              Padding="0,0,0,0" IsVisible="{Binding IsCourseVisible}">
                                                     <Label Text="Course :"
-                                                           Style="{StaticResource TitleLabelStyle}" />
+                                                           Style="{StaticResource TitleLabelStyle}" 
+                                                           FontAttributes="Bold" FontFamily=""/>
                                                     <Label Text="{Binding CurriculumName}"
                                                            Margin="5,0,0,0"
                                                            Style="{StaticResource DescriptionLabelStyle}"

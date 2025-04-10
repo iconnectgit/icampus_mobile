@@ -26,7 +26,20 @@
 
 
             <StackLayout Grid.Row="2" Grid.Column="0">
-                <StackLayout Padding="15,10,15,0"
+                <StackLayout Padding="10,10,10,0"
+                             IsVisible="{Binding ErrorMessageVisibility}">
+                    <Frame Padding="5,5,5,5"
+                           CornerRadius="5" HasShadow="False"
+                           IsClippedToBounds="True"
+                           BorderColor="{StaticResource BorderColor}"
+                           BackgroundColor="White">
+                        <Label Text="{Binding DescriptionMessage}" Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalTextAlignment="Center"
+                               HorizontalTextAlignment="Start" 
+                               TextType="Html"/>
+                    </Frame>
+                </StackLayout>
+                <StackLayout Padding="10,10,10,0"
                              IsVisible="{Binding NoInvoiceFoundVisibility}">
                     <Frame Padding="5,5,5,5"
                            CornerRadius="5" HasShadow="False"

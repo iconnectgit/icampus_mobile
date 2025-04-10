@@ -766,18 +766,20 @@ public class ViewModelBase : INotifyPropertyChanged
     private static PopupPage _popup;
     public async void StudentViewTapClicked(object obj)
     {
-        var getViewModelType = GetCurrentPage();
-        //if (getViewModelType == typeof(OnlinePaymentForm) || getViewModelType == typeof(ReportCardForm))
+        // var currentPage = GetCurrentPage();
+        // var viewModel = currentPage.BindingContext;
+        //
+        // if (viewModel is OnlinePaymentForm || viewModel is ReportCardForm)
         //     AppSettings.Current.IsDisplayAllStudentList = true;
         // else
         //     AppSettings.Current.IsDisplayAllStudentList = false;
         //
-        // if (AppSettings.Current.IsDisplayAllStudentList)
-        //     AppSettings.Current.StudentList = AppSettings.Current.AllStudentList;
-        // else
-        //     AppSettings.Current.StudentList = AppSettings.Current.RegisteredStudentList;
-        // await PopupNavigation.Instance.PushAsync(new StudentListPopUp(this), true);
-        AppSettings.Current.StudentList = AppSettings.Current.RegisteredStudentList;
+        //  if (AppSettings.Current.IsDisplayAllStudentList)
+        //      AppSettings.Current.StudentList = AppSettings.Current.AllStudentList;
+        //  else
+        //      AppSettings.Current.StudentList = AppSettings.Current.RegisteredStudentList;
+        
+        //AppSettings.Current.StudentList = AppSettings.Current.RegisteredStudentList;
         foreach (var student in AppSettings.Current.StudentList)
         {
             student.IsSelected = (student.ItemId == AppSettings.Current.SelectedStudent?.ItemId);
@@ -878,7 +880,7 @@ public class ViewModelBase : INotifyPropertyChanged
                 if (AppSettings.Current.SelectedStudentFromAllStudentList != null)
                 {
                     var selectedStudent =
-                        AppSettings.Current.RegisteredStudentList.Where(x => x.ItemId.Equals(obj.ItemId));
+                        AppSettings.Current.StudentList.Where(x => x.ItemId.Equals(obj.ItemId));
                     if (selectedStudent != null && selectedStudent.FirstOrDefault() != null)
                         AppSettings.Current.SelectedStudent = obj;
                 }

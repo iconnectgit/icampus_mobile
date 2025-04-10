@@ -137,7 +137,9 @@
                                                        Style="{StaticResource TitleLabelStyle}"
                                                        Grid.Row="0"
                                                        Grid.Column="0"
-                                                       Grid.ColumnSpan="2" />
+                                                       Grid.ColumnSpan="2" 
+                                                       FontAttributes="Bold" 
+                                                       FontFamily=""/>
                                                 <Label Text="{Binding CircularBrief}"
                                                        MaxLines="3"
                                                        LineBreakMode="TailTruncation"
@@ -263,6 +265,8 @@
                                                        Style="{StaticResource TitleLabelStyle}"
                                                        Grid.Row="0"
                                                        Grid.Column="0"
+                                                       FontAttributes="Bold" 
+                                                       FontFamily=""
                                                        TextColor="{Binding CategoryColor,Converter={StaticResource ColorCodeConverter}}" />
                                                 <Label Text="{Binding CustomAlertsBrief}" Margin="0,0,0,7"
                                                        VerticalTextAlignment="Start"
@@ -334,6 +338,8 @@
                                                 <Label Text="{Binding CustomAlertsName}"
                                                        VerticalTextAlignment="Start"
                                                        MaxLines="1"
+                                                       FontAttributes="Bold" 
+                                                       FontFamily=""
                                                        IsVisible="{Binding CustomAlertsName,Converter={StaticResource VisiblityConverter}}"
                                                        LineBreakMode="TailTruncation"
                                                        Style="{StaticResource TitleLabelStyle}"

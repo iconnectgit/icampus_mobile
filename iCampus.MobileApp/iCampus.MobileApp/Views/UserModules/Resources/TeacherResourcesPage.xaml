@@ -106,8 +106,8 @@
                                                     <RowDefinition Height="Auto" />
                                                 </Grid.RowDefinitions>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="0.45*" />
                                                     <ColumnDefinition Width="0.55*" />
+                                                    <ColumnDefinition Width="0.45*" />
                                                 </Grid.ColumnDefinitions>
                                                 <StackLayout Orientation="Horizontal"
                                                              HorizontalOptions="EndAndExpand"
@@ -147,12 +147,14 @@
                                                        Grid.Row="0"
                                                        Style="{StaticResource TitleLabelStyle}"
                                                        VerticalOptions="CenterAndExpand"
-                                                       Grid.Column="0" />
+                                                       Grid.Column="0" 
+                                                       FontAttributes="Bold" FontFamily=""/>
                                                 <StackLayout Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                                                              Orientation="Horizontal" Margin="0,5,0,0"
                                                              Padding="0,0,0,0">
-                                                    <Label Text="Created by:"
-                                                           Style="{StaticResource TitleLabelStyle}" />
+                                                    <Label Text="Created by :"
+                                                           Style="{StaticResource TitleLabelStyle}" 
+                                                           FontAttributes="Bold" FontFamily=""/>
                                                     <Label Text="{Binding UserName}"
                                                            Margin="5,0,0,0"
                                                            Style="{StaticResource DescriptionLabelStyle}"
@@ -174,8 +176,9 @@
                                                 <StackLayout Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                                                              Orientation="Horizontal" Spacing="5" Margin="0,5,0,0"
                                                              Padding="0,0,0,0">
-                                                    <Label Text="Date:"
-                                                           Style="{StaticResource TitleLabelStyle}" />
+                                                    <Label Text="Date :"
+                                                           Style="{StaticResource TitleLabelStyle}" 
+                                                           FontAttributes="Bold" FontFamily=""/>
                                                     <Label Text="{Binding Date}"
                                                            IsVisible="{Binding FormattedComplaintDate,Converter={StaticResource visiblityConverter}}"
                                                            Style="{StaticResource DateLabelStyle}"
@@ -184,8 +187,9 @@
                                                 <StackLayout Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                                                              Orientation="Horizontal" Spacing="5" Margin="0,5,0,0"
                                                              Padding="0,0,0,0" IsVisible="{Binding IsCourseVisible}">
-                                                    <Label Text="Course:"
-                                                           Style="{StaticResource TitleLabelStyle}" />
+                                                    <Label Text="Course :"
+                                                           Style="{StaticResource TitleLabelStyle}" 
+                                                           FontAttributes="Bold" FontFamily=""/>
                                                     <Label Text="{Binding CurriculumName}"
                                                            Margin="5,0,0,0"
                                                            Style="{StaticResource DescriptionLabelStyle}"

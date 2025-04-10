@@ -4,6 +4,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
              xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             xmlns:controls="clr-namespace:iCampus.MobileApp.Controls"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
              x:Class="iCampus.MobileApp.Views.UserModules.OnlinePayment.TaxReceiptView"
              NavigationPage.HasNavigationBar="false"
              BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
@@ -12,6 +14,11 @@
 
         <Grid ColumnDefinitions="*" RowDefinitions="Auto,Auto,*,Auto" Margin="0,0,0,10"
               BackgroundColor="{Binding BackgroundColor,Source={x:Static local:AppSettings.Current}}">
+            <Grid.Resources>
+                <ResourceDictionary>
+                    <behaviours:VisiblityConverter x:Key="VisiblityConverter" />
+                </ResourceDictionary>
+            </Grid.Resources>
             <ContentView ControlTemplate="{StaticResource BeamHeader}" Grid.Row="0" Grid.Column="0"
                          BackgroundColor="White" />
             <Frame x:Name="PrintButtonFrame" HasShadow="False" Padding="5" BorderColor="LightGray" VerticalOptions="StartAndExpand"
@@ -39,23 +46,24 @@
                 </StackLayout>
             </Frame>
             
-            <ScrollView Grid.Row="2" Grid.Column="0" x:Name="screenShot">
+            <ScrollView Grid.Row="2" Grid.Column="0" x:Name="screenShot" >
                 <Grid x:Name="root">
-                    <StackLayout>
+                    <StackLayout VerticalOptions="StartAndExpand">
                         <ffimageloading:CachedImage HorizontalOptions="FillAndExpand"
                                                     VerticalOptions="FillAndExpand"
                                                     Aspect="AspectFit"
                                                     DownsampleToViewSize="True"
                                                     Source="{Binding SelectedPaymentHistory.PrintLogo}"
-                                                    Margin="10,10,10,0" />
+                                                    Margin="10,10,10,10" />
                         <Label Text="Tax Receipt" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center"
                                Margin="0,0,0,0"
                                TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
-                               Style="{StaticResource TitleLabelStyle}" />
+                               Style="{StaticResource TitleLabelStyle}" 
+                               FontSize="16"/>
                         <Frame BorderColor="LightGray" HasShadow="False" Padding="10"
                                Margin="10">
                             <StackLayout Spacing="0" HorizontalOptions="StartAndExpand" VerticalOptions="FillAndExpand">
-                                <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto" ColumnDefinitions="Auto,auto"
+                                <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="Auto,auto"
                                       RowSpacing="10" ColumnSpacing="20"
                                       HorizontalOptions="FillAndExpand" WidthRequest="300">
                                     <Label Text="Bill to Parent :" Style="{StaticResource TitleLabelStyle}"
@@ -65,29 +73,21 @@
                                     <Label Text="{Binding ParentName}" Grid.Row="0" Grid.Column="1" />
                                     <Label Text="{Binding SelectedPaymentHistory.FamilyId}" Grid.Row="1"
                                            Grid.Column="1" />
-                                    <Label Text="Student Name :" Grid.Column="0" Grid.Row="2"
+                                    <Label Text="Receipt Date :" Grid.Column="0" Grid.Row="2"
                                            Style="{StaticResource TitleLabelStyle}" />
-                                    <Label Text="Grade :" Grid.Column="0" Grid.Row="3"
-                                           Style="{StaticResource TitleLabelStyle}" />
-                                    <Label Text="Receipt Date :" Grid.Column="0" Grid.Row="4"
-                                           Style="{StaticResource TitleLabelStyle}" />
-                                    <Label Text="{Binding SelectedPaymentHistory.StudentName}" Grid.Column="1"
-                                           Grid.Row="2" />
-                                    <Label Text="{Binding SelectedPaymentHistory.GradeName}" Grid.Column="1"
-                                           Grid.Row="3" />
                                     <Label Text="{Binding SelectedPaymentHistory.TaxReceiptTransactionDate}"
-                                           Grid.Column="1" Grid.Row="4" />
+                                           Grid.Column="1" Grid.Row="2" />
                                 </Grid>
                             </StackLayout>
                         </Frame>
                         <Frame BackgroundColor="LightGray" BorderColor="LightGray" Padding="10" Margin="10,0,10,0"
-                               VerticalOptions="StartAndExpand" HasShadow="False">
+                               VerticalOptions="Start" HasShadow="False">
                             <Label
                                 Text="{Binding SelectedPaymentHistory.OrderId,StringFormat='Your online reference is : {0}'}"
                                 VerticalOptions="CenterAndExpand" VerticalTextAlignment="Center"
-                                FontSize="18" FontAttributes="Bold" />
+                                FontSize="16" FontAttributes="Bold" />
                         </Frame>
-                        <Frame Padding="0"
+                        <Frame Padding="0" 
                                BorderColor="LightGray" HasShadow="False"
                                Margin="10">
                             <StackLayout Spacing="0">
@@ -167,6 +167,7 @@
                                 <ListView HasUnevenRows="true" VerticalScrollBarVisibility="Never"
                                           ItemsSource="{Binding SelectedPaymentHistory.PaymentInvoiceList,Mode=TwoWay}"
                                           SeparatorVisibility="None"
+                                          VerticalOptions="StartAndExpand"
                                           Margin="10,10,10,0"
                                           BackgroundColor="{StaticResource ListViewBackgroundColor}"
                                           CachingStrategy="RecycleElementAndDataTemplate"
@@ -235,12 +236,12 @@
                                    IsVisible="{Binding IsTotalAmountShow}">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Total Amount : " />
+                                        <Span Text="Total Amount : " FontAttributes="Bold" FontFamily=""/>
                                         <Span
-                                            Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current}}" />
+                                            Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current}}" FontAttributes="Bold" FontFamily=""/>
                                         <Span Text=" " />
 
-                                        <Span Text="{Binding SelectedPaymentHistory.ListAmount}" />
+                                        <Span Text="{Binding SelectedPaymentHistory.ListAmount}" FontAttributes="Bold" FontFamily=""/>
 
 
                                     </FormattedString>
@@ -256,12 +257,12 @@
                                    IsVisible="{Binding IsAdvFeeShow}">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Advance Fee : " />
+                                        <Span Text="Advance Fee : " FontAttributes="Bold" FontFamily=""/>
                                         <Span
-                                            Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current}}" />
+                                            Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current}}" FontAttributes="Bold" FontFamily=""/>
                                         <Span Text=" " />
 
-                                        <Span Text="{Binding SelectedPaymentHistory.AdvanceFee}" />
+                                        <Span Text="{Binding SelectedPaymentHistory.AdvanceFee}" FontAttributes="Bold" FontFamily=""/>
 
 
                                     </FormattedString>
@@ -277,12 +278,12 @@
                                    IsVisible="{Binding IsVATShow}">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Vat : " />
+                                        <Span Text="Vat : " FontAttributes="Bold" FontFamily=""/>
                                         <Span
-                                            Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current}}" />
+                                            Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current}}" FontAttributes="Bold" FontFamily=""/>
                                         <Span Text=" " />
 
-                                        <Span Text="{Binding SelectedPaymentHistory.TotalVAT}" />
+                                        <Span Text="{Binding SelectedPaymentHistory.TotalVAT}" FontAttributes="Bold" FontFamily=""/>
 
 
                                     </FormattedString>
@@ -297,11 +298,11 @@
                                    VerticalTextAlignment="Start">
                                 <Label.FormattedText>
                                     <FormattedString>
-                                        <Span Text="Grand Total : " />
+                                        <Span Text="Grand Total : " FontAttributes="Bold" FontFamily=""/>
                                         <Span
-                                            Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current}}" />
+                                            Text="{Binding OnlinePaymentCurrencyCode,Source={x:Static local:AppSettings.Current}}" FontAttributes="Bold" FontFamily=""/>
                                         <Span Text=" " />
-                                        <Span Text="{Binding SelectedPaymentHistory.Amount}" />
+                                        <Span Text="{Binding SelectedPaymentHistory.Amount}" FontAttributes="Bold" FontFamily=""/>
 
                                     </FormattedString>
                                 </Label.FormattedText>
@@ -310,20 +311,16 @@
                         <Label Margin="10">
                             <Label.FormattedText>
                                 <FormattedString>
-                                    <Span Text="Amount in words : " Style="{StaticResource TitleLabelStyle}" />
-                                    <Span Text="{Binding SelectedPaymentHistory.AmountInWords}" />
+                                    <Span Text="Amount in words : " Style="{StaticResource TitleLabelStyle}" FontAttributes="Bold" FontFamily=""/>
+                                    <Span Text="{Binding SelectedPaymentHistory.AmountInWords}" FontAttributes="Bold" FontFamily=""/>
                                 </FormattedString>
                             </Label.FormattedText>
                         </Label>
-                        <Label Margin="10,0,10,5">
-                            <Label.FormattedText>
-                                <FormattedString>
-                                    <Span Text="Note  : " Style="{StaticResource TitleLabelStyle}" />
-                                    <Span
-                                        Text="This is an online generated statement of accounts payable and does not require signature." />
-                                </FormattedString>
-                            </Label.FormattedText>
-                        </Label>
+                        <controls:CustomWebView Margin="10,0,10,5"
+                                                HorizontalOptions="FillAndExpand"
+                                                VerticalOptions="FillAndExpand"
+                                                IsVisible="{Binding SelectedPaymentHistory.PaymentSettings.PrintReceiptMessage, Converter={StaticResource VisiblityConverter}}"
+                                                HtmlContent="{Binding SelectedPaymentHistory.PaymentSettings.PrintReceiptMessage}" />
                     </StackLayout>
                 </Grid>
             </ScrollView>

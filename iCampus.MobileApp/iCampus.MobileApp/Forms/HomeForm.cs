@@ -409,10 +409,10 @@ public class HomeForm : ViewModelBase
     private bool HomePageDataRefreshingTimer()
     {
         var isInternetConnected = Connectivity.Current.NetworkAccess == NetworkAccess.Internet;
-        //Device.BeginInvokeOnMainThread(() =>
-        //{
-        if (isInternetConnected) GetHomePageData();
-        // });
+        var currentPage = Application.Current.MainPage?.Navigation?.NavigationStack?.LastOrDefault();
+        
+        if (isInternetConnected && currentPage is not LoginPage) 
+            GetHomePageData();
         return isInternetConnected;
     }
 

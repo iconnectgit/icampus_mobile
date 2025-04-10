@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:targetSandboxVersion="1" android:versionName="3.0.0" package="com.madar.MadarMobile" android:installLocation="internalOnly" android:versionCode="50">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:targetSandboxVersion="1" android:versionName="3.0.2" package="com.madar.MadarMobile" android:installLocation="internalOnly" android:versionCode="52">
 	<application
 			android:label="Madar Mobile"
 			android:allowBackup="true"

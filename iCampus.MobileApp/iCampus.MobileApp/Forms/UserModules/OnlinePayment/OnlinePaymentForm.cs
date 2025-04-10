@@ -686,7 +686,11 @@ public class OnlinePaymentForm : ViewModelBase
                             #endregion
 
                             #region PaymentHistory
-                            PaymentHistoryList = new ObservableCollection<BindableReceiptDetailView>(_mapper.Map<List<BindableReceiptDetailView>>(data.PaymentHistory));
+                            PaymentHistoryList = new ObservableCollection<BindableReceiptDetailView>(
+                                _mapper.Map<List<BindableReceiptDetailView>>(data.PaymentHistory)
+                                    .GroupBy(x => x.OrderId)
+                                    .Select(g => g.First())
+                            );
                             IsPaymentHistoryNoDataVisible = PaymentHistoryList.Count == 0;
                             foreach (var item in PaymentHistoryList)
                             {
@@ -906,6 +910,11 @@ public class OnlinePaymentForm : ViewModelBase
                     if (result.PaymentModule == PaymentTypes.OnlineFees || result.PaymentModule == PaymentTypes.ReRegistrationPayment)
                     {
                         SelectedPaymentHistory.ListAmount = result.Amount;
+                        SelectedPaymentHistory.PaymentInvoiceList = result.PaymentInvoiceList.Any() 
+                            ? new List<BindablePaymentInvoiceList> { result.PaymentInvoiceList.FirstOrDefault() }
+                            : new List<BindablePaymentInvoiceList>();
+                        SelectedPaymentHistory.PaymentInvoiceList.Last().GroupName = "Amount paid from portal";
+                        SelectedPaymentHistory.PaymentInvoiceList.Last().Amount = Convert.ToDecimal(result.Amount.ToFormattedAmount(AppSettings.Current.OnlinePaymentCurrencyRoundingDigits)); 
                     }
                     else
                     {

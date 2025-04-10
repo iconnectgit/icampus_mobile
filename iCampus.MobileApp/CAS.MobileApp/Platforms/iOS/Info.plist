@@ -16,17 +16,16 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your app needs access to your location to provide relevant features.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>To get school location</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.50</string>
+	<string>3.0.2</string>
 	<key>CFBundleVersion</key>
-	<string>74</string>
+	<string>3</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

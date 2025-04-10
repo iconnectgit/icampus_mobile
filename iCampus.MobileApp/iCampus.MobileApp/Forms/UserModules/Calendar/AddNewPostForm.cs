@@ -1450,12 +1450,10 @@ public class AddNewPostForm : ViewModelBase
                     OperationDetails result = await ApiHelper.PostMultiDataRequestAsync<OperationDetails>(TextResource.SaveAgendaPostDataApi, AppSettings.Current.ApiUrl, agendaEditPostData, list);
                     if(result.Success)
                     {
-                        //HostScreen.Router.NavigateBack.Execute().Subscribe();
                         await Navigation.PopAsync();
                         if(IsEditMode)
                         {
                             await Navigation.PopAsync();
-                            //HostScreen.Router.NavigateBack.Execute().Subscribe();
                         }
                         MessagingCenter.Send<string>("", "NavigateToCalendar");
                     }

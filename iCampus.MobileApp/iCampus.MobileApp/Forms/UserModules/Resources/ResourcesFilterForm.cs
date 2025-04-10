@@ -196,8 +196,7 @@ public class ResourcesFilterForm : ViewModelBase
         BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
         BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
         BeamHeaderStudentImageClickCommand = new Command(StudentViewTapClicked);
-
-        GetResourceData();
+        //GetResourceData();
     }
 
     #region Methods
@@ -236,7 +235,7 @@ public class ResourcesFilterForm : ViewModelBase
         {
             var cacheKeyPrefix = "resources";
             var curriculumId = SelectedCourse?.CurriculumId == 0 ? null : SelectedCourse?.CurriculumId.ToString();
-            var loadFilterPanelLists = !TermList.Any();
+            var loadFilterPanelLists = true;
             var apiUrl = string.Format(TextResource.ResourcesDataAPIUrl, AppSettings.Current.SelectedStudent.ItemId, "",
                 "", "", "", loadFilterPanelLists);
             ResourceData = await ApiHelper.GetObject<ResourceViewModel>(apiUrl, cacheKeyPrefix: cacheKeyPrefix,
@@ -248,13 +247,11 @@ public class ResourcesFilterForm : ViewModelBase
                         new ObservableCollection<BindableResourceView>(
                             _mapper.Map<List<BindableResourceView>>(ResourceData.ResourcesList)))
                     : new ObservableCollection<BindableResourceView>();
-                if (loadFilterPanelLists)
-                {
-                    TermList = ResourceData.Terms != null ? ResourceData.Terms.ToList() : new List<PickListItem>();
-                    CourseList = ResourceData.Courses != null
+                
+                TermList = ResourceData.Terms != null ? ResourceData.Terms.ToList() : new List<PickListItem>();
+                CourseList = ResourceData.Courses != null
                         ? ResourceData.Courses.ToList()
                         : new List<CurriculumView>();
-                }
 
                 var sortedResources = ResourceList.OrderByDescending(r => DateTime.Parse(r.Date));
                 ResourceList = new ObservableCollection<BindableResourceView>(sortedResources);

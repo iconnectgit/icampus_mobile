@@ -457,7 +457,6 @@ public class LoginForm : ViewModelBase
 
 
                                 AppSettings.Current.StudentList = _mapper.Map<List<BindableStudentPickListItem>>(result.UserSessionData.PortalUserType == PortalUserTypes.Parent ? result.UserSessionData.FamilyStudentList.ToList() : new List<StudentPickListItem>());
-                                AppSettings.Current.StudentList = _mapper.Map<List<BindableStudentPickListItem>>(result.UserSessionData.PortalUserType == PortalUserTypes.Parent ? result.UserSessionData.FamilyStudentList.ToList() : new List<StudentPickListItem>());
 
                                 foreach (var item in AppSettings.Current.StudentList)
                                 {
@@ -485,6 +484,7 @@ public class LoginForm : ViewModelBase
                                 else if (result.UserSessionData.FamilyAllStudentList != null && result.UserSessionData.FamilyAllStudentList.ToList().Count > 0)
                                 {
                                     AppSettings.Current.AllStudentList = _mapper.Map<List<BindableStudentPickListItem>>(result.UserSessionData.PortalUserType == PortalUserTypes.Parent ? result.UserSessionData.FamilyAllStudentList.ToList() : new List<StudentPickListItem>());
+                                    AppSettings.Current.StudentList = AppSettings.Current.AllStudentList;
                                 }
                                 foreach (var item in AppSettings.Current.AllStudentList)
                                 {

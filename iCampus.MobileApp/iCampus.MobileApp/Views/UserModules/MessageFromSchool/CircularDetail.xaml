@@ -48,6 +48,9 @@
                                    Grid.Column="0" 
                                    Grid.ColumnSpan="2"
                                    HorizontalOptions="StartAndExpand"
+                                   FontAttributes="Bold"
+                                   FontFamily=""
+                                   FontSize="16"
                                    Style="{StaticResource TitleLabelStyle}" VerticalOptions="StartAndExpand" />
                             <controls:CustomWebView Grid.Row="1"
                                                     Grid.Column="0"

@@ -171,7 +171,7 @@
 
     <PropertyGroup Condition="'$(TargetFramework)'=='net8.0-ios' and  '$(Configuration)' == 'Ad-Hoc' ">
         <CodesignKey>Apple Distribution: Maroun Osta (9ZG78T68HR)</CodesignKey>
-        <CodesignProvision>CAS_UAT_20250116</CodesignProvision>
+        <CodesignProvision>CAS_Live_20250116</CodesignProvision>
         <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
         <PublishTrimmed>true</PublishTrimmed>
         <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
