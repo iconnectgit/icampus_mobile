@@ -98,7 +98,39 @@
                             </Grid>
                         </Grid>
                     </StackLayout>
-                    <StackLayout Margin="0,10,0,0">
+                    <StackLayout Margin="0,10,0,0" Orientation="Vertical" Spacing="0" IsVisible="{Binding IsEnableLearningOutcomes}">
+                        <Label Text="{Binding LearningOutcomesLabel}"
+                               FontAttributes="Bold"
+                               FontFamily=""
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalOptions="Center"
+                               VerticalTextAlignment="Center"
+                               Padding="0"/>
+                        <Frame
+                            Margin="0,0,0,0"
+                            Padding="0"
+                            HasShadow="False"
+                            CornerRadius="5"
+                            BorderColor="Transparent">
+                            <controls:CustomWebView
+                                IsVisible="{Binding SelectedAgenda.LearningOutcomes,Converter={StaticResource visiblityConverter}}"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand"
+                                HtmlContent="{Binding SelectedAgenda.LearningOutcomes}">
+                            </controls:CustomWebView>
+                            <!-- <Label Text="{Binding SelectedAgenda.AgendaDescription}" -->
+                            <!--        IsVisible="{Binding SelectedAgenda.AgendaDescription,Converter={StaticResource visiblityConverter}}" -->
+                            <!--        TextType="Html" /> -->
+                        </Frame>
+                    </StackLayout>
+                    <StackLayout Margin="0,10,0,0" Orientation="Vertical" Spacing="0">
+                        <Label Text="{Binding AssignmentsLabel}"
+                               FontAttributes="Bold"
+                               FontFamily=""
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalOptions="Center"
+                               VerticalTextAlignment="Center"
+                               Padding="0"/>
                         <Frame
                             Margin="0,0,0,0"
                             Padding="0"
@@ -110,6 +142,31 @@
                                 HorizontalOptions="FillAndExpand"
                                 VerticalOptions="FillAndExpand"
                                 HtmlContent="{Binding SelectedAgenda.AgendaDescription}">
+                            </controls:CustomWebView>
+                            <!-- <Label Text="{Binding SelectedAgenda.AgendaDescription}" -->
+                            <!--        IsVisible="{Binding SelectedAgenda.AgendaDescription,Converter={StaticResource visiblityConverter}}" -->
+                            <!--        TextType="Html" /> -->
+                        </Frame>
+                    </StackLayout>
+                    <StackLayout Margin="0,10,0,0" Orientation="Vertical" Spacing="0" IsVisible="{Binding IsEnableOtherAssignments}">
+                        <Label Text="{Binding OtherAssignmentsLabel}"
+                               FontAttributes="Bold"
+                               FontFamily=""
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalOptions="Center"
+                               VerticalTextAlignment="Center"
+                               Padding="0"/>
+                        <Frame
+                            Margin="0,0,0,0"
+                            Padding="0"
+                            HasShadow="False"
+                            CornerRadius="5"
+                            BorderColor="Transparent">
+                            <controls:CustomWebView
+                                IsVisible="{Binding SelectedAgenda.OtherAssignments,Converter={StaticResource visiblityConverter}}"
+                                HorizontalOptions="FillAndExpand"
+                                VerticalOptions="FillAndExpand"
+                                HtmlContent="{Binding SelectedAgenda.OtherAssignments}">
                             </controls:CustomWebView>
                             <!-- <Label Text="{Binding SelectedAgenda.AgendaDescription}" -->
                             <!--        IsVisible="{Binding SelectedAgenda.AgendaDescription,Converter={StaticResource visiblityConverter}}" -->

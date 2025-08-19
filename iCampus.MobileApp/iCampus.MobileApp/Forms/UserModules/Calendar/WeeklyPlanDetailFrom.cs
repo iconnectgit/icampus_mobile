@@ -101,7 +101,7 @@ public class WeeklyPlanDetailFrom : ViewModelBase
                     quickPostForm.MonthSelectedText = quickPostForm.SelectedMonthList.ItemName;
                     quickPostForm.GroupList = EditQuickPostData.GroupTitles;
                     quickPostForm.GroupListViewHeight = quickPostForm.GroupList.Count * 32;
-                    quickPostForm.SelectedGroupList = EditQuickPostData.GroupTitles.FirstOrDefault(x => x.ItemId == EditQuickPostData.AgendaWeeklyGroupDetails.AgendaWeeklyGroupId.ToString());
+                    //quickPostForm.SelectedGroupList = EditQuickPostData.GroupTitles.FirstOrDefault(x => x.ItemId == EditQuickPostData.AgendaWeeklyGroupDetails.AgendaWeeklyGroupId.ToString());
                     quickPostForm.GroupSelectedText = quickPostForm.SelectedGroupList.ItemName;
                     quickPostForm.GroupTitle = EditQuickPostData.AgendaWeeklyGroupDetails.Title;
                     quickPostForm.IsTitleVisible = true;

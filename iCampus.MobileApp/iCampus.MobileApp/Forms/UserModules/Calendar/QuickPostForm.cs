@@ -29,6 +29,7 @@ public class QuickPostForm : ViewModelBase
         public ICommand CurriculamStandardsEditCommand { get; set; }
         public ICommand LearningOutcomesEditCommand { get; set; }
         public ICommand AssignmentEditedCommand { get; set; }
+        public ICommand OtherActivityEditedCommand { get; set; }
         public ICommand SearchCourseCommand { get; set; }
         public ICommand CourseSelectionCommand { get; set; }
         public ICommand AgendaForChangedCommand { get; set; }
@@ -382,8 +383,8 @@ public class QuickPostForm : ViewModelBase
                 OnPropertyChanged(nameof(SelectedMonthList));
             }
         }
-        PickListItem _selectedGroupList = new PickListItem();
-        public PickListItem SelectedGroupList
+        DateRangePickListItem _selectedGroupList = new DateRangePickListItem();
+        public DateRangePickListItem SelectedGroupList
         {
             get => _selectedGroupList;
             set
@@ -410,6 +411,16 @@ public class QuickPostForm : ViewModelBase
             {
                 _isEnableLearningOutcomes = value;
                 OnPropertyChanged(nameof(IsEnableLearningOutcomes));
+            }
+        }
+        bool _isEnableOtherAssignments;
+        public bool IsEnableOtherAssignments
+        {
+            get => _isEnableOtherAssignments;
+            set
+            {
+                _isEnableOtherAssignments = value;
+                OnPropertyChanged(nameof(IsEnableOtherAssignments));
             }
         }
         string _selectedAgendaForText;
@@ -452,8 +463,8 @@ public class QuickPostForm : ViewModelBase
                 OnPropertyChanged(nameof(IsAgendaForErrorVisible));
             }
         }
-        IList<PickListItem> _dateRangeList = new List<PickListItem>();
-        public IList<PickListItem> DateRangeList
+        IList<DateRangePickListItem> _dateRangeList = new List<DateRangePickListItem>();
+        public IList<DateRangePickListItem> DateRangeList
         {
             get
             {
@@ -499,8 +510,8 @@ public class QuickPostForm : ViewModelBase
                 OnPropertyChanged(nameof(DateRangeListVisibility));
             }
         }
-        PickListItem _selectedDateRange = new PickListItem();
-        public PickListItem SelectedDateRange
+        DateRangePickListItem _selectedDateRange = new DateRangePickListItem();
+        public DateRangePickListItem SelectedDateRange
         {
             get => _selectedDateRange;
             set
@@ -799,13 +810,14 @@ public class QuickPostForm : ViewModelBase
             CurriculamStandardsEditCommand = new Command(CurriculamStandardsEditMethod);
             LearningOutcomesEditCommand = new Command<BindableQuickPost>(LearningOutcomesEditMethod);
             AssignmentEditedCommand = new Command<BindableQuickPost>(AssignmentEditedMethod);
+            OtherActivityEditedCommand = new Command<BindableQuickPost>(OtherActivityEditedCommandMethod);
             SearchCourseCommand = new Command(SearchCourse);
             CourseSelectionCommand = new Command(CourseSelectionMethod);
             AgendaForChangedCommand = new Command<PickListItem>(AgendaForChanged);
             DateRangeSelectionCommand = new Command(DateRangeSelectionMethod);
             CourseListTappedCommand = new Command<PickListItem>(CourseListTappedMethod);
-            DateRangeListTappedCommand = new Command<PickListItem>(DateRangeListTappedMethod);
-            DateRangeChangedCommand = new Command<PickListItem>(DateRangeChangedMethod);
+            DateRangeListTappedCommand = new Command<DateRangePickListItem>(DateRangeListTappedMethod);
+            DateRangeChangedCommand = new Command<DateRangePickListItem>(DateRangeChangedMethod);
             ClassesSelectionCommand = new Command(ClassesSelectionMethod);
             ClassSelectionCommand = new Command<BindableAgendaClassView>(ClassSelectionMethod);
             SaveCommand = new Command(SaveClickedMethod);
@@ -816,7 +828,7 @@ public class QuickPostForm : ViewModelBase
             GroupChangedCommand = new Command<PickListItem>(GroupChangedMethod);
             GroupSelectionCommand = new Command(GroupSelectionMethod);
             MonthListTappedCommand = new Command<PickListItem>(MonthListTappedMethod);
-            GroupListTappedCommand = new Command<PickListItem>(GroupListTappedMethod);
+            GroupListTappedCommand = new Command<DateRangePickListItem>(GroupListTappedMethod);
             CancelCommand = new Command(CancelWeeklyAgendaMethod);
             SaveEditorCommand = new Command(SaveEditorClickedMethod);
             BeamMenuClickCommand = new Command(BeamMenuClicked);
@@ -967,7 +979,7 @@ public class QuickPostForm : ViewModelBase
                     SelectedMonthList = new PickListItem();
                     MonthListViewHeight = MonthList.Count * 32;
                     GroupList = new List<PickListItem>();
-                    SelectedGroupList = new PickListItem();
+                    SelectedGroupList = new DateRangePickListItem();
                 }
             }
             catch (Exception ex)
@@ -988,7 +1000,7 @@ public class QuickPostForm : ViewModelBase
                     RemarkVisibility = false;
                     DateWiseQuickPost = new ObservableCollection<BindableQuickPost>();
                     GroupList = new List<PickListItem>();
-                    SelectedGroupList = new PickListItem();
+                    SelectedGroupList = new DateRangePickListItem();
 
 
                     SelectedMonthList = pickListItem;
@@ -1010,7 +1022,7 @@ public class QuickPostForm : ViewModelBase
                 HelperMethods.DisplayException(ex, this.PageTitle);
             }
         }
-        private async void GroupListTappedMethod(PickListItem pickListItem)
+        private async void GroupListTappedMethod(DateRangePickListItem pickListItem)
         {
             try
             {
@@ -1031,7 +1043,7 @@ public class QuickPostForm : ViewModelBase
         {
             DateRangeListVisibility = !DateRangeListVisibility;
         }
-        private async void DateRangeListTappedMethod(PickListItem pickListItem)
+        private async void DateRangeListTappedMethod(DateRangePickListItem pickListItem)
         {
             try
             {
@@ -1046,6 +1058,7 @@ public class QuickPostForm : ViewModelBase
                     var weekRangeId = !IsEditMode ? SelectedDateRange.ItemId : null;
                     AgendaWeeklyData = await ApiHelper.GetObject<AgendaWeeklyGroupEdit>(string.Format(TextResource.LoadAgendaWeeklyPostFormApi, agendaWeeklyGroupId, weekRangeId));
                     IsEnableLearningOutcomes = AgendaWeeklyData.CalendarControlSetting.EnableLearningOutcomes;
+                    IsEnableOtherAssignments = AgendaWeeklyData.CalendarControlSetting.EnableOtherAssignments;
                     AgendaWeeklyGroupId = AgendaWeeklyData.AgendaWeeklyGroupDetails.AgendaWeeklyGroupId;
                     WeekStartDate = AgendaWeeklyData.AgendaWeeklyGroupDetails.WeekStartDate.ToString("dd-MMM-yyyy");
                     WeekEndDate = AgendaWeeklyData.AgendaWeeklyGroupDetails.WeekEndDate.ToString("dd-MMM-yyyy");
@@ -1122,6 +1135,7 @@ public class QuickPostForm : ViewModelBase
                     {
                         item.AssignmentsLabel = AgendaWeeklyData.CalendarControlSetting.AssignmentsLabel;
                         item.LearningOutcomesLabel = AgendaWeeklyData.CalendarControlSetting.LearningOutcomesLabel;
+                        item.OtherAssignmentsLabel = AgendaWeeklyData.CalendarControlSetting.OtherAssignmentsLabel;
                         //item.AttachmentListViewHeight = item.AttachmentFiles.Count * 40;
                     }
                 }
@@ -1131,7 +1145,7 @@ public class QuickPostForm : ViewModelBase
                 HelperMethods.DisplayException(ex, this.PageTitle);
             }
         }
-        private void DateRangeChangedMethod(PickListItem obj)
+        private void DateRangeChangedMethod(DateRangePickListItem obj)
         {
             if (obj != null)
             {
@@ -1247,6 +1261,7 @@ public class QuickPostForm : ViewModelBase
                                 AgendaUId = item.AgendaUId,
                                 AgendaDescription = item.AgendaDescription,
                                 LearningOutcomes = item.LearningOutcomes,
+                                OtherAssignments  = item.OtherAssignments,
                                 DueDate = item.DueDate
                             });
                         }
@@ -1264,13 +1279,12 @@ public class QuickPostForm : ViewModelBase
                         {
                             await Navigation.PopAsync();
                         }
-                        MessagingCenter.Send<string>("", "LoadWeeklyPlan");
+                        //MessagingCenter.Send<string>("", "LoadWeeklyPlan");
                     }
                 }
                 catch (Exception ex)
                 {
                     HelperMethods.DisplayException(ex, this.PageTitle);
-                    //Crashes.TrackError(ex);
                 }
             }
         }
@@ -1348,6 +1362,12 @@ public class QuickPostForm : ViewModelBase
                     if (_currentQuickPost != null)
                     {
                         _currentQuickPost.AgendaDescription = wrappedHtmlContent; 
+                    }
+                    break;
+                case "otherassignmentsdescription":
+                    if (_currentQuickPost != null)
+                    {
+                        _currentQuickPost.OtherAssignments = wrappedHtmlContent; 
                     }
                     break;
             }
@@ -1440,6 +1460,18 @@ public class QuickPostForm : ViewModelBase
             {
                 _currentQuickPost = quickPost;
                 OpenHtmlEditPopup(quickPost.AgendaDescription, "agendadescription", quickPost.AssignmentsLabel);
+            }
+            catch (Exception ex)
+            {
+                HelperMethods.DisplayException(ex, this.PageTitle);
+            }
+        }
+        private async void OtherActivityEditedCommandMethod(BindableQuickPost quickPost)
+        {
+            try
+            {
+                _currentQuickPost = quickPost;
+                OpenHtmlEditPopup(quickPost.OtherAssignments, "otherassignmentsdescription", quickPost.OtherAssignmentsLabel);
             }
             catch (Exception ex)
             {

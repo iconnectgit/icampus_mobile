@@ -1010,7 +1010,6 @@
                                                             Aspect="AspectFit"
                                                             HeightRequest="20"
                                                             WidthRequest="20"
-                                                            IsVisible="{Binding IsResolved}"
                                                             DownsampleToViewSize="True"
                                                             Source="edit.png">
                                                             <ffimageloading:CachedImage.GestureRecognizers>
@@ -1036,6 +1035,50 @@
                                                             </WebView.Source>
                                                         </WebView>
                                                     </Frame>
+
+
+                                                    <StackLayout Orientation="Vertical"
+                                                                 IsVisible="{Binding BindingContext.IsEnableOtherAssignments,Source={x:Reference listview}}">
+                                                        <StackLayout Orientation="Horizontal" Margin="0,0,0,5">
+                                                            <Label Text="{Binding OtherAssignmentsLabel}"
+                                                                   Margin="0,10,0,0"
+                                                                   Style="{StaticResource TitleLabelStyle}"
+                                                                   VerticalOptions="EndAndExpand"
+                                                                   VerticalTextAlignment="End" />
+                                                            <ffimageloading:CachedImage
+                                                                HorizontalOptions="EndAndExpand"
+                                                                Margin="10,15,0,0"
+                                                                Aspect="AspectFit"
+                                                                HeightRequest="20"
+                                                                WidthRequest="20"
+                                                                DownsampleToViewSize="True"
+                                                                Source="edit.png">
+                                                                <ffimageloading:CachedImage.GestureRecognizers>
+                                                                    <TapGestureRecognizer
+                                                                        Command="{Binding BindingContext.OtherActivityEditedCommand,Source={x:Reference listview}}"
+                                                                        CommandParameter="{Binding .}" />
+                                                                </ffimageloading:CachedImage.GestureRecognizers>
+                                                            </ffimageloading:CachedImage>
+                                                        </StackLayout>
+                                                        <Frame HasShadow="False"
+                                                               Padding="5,0,5,0"
+                                                               BorderColor="{StaticResource BorderColor}"
+                                                               IsClippedToBounds="True"
+                                                               HeightRequest="100"
+                                                               HorizontalOptions="FillAndExpand"
+                                                               VerticalOptions="FillAndExpand">
+                                                            <WebView x:Name="otherassignmentview"
+                                                                     HeightRequest="100"
+                                                                     HorizontalOptions="FillAndExpand"
+                                                                     VerticalOptions="FillAndExpand">
+                                                                <WebView.Source>
+                                                                    <HtmlWebViewSource
+                                                                        Html="{Binding OtherAssignments}" />
+                                                                </WebView.Source>
+                                                            </WebView>
+                                                        </Frame>
+                                                    </StackLayout>
+                                                    
                                                     <Label Text="Please enter text"
                                                            Margin="3,0,0,0"
                                                            IsVisible="false"

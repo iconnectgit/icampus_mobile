@@ -18,7 +18,7 @@ public partial class Calendar : ContentPage
         });
         MessagingCenter.Subscribe<string>("", "WeeklyExpandCollapse", (arg) =>
         {
-            ForceNativeTableUpdate(beamWeeklyPlanList);
+            //ForceNativeTableUpdate(beamWeeklyPlanList);
         });
     }
     protected override bool OnBackButtonPressed()

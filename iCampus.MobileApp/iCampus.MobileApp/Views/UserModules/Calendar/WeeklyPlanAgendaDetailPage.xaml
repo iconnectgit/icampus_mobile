@@ -93,7 +93,8 @@
                                        Grid.Row="1"
                                        Grid.Column="0"
                                        Grid.ColumnSpan="2"
-                                       Text="Curriculum Standard" />
+                                       Text="Curriculum Standard" 
+                                       FontFamily=""/>
                                 <Label Style="{StaticResource DescriptionLabelStyle}"
                                        Grid.Row="2"
                                        Grid.Column="0"
@@ -113,7 +114,8 @@
                                        Grid.Row="3"
                                        Grid.Column="0"
                                        Grid.ColumnSpan="2"
-                                       Text="Remarks" />
+                                       Text="Remarks" 
+                                       FontFamily=""/>
                                 <Label Style="{StaticResource DescriptionLabelStyle}"
                                        Grid.Row="4"
                                        Grid.Column="0"

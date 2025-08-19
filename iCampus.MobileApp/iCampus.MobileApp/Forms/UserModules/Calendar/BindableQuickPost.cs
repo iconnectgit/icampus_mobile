@@ -78,6 +78,20 @@ public class BindableQuickPost : INotifyPropertyChanged
                 OnPropertyChanged("AssignmentsLabel");
             }
         }
+        private string _otherAssignmentsLabel;
+        public string OtherAssignmentsLabel
+        {
+            get
+            {
+                return _otherAssignmentsLabel;
+            }
+            set
+            {
+                _otherAssignmentsLabel = value;
+                OnPropertyChanged("OtherAssignmentsLabel");
+            }
+        }
+        
         private string _agendaDescription;
         public string AgendaDescription
         {
@@ -92,6 +106,22 @@ public class BindableQuickPost : INotifyPropertyChanged
                     + value
                     + "</body></html>";
                 OnPropertyChanged("AgendaDescription");
+            }
+        }
+        private string _otherAssignments;
+        public string OtherAssignments
+        {
+            get
+            {
+                return _otherAssignments;
+            }
+            set
+            {
+                _otherAssignments =
+                    "<html><head><meta name='viewport' content='width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;'/></head><body>"
+                    + value
+                    + "</body></html>";
+                OnPropertyChanged("OtherAssignments");
             }
         }
         private string _learningOutcomes;

@@ -670,7 +670,7 @@
     <value>true</value>
   </data>
   <data name="MobileAppLoginUrlLive" xml:space="preserve">
-    <value>http://generic.mobile.api.iconnect.ae/api/account</value>
+    <value>https://generic-prtlapi.iconnect.ae/api/account</value>
   </data>
   <data name="BeamMobileAppLoginUrlLive" xml:space="preserve">
     <value>http://muw.mobile.api.iconnect.ae/api/account</value>
@@ -984,6 +984,9 @@
   <data name="LearningOutcomeLabel" xml:space="preserve">
       <value>Learning Outcome</value>
   </data>
+  <data name="OtherActivityLabel" xml:space="preserve">
+      <value>Other Activities</value>
+  </data>
   <data name="PdcReplacementText" xml:space="preserve">
     <value>You can pay in sequence only.</value>
   </data>
@@ -1148,5 +1151,14 @@
   </data>
   <data name="GetAgendaStudentListApi" xml:space="preserve">
     <value>api/Calendar/GetAgendaStudentList?agendaid={0}</value>
+  </data>
+  <data name="InitAgendaWeeklyPlanSearchApi" xml:space="preserve">
+    <value>api/CalendarQuickPost/InitAgendaWeeklyPlanSearch?studentId={0}&amp;agendaWeeklyGroupId={1}</value>
+  </data>
+  <data name="SearchAgendaWeeklyPlanListApi" xml:space="preserve">
+    <value>api/CalendarQuickPost/SearchAgendaWeeklyPlanList?studentId={0}&amp;weekStartDate={1}&amp;gradeId={2}&amp;classId={3}&amp;courseId={4}&amp;weeklyGroupId={5}&amp;approvalMode={6}</value>
+  </data>
+  <data name="getclassesforresourceApi" xml:space="preserve">
+    <value>api/resources/getclassesforresource?gradeId={0}&amp;curriculumId={1}</value>
   </data>
 </root>

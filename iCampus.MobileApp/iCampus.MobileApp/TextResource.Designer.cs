@@ -1772,6 +1772,11 @@ namespace iCampus.MobileApp {
                 return ResourceManager.GetString("AssignmentLabel", resourceCulture);
             }
         }
+        internal static string OtherActivityLabel {
+            get {
+                return ResourceManager.GetString("OtherActivityLabel", resourceCulture);
+            }
+        }
         
         internal static string LearningOutcomeLabel {
             get {
@@ -2105,6 +2110,21 @@ namespace iCampus.MobileApp {
         internal static string GetAgendaStudentListApi {
             get {
                 return ResourceManager.GetString("GetAgendaStudentListApi", resourceCulture);
+            }
+        }
+        internal static string InitAgendaWeeklyPlanSearchApi {
+            get {
+                return ResourceManager.GetString("InitAgendaWeeklyPlanSearchApi", resourceCulture);
+            }
+        }
+        internal static string SearchAgendaWeeklyPlanListApi {
+            get {
+                return ResourceManager.GetString("SearchAgendaWeeklyPlanListApi", resourceCulture);
+            }
+        }
+        internal static string getclassesforresourceApi {
+            get {
+                return ResourceManager.GetString("getclassesforresourceApi", resourceCulture);
             }
         }
     }

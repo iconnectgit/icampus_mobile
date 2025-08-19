@@ -70,7 +70,7 @@
 
                 <StackLayout IsVisible="{Binding IsDetailsVisible}" VerticalOptions="FillAndExpand">
                     <ScrollView VerticalOptions="FillAndExpand">
-                        <Grid Margin="10,5,10,5" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+                        <Grid Margin="10,5,10,5" RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
                               ColumnDefinitions="0.4*,0.6*" RowSpacing="5"
                               VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
 
@@ -413,12 +413,12 @@
                                          IsVisible="{Binding AllowSubmissionsVisibility}">
                                 <input:CheckBox VerticalOptions="CenterAndExpand"
                                                 IsChecked="{Binding IsAllowSubmissions,Mode=TwoWay}" Scale="0.8"
-                                                HorizontalOptions="StartAndExpand"
+                                                HorizontalOptions="Start"
                                                 Color="Gray"
                                                 IsEnabled="{Binding IsAllowSubmissionsEnabled}"
                                                 CheckChangedCommand="{Binding AllowSubmissionsCheckChangedCommand}" />
                                 <Label Text="{Binding SubmissionsCount}" VerticalOptions="CenterAndExpand"
-                                       HorizontalOptions="StartAndExpand" HorizontalTextAlignment="Start"
+                                       HorizontalOptions="FillAndExpand" HorizontalTextAlignment="Start"
                                        Style="{StaticResource DescriptionLabelStyle}">
                                     <Label.Triggers>
                                         <DataTrigger TargetType="Label" Binding="{Binding Path=IsEditMode}"
@@ -629,6 +629,47 @@
                                              HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
                                         <WebView.Source>
                                             <HtmlWebViewSource Html="{Binding AssignmentsText}" />
+                                        </WebView.Source>
+                                    </WebView>
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout Orientation="Vertical" Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2"
+                                         IsVisible="{Binding IsEnableOtherAssignments}">
+                                <StackLayout Orientation="Horizontal" Margin="0,0,0,5">
+                                    <Label Text="{Binding OtherAssignmentsLabel}"
+                                           Margin="0,10,0,0"
+                                           Style="{StaticResource TitleLabelStyle}"
+                                           VerticalOptions="EndAndExpand"
+                                           VerticalTextAlignment="End" />
+                                    <ffimageloading:CachedImage
+                                        HorizontalOptions="EndAndExpand"
+                                        Margin="10,15,0,0"
+                                        Aspect="AspectFit"
+                                        HeightRequest="20"
+                                        WidthRequest="20"
+                                        DownsampleToViewSize="True"
+                                        Source="edit.png">
+                                        <ffimageloading:CachedImage.GestureRecognizers>
+                                            <TapGestureRecognizer
+                                                Command="{Binding OtherActivityEditedCommand}"
+                                                CommandParameter="{Binding .}" />
+                                        </ffimageloading:CachedImage.GestureRecognizers>
+                                    </ffimageloading:CachedImage>
+                                </StackLayout>
+                                <Frame HasShadow="False"
+                                       Padding="5,0,5,0"
+                                       BorderColor="{StaticResource BorderColor}"
+                                       IsClippedToBounds="True"
+                                       HeightRequest="100"
+                                       HorizontalOptions="FillAndExpand"
+                                       VerticalOptions="FillAndExpand">
+                                    <WebView x:Name="otherassignmentview"
+                                             HeightRequest="100"
+                                             HorizontalOptions="FillAndExpand"
+                                             VerticalOptions="FillAndExpand">
+                                        <WebView.Source>
+                                            <HtmlWebViewSource
+                                                Html="{Binding OtherAssignmentsDescription}" />
                                         </WebView.Source>
                                     </WebView>
                                 </Frame>

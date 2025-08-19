@@ -800,24 +800,34 @@ public class CalendarForm : ViewModelBase
     {
         try
         {
-            WeeklyPlanHeaderText = string.Empty;
-            var weekStartDate = AgendaData.WeekStartDate.ToString("yyyy-MM-dd", new CultureInfo("en-US"));
-            WeeklyPlanDataList =
-                await ApiHelper.GetObjectList<BindableAgendaWeeklyGroupView>(
-                    string.Format(TextResource.GetAgendaWeeklyPlanDataApi, weekStartDate, "", "", ""));
-            var distinctWeeks = WeeklyPlanDataList.Select(x => new { x.WeekStartDate, x.WeekEndDate }).Distinct()
-                .ToList();
-            foreach (var week in distinctWeeks)
+            WeeklyPlanSearchForm weeklyPlanSearchForm = new(_mapper, _nativeServices, Navigation)
             {
-                var startDate = week.WeekStartDate.ToString(StringEnum.GetStringValue(DateFormats.Default));
-                var endDate = week.WeekEndDate.ToString(StringEnum.GetStringValue(DateFormats.Default));
-                WeeklyPlanHeaderText = startDate + " -" + endDate;
-            }
+                PageTitle = PageTitle,
+                BackVisible = true
+            };
+            var weeklyPlanSearch = new WeeklyPlanSearchPage()
+            {
+                BindingContext = weeklyPlanSearchForm
+            };
+            await Navigation.PushAsync(weeklyPlanSearch);
+            // WeeklyPlanHeaderText = string.Empty;
+            // var weekStartDate = AgendaData.WeekStartDate.ToString("yyyy-MM-dd", new CultureInfo("en-US"));
+            // WeeklyPlanDataList =
+            //     await ApiHelper.GetObjectList<BindableAgendaWeeklyGroupView>(
+            //         string.Format(TextResource.GetAgendaWeeklyPlanDataApi, weekStartDate, "", "", ""));
+            // var distinctWeeks = WeeklyPlanDataList.Select(x => new { x.WeekStartDate, x.WeekEndDate }).Distinct()
+            //     .ToList();
+            // foreach (var week in distinctWeeks)
+            // {
+            //     var startDate = week.WeekStartDate.ToString(StringEnum.GetStringValue(DateFormats.Default));
+            //     var endDate = week.WeekEndDate.ToString(StringEnum.GetStringValue(DateFormats.Default));
+            //     WeeklyPlanHeaderText = startDate + " -" + endDate;
+            // }
 
-            IsWeeklyNoRecordMsg = WeeklyPlanDataList.Count() <= 0;
-            IsWeeklyPlanVisible = WeeklyPlanDataList.Count() > 0;
-            IsSearchVisible = false;
-            IsAgendaListVisible = false;
+            IsWeeklyNoRecordMsg = true;
+            // IsWeeklyPlanVisible = true;
+            // IsSearchVisible = false;
+            // IsAgendaListVisible = false;
         }
         catch (Exception ex)
         {
@@ -1272,6 +1282,11 @@ public class CalendarForm : ViewModelBase
                 agendaDetailForm.IsCreatorVisible = IsCreatorVisible;
                 agendaDetailForm.SubmissionComments = agendaDetailForm.SelectedAgenda.StudentComments;
                 agendaDetailForm.IsSubmissionAllowed = !AppSettings.Current.IsTeacher && obj.IsStudentSubmissionAllowed;
+                agendaDetailForm.AssignmentsLabel = AgendaData.DisplaySetting.AssignmentsLabel;
+                agendaDetailForm.LearningOutcomesLabel = AgendaData.DisplaySetting.LearningOutcomesLabel;
+                agendaDetailForm.IsEnableLearningOutcomes = AgendaData.DisplaySetting.EnableLearningOutcomes;
+                agendaDetailForm.OtherAssignmentsLabel = AgendaData.DisplaySetting.OtherAssignmentsLabel;
+                agendaDetailForm.IsEnableOtherAssignments = AgendaData.DisplaySetting.EnableOtherAssignments;
                 if (AppSettings.Current.IsTeacher)
                 {
                     agendaDetailForm.IsViewSubmissionVisible = AgendaData.DisplaySetting.EnableStudentSubmissions;

@@ -70,7 +70,7 @@ public partial class AddNewPostPage : ContentPage
 
     void Reminder_DateSelected(object? sender, DateChangedEventArgs dateChangedEventArgs)
     {
-        MessagingCenter.Send<string>(dateChangedEventArgs.NewDate.ToString(), "ReminderDateSelected");
+        //MessagingCenter.Send<string>(dateChangedEventArgs.NewDate.ToString(), "ReminderDateSelected");
     }
     public static DateTime GetNextWeekday(DateTime start, DayOfWeek day)
     {

@@ -49,6 +49,7 @@ public class AddNewPostForm : ViewModelBase
         public ICommand CloseAlreadyAddedAttachedErrorPopupCommand { get; set; }
         public ICommand EditClickCommand { get; set; }
         public ICommand LeanningOutcomeEditClickCommand { get; set; }
+        public ICommand OtherActivityEditedCommand { get; set; }
 
         int daysTobeAdded;
         private bool _isEnableCaching = true;
@@ -178,10 +179,11 @@ public class AddNewPostForm : ViewModelBase
                 OnPropertyChanged(nameof(SelectedCourse));
                 if(_selectedCourse!=null&&!string.IsNullOrEmpty(_selectedCourse.ItemName))
                 {
-                    if(!IsEditMode)
-                    {
-                        GetClassesInAddMode();
-                    }
+                    GetClassesInAddMode();
+                    // if(IsEditMode)
+                    // {
+                    //     GetClassesInAddMode();
+                    // }
                 }
             }
         }
@@ -412,8 +414,8 @@ public class AddNewPostForm : ViewModelBase
                 OnPropertyChanged(nameof(DueDate));
             }
         }
-        DateTime _reminderDate;
-        public DateTime ReminderDate
+        DateTime? _reminderDate;
+        public DateTime? ReminderDate
         {
             get => _reminderDate;
             set
@@ -422,8 +424,8 @@ public class AddNewPostForm : ViewModelBase
                 OnPropertyChanged(nameof(ReminderDate));
             }
         }
-        int _reminderBeforeText=1;
-        public int ReminderBeforeText
+        int? _reminderBeforeText=1;
+        public int? ReminderBeforeText
         {
             get => _reminderBeforeText;
             set
@@ -484,7 +486,17 @@ public class AddNewPostForm : ViewModelBase
                 OnPropertyChanged(nameof(LearningOutcomeLabel));
             }
         }
-
+        string _otherAssignmentsLabel;
+        public string OtherAssignmentsLabel
+        {
+            get => _otherAssignmentsLabel;
+            set
+            {
+                _otherAssignmentsLabel = value;
+                OnPropertyChanged(nameof(OtherAssignmentsLabel));
+            }
+        }
+        
         string _learningOutcomeText;
         public string LearningOutcomeText
         {
@@ -502,6 +514,23 @@ public class AddNewPostForm : ViewModelBase
                 OnPropertyChanged(nameof(LearningOutcomeText));
             }
         }
+        string _otherAssignmentsDescription;
+        public string OtherAssignmentsDescription
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_otherAssignmentsDescription))
+                {
+                    _otherAssignmentsDescription = "<html><head><meta name='viewport' content='width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;'/></head><body>" + _otherAssignmentsDescription + "</body></html>";
+                }
+                return _otherAssignmentsDescription;
+            }
+            set
+            {
+                _otherAssignmentsDescription = value;
+                OnPropertyChanged(nameof(OtherAssignmentsDescription));
+            }
+        }
 
         bool _isLearningOutcomeVisible = false;
         public bool IsLearningOutcomeVisible
@@ -513,7 +542,16 @@ public class AddNewPostForm : ViewModelBase
                 OnPropertyChanged(nameof(IsLearningOutcomeVisible));
             }
         }
-
+        bool _isEnableOtherAssignments;
+        public bool IsEnableOtherAssignments
+        {
+            get => _isEnableOtherAssignments;
+            set
+            {
+                _isEnableOtherAssignments = value;
+                OnPropertyChanged(nameof(IsEnableOtherAssignments));
+            }
+        }
         string _assignmentsText;
         public string AssignmentsText
         {
@@ -923,6 +961,7 @@ public class AddNewPostForm : ViewModelBase
             CloseAlreadyAddedAttachedErrorPopupCommand = new Command(CloseAlreadyAddedAttachedErrorPopupClicked);
             EditClickCommand = new Command(EditClicked);
             LeanningOutcomeEditClickCommand = new Command(LeanningOutcomeEditClicked);
+            OtherActivityEditedCommand = new Command(OtherActivityEditedMethod);
             SaveEditorCommand = new Command(SaveEditorClickedMethod);
             BeamMenuClickCommand = new Command(BeamMenuClicked);
             BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
@@ -931,32 +970,35 @@ public class AddNewPostForm : ViewModelBase
             DueMinimumDate = DateTime.Now;
             MessagingCenter.Subscribe<string>("", "ReminderDateSelected", async (args) =>
             {
-                ReminderBeforeText = (DueDate-ReminderDate).Days;
+                //ReminderBeforeText = (DueDate-ReminderDate).Value.Days;
+                ReminderBeforeText = ReminderDate.HasValue
+                    ? (DueDate - ReminderDate.Value).Days
+                    : 0;
             });
             MessagingCenter.Subscribe<string>("", "SetReminderMaxDate", async (args) =>
             {
                 if(!IsEditMode)
                 {
-                    if(DueDate.Date.CompareTo(DateTime.Now.Date)==0)
+                    if(DueDate.Date.CompareTo(DateTime.Now.Date)==0 && ReminderBeforeText.HasValue)
                     {
-                        ReminderMinimumDate = DueDate.AddDays(-ReminderBeforeText);
+                        ReminderMinimumDate = DueDate.AddDays(-ReminderBeforeText.Value);
                     }
                     ReminderMaxDate = DueDate.Date;  //AddDays(-1);
-                    ReminderDate = DueDate.AddDays(-ReminderBeforeText);
+                    ReminderDate = DueDate.AddDays(-ReminderBeforeText.Value);
                 }
                 else
                 {
                     DueMinimumDate = DateTime.MinValue;
                     if (DueDate.CompareTo(DateTime.Now.Date) == 0)
                     {
-                        ReminderMinimumDate = DueDate.AddDays(-ReminderBeforeText);
+                        ReminderMinimumDate = DueDate.AddDays(-ReminderBeforeText.Value);
                     }
                     else
                     {
-                        ReminderMinimumDate = DueDate.AddDays(-ReminderBeforeText);
+                        ReminderMinimumDate = DueDate.AddDays(-ReminderBeforeText.Value);
                         ReminderMaxDate = ReminderMinimumDate;
                     }
-                    ReminderDate = DueDate.AddDays(-ReminderBeforeText);
+                    ReminderDate = DueDate.AddDays(-ReminderBeforeText.Value);
                 }
             });
         }
@@ -988,6 +1030,10 @@ public class AddNewPostForm : ViewModelBase
                 case "assignmenttext":
                     AssignmentsText = wrappedHtmlContent;
                     break;
+                case "otheractivity":
+                    OtherAssignmentsDescription = wrappedHtmlContent;
+                    break;
+                    
             }
             AppSettings.Current.CurrentPopup?.Close();
         }
@@ -1021,6 +1067,18 @@ public class AddNewPostForm : ViewModelBase
             try
             {
                 OpenHtmlEditPopup(LearningOutcomeText, "learningoutcomes", LearningOutcomeLabel);
+                
+            }
+            catch (Exception ex)
+            {
+                HelperMethods.DisplayException(ex, this.PageTitle);
+            }
+        }
+        private async void OtherActivityEditedMethod(object obj)
+        {
+            try
+            {
+                OpenHtmlEditPopup(OtherAssignmentsDescription, "otheractivity", OtherAssignmentsLabel);
                 
             }
             catch (Exception ex)
@@ -1417,6 +1475,8 @@ public class AddNewPostForm : ViewModelBase
                     agendaEditPostData.TypeId = Convert.ToInt32(SelectedAgendaTypes.ItemId);
                     agendaEditPostData.DueDate = DueDate.ToString("MM/dd/yyyy hh:mm:ss tt");
                     agendaEditPostData.AgendaDescription = AssignmentsText;
+                    agendaEditPostData.LearningOutcomes = LearningOutcomeText;
+                    agendaEditPostData.OtherAssignments = OtherAssignmentsDescription;
                     agendaEditPostData.IsStudentSubmissionAllowed = IsAllowSubmissions;
                     agendaEditPostData.AgendaWeeklyGroupId = AgendaWeeklyGroupId;
                     agendaEditPostData.ReminderDate = AgendaWeeklyGroupId > 0 ? (DateTime?)null : ReminderDate;
@@ -1577,10 +1637,10 @@ public class AddNewPostForm : ViewModelBase
                 {
                     TimeSpan timeSpan = (DueDate.Date.Subtract(ReminderMinimumDate.Date));
                     var totalDays = timeSpan.TotalDays; 
-                    if(ReminderBeforeText < totalDays)
+                    if(ReminderBeforeText < totalDays && ReminderDate.HasValue)
                     {
                         ReminderBeforeText++;
-                        ReminderDate=ReminderDate.AddDays(-1);
+                        ReminderDate=DueDate.AddDays(-ReminderBeforeText.Value);
                     }
                     else
                     {
@@ -1597,7 +1657,14 @@ public class AddNewPostForm : ViewModelBase
                         ReminderBeforeText++;
                         ReminderMinimumDate = DateTime.Now;
                         ReminderMaxDate = DueDate.AddDays(-1);
-                        ReminderDate = ReminderDate.AddDays(-1);
+                        ReminderDate = DueDate.AddDays(-ReminderBeforeText.Value);
+                    }
+                    else if (AgendaWeeklyGroupId > 0 && ReminderDate.HasValue && ReminderDate.Value.Date != DateTime.Now.Date)
+                    {
+                        ReminderBeforeText++;
+                        ReminderMinimumDate = DateTime.Now;
+                        ReminderMaxDate = DueDate.AddDays(-1);
+                        ReminderDate = DueDate.AddDays(-ReminderBeforeText.Value);
                     }
                     else
                     {
@@ -1618,7 +1685,7 @@ public class AddNewPostForm : ViewModelBase
                     if (ReminderBeforeText > 0)
                     {
                         ReminderBeforeText--;
-                        ReminderDate=ReminderDate.AddDays(1);
+                        ReminderDate=ReminderDate.Value.AddDays(1);
                     }
                     else
                     {
@@ -1632,8 +1699,8 @@ public class AddNewPostForm : ViewModelBase
                     {
                         ReminderBeforeText--;
                         ReminderMinimumDate = DateTime.Now;
-                        ReminderMaxDate = DueDate.AddDays(-1);
-                        ReminderDate = ReminderDate.AddDays(1);
+                        ReminderMaxDate = DueDate;
+                        ReminderDate = DueDate.AddDays(-ReminderBeforeText.Value);
                     }
                     else
                     {
@@ -1716,37 +1783,46 @@ public class AddNewPostForm : ViewModelBase
                     AppSettings.Current.WeekendDays = AddPostData.WeekendDays;
                     AppSettings.Current.IsCurrentWeekDisabled = addPostData.CalendarControlSetting.IsCurrentWeekDisabled;
                     AssignmentLabel = !string.IsNullOrEmpty(addPostData.CalendarControlSetting.AssignmentsLabel) ? addPostData.CalendarControlSetting.AssignmentsLabel : TextResource.AssignmentLabel;
+                    LearningOutcomeLabel = !string.IsNullOrEmpty(addPostData.CalendarControlSetting.OtherAssignmentsLabel) ? addPostData.CalendarControlSetting.OtherAssignmentsLabel : TextResource.OtherActivityLabel;
                     IsLearningOutcomeVisible = addPostData.CalendarControlSetting.EnableLearningOutcomes;
-
+                    IsEnableOtherAssignments = addPostData.CalendarControlSetting.EnableOtherAssignments;
                     if (IsLearningOutcomeVisible)
                     {
                         LearningOutcomeLabel = !string.IsNullOrEmpty(addPostData.CalendarControlSetting?.LearningOutcomesLabel?.Trim()) ? addPostData.CalendarControlSetting.LearningOutcomesLabel : TextResource.LearningOutcomeLabel;
+                    }
+                    if (IsEnableOtherAssignments)
+                    {
+                        OtherAssignmentsLabel = !string.IsNullOrEmpty(addPostData.CalendarControlSetting?.OtherAssignmentsLabel?.Trim()) ? addPostData.CalendarControlSetting.OtherAssignmentsLabel : TextResource.OtherActivityLabel;
                     }
                     if (addPostData.CalendarControlSetting.IsEnableLimit)
                     {
                         LimitCount = addPostData.CalendarControlSetting.LimitCount;
                     }
                 }
-                if (AppSettings.Current.IsWeekendsDisabled)
+
+                if (!IsEditMode)
                 {
-                    int count = 0;
-                    if (!string.IsNullOrEmpty(AppSettings.Current.WeekendDays))
+                    if (AppSettings.Current.IsWeekendsDisabled)
                     {
-                        do
+                        int count = 0;
+                        if (!string.IsNullOrEmpty(AppSettings.Current.WeekendDays))
                         {
-                            count++;
+                            do
+                            {
+                                count++;
+                            }
+                            while (AppSettings.Current.WeekendDays.Contains(((int)DateTime.Now.AddDays(count).DayOfWeek).ToString()));
                         }
-                        while (AppSettings.Current.WeekendDays.Contains(((int)DateTime.Now.AddDays(count).DayOfWeek).ToString()));
+                        daysTobeAdded = count;
                     }
-                    daysTobeAdded = count;
+                    else
+                    {
+                        daysTobeAdded = 1;
+                    }
+                    DueDate = DateTime.Now.AddDays(daysTobeAdded);
+                    ReminderDate = DueDate.AddDays(-1);
+                    ReminderMaxDate = ReminderDate.Value;
                 }
-                else
-                {
-                    daysTobeAdded = 1;
-                }
-                DueDate = DateTime.Now.AddDays(daysTobeAdded);
-                ReminderDate = DueDate.AddDays(-1);
-                ReminderMaxDate = ReminderDate;
             }
             catch (Exception ex)
             {
@@ -1764,9 +1840,22 @@ public class AddNewPostForm : ViewModelBase
                 {
                     SelectedAgenda = selectedAgenda;
                     DueDate = selectedAgenda.DueDate.ToDateTime();
-                    ReminderDate = selectedAgenda.ReminderDate.ToDateTime();
-                    ReminderMaxDate = ReminderDate;
-                    ReminderBeforeText = (DueDate - ReminderDate).Days;
+                    //ReminderDate = selectedAgenda.ReminderDate.ToDateTime();
+                    
+                    //ReminderBeforeText = (DueDate - ReminderDate).Days;
+                    ReminderDate = selectedAgenda.ReminderDate != null 
+                        ? selectedAgenda.ReminderDate.ToDateTime() 
+                        : DueDate;
+                    
+                    ReminderBeforeText = selectedAgenda.ReminderDate != null 
+                        ? (DueDate - ReminderDate.Value).Days 
+                        : 0;
+                    
+                    ReminderMaxDate = ReminderDate.HasValue 
+                        ? ReminderDate.Value 
+                        : DateTime.MaxValue; 
+
+                    
                     if(SelectedAgenda.AttachmentList!=null&& SelectedAgenda.AttachmentList.Count>0)
                     {
                         AttachmentFiles = new ObservableCollection<AttachmentFileView>(SelectedAgenda.AttachmentList);
@@ -1780,9 +1869,9 @@ public class AddNewPostForm : ViewModelBase
                     }
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                Console.WriteLine(e);
+                HelperMethods.DisplayException(ex, this.PageTitle);
                 throw;
             }
             
@@ -1800,7 +1889,7 @@ public class AddNewPostForm : ViewModelBase
                     agendaID =  selectedAgenda.AgendaId.ToString();
                     isWeekly = selectedAgenda.IsWeekly;
                     gradeid = selectedAgenda.IsWeekly ? selectedAgenda.GradeId.ToString() : null;
-                    curriculumId = selectedAgenda.IsWeekly ? null : selectedAgenda.CurriculumId.ToString();
+                    curriculumId = selectedAgenda.IsWeekly ? null : SelectedCourse.ItemId;
                 }
                 else
                 {
@@ -1862,8 +1951,9 @@ public class AddNewPostForm : ViewModelBase
         }
         async Task GetClassesInAddMode()
         {
-            await GetClassesForAgenda(null);
+            await GetClassesForAgenda(IsEditMode ? SelectedAgenda : null);
         }
+
         async Task DeleteSubmissionData()
         {
             DeleteSubmissionWarningTextVisibility = true;

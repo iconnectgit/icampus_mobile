@@ -42,6 +42,7 @@ public class MyMappingProfile : Profile
         CreateMap<BindableStudentBookMasterView, StudentBookMasterView>().ReverseMap();
         CreateMap<BindableAppointmentAvailableTimeView, AppointmentAvailableTimeView>().ReverseMap();
         CreateMap<CertificateView, BindableCertificateView>().ReverseMap();
+        CreateMap<BindableAgendaWeeklyGroupView, AgendaWeeklyGroupView>().ReverseMap();
         CreateMap<StudentGradingBookDataView, BindableStudentGradingBookDataView>()
             .ForMember(dest => dest.EffortsResultModel,
                 src => src.MapFrom(x =>

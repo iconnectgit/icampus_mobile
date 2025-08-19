@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Maui;assembly=FFImageLoading.Maui"
+             xmlns:behaviours="clr-namespace:iCampus.MobileApp.Behaviours"
+             xmlns:individual="clr-namespace:iCampus.MobileApp.Behaviours.Individual"
+             xmlns:controls="clr-namespace:iCampus.MobileApp.Controls"
+             xmlns:local="clr-namespace:iCampus.MobileApp.Forms"
+             x:Class="iCampus.MobileApp.Views.UserModules.Calendar.WeeklyPlanSearchDetailPage"
+             BackgroundColor="{Binding Settings.BgColor, Source={x:Static local:AppSettings.Current}}"
+             NavigationPage.HasNavigationBar="false"
+             x:Name="weeklyPlanSearchDetailPage">
+    <ContentPage.Content>
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <ContentView ControlTemplate="{StaticResource BeamHeader}"
+                         BackgroundColor="White" Grid.Row="0" />
+            <ScrollView VerticalScrollBarVisibility="Never" Grid.Row="1">
+                <StackLayout Spacing="0" BackgroundColor="White" Margin="15,15,15,10" VerticalOptions="StartAndExpand">
+                    <StackLayout.Resources>
+                        <ResourceDictionary>
+                            <individual:DateFormatConverter x:Key="DateFormatConverter" />
+                            <behaviours:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter" />
+                            <behaviours:AttachmentTypeToImageSourceConverter
+                                x:Key="AttachmentTypeToImageSourceConverter" />
+                            <behaviours:AttachmentFileStatusToSourceConverter
+                                x:Key="AttachmentFileStatusToSourceConverter" />
+                            <behaviours:AttachmentFileToImageSourceConverter
+                                x:Key="AttachmentFileToImageSourceConverter" />
+                            <behaviours:VisiblityConverter x:Key="visiblityConverter" />
+                            <behaviours:UrlDecodeConverter x:Key="UrlDecodeConverter" />
+                            <individual:AgendaCancellationTextConverter x:Key="AgendaCancellationTextConverter" />
+                            <individual:AgendaTitleAppendConverter x:Key="AgendaTitleAppendConverter" />
+                        </ResourceDictionary>
+                    </StackLayout.Resources>
+                    <StackLayout Padding="0" VerticalOptions="FillAndExpand">
+                        <Frame Padding="5" HasShadow="False" Margin="0,0,0,10"
+                               CornerRadius="0"
+                               BackgroundColor="WhiteSmoke"
+                               BorderColor="Transparent">
+                            <Label FontSize="18" Padding="0"
+                                   FontAttributes="Bold"
+                                   Text="{Binding SelectedGroupedAgendaData.DueDate}" 
+                                   Style="{StaticResource TitleLabelStyle}"
+                                   FontFamily="" VerticalTextAlignment="Center"
+                                   VerticalOptions="CenterAndExpand">
+                            </Label>
+                        </Frame>
+                    </StackLayout>
+                    
+                    <StackLayout Orientation="Vertical"
+                                 Margin="0,0,0,5"
+                                 Padding="0"
+                                 VerticalOptions="CenterAndExpand">
+    
+                        <Label Text="Subject"
+                               FontAttributes="Bold"
+                               FontFamily=""
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalOptions="Center"
+                               VerticalTextAlignment="Center"
+                               Padding="0"/>
+                        
+                        <Label Text="{Binding SelectedGroupedAgendaData.CurriculumName}"
+                               TextType="Html"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalOptions="Center"
+                               VerticalTextAlignment="Center"
+                               Padding="0"/>
+                    </StackLayout>
+                    <Label IsVisible="{Binding SelectedGroupedAgendaData.IsDeleted}"
+                           Text="{Binding SelectedGroupedAgendaData,Converter={StaticResource AgendaCancellationTextConverter}}"
+                           TextColor="Red" />
+                    <StackLayout Padding="0" IsVisible="{Binding IsTeacher,Source={x:Static local:AppSettings.Current}}">
+                        <Label Text="Approved"
+                               Style="{StaticResource TitleLabelStyle}"
+                               IsVisible="{Binding SelectedGroupedAgendaData.IsApproved}"
+                               TextColor="{StaticResource ApprovedTextColor}" />
+                        <Label Text="Pending"
+                               Style="{StaticResource TitleLabelStyle}"
+                               IsVisible="{Binding SelectedGroupedAgendaData.IsPending}"
+                               TextColor="{StaticResource PendingTextColor}" />
+                    </StackLayout>
+                    
+                    <StackLayout Orientation="Vertical"
+                                 Padding="0"
+                                 VerticalOptions="FillAndExpand"
+                                 IsVisible="{Binding CalendarControlSetting.EnableLearningOutcomes}">
+    
+                        <Label Text="{Binding CalendarControlSetting.LearningOutcomesLabel}"
+                               FontAttributes="Bold"
+                               FontFamily=""
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalOptions="Center"
+                               VerticalTextAlignment="Center"
+                               Padding="0"/>
+                        
+                        <!-- <controls:CustomWebView x:Name="ExamWebView" -->
+                        <!--                         HorizontalOptions="FillAndExpand" -->
+                        <!--                         VerticalOptions="Center" -->
+                        <!--                         HtmlContent="{Binding SelectedGroupedAgendaData.LearningOutcomes}" /> -->
+
+                        <Label Text="{Binding SelectedGroupedAgendaData.LearningOutcomes}"
+                               TextType="Html"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalOptions="Center"
+                               VerticalTextAlignment="Center"
+                               Padding="0"/>
+                    </StackLayout>
+                    
+                    <StackLayout Orientation="Vertical"
+                                 Padding="0"
+                                 VerticalOptions="CenterAndExpand">
+    
+                        <Label Text="{Binding CalendarControlSetting.AssignmentsLabel}"
+                               FontAttributes="Bold"
+                               FontFamily=""
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalOptions="Center"
+                               VerticalTextAlignment="Center"
+                               Padding="0"/>
+                        
+                        <Label Text="{Binding SelectedGroupedAgendaData.AgendaDescription}"
+                               TextType="Html"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalOptions="Center"
+                               VerticalTextAlignment="Center"
+                               Padding="0"/>
+                    </StackLayout>
+                    
+                    <StackLayout Orientation="Vertical"
+                                 Padding="0"
+                                 Grid.Row="1"
+                                 VerticalOptions="CenterAndExpand"
+                                 IsVisible="{Binding CalendarControlSetting.EnableOtherAssignments}">
+    
+                        <Label Text="{Binding CalendarControlSetting.OtherAssignmentsLabel}"
+                               FontAttributes="Bold"
+                               FontFamily=""
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalOptions="Center"
+                               VerticalTextAlignment="Center"
+                               Padding="0"/>
+                        
+                        <Label Text="{Binding SelectedGroupedAgendaData.OtherAssignments}"
+                               TextType="Html"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalOptions="Center"
+                               VerticalTextAlignment="Center"
+                               Padding="0"/>
+                        
+                    </StackLayout>
+                    
+                    <StackLayout Orientation="Vertical"
+                                 IsVisible="{Binding IsTeacher,Source={x:Static local:AppSettings.Current}}"
+                                 Padding="0"
+                                 VerticalOptions="CenterAndExpand">
+                        <Label Text="{Binding SelectedGroupedAgendaData.AgendaClassNames}"
+                               FontAttributes="Bold"
+                               FontFamily=""
+                               FontSize="12"
+                               Style="{StaticResource DescriptionLabelStyle}"
+                               VerticalOptions="Center"
+                               VerticalTextAlignment="Center"
+                               Padding="0"/>
+                    </StackLayout>
+                    
+                    <Label Text="Attachment"
+                           IsVisible="{Binding IsAttachmentVisible}"
+                           FontAttributes="Bold"
+                           FontFamily=""
+                           Style="{StaticResource DescriptionLabelStyle}"
+                           VerticalOptions="Center"
+                           VerticalTextAlignment="Center"
+                           Padding="0"/>
+                    <ListView HasUnevenRows="True" VerticalScrollBarVisibility="Never"
+                                  ItemsSource="{Binding SelectedGroupedAgendaData.AttachmentList,Mode=TwoWay}"
+                                  SelectionMode="None"
+                                  VerticalOptions="FillAndExpand"
+                                  SeparatorVisibility="None"
+                                  BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                  Margin="0">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <Grid RowDefinitions="*" ColumnDefinitions="Auto,*"
+                                              BackgroundColor="White">
+                                            <Label Text="{Binding FileName, Converter={StaticResource UrlDecodeConverter}}"
+                                                   Grid.Row="0"
+                                                   Grid.Column="1"
+                                                   HorizontalOptions="StartAndExpand" MaxLines="1"
+                                                   LineBreakMode="TailTruncation"
+                                                   VerticalOptions="CenterAndExpand"
+                                                   Margin="0,0,0,5"
+                                                   Style="{StaticResource AttachmentTextStyle}">
+                                                <Label.GestureRecognizers>
+                                                    <TapGestureRecognizer
+                                                        Command="{Binding BindingContext.AttachmentListTappedCommand,Source={x:Reference weeklyPlanSearchDetailPage}}"
+                                                        CommandParameter="{Binding .}"/>
+                                                </Label.GestureRecognizers>
+                                            </Label>
+                                        </Grid>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    
+                </StackLayout>
+            </ScrollView>
+            <Grid.GestureRecognizers>
+                <SwipeGestureRecognizer
+                    Command="{Binding BindingContext.SideMenuClickCommand, Source={x:Reference weeklyPlanSearchDetailPage}}"
+                    Direction="Right" />
+            </Grid.GestureRecognizers>
+
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

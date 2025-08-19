@@ -317,7 +317,61 @@ public class AgendaDetailForm : ViewModelBase
             OnPropertyChanged(nameof(AgendaDescriptionHeight));
         }
     }
+    private string _assignmentsLabel;
 
+    public string AssignmentsLabel
+    {
+        get => _assignmentsLabel;
+        set
+        {
+            _assignmentsLabel = value;
+            OnPropertyChanged(nameof(AssignmentsLabel));
+        }
+    }
+    private string _learningOutcomesLabel;
+
+    public string LearningOutcomesLabel
+    {
+        get => _learningOutcomesLabel;
+        set
+        {
+            _learningOutcomesLabel = value;
+            OnPropertyChanged(nameof(LearningOutcomesLabel));
+        }
+    }
+    private bool _isEnableLearningOutcomes;
+
+    public bool IsEnableLearningOutcomes
+    {
+        get => _isEnableLearningOutcomes;
+        set
+        {
+            _isEnableLearningOutcomes = value;
+            OnPropertyChanged(nameof(IsEnableLearningOutcomes));
+        }
+    }
+    private string _otherAssignmentsLabel;
+
+    public string OtherAssignmentsLabel
+    {
+        get => _otherAssignmentsLabel;
+        set
+        {
+            _otherAssignmentsLabel = value;
+            OnPropertyChanged(nameof(OtherAssignmentsLabel));
+        }
+    }
+    private bool _isEnableOtherAssignments;
+
+    public bool IsEnableOtherAssignments
+    {
+        get => _isEnableOtherAssignments;
+        set
+        {
+            _isEnableOtherAssignments = value;
+            OnPropertyChanged(nameof(IsEnableOtherAssignments));
+        }
+    }
     #endregion
 
     public AgendaDetailForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null,
@@ -415,17 +469,17 @@ public class AgendaDetailForm : ViewModelBase
                 addNewPostForm.IsEditMode = true;
                 addNewPostForm.SubmissionsCount = string.Concat("(", SelectedAgenda.SubmissionCountLevel, " ",
                     TextResource.SubmissionsText, ")");
-                addNewPostForm.EditDataSettings(SelectedAgenda);
                 addNewPostForm.AgendaTypes = AgendaTypes;
                 addNewPostForm.SelectedAgendaTypes = addNewPostForm.AgendaTypes
                     .Where(x => x.ItemId == SelectedAgenda.TypeId.ToString())?.FirstOrDefault();
                 addNewPostForm.FilteredCourseList =
                     addNewPostForm.SelectedAgendaTypes.ItemName.ToLower().Equals("weekly") ? GradeList : CourseList;
+                addNewPostForm.CourseListViewHeight = Math.Min(addNewPostForm.FilteredCourseList.Count * 32, 300);
                 if (SelectedAgenda.AgendaWeeklyGroupId > 0)
                 {
                     addNewPostForm.AgendaWeeklyGroupId = SelectedAgenda.AgendaWeeklyGroupId;
-                    addNewPostForm.IsReminderTextVisible = false;
-                    addNewPostForm.IsReminderDateVisible = false;
+                    //addNewPostForm.IsReminderTextVisible = false;
+                    //addNewPostForm.IsReminderDateVisible = false;
                     addNewPostForm.IsClassesEnabled = false;
                     addNewPostForm.ClassListOpacity = 0.5F;
                 }
@@ -438,7 +492,7 @@ public class AgendaDetailForm : ViewModelBase
                         .Where(x => x.ItemId == SelectedAgenda.CurriculumId.ToString())?.FirstOrDefault();
                 addNewPostForm.LearningOutcomeLabel = AddPostData.CalendarControlSetting?.LearningOutcomesLabel;
                 addNewPostForm.AssignmentLabel = AddPostData.CalendarControlSetting?.AssignmentsLabel;
-
+                addNewPostForm.EditDataSettings(SelectedAgenda);
                 addNewPostForm.SelectedAgendaForText =
                     addNewPostForm.SelectedCourse != null &&
                     !string.IsNullOrEmpty(addNewPostForm.SelectedCourse.ItemName)
@@ -447,10 +501,27 @@ public class AgendaDetailForm : ViewModelBase
                 addNewPostForm.AssignmentsText = !string.IsNullOrEmpty(SelectedAgenda.AgendaDescription)
                     ? Regex.Replace(SelectedAgenda.AgendaDescription, "<.*?>", string.Empty)
                     : string.Empty;
+                addNewPostForm.LearningOutcomeText = !string.IsNullOrEmpty(SelectedAgenda.LearningOutcomes)
+                    ? Regex.Replace(SelectedAgenda.LearningOutcomes, "<.*?>", string.Empty)
+                    : string.Empty;
+                addNewPostForm.OtherAssignmentsDescription = !string.IsNullOrEmpty(SelectedAgenda.OtherAssignments)
+                    ? Regex.Replace(SelectedAgenda.OtherAssignments, "<.*?>", string.Empty)
+                    : string.Empty;
+                
                 if (!string.IsNullOrEmpty(addNewPostForm.AssignmentsText))
                     addNewPostForm.AssignmentsText =
                         "<html><head><meta name='viewport' content='width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;'/></head><body>" +
                         addNewPostForm.AssignmentsText + "</body></html>";
+                
+                if (!string.IsNullOrEmpty(addNewPostForm.LearningOutcomeText))
+                    addNewPostForm.LearningOutcomeText =
+                        "<html><head><meta name='viewport' content='width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;'/></head><body>" +
+                        addNewPostForm.LearningOutcomeText + "</body></html>";
+                
+                if (!string.IsNullOrEmpty(addNewPostForm.OtherAssignmentsDescription))
+                    addNewPostForm.OtherAssignmentsDescription =
+                        "<html><head><meta name='viewport' content='width=device-width; height=device-height; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;'/></head><body>" +
+                        addNewPostForm.OtherAssignmentsDescription + "</body></html>";
 
                 addNewPostForm.GradeList = GradeList;
                 addNewPostForm.CourseList = CourseList;

@@ -45,7 +45,33 @@ public class CustomWebViewHandler : ViewHandler<CustomWebView, Android.Webkit.We
 
     private static void MapHtmlContent(CustomWebViewHandler handler, CustomWebView view)
     {
-        handler.PlatformView?.LoadDataWithBaseURL(null, view.HtmlContent, "text/html", "utf-8", null);
+        if (handler.PlatformView == null || string.IsNullOrEmpty(view.HtmlContent))
+            return;
+
+        // Example CSS that matches DescriptionLabelStyle
+        string css = @"
+        body {
+            font-size: 14px;
+            color: #707070;
+            margin: 0;
+            padding-top: 5px;
+            overflow-x: hidden;
+        }
+    ";
+
+        // Inject the CSS into the HTML
+        string fullHtml = $@"
+        <html>
+        <head>
+            <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>
+            <style>{css}</style>
+        </head>
+        <body>
+            {view.HtmlContent}
+        </body>
+        </html>
+    ";
+        handler.PlatformView?.LoadDataWithBaseURL(null, fullHtml, "text/html", "utf-8", null);
     }
 
     private class CustomWebViewClient : WebViewClient
