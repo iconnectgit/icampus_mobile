@@ -156,7 +156,7 @@ public class TeacherAppointmentForm : ViewModelBase
             }
         }
 
-        private bool _isAppointmentListVisible;
+        private bool _isAppointmentListVisible;  
 
         public bool IsAppointmentListVisible
         {
@@ -167,6 +167,7 @@ public class TeacherAppointmentForm : ViewModelBase
                 OnPropertyChanged(nameof(IsAppointmentListVisible));
             }
         }
+        
         AppointmentAvailableTimeView _selectedDate = new AppointmentAvailableTimeView();
         public AppointmentAvailableTimeView SelectedDate
         {
@@ -229,7 +230,7 @@ public class TeacherAppointmentForm : ViewModelBase
             CommentClickCommand = new Command(CommentClicked);
             DeleteClickCommand = new Command(DeleteClicked);
             RequestAppointmentClickCommand = new Command(RequestAppointmentClicked);
-            TimeSlotClickCommand = new Command(TimeSlotSelected);
+            TimeSlotClickCommand = new Command<AppointmentAvailableTimeView>(TimeSlotSelected);
             BeamMenuClickCommand = new Command(BeamMenuClicked);
             BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
             BeamHeaderNotificationIconClickCommand = new Command(BeamHeaderNotificationIconClicked);
@@ -393,10 +394,11 @@ public class TeacherAppointmentForm : ViewModelBase
                 SelectedTeacherAppointment = null;
             }
         }
-        private async void TimeSlotSelected(object obj)
+        private async void TimeSlotSelected(AppointmentAvailableTimeView tappedItem)
         {
             try
             {
+                SelectedTime = tappedItem;
                 var action = await App.Current.MainPage.DisplayAlert("", string.Format(TextResource.AppointmentConfirmationMessage, SelectedDate.BookingDateFormatted, SelectedTime.TimeSlot.ToDateTime().ToString("hh:mm tt"), SelectedTeacherCurriculum.TeacherName,Environment.NewLine), TextResource.YesText, TextResource.NoText);
                 if (action)
                 {

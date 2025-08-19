@@ -100,6 +100,7 @@
 
     <ItemGroup>
         <Folder Include="Resources\Fonts\" />
+        <Folder Include="Resources\Splash\" />
     </ItemGroup>
 
     <!-- iOS-specific packages -->

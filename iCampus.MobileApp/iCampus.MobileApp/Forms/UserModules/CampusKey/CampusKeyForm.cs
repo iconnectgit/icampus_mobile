@@ -585,6 +585,7 @@ public class CampusKeyForm : ViewModelBase
             {
                 NoDataExist = false;
                 IsTransactionalDetailsVisible = false;
+                IsLowBalanceTextVisible = false;
             }
             else
             {

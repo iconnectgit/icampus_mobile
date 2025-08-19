@@ -29,7 +29,17 @@ public partial class HomePage : ContentPage
 
     protected override bool OnBackButtonPressed()
     {
-        _nativeServices.KillProcess();
+#if ANDROID
+        try
+        {
+            Android.OS.Process.KillProcess(Android.OS.Process.MyPid());
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[BackButton Kill Error] {ex}");
+        }
+#endif
+
         return true;
     }
 

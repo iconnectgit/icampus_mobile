@@ -249,6 +249,16 @@ public class BindableInvoiceDetails: INotifyPropertyChanged
                 OnPropertyChanged("HeaderText");
             }
         }
+        private bool _isHeaderTextVisible = true;
+        public bool IsHeaderTextVisible
+        {
+	        get => _isHeaderTextVisible;
+	        set
+	        {
+		        _isHeaderTextVisible = value;
+		        OnPropertyChanged("IsHeaderTextVisible");
+	        }
+        }
         private bool _vatAndGrandTotalVisibility;
         public bool VatAndGrandTotalVisibility
         {

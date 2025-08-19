@@ -3,6 +3,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="iCampus.MobileApp.Views.UserModules.OnlinePayment.PaymentWebView"
+             xmlns:controls="clr-namespace:iCampus.MobileApp.Controls"
              NavigationPage.HasNavigationBar="False">
     <ContentPage.Content>
         
@@ -10,10 +11,16 @@
             VerticalOptions="FillAndExpand"
             HorizontalOptions="FillAndExpand">
             <ContentView ControlTemplate="{StaticResource BeamHeader}" Grid.Row="0" Grid.Column="0" BackgroundColor="White" />
-            <WebView VerticalOptions="FillAndExpand"
-                     HorizontalOptions="FillAndExpand"
-                     Source="{Binding WebViewUrl}">
-            </WebView>
+            <!-- <WebView VerticalOptions="FillAndExpand" -->
+            <!--          HorizontalOptions="FillAndExpand" -->
+            <!--          Source="{Binding WebViewUrl}"> -->
+            <!-- </WebView> -->
+            
+            <WebView x:Name="PaymentGatewayWebView"
+                                                     HorizontalOptions="FillAndExpand"
+                                                     VerticalOptions="FillAndExpand"
+                                                     Navigating="OnWebViewNavigating"
+                                                     Source="{Binding WebViewUrl}" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

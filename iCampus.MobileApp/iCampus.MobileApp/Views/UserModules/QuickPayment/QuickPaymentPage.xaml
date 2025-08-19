@@ -68,7 +68,7 @@
                                     <Entry
                                         Text="{Binding ReasonForPayment}"
                                         FontSize="Small"
-                                        HeightRequest="35"
+                                        HeightRequest="{OnPlatform Android='45', iOS='35'}"
                                         Margin="0,0,0,0"
                                         Placeholder="Enter Reason"
                                         Keyboard="Text"
@@ -93,7 +93,7 @@
                                        HorizontalOptions="FillAndExpand">
                                     <Entry
                                         Text="{Binding Amount}"
-                                        HeightRequest="35"
+                                        HeightRequest="{OnPlatform Android='45', iOS='35'}"
                                         Keyboard="Numeric"
                                         MaxLength="6"
                                         Placeholder="Enter Amount"

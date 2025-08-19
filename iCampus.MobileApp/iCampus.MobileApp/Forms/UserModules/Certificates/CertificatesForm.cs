@@ -106,19 +106,28 @@ public class CertificatesForm : ViewModelBase
         {
             try
             {
+                CertificateDetailedList = new List<BindableCertificateView>();
                 string cacheKeyPrefix = "certificate";
                 var data = await ApiHelper.GetObject<CertificateViewModel>(string.Format(TextResource.GetCertificateDataUrl, AppSettings.Current.SelectedStudent.ItemId), cacheKeyPrefix: cacheKeyPrefix, cacheType: ApiHelper.CacheTypeParam.LoadFromCache);
                 CertificateList = data.CertificateList;
                 NotAvailableMessage = string.IsNullOrEmpty(data.CertificateSettings.NotAvailableMessage)
                             ? TextResource.CertificateNotAvailableMessage
                             : data.CertificateSettings.NotAvailableMessage;
+                var moduleErrorMessage = data.ModuleErrorMessage;
+                if (string.IsNullOrEmpty(moduleErrorMessage))
+                {
+                    CertificateDetailedList = data.CertificateSettings.HideCertificateIfNoFileUploaded
+                        ? _mapper?.Map<List<BindableCertificateView>>(data.CertificateDetailedList).Where(x => x.FileExist).ToList()
+                        : _mapper?.Map<List<BindableCertificateView>>(data.CertificateDetailedList).ToList();
+                    
+                    ShowErrorMessage = CertificateDetailedList.Count == 0;
+                }
+                else
+                {
+                    NotAvailableMessage = moduleErrorMessage;
+                    ShowErrorMessage = true;
+                }
 
-
-                CertificateDetailedList = data.CertificateSettings.HideCertificateIfNoFileUploaded
-                            ? _mapper?.Map<List<BindableCertificateView>>(data.CertificateDetailedList).Where(x => x.FileExist).ToList()
-                            : _mapper?.Map<List<BindableCertificateView>>(data.CertificateDetailedList).ToList();
-
-                ShowErrorMessage = CertificateDetailedList.Count == 0;
             }
             catch (Exception ex)
             {

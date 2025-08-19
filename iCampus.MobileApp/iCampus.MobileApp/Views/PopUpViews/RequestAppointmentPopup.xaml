@@ -61,7 +61,6 @@
             <CollectionView ItemsSource="{Binding AppointmentTimeList,Mode=TwoWay}"
                             SelectionMode="Single"
                             SelectedItem="{Binding SelectedTime,Mode=TwoWay}"
-                            SelectionChangedCommand="{Binding TimeSlotClickCommand}"
                             HeightRequest="350">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" Span="3" />
@@ -79,7 +78,7 @@
                                        HeightRequest="30"
                                        FontSize="Small" />
                                 <Frame.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding BindingContext.TimeSlotClickCommand, Source={x:Reference requestAppointmentPopup}}"></TapGestureRecognizer>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.TimeSlotClickCommand, Source={x:Reference requestAppointmentPopup}}" CommandParameter="{Binding .}"></TapGestureRecognizer>
                                 </Frame.GestureRecognizers>
                             </Frame>
                         </Grid>

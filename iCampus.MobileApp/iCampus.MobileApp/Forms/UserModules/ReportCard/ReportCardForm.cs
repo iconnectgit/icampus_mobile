@@ -647,6 +647,13 @@ public class ReportCardForm : ViewModelBase
                 {
                     SelectTermsOptionForMarksVisibility = ReportCardData.IsMarksReportCardEnabled;
                     SelectTermsOptionForSkillVisibility = ReportCardData.IsSkillsReportCardEnabled;
+                    
+                    bool shouldShowSkillReportCard = !SelectTermsOptionForMarksVisibility && SelectTermsOptionForSkillVisibility;
+
+                    SkillReportCardButtonOpacity = shouldShowSkillReportCard ? 1.0m : 0.5m;
+                    IsSkillReportCardVisible = shouldShowSkillReportCard;
+                    IsReportCardVisible = !shouldShowSkillReportCard;
+
                     if (ReportCardOption != ReportCardOptions.MarksReportCard &&
                         ReportCardOption != ReportCardOptions.SkillsReportCard)
                     {

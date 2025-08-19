@@ -112,6 +112,7 @@
                                               VerticalOptions="FillAndExpand">
                                             <StackLayout Spacing="0">
                                                 <Frame HasShadow="False"
+                                                       IsVisible="{Binding IsHeaderTextVisible}"
                                                        BackgroundColor="{StaticResource BorderColor}"
                                                        BorderColor="Transparent"
                                                        Margin="5">

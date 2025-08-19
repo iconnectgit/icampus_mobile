@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Web;
 using System.Windows.Input;
 using AutoMapper;
 using iCampus.Common.Enums;
@@ -309,7 +310,7 @@ public class QuickPaymentForm : ViewModelBase
                         BackVisible = true,
                         IsPopUpPage = false,
                         AcademicYear = CurrentAcademicYear,
-                        ReasonForPayment = ReasonForPayment,
+                        ReasonForPayment = HttpUtility.UrlEncode(ReasonForPayment),
                         Amount = Convert.ToDecimal(_amount.ToFormattedAmount(AppSettings.Current.OnlinePaymentCurrencyRoundingDigits)),                       
                         ConfirmationMessage = ConfirmationMessage,
                         TermsAndConditions = TermsAndConditions,

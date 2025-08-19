@@ -105,13 +105,12 @@
 
 
                                             <StackLayout Orientation="Horizontal">
-                                                <Label HorizontalOptions="StartAndExpand" VerticalOptions="Center">
-                                                    <Label.FormattedText>
-                                                        <FormattedString>
-                                                            <Span Text="{Binding Title}"
-                                                                  Style="{StaticResource TitleLabelStyle}" />
-                                                        </FormattedString>
-                                                    </Label.FormattedText>
+                                                <Label Text="{Binding Title}" 
+                                                       Style="{StaticResource TitleLabelStyle}" 
+                                                       MaxLines="1"
+                                                       LineBreakMode="TailTruncation"
+                                                       HorizontalOptions="StartAndExpand" 
+                                                       VerticalOptions="Center">
                                                 </Label>
                                                 <StackLayout VerticalOptions="CenterAndExpand">
                                                     <ffimageloading:CachedImage Margin="10,0,10,0"
@@ -256,13 +255,12 @@
                                                HeightRequest="40"
                                                IsClippedToBounds="true">
                                             <StackLayout Orientation="Horizontal">
-                                                <Label HorizontalOptions="StartAndExpand" VerticalOptions="Center">
-                                                    <Label.FormattedText>
-                                                        <FormattedString>
-                                                            <Span Text="{Binding Title}"
-                                                                  Style="{StaticResource TitleLabelStyle}" />
-                                                        </FormattedString>
-                                                    </Label.FormattedText>
+                                                <Label Text="{Binding Title}"
+                                                       Style="{StaticResource TitleLabelStyle}"
+                                                       MaxLines="1"
+                                                       LineBreakMode="TailTruncation"
+                                                       HorizontalOptions="StartAndExpand" 
+                                                       VerticalOptions="Center">
                                                 </Label>
                                                 <StackLayout VerticalOptions="CenterAndExpand">
                                                     <ffimageloading:CachedImage Margin="10,0,10,0"

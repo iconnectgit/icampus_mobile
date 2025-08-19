@@ -562,6 +562,9 @@ public class OnlinePaymentForm : ViewModelBase
             }
         }
         
+        
+        
+        
         #endregion
         public OnlinePaymentForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)
         {
@@ -722,8 +725,16 @@ public class OnlinePaymentForm : ViewModelBase
                                             {
                                                 item.VatAndGrandTotalVisibility = true;
                                             }
-                                            
                                             item.HeaderText = $"{(item.IsCurrentYear ? "Current Year Invoices " : "Next Year Invoices ")} ({item.AcademicYearTitle})";
+                                            
+                                            if (item.IsCurrentYear)
+                                            {
+                                                item.IsHeaderTextVisible = 
+                                                    !(App.ClientCode?.Equals("CS", StringComparison.OrdinalIgnoreCase) == true ||
+                                                      App.ClientCode?.Equals("CAS", StringComparison.OrdinalIgnoreCase) == true);
+                                            }
+                                            
+
                                         }
                                         NoInvoiceFoundVisibility = (item.InvoiceSubDetailsList == null || item.InvoiceSubDetailsList.Count <= 0) ? true : false;
                                         item.IsPayNowVisible = item.TotalAmount <= 0 ? false : true;

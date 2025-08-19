@@ -32,21 +32,18 @@
                          BackgroundColor="{StaticResource BorderColor}" Grid.Row="1" Grid.Column="0" Margin="0,0,0,0" />
 
             <StackLayout Grid.Row="2" Grid.Column="0" VerticalOptions="FillAndExpand">
-                <StackLayout Margin="5,0,5,0">
-                    <Grid Margin="0,0,0,0" ColumnSpacing="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="50" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <StackLayout Spacing="0" Grid.Column="0" Grid.ColumnSpan="{Binding SelectTermsOptionForSkillVisibility, Converter={StaticResource ColumnSpanConverter}}">
+                <StackLayout Margin="5,0,5,0" Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+                    
+
+                        <!-- Report Card Button -->
+                        <StackLayout Spacing="0"
+                                     HorizontalOptions="FillAndExpand"
+                                     IsVisible="{Binding SelectTermsOptionForMarksVisibility}">
                             <Button x:Name="ReportCardButton"
                                     Text="Marks Report Card"
                                     FontSize="16"
                                     BackgroundColor="White"
-                                    HorizontalOptions="Fill"
+                                    HorizontalOptions="FillAndExpand"
                                     VerticalOptions="Center"
                                     TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
                                     CornerRadius="0"
@@ -56,12 +53,16 @@
                                     Command="{Binding ReportCardCommand}"
                                     Opacity="{Binding ReportCardButtonOpacity}" />
                         </StackLayout>
-                        <StackLayout Spacing="0" Grid.Column="1" IsVisible="{Binding SelectTermsOptionForSkillVisibility}">
+
+                        <!-- Skill Report Card Button -->
+                        <StackLayout Spacing="0"
+                                     HorizontalOptions="FillAndExpand"
+                                     IsVisible="{Binding SelectTermsOptionForSkillVisibility}">
                             <Button x:Name="SkillReportCardButton"
                                     Text="Skill Report Card"
                                     FontSize="16"
                                     BackgroundColor="White"
-                                    HorizontalOptions="Fill"
+                                    HorizontalOptions="FillAndExpand"
                                     VerticalOptions="Center"
                                     TextColor="{Binding Settings.ThemeColor, Source={x:Static local:AppSettings.Current}}"
                                     CornerRadius="0"
@@ -71,8 +72,9 @@
                                     Command="{Binding SkillReportCardCommand}"
                                     Opacity="{Binding SkillReportCardButtonOpacity}" />
                         </StackLayout>
-                    </Grid>
+                    
                 </StackLayout>
+
 
                 <StackLayout Padding="10" VerticalOptions="FillAndExpand"
                              IsVisible="{Binding NoDataFoundFrameVisibility}">
@@ -224,16 +226,12 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-
-                        <StackLayout Orientation="Horizontal"
-                                     Spacing="0"
-                                     HorizontalOptions="StartAndExpand"
-                                     Grid.Row="0"
-                                     Grid.Column="0">
-                            <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                        
+                            <ffimageloading:CachedImage Grid.Column="0" HorizontalOptions="StartAndExpand"
                                                         VerticalOptions="CenterAndExpand"
                                                         WidthRequest="20"
                                                         HeightRequest="20"
@@ -248,7 +246,7 @@
                                 </ffimageloading:CachedImage.GestureRecognizers>
                             </ffimageloading:CachedImage>
 
-                            <Label Text="{Binding SkillsReportCardFileView.DisplayName}"
+                            <Label Grid.Column="1" Text="{Binding SkillsReportCardFileView.DisplayName}"
                                    HorizontalOptions="StartAndExpand"
                                    VerticalOptions="CenterAndExpand"
                                    Style="{StaticResource AttachmentTextStyle}">
@@ -257,13 +255,12 @@
                                                           CommandParameter="{Binding SkillsReportCardFileView.FilePath}" />
                                 </Label.GestureRecognizers>
                             </Label>
-                        </StackLayout>
 
                         <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
                                                     VerticalOptions="CenterAndExpand"
                                                     WidthRequest="25"
                                                     HeightRequest="25"
-                                                    Grid.Column="1"
+                                                    Grid.Column="2"
                                                     Aspect="AspectFit"
                                                     CacheType="None"
                                                     CacheDuration="0"
