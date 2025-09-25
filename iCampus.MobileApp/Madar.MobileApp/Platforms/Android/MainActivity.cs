@@ -7,6 +7,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using AndroidX.Core.App;
+using AndroidX.Core.View;
 using AutoMapper;
 using CommunityToolkit.Maui.Alerts;
 using Firebase;
@@ -36,6 +37,16 @@ public class MainActivity : MauiAppCompatActivity, IOnSuccessListener
         try
         {
             Platform.Init(this, savedInstanceState);
+            var decorView = Window.DecorView;
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.R)
+            {
+                Window.SetDecorFitsSystemWindows(false); 
+                decorView.SetOnApplyWindowInsetsListener(new InsetsListener());
+            }
+            else
+            {
+                ViewCompat.SetOnApplyWindowInsetsListener(decorView, new InsetsListenerLowerAPI());
+            }
             IsPlayServicesAvailable();
             CreateNotificationChannel();
             var firebaseApp = FirebaseApp.InitializeApp(this);
@@ -178,6 +189,23 @@ public class MainActivity : MauiAppCompatActivity, IOnSuccessListener
                 HelperMethods.TrackCrashlytics(ex);
             }
         }
-
-
+        public class InsetsListenerLowerAPI : Java.Lang.Object, 
+            AndroidX.Core.View.IOnApplyWindowInsetsListener
+        {
+            public WindowInsetsCompat OnApplyWindowInsets(Android.Views.View v, WindowInsetsCompat insets)
+            {
+                var gestureInsets = insets.GetInsets(WindowInsetsCompat.Type.SystemGestures());
+                v.SetPadding(gestureInsets.Left, gestureInsets.Top, gestureInsets.Right, gestureInsets.Bottom);
+                return WindowInsetsCompat.Consumed;
+            }
+        }
+        private class InsetsListener : Java.Lang.Object, Android.Views.View.IOnApplyWindowInsetsListener
+        {
+            public WindowInsets OnApplyWindowInsets(Android.Views.View v, WindowInsets insets)
+            {
+                var sysBars = insets.GetInsetsIgnoringVisibility(WindowInsets.Type.SystemBars());
+                v.SetPadding(sysBars.Left, sysBars.Top, sysBars.Right, sysBars.Bottom);
+                return WindowInsets.Consumed;
+            }
+        }
 }
