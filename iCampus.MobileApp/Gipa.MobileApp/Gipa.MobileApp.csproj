@@ -21,6 +21,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <MtouchLink>SdkOnly</MtouchLink>
+        <UseMaui>true</UseMaui>
+
 
         <!-- Display name -->
         <ApplicationTitle>GIPA</ApplicationTitle>
@@ -188,5 +190,14 @@
     <!--        <Move SourceFiles="$(PublishDir)CAS.MobileApp.ipa" DestinationFiles="$(PublishDir)iCampus Mobile.ipa" />-->
     <!--    </Target>-->
 
+    <Target Name="_OverrideFirebaseStripBitcodeFromFrameworksMasterDependsOnTargets" BeforeTargets="_ResolveNativeReferencesForFirebaseCore">
+        <PropertyGroup>
+
+            <_FirebaseStripBitcodeFromFrameworksMasterDependsOnTargets Condition="'$(OS)'=='Unix'">_OverrideFirebaseStripBitcodeFromFrameworksOnMac</_FirebaseStripBitcodeFromFrameworksMasterDependsOnTargets>
+            <_FirebaseStripBitcodeFromFrameworksMasterDependsOnTargets Condition="'$(OS)'!='Unix'">_OverrideFirebaseStripBitcodeFromFrameworksOnWindows</_FirebaseStripBitcodeFromFrameworksMasterDependsOnTargets>
+        </PropertyGroup>
+    </Target>
+    <Target Name="_OverrideFirebaseStripBitcodeFromFrameworksOnMac" />
+    <Target Name="_OverrideFirebaseStripBitcodeFromFrameworksOnWindows" />
 
 </Project>

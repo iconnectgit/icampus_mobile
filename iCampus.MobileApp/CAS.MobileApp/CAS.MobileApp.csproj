@@ -21,6 +21,8 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <MtouchLink>SdkOnly</MtouchLink>
+        <UseMaui>true</UseMaui>
+
 
         <!-- Display name -->
         <ApplicationTitle>CAS.MobileApp</ApplicationTitle>
@@ -55,8 +57,7 @@
     <PropertyGroup Condition="$(TargetFramework.Contains('-android'))">
         <AppIconForegroundScale>0.50</AppIconForegroundScale>
         <RunAOTCompilation>false</RunAOTCompilation>
-        <RuntimeIdentifier>android-arm64</RuntimeIdentifier>
-        
+        <RuntimeIdentifier>android-arm64</RuntimeIdentifier>        
     </PropertyGroup>
 
     <PropertyGroup Condition="$(TargetFramework.Contains('-ios'))">
@@ -188,6 +189,14 @@
 <!--    <Target Name="RenameIpaFile" AfterTargets="Publish">-->
 <!--        <Move SourceFiles="$(PublishDir)CAS.MobileApp.ipa" DestinationFiles="$(PublishDir)iCampus Mobile.ipa" />-->
 <!--    </Target>-->
+    <Target Name="_OverrideFirebaseStripBitcodeFromFrameworksMasterDependsOnTargets" BeforeTargets="_ResolveNativeReferencesForFirebaseCore">
+        <PropertyGroup>
 
+            <_FirebaseStripBitcodeFromFrameworksMasterDependsOnTargets Condition="'$(OS)'=='Unix'">_OverrideFirebaseStripBitcodeFromFrameworksOnMac</_FirebaseStripBitcodeFromFrameworksMasterDependsOnTargets>
+            <_FirebaseStripBitcodeFromFrameworksMasterDependsOnTargets Condition="'$(OS)'!='Unix'">_OverrideFirebaseStripBitcodeFromFrameworksOnWindows</_FirebaseStripBitcodeFromFrameworksMasterDependsOnTargets>
+        </PropertyGroup>
+    </Target>
+    <Target Name="_OverrideFirebaseStripBitcodeFromFrameworksOnMac" />
+    <Target Name="_OverrideFirebaseStripBitcodeFromFrameworksOnWindows" />
 
 </Project>
