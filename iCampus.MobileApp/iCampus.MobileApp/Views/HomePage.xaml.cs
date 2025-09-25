@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using iCampus.MobileApp.DependencyService;
 using iCampus.MobileApp.Forms;
+#if ANDROID
+using AndroidX.Core.View;
+#endif
 
 namespace iCampus.MobileApp.Views;
 
@@ -47,4 +50,22 @@ public partial class HomePage : ContentPage
     {
         MessagingCenter.Send("", "ListViewRightSwipeNews");
     }
+//     protected override void OnAppearing()
+//     {
+//         base.OnAppearing();
+//
+// #if ANDROID
+//         if ((int)Android.OS.Build.VERSION.SdkInt >= 35) 
+//         {
+//             var insets = WindowInsetsCompat.ToWindowInsetsCompat(Platform.CurrentActivity?.Window?.DecorView?.RootWindowInsets);
+//             if (insets != null)
+//             {
+//                 var statusBarHeight = 35;  
+//                 var bottomPadding = 10;    
+//
+//                 Padding = new Thickness(0, statusBarHeight, 0, bottomPadding);
+//             }
+//         }
+// #endif
+//     }
 }
