@@ -13,13 +13,13 @@
     BackgroundColor="#80000000"
     CloseWhenBackgroundIsClicked="False">
 
-    <Frame BackgroundColor="White" HorizontalOptions="Start" Margin="-5,20,0,30" CornerRadius="10" HasShadow="False" Padding="0" WidthRequest="350">
+    <Frame BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="Start" Margin="{OnPlatform iOS='-5,20,0,30', Android='-5,0,0,0'}" CornerRadius="10" HasShadow="False" Padding="0" WidthRequest="350">
         <Grid Padding="20,10,0,0" BackgroundColor="White" VerticalOptions="FillAndExpand" HorizontalOptions="StartAndExpand" 
               RowDefinitions="Auto,Auto,Auto,*,Auto" ColumnDefinitions="*">
             <Grid.Resources>
                 <ResourceDictionary>
                     <behaviours:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
-                    <!-- <Behaviors:VisiblityConverter x:Key="VisiblityConverter"/> -->
+                    <behaviours:NotificationCenterVisibilityConverter x:Key="NotificationCenterVisibilityConverter"/>
                     <behaviours:ImageUrlToSourceConverter x:Key="ImageUrlToSourceConverter"/>
                     <Style x:Key="MenuLabelStyle" TargetType="Label" BasedOn="{StaticResource DescriptionLabelStyle}">
                         <Setter Property="FontAttributes" Value="Bold"></Setter>
@@ -95,9 +95,13 @@
                                     <ColumnDefinition Width="Auto" />
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
-                                <ffimageloading:CachedImage Grid.Row="0" Grid.Column="0" IsVisible="{Binding ShowIcon}"
-                                                            DownsampleToViewSize="true" Source="{Binding ModuleImageUrl}"
-                                                            BackgroundColor="Transparent" HeightRequest="25" WidthRequest="25" Style="{StaticResource MenuImageStyle}"/>
+                                
+                                <ffimageloading:CachedImage IsVisible="{Binding ShowIcon}"
+                                                            DownsampleToViewSize="true"
+                                                            Source="{Binding ModuleImageUrl}"
+                                                            BackgroundColor="Transparent"
+                                                            HeightRequest="25" WidthRequest="25"
+                                                            Style="{StaticResource MenuImageStyle}" />
                                 <Label Text="{Binding ModuleName,Converter={StaticResource HtmlTagRemoverConverter}}" Style="{StaticResource MenuLabelStyle}" FontAttributes="Bold" FontFamily=""
                                        LineBreakMode="TailTruncation" MaxLines="2" VerticalOptions="CenterAndExpand"
                                        Grid.Row="0" Grid.Column="1"/>
@@ -110,18 +114,10 @@
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                <!-- <ListView.Behaviors> -->
-                <!--     <toolkit:EventToCommandBehavior EventName="ItemSelected"  -->
-                <!--                                       Command="{Binding MenuListTappedCommand}" -->
-                <!--                                       CommandParameter="{Binding SelectedMenu}"/> -->
-                <!-- </ListView.Behaviors> -->
             </ListView>
-            <!-- Converter="{StaticResource SelectedItemConverter}" -->
 
-            <!-- Divider -->
             <BoxView Grid.Row="4" Margin="15,0,0,0" Grid.Column="0" BackgroundColor="LightGray" HeightRequest="1" VerticalOptions="StartAndExpand"/>
 
-            <!-- Logout Button -->
             <Grid RowSpacing="0" ColumnSpacing="10" VerticalOptions="CenterAndExpand" Padding="15,10,0,10" Grid.Row="4" Grid.Column="0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
