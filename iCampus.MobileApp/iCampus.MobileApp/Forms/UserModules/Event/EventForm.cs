@@ -165,7 +165,6 @@ public class EventForm : ViewModelBase
 
     private async void InitializePage(string id = null)
     {
-        HelperMethods.GetSelectedStudent();
         NotificationItemId = id;
         ToDate = ToDate == DateTime.MinValue ? DateTime.Now : ToDate;
         MenuVisible = true;

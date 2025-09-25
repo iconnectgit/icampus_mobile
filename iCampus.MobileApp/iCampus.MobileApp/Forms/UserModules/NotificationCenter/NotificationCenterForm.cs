@@ -166,7 +166,6 @@ public class NotificationCenterForm : ViewModelBase
         #endregion Properties
         public NotificationCenterForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)
         {
-            HelperMethods.GetSelectedStudent();
             _mapper = mapper;
             _nativeServices = nativeServices;
             Navigation = navigation;
@@ -210,16 +209,17 @@ public class NotificationCenterForm : ViewModelBase
                         AgendaDate = NotificationCenterData.AgendaUsers.FirstOrDefault().AgendaList.FirstOrDefault().AgendaDate != null ? ((DateTime)NotificationCenterData.AgendaUsers.FirstOrDefault()?.AgendaList.FirstOrDefault()?.AgendaDate).ToString("dddd, MMMM dd, yyyy") : String.Empty;
                         if(AppSettings.Current.IsParent)
                         {
-                            var list = NotificationCenterData.AgendaUsers.FirstOrDefault(x => x.UserRefId.ToString().Equals(userID))?.AgendaList;
-                            if(list != null)
-                            {
-                                AgendaList = _mapper.Map<ObservableCollection<BindableAgendaView>>(list);
-                            }
-                            else
-                            {
-                                AgendaList = new ObservableCollection<BindableAgendaView>();
-                                GroupedAgendaList = new ObservableCollection<Grouping<string, BindableAgendaView>>();
-                            }
+                            AgendaList = _mapper.Map<ObservableCollection<BindableAgendaView>>(NotificationCenterData.AgendaUsers.FirstOrDefault()?.AgendaList);
+                            // var list = NotificationCenterData.AgendaUsers.FirstOrDefault(x => x.UserRefId.ToString().Equals(userID))?.AgendaList;
+                            // if(list != null)
+                            // {
+                            //     AgendaList = _mapper.Map<ObservableCollection<BindableAgendaView>>(list);
+                            // }
+                            // else
+                            // {
+                            //     AgendaList = new ObservableCollection<BindableAgendaView>();
+                            //     GroupedAgendaList = new ObservableCollection<Grouping<string, BindableAgendaView>>();
+                            // }
                         }
                         else
                             AgendaList = _mapper.Map<ObservableCollection<BindableAgendaView>>(NotificationCenterData.AgendaUsers.FirstOrDefault()?.AgendaList);

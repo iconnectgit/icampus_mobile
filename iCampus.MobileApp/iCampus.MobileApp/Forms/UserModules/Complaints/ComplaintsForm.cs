@@ -96,7 +96,6 @@ public class ComplaintsForm : ViewModelBase
         {
             try
             {
-                HelperMethods.GetSelectedStudent();
                 MenuVisible = true;
                 IsNoRecordMsg = false;
                 AttachmentClickCommand = new Command<UserComplaintView>(AttachmentClicked);

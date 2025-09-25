@@ -443,7 +443,6 @@ public class ReportCardForm : ViewModelBase
 
     private async void InitializePage()
     {
-        HelperMethods.GetSelectedStudent();
         ReportCardButtonOpacity = 1.0m;
         SkillReportCardButtonOpacity = 0.5m;
         IsReportCardVisible = true;

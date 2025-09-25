@@ -213,7 +213,6 @@ public class TeacherAppointmentForm : ViewModelBase
 
         public TeacherAppointmentForm(IMapper mapper, INativeServices nativeServices, INavigation navigation, string notificationItemId = null) : base(mapper, null, null)
         {
-            HelperMethods.GetSelectedStudent();
             IsAppointmentListVisible = false;
             IsBookAppointmentVisible = true;
             BookAppointmentButtonOpacity = 1.0m;

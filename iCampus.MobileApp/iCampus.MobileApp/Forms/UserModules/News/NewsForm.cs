@@ -104,7 +104,6 @@ public class NewsForm:ViewModelBase
         #region Methods
         async void InitializePage(bool isFromNotification = false)
         {
-            HelperMethods.GetSelectedStudent();
             this.RefreshedCommand = new Command(RefreshNews);
             this.ListTappedCommand = new Command<BindableSiteNewsView>(ListViewTapped);
             this.BeamMenuClickCommand = new Command(BeamMenuClicked);

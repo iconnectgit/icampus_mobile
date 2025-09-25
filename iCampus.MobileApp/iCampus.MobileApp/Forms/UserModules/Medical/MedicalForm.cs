@@ -315,7 +315,6 @@ public class MedicalForm : ViewModelBase
 
     private async void InitializePage()
     {
-        HelperMethods.GetSelectedStudent();
         IsSearchButtonVisible = true;
         IsVaccinationVisible = false;
         IsIncidentsVisible = true;

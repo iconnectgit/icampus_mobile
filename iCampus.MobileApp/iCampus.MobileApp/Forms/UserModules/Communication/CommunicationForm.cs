@@ -172,7 +172,6 @@ public class CommunicationForm : ViewModelBase
 
     private async void InitializePage()
     {
-        HelperMethods.GetSelectedStudent();
         PageTitle = TextResource.InboxText;
         MenuVisible = true;
         IsVisiblBackIconAndPageTitle = false;
@@ -303,7 +302,8 @@ public class CommunicationForm : ViewModelBase
                     }
                 }
                 
-                
+                if (messageDetails.IsRead == false)
+                    AppSettings.Current.UserCommunicationNotificationCount--;
                 
                 CommunicationDetailsForm communicationDetailsForm = new(_mapper, _nativeServices, Navigation)
                 {

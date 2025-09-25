@@ -296,7 +296,6 @@ public class AttendanceForm : ViewModelBase
     public AttendanceForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(mapper, null,
         null)
     {
-        HelperMethods.GetSelectedStudent();
         _mapper = mapper;
         _nativeServices = nativeServices;
         Navigation = navigation;

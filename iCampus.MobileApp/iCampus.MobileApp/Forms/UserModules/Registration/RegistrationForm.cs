@@ -494,7 +494,6 @@ public class RegistrationForm : ViewModelBase
         #region Methods
         private async void InitializePage()
         {
-            HelperMethods.GetSelectedStudent();
             GetRegistrationData();
             UpdateDetailsCommand = new Command(UpdateDetailsMethod);
             BookAppointmentCommand = new Command(BookAppointmentMethod);

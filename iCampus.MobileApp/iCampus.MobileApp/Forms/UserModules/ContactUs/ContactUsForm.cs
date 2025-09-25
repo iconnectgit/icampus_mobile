@@ -36,7 +36,6 @@ public class ContactUsForm : ViewModelBase
 
     private async void InitializePage()
     {
-        HelperMethods.GetSelectedStudent();
         GetContactUsWebViewUrl();
         BeamMenuClickCommand = new Command(BeamMenuClicked);
         BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);

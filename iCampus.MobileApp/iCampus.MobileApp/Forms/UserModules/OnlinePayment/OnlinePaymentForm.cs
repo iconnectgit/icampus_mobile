@@ -576,7 +576,6 @@ public class OnlinePaymentForm : ViewModelBase
         #region Methods
         private async void InitializePage()
         {
-            HelperMethods.GetSelectedStudent();
             InvoiceButtonOpacity = 1.0m;
             HistoryButtonOpacity = 0.5m;
             IsPendingInvoiceVisible = true;

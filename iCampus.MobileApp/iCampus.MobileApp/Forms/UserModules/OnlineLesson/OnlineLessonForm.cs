@@ -76,7 +76,6 @@ public class OnlineLessonForm : ViewModelBase
         #region Private Methods
         private async void InitializePage()
         {
-            HelperMethods.GetSelectedStudent();
             IsFileAvailable = false;
             BeamMenuClickCommand = new Command(BeamMenuClicked);
             BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);

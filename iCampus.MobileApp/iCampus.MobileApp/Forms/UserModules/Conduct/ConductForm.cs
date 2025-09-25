@@ -222,10 +222,6 @@ public class ConductForm : ViewModelBase
         _mapper = mapper;
         _nativeServices = nativeServices;
         Navigation = navigation;
-        if (!skipStudentSelection)
-        {
-            HelperMethods.GetSelectedStudent();  
-        }
         InitializePage();
     }
 

@@ -703,10 +703,6 @@ public class CalendarForm : ViewModelBase
 
     public CalendarForm(IMapper mapper, INativeServices nativeServices, INavigation navigation, bool skipStudentSelection = false) : base(null, null, null)
     {
-        if (!skipStudentSelection)
-        {
-            HelperMethods.GetSelectedStudent();  
-        }
         _mapper = mapper;
         _nativeServices = nativeServices;
         Navigation = navigation;

@@ -182,6 +182,8 @@ public class HomeForm : ViewModelBase
     }
 
     public string NewsNotificationId { get; set; }
+    private static bool _isBeamAppViewsInitialized = false;
+
 
     #endregion
     
@@ -202,7 +204,11 @@ public class HomeForm : ViewModelBase
         try
         {
             BeamMenuClickCommand = new Command(BeamMenuClicked);
-            SetBeamAppViews();
+            if (!_isBeamAppViewsInitialized)
+            {
+                SetBeamAppViews();
+                _isBeamAppViewsInitialized = true;
+            }
             ListTappedCommand = new Command<BindableSiteNewsView>(ListViewTapped);
             RefreshedCommand = new Command(RefreshNews);
             BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
@@ -591,6 +597,12 @@ public class HomeForm : ViewModelBase
                         select i).ToList();
                     AppSettings.Current.LandingPageMenuList = AppSettings.Current.LandingPageMenuList
                         .OrderBy(x => x.MobileAppMenuSequence).ToList();
+                    AppSettings.Current.UserCommunicationNotificationCount =
+                        HomePageData.CommunicationNotifications.Count(n => !n.IsRead);
+                    AppSettings.Current.UserAnnouncementsCount =
+                        HomePageData.UserNotifications
+                            .Where(n => n.NotificationGroup.Equals("Announcements", StringComparison.OrdinalIgnoreCase))
+                            .Count();
                     if (AppSettings.Current.AssignmentNotificationCount > 0)
                     {
                         var notificationCenterModuleCode = AppSettings.Current.MenuStructureList
@@ -797,16 +809,23 @@ public class HomeForm : ViewModelBase
 
     private void SetBeamAppViews()
     {
-        if (StudentList != null && StudentList.Count > 0)
-            AppSettings.Current.SelectedStudent = AppSettings.Current.StudentList.FirstOrDefault();
-        if (AppSettings.Current.IsParent)
+        try
         {
-            AppSettings.Current.IsRegisteredStudentListVisible = true;
-            AppSettings.Current.IsAllStudentListVisible = false;
+            if (StudentList != null && StudentList.Count > 0)
+                AppSettings.Current.SelectedStudent = AppSettings.Current.StudentList.FirstOrDefault();
+            if (AppSettings.Current.IsParent)
+            {
+                AppSettings.Current.IsRegisteredStudentListVisible = true;
+                AppSettings.Current.IsAllStudentListVisible = false;
+            }
+            else
+            {
+                AppSettings.Current.IsRegisteredStudentListVisible = AppSettings.Current.IsAllStudentListVisible = false;
+            }
         }
-        else
+        catch (Exception ex)
         {
-            AppSettings.Current.IsRegisteredStudentListVisible = AppSettings.Current.IsAllStudentListVisible = false;
+            HelperMethods.DisplayException(ex, PageTitle);
         }
     }
 

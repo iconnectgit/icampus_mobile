@@ -94,7 +94,6 @@ public class CertificatesForm : ViewModelBase
 
         private async void InitializePage()
         {
-            HelperMethods.GetSelectedStudent();
             CertificateClickCommand = new Command<BindableCertificateView>(CertificateViewClicked);
             BeamMenuClickCommand = new Command(BeamMenuClicked);
             BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);

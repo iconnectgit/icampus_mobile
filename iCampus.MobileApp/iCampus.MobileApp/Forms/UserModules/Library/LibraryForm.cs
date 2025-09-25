@@ -201,7 +201,6 @@ public class LibraryForm : ViewModelBase
 
     private async void InitializePage()
     {
-        HelperMethods.GetSelectedStudent();
         CurrentHoldingButtonOpacity = 1.0m;
         HistoryButtonOpacity = 0.5m;
         CurrentCommand = new Command(CurrentCommandClicked);

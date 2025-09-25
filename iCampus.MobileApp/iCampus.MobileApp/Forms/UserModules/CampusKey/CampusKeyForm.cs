@@ -496,7 +496,6 @@ public class CampusKeyForm : ViewModelBase
 
     private async void InitializePage()
     {
-        HelperMethods.GetSelectedStudent();
         FormTitle = TextResource.CampusKeyPageTitle;
         BackVisible = false;
         MenuVisible = true;

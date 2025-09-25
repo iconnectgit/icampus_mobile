@@ -121,7 +121,6 @@ public class DataCollectionForm : ViewModelBase
     public DataCollectionForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(mapper,
         null, null)
     {
-        HelperMethods.GetSelectedStudent();
         _mapper = mapper;
         _nativeServices = nativeServices;
         Navigation = navigation;

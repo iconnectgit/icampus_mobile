@@ -17,7 +17,6 @@ public class DigitalPassForm : ViewModelBase
     public DigitalPassForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null,
         null)
     {
-        HelperMethods.GetSelectedStudent();
         _mapper = mapper;
         _nativeServices = nativeServices;
         Navigation = navigation;

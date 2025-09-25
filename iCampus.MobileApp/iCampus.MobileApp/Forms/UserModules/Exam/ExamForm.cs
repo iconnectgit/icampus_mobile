@@ -73,7 +73,6 @@ public class ExamForm : ViewModelBase
 
     public ExamForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)
     {
-        HelperMethods.GetSelectedStudent();
         _mapper = mapper;
         _nativeServices = nativeServices;
         Navigation = navigation;
