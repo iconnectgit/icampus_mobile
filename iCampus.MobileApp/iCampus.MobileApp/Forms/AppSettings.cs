@@ -1026,6 +1026,36 @@ public class AppSettings : INotifyPropertyChanged
                 OnPropertyChanged("CircularIconVisibility");
             }
         }
+        private int _userCommunicationNotificationCount;
+        public int UserCommunicationNotificationCount
+        {
+            get { return _userCommunicationNotificationCount; }
+            set
+            {
+                _userCommunicationNotificationCount = value;
+                OnPropertyChanged("UserCommunicationNotificationCount");
+            }
+        }
+        private int _userAnnouncementsCount;
+        public int UserAnnouncementsCount
+        {
+            get { return _userAnnouncementsCount; }
+            set
+            {
+                _userAnnouncementsCount = value;
+                OnPropertyChanged("UserAnnouncementsCount");
+            }
+        }
+        private int _userNotificationCount;
+        public int UserNotificationCount
+        {
+            get { return _userNotificationCount; }
+            set
+            {
+                _userNotificationCount = value;
+                OnPropertyChanged("UserNotificationCount");
+            }
+        }
         #endregion
         public event PropertyChangedEventHandler PropertyChanged;
 

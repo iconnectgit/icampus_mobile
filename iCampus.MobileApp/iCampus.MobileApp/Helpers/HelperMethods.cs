@@ -83,7 +83,7 @@ public class HelperMethods
             return resourceText;
         }
         
-        public static async Task<MobileAppLoginResultView> PerformLogin(string emailId, string password,string deviceId)
+        public static async Task<MobileAppLoginResultView> PerformLogin(string emailId, string password,string deviceId, string otp, string otpId)
         {
            string clientGroupCode = (!string.IsNullOrEmpty(App.ClientGroupCode)) ? App.ClientGroupCode : string.Empty;
             string loginUrl = (clientGroupCode.ToLower().Equals("beam"))?TextResource.BeamMobileAppLoginUrlLive:TextResource.MobileAppLoginUrlLive;
@@ -118,7 +118,7 @@ public class HelperMethods
             else
             {
                 loginApiFullUrl = "InitiateLogin?emailId=" + emailId + "&password=" + password + "&token="
-                + refreshedToken + "&deviceId=" + deviceId + "&deviceType=" + Device.RuntimePlatform + "&clientCode=" + App.ClientCode;
+                + refreshedToken + "&deviceId=" + deviceId + "&deviceType=" + Device.RuntimePlatform + "&clientCode=" + App.ClientCode + "&otp=" + otp + "&otpId=" + otpId;
             }
 
             try
