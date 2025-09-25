@@ -927,19 +927,17 @@
                                        FontSize="Small"
                                        TextColor="Red" />
                             </StackLayout>
-                            <ListView HasUnevenRows="true"
+                            <CollectionView 
                                       BackgroundColor="{StaticResource ListViewBackgroundColor}"
                                       ItemsSource="{Binding DateWiseQuickPost,Mode=TwoWay}"
                                       SelectedItem="{Binding SelectedAgendaWeeklyData, Mode=TwoWay}"
-                                      SeparatorVisibility="None" VerticalScrollBarVisibility="Never"
-                                      VerticalOptions="FillAndExpand"
+                                      VerticalScrollBarVisibility="Never"
+                                      VerticalOptions="FillAndExpand" 
                                       x:Name="listview">
-                                <x:Arguments>
-                                    <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
-                                </x:Arguments>
-                                <ListView.ItemTemplate>
+                                
+                                <CollectionView.ItemTemplate>
                                     <DataTemplate>
-                                        <ViewCell>
+                                        
                                             <StackLayout Margin="0,0,0,0">
                                                 <StackLayout>
                                                     <Frame HasShadow="False"
@@ -1127,7 +1125,7 @@
                                                     SelectionMode="None"
                                                     BackgroundColor="Transparent"
                                                     VerticalOptions="FillAndExpand"
-
+                                                    
                                                     x:Name="attachmentListView"
                                                     HeightRequest="{Binding AttachmentListViewHeight}"
                                                     Margin="0">
@@ -1187,10 +1185,10 @@
                                                     </CollectionView.ItemTemplate>
                                                 </CollectionView>
                                             </StackLayout>
-                                        </ViewCell>
+                                        
                                     </DataTemplate>
-                                </ListView.ItemTemplate>
-                            </ListView>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
 
                         </StackLayout>
 

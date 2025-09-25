@@ -18,20 +18,14 @@ public class FilePreviewerImplementation : NSObject, IFilePreviewer, IQLPreviewI
         try
         {
             await ApiHelper.ShowProcessingIndicatorPopup();
-
             localFilePath = await DownloadFileAsync(fileUrl);
-
-            await ApiHelper.HideProcessingIndicatorPopup(); 
+            await ApiHelper.HideProcessingIndicatorPopup();
 
             if (!string.IsNullOrEmpty(localFilePath))
             {
                 var previewController = new QLPreviewController
-                {
-                    DataSource = new FilePreviewControllerDataSource(this)
-                };
-
+                    { DataSource = new FilePreviewControllerDataSource(this) };
                 var viewController = UIApplication.SharedApplication.KeyWindow?.RootViewController;
-
                 Device.BeginInvokeOnMainThread(() =>
                 {
                     viewController?.PresentViewController(previewController, true, null);
@@ -50,6 +44,7 @@ public class FilePreviewerImplementation : NSObject, IFilePreviewer, IQLPreviewI
     }
 
 
+
     // Async method to download file from URL
     private async Task<string> DownloadFileAsync(string url)
     {
@@ -57,12 +52,49 @@ public class FilePreviewerImplementation : NSObject, IFilePreviewer, IQLPreviewI
         {
             using (var client = new HttpClient())
             {
-                var data = await client.GetByteArrayAsync(url);
-                var fileName = Path.GetFileName(url);
+                var response = await client.GetAsync(url);
+
+                if (!response.IsSuccessStatusCode)
+                    return null;
+
+                var data = await response.Content.ReadAsByteArrayAsync();
+
+                // Detect content type
+                var contentType = response.Content.Headers.ContentType?.MediaType ?? string.Empty;
+
+                // Default to PDF
+                string extension = ".pdf";
+
+                if (contentType.Contains("msword"))
+                    extension = ".doc";
+                else if (contentType.Contains("officedocument.wordprocessingml.document"))
+                    extension = ".docx";
+                else if (contentType.Contains("excel"))
+                    extension = ".xls";
+                else if (contentType.Contains("spreadsheetml.sheet"))
+                    extension = ".xlsx";
+                else if (contentType.Contains("plain"))
+                    extension = ".txt";
+                else if (contentType.Contains("html"))
+                    extension = ".html"; // in case server sends HTML
+
+                // If URL already has a valid extension, prefer that
+                string fileName = Path.GetFileName(new Uri(url).AbsolutePath);
+                if (string.IsNullOrEmpty(Path.GetExtension(fileName)))
+                {
+                    fileName = Guid.NewGuid().ToString() + extension;
+                }
+
                 fileName = SanitizeFileName(fileName);
+
                 var tempPath = Path.Combine(Path.GetTempPath(), fileName);
 
                 File.WriteAllBytes(tempPath, data);
+                
+                var fileInfo = new FileInfo(tempPath);
+                Console.WriteLine($"📂 File Path: {tempPath}");
+                Console.WriteLine($"📏 File Size: {fileInfo.Length} bytes");
+
                 return tempPath;
             }
         }
@@ -72,6 +104,7 @@ public class FilePreviewerImplementation : NSObject, IFilePreviewer, IQLPreviewI
             return null;
         }
     }
+
 
     private string SanitizeFileName(string fileName)
     {

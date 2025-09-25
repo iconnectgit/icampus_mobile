@@ -16,7 +16,7 @@ public partial class QuickPostPage : ContentPage
             ForceNativeTableUpdate(listview);
         });
     }
-    public void ForceNativeTableUpdate(ListView listView)
+    public void ForceNativeTableUpdate(CollectionView listView)
     {
         if (listView.Handler != null)
         {

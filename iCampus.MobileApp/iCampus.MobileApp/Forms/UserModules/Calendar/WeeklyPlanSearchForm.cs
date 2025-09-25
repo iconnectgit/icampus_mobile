@@ -3,8 +3,10 @@ using System.Windows.Input;
 using AutoMapper;
 using iCampus.Common.ViewModels;
 using iCampus.MobileApp.DependencyService;
+using iCampus.MobileApp.Forms.UserModules.Settings;
 using iCampus.MobileApp.Helpers;
 using iCampus.MobileApp.Views.UserModules.Calendar;
+using iCampus.MobileApp.Views.UserModules.Settings;
 using iCampus.Portal.EditModels;
 using iCampus.Portal.ViewModels;
 
@@ -99,7 +101,8 @@ public class WeeklyPlanSearchForm : ViewModelBase
         {
             _selectedCourseList = value;
             OnPropertyChanged(nameof(SelectedCourseList));
-            GetClassesMethod();
+            if(AppSettings.Current.IsTeacher)
+                GetClassesMethod();
         }
     }
     private IList<PickListItem> _gradeList;
@@ -169,8 +172,8 @@ public class WeeklyPlanSearchForm : ViewModelBase
             OnPropertyChanged(nameof(SelectedAgendaWeeklyGroupList));
         }
     }
-    private ObservableCollection<BindableAgendaView> _groupedAgendaData = new ();
-    public ObservableCollection<BindableAgendaView> GroupedAgendaData
+    private ObservableCollection<GroupingAgendaByDueDate<string, BindableAgendaView>> _groupedAgendaData = new ();
+    public ObservableCollection<GroupingAgendaByDueDate<string, BindableAgendaView>> GroupedAgendaData
     {
         get => _groupedAgendaData;
         set
@@ -415,9 +418,7 @@ public class WeeklyPlanSearchForm : ViewModelBase
             AgendaWeeklySearchData =
                 await ApiHelper.GetObject<AgendaWeeklyGroupWithAgenda>(
                     string.Format(TextResource.SearchAgendaWeeklyPlanListApi, studentId, weekStartDate, gradeId, classId, courseId, null, false));
-
-            //AgendaWeeklyGroupList = new ObservableCollection<BindableAgendaWeeklyGroupView>(_mapper.Map<List<BindableAgendaWeeklyGroupView>>(
-                //AgendaWeeklySearchData.AgendaWeeklyGroupList));
+            
                 
             var mappedList = _mapper.Map<List<BindableAgendaWeeklyGroupView>>(
                     AgendaWeeklySearchData.AgendaWeeklyGroupList);
@@ -429,24 +430,27 @@ public class WeeklyPlanSearchForm : ViewModelBase
 
             AgendaWeeklyGroupList = new ObservableCollection<GroupingWeeklyPlan<string, BindableAgendaWeeklyGroupView>>(grouped);
             AgendaWeeklyGroupListHeight = AgendaWeeklyGroupList.Count * 100;
-            GroupedAgendaData = new ObservableCollection<BindableAgendaView>(
-                _mapper.Map<List<BindableAgendaView>>(
-                    AgendaWeeklySearchData.GroupedAgendaData
-                        .OrderBy(x => x.DueDate) 
-                        .ToList()
-                )
+            
+            
+            var mappedAgendaList = _mapper.Map<List<BindableAgendaView>>(
+                AgendaWeeklySearchData.GroupedAgendaData
+                    .OrderBy(x => x.DueDate)
+                    .ToList()
             );
+
+            var groupedByDate = mappedAgendaList
+                .Where(x => DateTime.TryParse(x.DueDate, out _)) 
+                .GroupBy(x => DateTime.Parse(x.DueDate).ToString("dddd, MMMM dd, yyyy"))
+                .Select(g => new GroupingAgendaByDueDate<string, BindableAgendaView>(g.Key, g))
+                .ToList();
+
+            GroupedAgendaData = new ObservableCollection<GroupingAgendaByDueDate<string, BindableAgendaView>>(groupedByDate);
+
             CalendarControlSetting = AgendaWeeklySearchData.CalendarControlSetting;
             CalendarApprovalPermissions = AgendaWeeklySearchData.CalendarApprovalPermissions;
             AttachmentList = _mapper.Map<List<AgendaView>>(AgendaWeeklySearchData.AgendaAttachmentList);
             
-            foreach (var item in GroupedAgendaData)
-            {
-                if (DateTime.TryParse(item.DueDate, out var parsedDate))
-                {
-                    item.DueDate = parsedDate.ToString("dddd, MMMM dd, yyyy");
-                }
-            }
+
             IsExportToPDFVisisble = AgendaWeeklyGroupList.Any();
             IsWeeklyNoRecordMsg = !AgendaWeeklyGroupList.Any();
         }
@@ -461,7 +465,7 @@ public class WeeklyPlanSearchForm : ViewModelBase
         {
             if (bindableAgendaWeekly != null)
             {
-                AgendaWeeklyGroupListHeight = AgendaWeeklyGroupList.Count * 100;
+                //AgendaWeeklyGroupListHeight = AgendaWeeklyGroupList.Count * 100;
                 foreach (var group in AgendaWeeklyGroupList)
                 {
                     foreach (var item in group)
@@ -473,10 +477,10 @@ public class WeeklyPlanSearchForm : ViewModelBase
                                 ? "dropdown_gray.png"
                                 : "uparrow_gray.png";
 
-                            if (item.WeeklyPostDetailsVisibility)
-                            {
-                                AgendaWeeklyGroupListHeight += 220;
-                            }
+                            // if (item.WeeklyPostDetailsVisibility)
+                            // {
+                            //     AgendaWeeklyGroupListHeight += 220;
+                            // }
                         }
                         else
                         {
@@ -499,6 +503,7 @@ public class WeeklyPlanSearchForm : ViewModelBase
     {
         try
         {
+            bindableAgendaView.DueDate = DateTime.Parse(bindableAgendaView.DueDate).ToString("dddd, MMMM dd, yyyy");
             WeeklyPlanSearchDetailForm weeklyPlanSearchDetailForm = new(_mapper, _nativeServices, Navigation)
             {
                 PageTitle = PageTitle,
@@ -506,6 +511,12 @@ public class WeeklyPlanSearchForm : ViewModelBase
                 CalendarControlSetting = CalendarControlSetting,
                 BackVisible = true
             };
+            weeklyPlanSearchDetailForm.CalendarControlSetting.EnableLearningOutcomes = 
+                !string.IsNullOrEmpty(weeklyPlanSearchDetailForm.SelectedGroupedAgendaData?.LearningOutcomes);
+
+            weeklyPlanSearchDetailForm.CalendarControlSetting.EnableOtherAssignments = 
+                !string.IsNullOrEmpty(weeklyPlanSearchDetailForm.SelectedGroupedAgendaData?.OtherAssignments);
+
             weeklyPlanSearchDetailForm.AttachmentList = AttachmentList
                 .Where(x => x.AgendaId == bindableAgendaView.AgendaId)
                 .ToList();
@@ -540,9 +551,11 @@ public class WeeklyPlanSearchForm : ViewModelBase
                 $"{AppSettings.Current.PortalUrl}/calendarquickpost/ExportAgendaWeeklyPlanList?" +
                 $"studentId={studentId}&weekStartDate={weekStartDate}&gradeId={gradeId}" +
                 $"&classId={classId}&courseId={courseId}&weeklyGroupId={weeklyGroupId}&sid={sid}";
-            
+
             if (!string.IsNullOrEmpty(exportToPDFURL))
+            {
                 await HelperMethods.OpenFileForPreview(exportToPDFURL, _nativeServices);
+            }
         }
         catch (Exception ex)
         {
@@ -559,7 +572,7 @@ public class WeeklyPlanSearchForm : ViewModelBase
         DateRangeList = new List<DateRangePickListItem>();
         CourseList = new List<CurriculumView>();
         AgendaWeeklyGroupList = new ObservableCollection<GroupingWeeklyPlan<string, BindableAgendaWeeklyGroupView>>();
-        GroupedAgendaData = new ObservableCollection<BindableAgendaView>();
+        GroupedAgendaData = new ObservableCollection<GroupingAgendaByDueDate<string, BindableAgendaView>>();
         GetWeeklyPlansDetails();
     }
     #endregion

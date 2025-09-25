@@ -38,6 +38,7 @@ public void ForceNativeTableUpdate(ListView listView)
         var nativeListView = listView.Handler.PlatformView as UIKit.UITableView;
         if (nativeListView != null)
         {
+            nativeListView.ReloadData();
             nativeListView.BeginUpdates();
             nativeListView.EndUpdates();
         }

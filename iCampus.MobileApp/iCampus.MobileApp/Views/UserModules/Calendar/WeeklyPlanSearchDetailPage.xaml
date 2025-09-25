@@ -193,6 +193,8 @@
                                             <Label Text="{Binding FileName, Converter={StaticResource UrlDecodeConverter}}"
                                                    Grid.Row="0"
                                                    Grid.Column="1"
+                                                   TextDecorations="Underline"
+                                                   TextColor="Blue"
                                                    HorizontalOptions="StartAndExpand" MaxLines="1"
                                                    LineBreakMode="TailTruncation"
                                                    VerticalOptions="CenterAndExpand"

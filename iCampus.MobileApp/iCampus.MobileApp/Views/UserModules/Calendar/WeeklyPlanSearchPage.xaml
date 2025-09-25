@@ -67,7 +67,7 @@
                                VerticalTextAlignment="Start" />
 
                         <Grid HeightRequest="40" BackgroundColor="White" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsGradeListVisible}">
-                            <Picker Title="Select"
+                            <Picker Title="All Grades"
                                     Style="{StaticResource PickerFontStyle}"
                                     BackgroundColor="White"
                                     TextColor="Gray"
@@ -91,7 +91,7 @@
                                VerticalTextAlignment="Start" />
 
                         <Grid HeightRequest="40" BackgroundColor="White" HorizontalOptions="FillAndExpand">
-                            <Picker Title="Select"
+                            <Picker Title="All Courses"
                                     Style="{StaticResource PickerFontStyle}"
                                     BackgroundColor="White"
                                     TextColor="Gray"
@@ -115,7 +115,7 @@
                                VerticalTextAlignment="Start" />
 
                         <Grid HeightRequest="40" BackgroundColor="White" HorizontalOptions="FillAndExpand" IsVisible="{Binding IsClassListVisible}">
-                            <Picker Title="Select"
+                            <Picker Title="All Classes"
                                     Style="{StaticResource PickerFontStyle}"
                                     BackgroundColor="White"
                                     TextColor="Gray"
@@ -163,14 +163,14 @@
                                     <TapGestureRecognizer Command="{Binding ExportToPDFClickCommand}" />
                                 </Frame.GestureRecognizers>
                         </Frame>
-                        <StackLayout VerticalOptions="FillAndExpand" Spacing="0">
                         <ListView HasUnevenRows="true" Margin="5,0,5,0"
                                   ItemsSource="{Binding AgendaWeeklyGroupList, Mode=TwoWay}"
                                   SelectedItem="{Binding SelectedAgendaWeeklyGroupList, Mode=TwoWay}"
                                   SeparatorVisibility="None" VerticalScrollBarVisibility="Never"
                                   BackgroundColor="{StaticResource ListViewBackgroundColor}"
                                   IsGroupingEnabled="True"
-                                  SelectionMode="None" 
+                                  SelectionMode="None"
+                                  VerticalOptions="FillAndExpand"
                                   x:Name="beamWeeklyPlanList">
                             <x:Arguments>
                                 <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
@@ -178,7 +178,8 @@
                             <ListView.GroupHeaderTemplate>
                                 <DataTemplate>
                                     <ViewCell>
-                                        <Frame Padding="2" HasShadow="False" CornerRadius="0" BorderColor="Transparent">
+                                        <Frame Padding="2" HasShadow="False" CornerRadius="0"
+                                               BorderColor="Transparent">
                                             <Label Text="{Binding Key}"
                                                    FontSize="16"
                                                    FontAttributes="Bold"
@@ -197,10 +198,11 @@
                                         <StackLayout Padding="2" Spacing="0">
 
                                             <!-- Item Header -->
-                                            <Frame CornerRadius="0" HasShadow="False" 
+                                            <Frame CornerRadius="0" HasShadow="False"
                                                    BorderColor="{StaticResource BorderColor}" Padding="1"
                                                    IsClippedToBounds="true">
-                                                <StackLayout BackgroundColor="White" VerticalOptions="CenterAndExpand" Spacing="0">
+                                                <StackLayout BackgroundColor="White"
+                                                             VerticalOptions="CenterAndExpand" Spacing="0">
                                                     <Frame Padding="0" HasShadow="False" CornerRadius="5"
                                                            BorderColor="Transparent">
                                                         <Grid RowSpacing="0" Padding="5,0,5,0">
@@ -219,8 +221,8 @@
                                                                    Text="{Binding CurriculumName}"
                                                                    IsVisible="{Binding CurriculumName, Converter={StaticResource visiblityConverter}}"
                                                                    Grid.Column="0"
-                                                                   Grid.ColumnSpan="2" 
-                                                                   VerticalOptions="Center"/>
+                                                                   Grid.ColumnSpan="2"
+                                                                   VerticalOptions="Center" />
 
                                                             <ffimageloading:CachedImage
                                                                 Source="{Binding ArrowImageSource}"
@@ -258,7 +260,8 @@
                                                       ColumnDefinitions="*"
                                                       Padding="5,5,5,5">
 
-                                                    <StackLayout Orientation="Vertical" Margin="0,0,0,5" Padding="0"
+                                                    <StackLayout Orientation="Vertical" Margin="0,0,0,5"
+                                                                 Padding="0"
                                                                  Grid.Row="0">
                                                         <Label Text="Title" FontAttributes="Bold" FontFamily=""
                                                                Style="{StaticResource DescriptionLabelStyle}" />
@@ -284,7 +287,8 @@
                                                     </StackLayout>
 
                                                     <StackLayout Orientation="Vertical" Padding="0" Grid.Row="3">
-                                                        <Label Text="Curriculum Standards" FontAttributes="Bold" FontFamily=""
+                                                        <Label Text="Curriculum Standards" FontAttributes="Bold"
+                                                               FontFamily=""
                                                                Style="{StaticResource DescriptionLabelStyle}" />
                                                         <Label Text="{Binding CurriculumStandards}" TextType="Html"
                                                                Style="{StaticResource DescriptionLabelStyle}" />
@@ -300,7 +304,8 @@
                                                     <StackLayout Orientation="Vertical"
                                                                  IsVisible="{Binding IsTeacher, Source={x:Static local:AppSettings.Current}}"
                                                                  Padding="0" Grid.Row="5">
-                                                        <Label Text="{Binding AgendaClassNames}" FontAttributes="Bold"
+                                                        <Label Text="{Binding AgendaClassNames}"
+                                                               FontAttributes="Bold"
                                                                FontSize="12" FontFamily=""
                                                                Style="{StaticResource DescriptionLabelStyle}" />
                                                     </StackLayout>
@@ -312,79 +317,61 @@
                                 </DataTemplate>
                             </ListView.ItemTemplate>
                         </ListView>
-                        </StackLayout>
-                        <CollectionView Margin="5,5,5,0" 
-                                        ItemsSource="{Binding GroupedAgendaData, Mode=TwoWay}"
-                                        SelectedItem="{Binding SelectedGroupedAgendaData, Mode=TwoWay}"
-                                        VerticalScrollBarVisibility="Never"
-                                        BackgroundColor="{StaticResource ListViewBackgroundColor}"
-                                        SelectionMode="None"
-                                        VerticalOptions="StartAndExpand"
-                                        x:Name="beamWeeklyGroupedAgendaList">
-
-                            <CollectionView.ItemTemplate>
+                        <ListView HasUnevenRows="true" Margin="5,0,5,0"
+                                  ItemsSource="{Binding GroupedAgendaData, Mode=TwoWay}"
+                                  SelectedItem="{Binding SelectedGroupedAgendaData, Mode=TwoWay}"
+                                  SeparatorVisibility="None" VerticalScrollBarVisibility="Never"
+                                  BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                                  IsGroupingEnabled="True"
+                                  SelectionMode="None"
+                                  VerticalOptions="FillAndExpand"
+                                  x:Name="beamWeeklyGroupedAgendaList">
+                            <x:Arguments>
+                                <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                            </x:Arguments>
+                            <ListView.GroupHeaderTemplate>
                                 <DataTemplate>
-
-                                    <Grid Padding="0,0,0,0" VerticalOptions="FillAndExpand">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <StackLayout Padding="2" Grid.Column="1"
-                                                     VerticalOptions="FillAndExpand">
-                                            <Frame Padding="5" HasShadow="False"
-                                                   CornerRadius="0"
-                                                   BorderColor="Transparent">
-                                                <Label FontSize="16" Padding="0"
-                                                       FontAttributes="Bold"
-                                                       Text="{Binding DueDate}"
-                                                       Style="{StaticResource TitleLabelStyle}"
-                                                       FontFamily="" VerticalTextAlignment="Center"
-                                                       VerticalOptions="CenterAndExpand" />
-                                            </Frame>
-                                            <Frame CornerRadius="0"
-                                                   Margin="5,0,5,0"
-                                                   HasShadow="False"
-                                                   BorderColor="{StaticResource BorderColor}"
-                                                   Padding="1"
-                                                   IsClippedToBounds="true">
+                                    <ViewCell>
+                                        <Frame Padding="2" HasShadow="False" CornerRadius="0" MinimumHeightRequest="35"
+                                               BorderColor="Transparent" BackgroundColor="WhiteSmoke">
+                                            <Label Text="{Binding Key}"
+                                                   FontSize="16"
+                                                   FontAttributes="Bold"
+                                                   FontFamily=""
+                                                   Padding="0"
+                                                   Style="{StaticResource TitleLabelStyle}"
+                                                   VerticalTextAlignment="Center"
+                                                   VerticalOptions="CenterAndExpand" />
+                                        </Frame>
+                                    </ViewCell>
+                                </DataTemplate>
+                            </ListView.GroupHeaderTemplate>
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <ViewCell>
+                                        <StackLayout Padding="2" Spacing="0">
                                                 <StackLayout BackgroundColor="White"
-                                                             VerticalOptions="FillAndExpand">
-                                                    <Frame Padding="0" HasShadow="False"
-                                                           CornerRadius="5"
+                                                             VerticalOptions="CenterAndExpand" Spacing="0">
+                                                    <Frame Padding="2" HasShadow="False" CornerRadius="5" MinimumHeightRequest="30"
                                                            BorderColor="Transparent">
-                                                        <Grid RowSpacing="1"
-                                                              Padding="5,0,5,0">
-                                                            <Grid.RowDefinitions>
-                                                                <RowDefinition Height="Auto" />
-                                                            </Grid.RowDefinitions>
-                                                            <Grid.ColumnDefinitions>
-                                                                <ColumnDefinition Width="0.9*" />
-                                                                <ColumnDefinition Width="0.1*" />
-                                                            </Grid.ColumnDefinitions>
                                                             <Label Style="{StaticResource TitleLabelStyle}"
                                                                    FontSize="14"
                                                                    FontFamily=""
-                                                                   VerticalOptions="Center"
-                                                                   Grid.Row="0" Text="{Binding CurriculumName}"
-                                                                   IsVisible="{Binding CurriculumName,Converter={StaticResource visiblityConverter}}"
-                                                                   Grid.Column="0" Padding="0"
-                                                                   Grid.ColumnSpan="2" />
-                                                        </Grid>
+                                                                   Text="{Binding CurriculumName}"
+                                                                   IsVisible="{Binding CurriculumName, Converter={StaticResource visiblityConverter}}"
+                                                                   VerticalOptions="Center" />
                                                         <Frame.GestureRecognizers>
                                                             <TapGestureRecognizer
-                                                                Command="{Binding BindingContext.GroupedAgendaDataCollapseClickCommand,Source={x:Reference beamWeeklyPlanList}}"
+                                                                Command="{Binding BindingContext.GroupedAgendaDataCollapseClickCommand,Source={x:Reference beamWeeklyGroupedAgendaList}}"
                                                                 CommandParameter="{Binding .}" />
                                                         </Frame.GestureRecognizers>
                                                     </Frame>
                                                 </StackLayout>
-                                            </Frame>
                                         </StackLayout>
-                                    </Grid>
-
+                                    </ViewCell>
                                 </DataTemplate>
-                            </CollectionView.ItemTemplate>
-                        </CollectionView>
+                            </ListView.ItemTemplate>
+                        </ListView>
                     </StackLayout>
                 </ScrollView>
                 
