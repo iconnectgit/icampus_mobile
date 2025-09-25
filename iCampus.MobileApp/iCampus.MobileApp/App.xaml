@@ -37,6 +37,7 @@
             <behaviours:ColorCodeConverter x:Key="ColorCodeConverter"/>
             <behaviours:HtmlTagRemoverConverter x:Key="HtmlTagRemoverConverter"/>
             <behaviours:ReverseBoolValueConverter x:Key="ReverseBoolValueConverter"/>
+            <behaviours:NotificationCenterVisibilityConverter x:Key="NotificationCenterVisibilityConverter"/>
             <individual:FooterMenuTitleColorConverter x:Key="FooterMenuTitleColorConverter"/>
             <Style x:Key="MenuImageStyle" TargetType="ffimageloading:CachedImage">
                 <Setter Property="HorizontalOptions" Value="CenterAndExpand" />
@@ -636,16 +637,37 @@
                         </Label>
                     </StackLayout>
 
-                    <StackLayout VerticalOptions="CenterAndExpand"
+                    <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand" 
                         IsVisible="{Binding BeamCommunicationAndBellIconVisibility,Source={x:Static forms:AppSettings.Current}}"
                         Grid.Row="0" Grid.Column="2">
                         <!-- Communication icon -->
-                        <Label VerticalOptions="CenterAndExpand" Margin="0,0,10,0" Scale="0.8"
-                               IsVisible="{TemplateBinding Parent.BindingContext.BeamHeaderMessageIconVisibility}"
-                               FontFamily="FontAwesomeRegular"
-                               FontSize="27" 
-                               Text="&#xf4ad;" 
-                               TextColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}">
+                        <Grid IsVisible="{TemplateBinding Parent.BindingContext.BeamHeaderMessageIconVisibility}">
+                            <Grid WidthRequest="20" HeightRequest="15"
+                                  HorizontalOptions="Start"
+                                  VerticalOptions="Start"
+                                  TranslationX="{OnPlatform iOS='-5', Android='-7'}"
+                                  TranslationY="{OnPlatform iOS='-7', Android='-7'}">
+
+                                <Ellipse Fill="Yellow" StrokeThickness="0" />
+
+                                <Label Text="{Binding UserCommunicationNotificationCount, Source={x:Static forms:AppSettings.Current}}"
+                                       TextColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                                       FontSize="10"
+                                       FontAttributes="Bold"
+                                       FontFamily=""
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalTextAlignment="Center"/>
+                            </Grid>
+
+                            
+                            <Label VerticalOptions="CenterAndExpand" Margin="0,0,10,0" Scale="0.8"
+                                   IsVisible="{TemplateBinding Parent.BindingContext.BeamHeaderMessageIconVisibility}"
+                                   FontFamily="FontAwesomeRegular"
+                                   FontSize="27" 
+                                   Text="&#xf4ad;" 
+                                   TextColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}">
         
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer
@@ -654,6 +676,8 @@
                             </Label.GestureRecognizers>
         
                         </Label>
+                           
+                        </Grid>
                     </StackLayout>
                     <!-- Paper clip icon -->
                     <Label Margin="0,0,0,0" BackgroundColor="Transparent"
@@ -732,21 +756,40 @@
                     <StackLayout VerticalOptions="CenterAndExpand"
                         IsVisible="{Binding CircularIconVisibility,Source={x:Static forms:AppSettings.Current}}"
                         Grid.Row="0" Grid.Column="3">
-                        <Label VerticalOptions="CenterAndExpand"
-                               Margin="0,0,10,0"
-                               IsVisible="{TemplateBinding Parent.BindingContext.BeamHeaderMessageIconVisibility}"
-                               FontFamily="FontAwesomeSolid" 
-                               FontSize="23"
-                               Text="&#xf0a1;" 
-                               TextColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}">
+                        <Grid>
+                            <Grid WidthRequest="20" HeightRequest="15"
+                                  IsVisible="{TemplateBinding Parent.BindingContext.BeamHeaderMessageIconVisibility}"                                  HorizontalOptions="Start"
+                                  VerticalOptions="Start"
+                                  TranslationX="{OnPlatform iOS='-5', Android='-7'}"
+                                  TranslationY="{OnPlatform iOS='-9', Android='-9'}">
 
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer
-                                    Command="{TemplateBinding Parent.BindingContext.BeamHeaderNotificationIconClickCommand}"
-                                    NumberOfTapsRequired="1" />
-                            </Label.GestureRecognizers>
+                                <Ellipse Fill="Yellow" StrokeThickness="0" />
 
-                        </Label>
+                                <Label Text="{Binding UserAnnouncementsCount, Source={x:Static forms:AppSettings.Current}}"
+                                       TextColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}"
+                                       FontSize="10"
+                                       FontAttributes="Bold"
+                                       FontFamily=""
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalTextAlignment="Center"/>
+                            </Grid>
+                            <Label VerticalOptions="CenterAndExpand"
+                                   Margin="0,0,10,0"
+                                   IsVisible="{TemplateBinding Parent.BindingContext.BeamHeaderMessageIconVisibility}"
+                                   FontFamily="FontAwesomeSolid"
+                                   FontSize="23"
+                                   Text="&#xf0a1;"
+                                   TextColor="{Binding Settings.ThemeColor, Source={x:Static forms:AppSettings.Current}}">
+
+                                <Label.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{TemplateBinding Parent.BindingContext.BeamHeaderNotificationIconClickCommand}"
+                                        NumberOfTapsRequired="1" />
+                                </Label.GestureRecognizers>
+                            </Label>
+                        </Grid>
                     </StackLayout>
                     <!-- Paper plane icon -->
                     <Label Margin="0,0,0,0"
