@@ -191,16 +191,12 @@
                                                     <ListView.ItemTemplate>
                                                         <DataTemplate>
                                                             <ViewCell>
-                                                                <Grid RowDefinitions="*" ColumnDefinitions="*"
+                                                                <Grid RowDefinitions="*" ColumnDefinitions="Auto,Auto,*" HorizontalOptions="StartAndExpand"
                                                                       BackgroundColor="White"
                                                                       IsVisible="{Binding FilePath,Converter={StaticResource VisiblityConverter}}">
-                                                                    <StackLayout Orientation="Horizontal"
-                                                                        Spacing="0"
-                                                                        HorizontalOptions="StartAndExpand"
-                                                                        VerticalOptions="CenterAndExpand" Grid.Row="0"
-                                                                        Grid.Column="0">
+                                                                    
                                                                         <ffimageloading:CachedImage
-                                                                            HorizontalOptions="EndAndExpand"
+                                                                            Grid.Column="0"
                                                                             VerticalOptions="CenterAndExpand"
                                                                             WidthRequest="25"
                                                                             HeightRequest="25"
@@ -216,6 +212,7 @@
                                                                             </ffimageloading:CachedImage.GestureRecognizers>
                                                                         </ffimageloading:CachedImage>
                                                                         <ffimageloading:CachedImage
+                                                                            Grid.Column="1"
                                                                             HorizontalOptions="StartAndExpand"
                                                                             VerticalOptions="CenterAndExpand"
                                                                             WidthRequest="20"
@@ -225,6 +222,7 @@
                                                                             DownsampleToViewSize="True"
                                                                             Source="{Binding FileType,Converter={StaticResource AttachmentTypeToImageSourceConverter}}" />
                                                                         <Label Text="{Binding DisplayName}"
+                                                                               Grid.Column="2"
                                                                                HorizontalOptions="StartAndExpand"
                                                                                VerticalOptions="CenterAndExpand"
                                                                                Margin="10,0,0,0"
@@ -235,13 +233,6 @@
                                                                                     CommandParameter="{Binding .}" />
                                                                             </Label.GestureRecognizers>
                                                                         </Label>
-                                                                        <StackLayout.GestureRecognizers>
-                                                                            <TapGestureRecognizer
-                                                                                Command="{Binding BindingContext.AttachmentListTappedCommand,Source={x:Reference viewSubmissionPage}}"
-                                                                                CommandParameter="{Binding .}" />
-                                                                        </StackLayout.GestureRecognizers>
-                                                                    </StackLayout>
-
                                                                     <Grid.GestureRecognizers>
                                                                         <TapGestureRecognizer
                                                                             Command="{Binding BindingContext.AttachmentListTappedCommand,Source={x:Reference viewSubmissionPage}}"

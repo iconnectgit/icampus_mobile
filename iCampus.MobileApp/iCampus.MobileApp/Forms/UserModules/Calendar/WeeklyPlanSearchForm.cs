@@ -1,4 +1,6 @@
 using System.Collections.ObjectModel;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using AutoMapper;
 using iCampus.Common.ViewModels;
@@ -512,10 +514,12 @@ public class WeeklyPlanSearchForm : ViewModelBase
                 BackVisible = true
             };
             weeklyPlanSearchDetailForm.CalendarControlSetting.EnableLearningOutcomes = 
-                !string.IsNullOrEmpty(weeklyPlanSearchDetailForm.SelectedGroupedAgendaData?.LearningOutcomes);
+                HasVisibleText(weeklyPlanSearchDetailForm.SelectedGroupedAgendaData?.LearningOutcomes);
 
-            weeklyPlanSearchDetailForm.CalendarControlSetting.EnableOtherAssignments = 
-                !string.IsNullOrEmpty(weeklyPlanSearchDetailForm.SelectedGroupedAgendaData?.OtherAssignments);
+            weeklyPlanSearchDetailForm.CalendarControlSetting.EnableOtherAssignments =
+                HasVisibleText(weeklyPlanSearchDetailForm.SelectedGroupedAgendaData?.OtherAssignments);
+            
+            weeklyPlanSearchDetailForm.EnableLearningOutcomes = HasVisibleText(weeklyPlanSearchDetailForm.SelectedGroupedAgendaData?.AgendaDescription);
 
             weeklyPlanSearchDetailForm.AttachmentList = AttachmentList
                 .Where(x => x.AgendaId == bindableAgendaView.AgendaId)
@@ -533,6 +537,25 @@ public class WeeklyPlanSearchForm : ViewModelBase
             HelperMethods.DisplayException(ex, PageTitle);
         }
     }
+    public static bool HasVisibleText(string html)
+    {
+        if (string.IsNullOrEmpty(html)) return false;
+
+        // decode entities (&nbsp; -> non-breaking space, etc.)
+        var decoded = WebUtility.HtmlDecode(html);
+
+        // remove tags (non-greedy) and treat the whole string as single line
+        var noTags = Regex.Replace(decoded, "<.*?>", string.Empty, RegexOptions.Singleline);
+
+        // remove common invisible chars, collapse whitespace and trim
+        noTags = noTags.Replace("\u00A0", " ").Replace("\u200B", string.Empty).Trim();
+        noTags = Regex.Replace(noTags, @"\s+", " ");
+
+        // Return true if there's at least a letter or number.
+        // (Use @"\S" instead if you want punctuation/emoji to count as visible.)
+        return Regex.IsMatch(noTags, @"\p{L}|\p{N}");
+    }
+
     private async void ExportToPDFClickCommandMethod()
     {
         try

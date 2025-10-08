@@ -73,7 +73,8 @@
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <ViewCell>
-                                            <Grid RowDefinitions="*" ColumnDefinitions="Auto,Auto,*">
+                                            <Grid RowDefinitions="*" ColumnDefinitions="Auto,Auto,*" HorizontalOptions="StartAndExpand"
+                                                  VerticalOptions="CenterAndExpand">
                                                     <ffimageloading:CachedImage Grid.Column="0" HorizontalOptions="EndAndExpand"
                                                         VerticalOptions="CenterAndExpand"
                                                         WidthRequest="25"

@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using AutoMapper;
 using iCampus.Common.ViewModels;
@@ -39,14 +40,14 @@ public class NewsDetailForm:ViewModelBase
             }
         }
 
-        BindableAttachmentFileView _attachment;
-        public BindableAttachmentFileView Attachment
+        ObservableCollection<BindableAttachmentFileView> _attachments = new ();
+        public ObservableCollection<BindableAttachmentFileView> Attachments
         {
-            get => _attachment;
+            get => _attachments;
             set
             {
-                _attachment = value;
-                OnPropertyChanged(nameof(Attachment));
+                _attachments = value;
+                OnPropertyChanged(nameof(Attachments));
             }
         }
         private double _webViewHeight;
@@ -75,6 +76,16 @@ public class NewsDetailForm:ViewModelBase
                 }
             }
         }
+        BindableAttachmentFileView _selectedattachments;
+        public BindableAttachmentFileView SelectedAttachments
+        {
+            get => _selectedattachments;
+            set
+            {
+                _selectedattachments = value;
+                OnPropertyChanged(nameof(SelectedAttachments));
+            }
+        }
         #endregion
 
         public NewsDetailForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(null, null, null)
@@ -90,8 +101,8 @@ public class NewsDetailForm:ViewModelBase
             this.BackVisible = true;
             this.BackTitle = TextResource.BackTitle;
             this.PageTitle = TextResource.NewsPageTitle;
-            this.AttachmentClickCommand = new Command(AttachmentClicked);
-            this.DownloadTappedCommand = new Command(DownloadClicked);
+            this.AttachmentClickCommand = new Command<BindableAttachmentFileView>(AttachmentClicked);
+            this.DownloadTappedCommand = new Command<BindableAttachmentFileView>(DownloadClicked);
             this.WebsiteLinksTappedCommand = new Command<WebsiteLinkView>(WebsiteLinkClicked);
             BeamMenuClickCommand = new Command(BeamMenuClicked);
             BeamHeaderMessageIconClickCommand = new Command(BeamHeaderMessageIconClicked);
@@ -113,14 +124,14 @@ public class NewsDetailForm:ViewModelBase
             });
         }
 
-        private async void AttachmentClicked(object obj)
+        private async void AttachmentClicked(BindableAttachmentFileView obj)
         {
             if (obj != null)
             {
                 try
                 {
-                    if (!string.IsNullOrEmpty(Attachment.FilePath))
-                        await HelperMethods.OpenFileForPreview(Attachment.FilePath, _nativeServices);
+                    if (!string.IsNullOrEmpty(obj.FilePath))
+                        await HelperMethods.OpenFileForPreview(obj.FilePath, _nativeServices);
                 }
                 catch (Exception ex)
                 {
@@ -128,25 +139,25 @@ public class NewsDetailForm:ViewModelBase
                 }
             }
         }
-        private async void DownloadClicked(object obj)
+        private async void DownloadClicked(BindableAttachmentFileView obj)
         {
             try
                 {
                 if (Device.RuntimePlatform == Device.iOS)
                 {
-                    if (!string.IsNullOrEmpty(Attachment.FilePath))
-                        await HelperMethods.OpenFileForPreview(Attachment.FilePath, _nativeServices);
+                    if (!string.IsNullOrEmpty(obj.FilePath))
+                        await HelperMethods.OpenFileForPreview(obj.FilePath, _nativeServices);
                 }
                 else
                 {
-                    if (Attachment.FileStatus == 0)
+                    if (obj.FileStatus == 0)
                     {
-                        Attachment.FileStatus = 1;
-                        string filePath = await HelperMethods.DownloadAndReturnFilePath(Attachment.FilePath, _nativeServices);
+                        obj.FileStatus = 1;
+                        string filePath = await HelperMethods.DownloadAndReturnFilePath(obj.FilePath, _nativeServices);
                         if (!string.IsNullOrEmpty(filePath))
                         {
-                            Attachment.FileDevicePath = filePath;
-                            Attachment.FileStatus = 2;
+                            obj.FileDevicePath = filePath;
+                            obj.FileStatus = 2;
                         }
                     }
                 }

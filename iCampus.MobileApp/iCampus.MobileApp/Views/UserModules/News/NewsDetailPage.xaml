@@ -67,67 +67,81 @@
                         </StackLayout>
                     </Grid>
                     <StackLayout BackgroundColor="White" Padding="10,0,10,0" VerticalOptions="FillAndExpand">
-                        <!-- <WebView x:Name="beamDetails" Navigating="WebView_Navigating" -->
-                        <!--          HorizontalOptions="FillAndExpand" -->
-                        <!--          VerticalOptions="FillAndExpand" -->
-                        <!--          Margin="0,0,0,0"> -->
-                        <!--     <WebView.Source> -->
-                        <!--         <HtmlWebViewSource Html="{Binding FormattedNewsData}" /> -->
-                        <!--     </WebView.Source> -->
-                        <!-- </WebView> -->
                         <controls:CustomWebView 
                                                 HorizontalOptions="FillAndExpand"
                                                 VerticalOptions="FillAndExpand"
                                                 HtmlContent="{Binding SiteNewsObject.NewsData}" />
-                        <!-- <Label Text="{Binding SiteNewsObject.NewsData}" -->
-                        <!--        TextType="Html" /> -->
                     </StackLayout>
-                    <Frame Padding="5" HasShadow="False" CornerRadius="0" BackgroundColor="White"
-                           BorderColor="Transparent" Margin="0,-1,0,0"
-                           IsVisible="{Binding Attachment.FilePath, Converter={StaticResource VisiblityConverter}}">
-                        <Grid RowDefinitions="*" ColumnDefinitions="Auto,Auto,*" BackgroundColor="White"
-                              IsVisible="{Binding Attachment.FilePath, Converter={StaticResource VisiblityConverter}}"
-                              HorizontalOptions="StartAndExpand"
-                              VerticalOptions="CenterAndExpand">
-                            <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
-                                                        VerticalOptions="CenterAndExpand"
-                                                        Grid.Column="0"
-                                                        WidthRequest="25"
-                                                        HeightRequest="25"
-                                                        Aspect="AspectFit"
-                                                        CacheType="None"
-                                                        CacheDuration="0"
-                                                        DownsampleToViewSize="True"
-                                                        Source="{Binding Attachment.FileStatus,Mode=TwoWay,Converter={StaticResource AttachmentFileStatusToSourceConverter}}">
-                                <ffimageloading:CachedImage.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding    DownloadTappedCommand}"
-                                                          CommandParameter="{Binding Attachment.FilePath}"
-                                                          NumberOfTapsRequired="1" />
-                                </ffimageloading:CachedImage.GestureRecognizers>
-                            </ffimageloading:CachedImage>
-                            <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
-                                                        VerticalOptions="CenterAndExpand"
-                                                        Grid.Column="1"
-                                                        WidthRequest="20"
-                                                        HeightRequest="20"
-                                                        Aspect="AspectFit"
-                                                        Margin="10,0,0,0"
-                                                        DownsampleToViewSize="True"
-                                                        Source="{Binding Attachment.FilePath,Converter={StaticResource attachmentFileToImageSourceConverter}}" />
-                            <Label Text="{Binding Attachment.FileName, Converter={StaticResource UrlDecodeConverter}}"
-                                   Grid.Column="2"
-                                   HorizontalOptions="StartAndExpand"
-                                   VerticalOptions="CenterAndExpand"
-                                   Margin="10,0,0,0"
-                                   Style="{StaticResource AttachmentTextStyle}">
-                                <Label.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding AttachmentClickCommand}"
-                                                          CommandParameter="{Binding Attachment.FilePath}"
-                                                          NumberOfTapsRequired="1" />
-                                </Label.GestureRecognizers>
-                            </Label>
-                        </Grid>
-                    </Frame>
+                    <ListView HasUnevenRows="True"
+                              BackgroundColor="{StaticResource ListViewBackgroundColor}"
+                              SelectedItem="{Binding SelectedAttachments,Mode=TwoWay}"
+                              ItemsSource="{Binding Attachments,Mode=TwoWay}"
+                              SeparatorVisibility="None" VerticalScrollBarVisibility="Never"
+                              VerticalOptions="FillAndExpand">
+                        <x:Arguments>
+                            <ListViewCachingStrategy>RecycleElementAndDataTemplate</ListViewCachingStrategy>
+                        </x:Arguments>
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                <Frame Padding="5" HasShadow="False" CornerRadius="0" BackgroundColor="White"
+                                       BorderColor="Transparent" Margin="0,-1,0,0">
+                                    <Grid RowDefinitions="*" ColumnDefinitions="Auto,Auto,*" BackgroundColor="White"
+                                          HorizontalOptions="StartAndExpand"
+                                          VerticalOptions="CenterAndExpand">
+
+                                        <!-- Download Status Icon -->
+                                        <ffimageloading:CachedImage HorizontalOptions="EndAndExpand"
+                                                                    VerticalOptions="CenterAndExpand"
+                                                                    Grid.Column="0"
+                                                                    WidthRequest="25"
+                                                                    HeightRequest="25"
+                                                                    Aspect="AspectFit"
+                                                                    CacheType="None"
+                                                                    CacheDuration="0"
+                                                                    DownsampleToViewSize="True"
+                                                                    Source="{Binding FileStatus,Mode=TwoWay,Converter={StaticResource AttachmentFileStatusToSourceConverter}}">
+                                            <ffimageloading:CachedImage.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding BindingContext.DownloadTappedCommand, Source={x:Reference Name=newsDetailPage}}"
+                                                    CommandParameter="{Binding .}"
+                                                    NumberOfTapsRequired="1" />
+                                            </ffimageloading:CachedImage.GestureRecognizers>
+                                        </ffimageloading:CachedImage>
+
+                                        <!-- File Type Icon -->
+                                        <ffimageloading:CachedImage HorizontalOptions="StartAndExpand"
+                                                                    VerticalOptions="CenterAndExpand"
+                                                                    Grid.Column="1"
+                                                                    WidthRequest="20"
+                                                                    HeightRequest="20"
+                                                                    Aspect="AspectFit"
+                                                                    Margin="10,0,0,0"
+                                                                    DownsampleToViewSize="True"
+                                                                    Source="{Binding FilePath,Converter={StaticResource attachmentFileToImageSourceConverter}}" />
+
+                                        <!-- File Name -->
+                                        <Label Text="{Binding FileName, Converter={StaticResource UrlDecodeConverter}}"
+                                               Grid.Column="2"
+                                               HorizontalOptions="StartAndExpand"
+                                               VerticalOptions="CenterAndExpand"
+                                               Margin="10,0,0,0"
+                                               Style="{StaticResource AttachmentTextStyle}">
+                                            <Label.GestureRecognizers>
+                                                <TapGestureRecognizer
+                                                    Command="{Binding BindingContext.AttachmentClickCommand, Source={x:Reference Name=newsDetailPage}}"
+                                                    CommandParameter="{Binding .}"
+                                                    NumberOfTapsRequired="1" />
+                                            </Label.GestureRecognizers>
+                                        </Label>
+
+                                    </Grid>
+                                </Frame>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                        </ListView>
+
                     <ListView HasUnevenRows="True"
                               BackgroundColor="{StaticResource ListViewBackgroundColor}"
                               SelectedItem="{Binding SelectedWebsiteLink,Mode=TwoWay}"

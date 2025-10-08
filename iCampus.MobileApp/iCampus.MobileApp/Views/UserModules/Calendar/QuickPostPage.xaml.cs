@@ -24,8 +24,11 @@ public partial class QuickPostPage : ContentPage
             var nativeListView = listView.Handler.PlatformView as AndroidX.RecyclerView.Widget.RecyclerView;
             nativeListView?.GetAdapter()?.NotifyDataSetChanged();
 #elif IOS || MACCATALYST
-            var nativeListView = listView.Handler.PlatformView as UIKit.UITableView;
-            nativeListView?.ReloadData();
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                //listView.ItemsSource = listView.ItemsSource; 
+                listView.Handler?.UpdateValue(nameof(CollectionView.ItemsSource));
+            });
 #endif
         }
     }

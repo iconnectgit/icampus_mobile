@@ -174,11 +174,6 @@ public class NewsForm:ViewModelBase
             {
                 _ = await ApiHelper.GetObjectList<object>(string.Format(TextResource.InsertNewsLog, obj.SiteNewsId), isLoader: false);
                 
-                BindableAttachmentFileView bindableAttachmentFile = new BindableAttachmentFileView();
-                bindableAttachmentFile.FileName = obj.AttachmentName;
-                bindableAttachmentFile.FilePath = obj.AttachmentPath;
-                bindableAttachmentFile.FileStatus = 0;
-                
                 NewsDetailForm newsDetailForm = new NewsDetailForm(_mapper, _nativeServices, Navigation)
                 {
                     SiteNewsObject = obj,
@@ -191,7 +186,18 @@ public class NewsForm:ViewModelBase
                                                       + "</script>"
                                                       + "</head><body>" + obj.NewsData + "</body></html>";
 
-                newsDetailForm.Attachment = bindableAttachmentFile;
+                if (obj.AttachmentList != null && obj.AttachmentList.Any())
+                {
+                    foreach (var filePath in obj.AttachmentList)
+                    {
+                        newsDetailForm.Attachments.Add(new BindableAttachmentFileView
+                        {
+                            FileName = Path.GetFileName(filePath), 
+                            FilePath = filePath,
+                            FileStatus = 0
+                        });
+                    }
+                }
                 NewsDetailPage newsDetailPage = new NewsDetailPage()
                 {
                     BindingContext = newsDetailForm

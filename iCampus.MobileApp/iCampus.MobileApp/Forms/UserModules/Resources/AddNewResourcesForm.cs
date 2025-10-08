@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Web;
 using System.Windows.Input;
 using AutoMapper;
 using iCampus.Common.Helpers.Extensions;
@@ -528,8 +529,7 @@ public class AddNewResourcesForm : ViewModelBase
                 if (AttachmentFiles != null && AttachmentFiles.Count > 0)
                 {
                     list = new List<AttachmentFileView>(AttachmentFiles);
-                    var fileNames = new string[list.Count()];
-                    for (var i = 0; i < list.Count(); i++) fileNames[i] = list[i].FileName;
+                    var fileNames = list.Select(f => HttpUtility.UrlEncode(f.FileName)).ToArray();
                     SelectedResource.AttachmentsArray = fileNames;
                 }
                 else

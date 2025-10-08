@@ -69,7 +69,17 @@ public class WeeklyPlanSearchDetailForm : ViewModelBase
             OnPropertyChanged(nameof(IsAttachmentVisible));
         }
     }
-    
+    private bool _enableLearningOutcomes;
+
+    public bool EnableLearningOutcomes
+    {
+        get => _enableLearningOutcomes;
+        set
+        {
+            _enableLearningOutcomes = value;
+            OnPropertyChanged(nameof(EnableLearningOutcomes));
+        }
+    }
     #endregion
 
     public WeeklyPlanSearchDetailForm(IMapper mapper, INativeServices nativeServices, INavigation navigation) : base(

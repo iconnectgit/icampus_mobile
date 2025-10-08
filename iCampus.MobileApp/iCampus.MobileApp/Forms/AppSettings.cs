@@ -363,6 +363,7 @@ public class AppSettings : INotifyPropertyChanged
         public List<SurveyView> SurveyViews { get; set; }
         public ObservableCollection<DataCollectionFieldsView> DataCollectionViews { get; set; }
         private DateTime _schoolNextWorkingDate;
+        public bool IsBeamAppViewsInitialized = false;
         public DateTime SchoolNextWorkingDate
         {
             get

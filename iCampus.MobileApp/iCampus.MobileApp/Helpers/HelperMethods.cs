@@ -169,7 +169,7 @@ public class HelperMethods
                             await ICCacheManager.SaveSecureObject<string>("icampus_email", string.Empty);
                             ICCacheManager.SaveObject<AppSettings>("AppSettings", AppSettings.Current);
                             //await App.Current.SavePropertiesAsync();
-
+                            AppSettings.Current.IsBeamAppViewsInitialized = false;
                             LoginPage loginPage = new (mapper, nativeServices);
                             await navigation.PushAsync(loginPage);
                         }

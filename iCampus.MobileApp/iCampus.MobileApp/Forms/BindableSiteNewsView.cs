@@ -149,6 +149,7 @@ public class BindableSiteNewsView : INotifyPropertyChanged
 			get;
 			set;
 		}
+		public List<string> AttachmentList { get; set; }
 
         string _newsDataString;
         public string NewsDataString

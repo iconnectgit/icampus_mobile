@@ -139,6 +139,7 @@ public class SettingsForm : ViewModelBase
                         {
                             await ICCacheManager.ClearCache();
                             Preferences.Set("IsLogin", true);
+                            AppSettings.Current.IsBeamAppViewsInitialized = false;
                             //App.Current.Properties["IsLogin"] = false;
                             await Navigation.PushAsync(new LoginPage(_mapper, _nativeServices));
                             //HostScreen.Router.NavigateAndReset.Execute(new LoginForm()).Subscribe();

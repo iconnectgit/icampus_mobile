@@ -19,7 +19,6 @@
             <Grid.Resources>
                 <ResourceDictionary>
                     <behaviours:SelectedItemEventArgsToSelectedItemConverter x:Key="SelectedItemConverter" />
-                    <behaviours:NotificationCenterVisibilityConverter x:Key="NotificationCenterVisibilityConverter"/>
                     <behaviours:ImageUrlToSourceConverter x:Key="ImageUrlToSourceConverter"/>
                     <Style x:Key="MenuLabelStyle" TargetType="Label" BasedOn="{StaticResource DescriptionLabelStyle}">
                         <Setter Property="FontAttributes" Value="Bold"></Setter>

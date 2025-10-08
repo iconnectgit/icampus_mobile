@@ -182,7 +182,7 @@ public class HomeForm : ViewModelBase
     }
 
     public string NewsNotificationId { get; set; }
-    private static bool _isBeamAppViewsInitialized = false;
+    
 
 
     #endregion
@@ -204,10 +204,10 @@ public class HomeForm : ViewModelBase
         try
         {
             BeamMenuClickCommand = new Command(BeamMenuClicked);
-            if (!_isBeamAppViewsInitialized)
+            if (!AppSettings.Current.IsBeamAppViewsInitialized)
             {
                 SetBeamAppViews();
-                _isBeamAppViewsInitialized = true;
+                AppSettings.Current.IsBeamAppViewsInitialized = true;
             }
             ListTappedCommand = new Command<BindableSiteNewsView>(ListViewTapped);
             RefreshedCommand = new Command(RefreshNews);

@@ -24,6 +24,8 @@
                         <ResourceDictionary>
                             <behaviours:AttachmentFileToImageSourceConverter
                                 x:Key="AttachmentFileToImageSourceConverter" />
+                            <behaviours:UrlDecodeConverter x:Key="UrlDecodeConverter" />
+
                             <Style x:Key="EntryFontStyle"
                                    TargetType="controls:NoUnderlineEntry">
                                 <Setter Property="FontSize"
@@ -251,7 +253,7 @@
                                                                 Margin="10,0,0,0"
                                                                 DownsampleToViewSize="True"
                                                                 Source="{Binding FileName,Converter={StaticResource AttachmentFileToImageSourceConverter}}" />
-                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding FileName}"
+                                    <Label Grid.Row="0" Grid.Column="1" Text="{Binding FileName, Converter={StaticResource UrlDecodeConverter}}"
                                            TextColor="{StaticResource GrayTextColor}"
                                            HorizontalOptions="StartAndExpand"
                                            VerticalOptions="CenterAndExpand"

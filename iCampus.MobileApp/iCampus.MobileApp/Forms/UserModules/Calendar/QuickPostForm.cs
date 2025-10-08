@@ -249,8 +249,8 @@ public class QuickPostForm : ViewModelBase
                 OnPropertyChanged(nameof(MonthList));
             }
         }
-        IList<PickListItem> _groupList = new List<PickListItem>();
-        public IList<PickListItem> GroupList
+        IList<DateRangePickListItem> _groupList = new List<DateRangePickListItem>();
+        public IList<DateRangePickListItem> GroupList
         {
             get
             {
@@ -825,7 +825,7 @@ public class QuickPostForm : ViewModelBase
             DeleteAttachmentClickCommand = new Command(DeleteAttachmentClicked);
             MonthSelectionCommand = new Command(MonthSelectionMethod);
             MonthChangedCommand = new Command<PickListItem>(MonthChangedMethod);
-            GroupChangedCommand = new Command<PickListItem>(GroupChangedMethod);
+            GroupChangedCommand = new Command<DateRangePickListItem>(GroupChangedMethod);
             GroupSelectionCommand = new Command(GroupSelectionMethod);
             MonthListTappedCommand = new Command<PickListItem>(MonthListTappedMethod);
             GroupListTappedCommand = new Command<DateRangePickListItem>(GroupListTappedMethod);
@@ -859,7 +859,8 @@ public class QuickPostForm : ViewModelBase
                 TypeId = QuickPostData.TypeId;
                 CourseList = FilteredCourseList = QuickPostData.AgendaForList;
                 DateRangeList = QuickPostData.DateRangeList;
-                DateRangeListViewHeight = CourseListViewHeight = DateRangeList.Count() * 32;
+                DateRangeListViewHeight = DateRangeList.Count() * 32;
+                CourseListViewHeight = Math.Min(FilteredCourseList.Count * 32, 300);
             }
             catch (Exception ex)
             {
@@ -876,7 +877,7 @@ public class QuickPostForm : ViewModelBase
             {
                 FilteredCourseList = CourseList;
             }
-            CourseListViewHeight = FilteredCourseList.Count() * 32;
+            CourseListViewHeight = Math.Min(FilteredCourseList.Count * 32, 300);
         }
         private void CourseSelectionMethod()
         {
@@ -907,7 +908,7 @@ public class QuickPostForm : ViewModelBase
                 //await WarningTextVisibilitySettings();
             }
         }
-        async void GroupChangedMethod(PickListItem obj)
+        async void GroupChangedMethod(DateRangePickListItem obj)
         {
             if (obj != null)
             {
@@ -978,7 +979,7 @@ public class QuickPostForm : ViewModelBase
                         .ToList();
                     SelectedMonthList = new PickListItem();
                     MonthListViewHeight = MonthList.Count * 32;
-                    GroupList = new List<PickListItem>();
+                    GroupList = new List<DateRangePickListItem>();
                     SelectedGroupList = new DateRangePickListItem();
                 }
             }
@@ -999,7 +1000,7 @@ public class QuickPostForm : ViewModelBase
                     CurriculumStandardsVisibility = false;
                     RemarkVisibility = false;
                     DateWiseQuickPost = new ObservableCollection<BindableQuickPost>();
-                    GroupList = new List<PickListItem>();
+                    GroupList = new List<DateRangePickListItem>();
                     SelectedGroupList = new DateRangePickListItem();
 
 
@@ -1007,9 +1008,9 @@ public class QuickPostForm : ViewModelBase
                     MonthListVisibility = false;
                     GroupList = EditAgendaWeeklyData
                         .Where(m => m.MonthOfWeekStartDate.ToString() == SelectedMonthList.ItemId.ToString())
-                        .Select(m => new PickListItem
+                        .Select(m => new DateRangePickListItem
                         {
-                            ItemId = m.AgendaWeeklyGroupId.ToString(), // Assuming AgendaWeeklyGroupId is of type int
+                            ItemId = m.AgendaWeeklyGroupId.ToString(), 
                             ItemName = m.Title
                         })
                         .Distinct()
@@ -1080,7 +1081,7 @@ public class QuickPostForm : ViewModelBase
                     {
                         GroupTitle = AgendaWeeklyData.AgendaWeeklyGroupDetails.Title;
                         DateRangeText = AgendaWeeklyData.AgendaWeeklyGroupDetails.DateRange;
-                        IsTitleVisible = true;
+                        IsTitleVisible = false;
                         IsDateRangeVisible = true;
                         ClassList = _mapper.Map<ObservableCollection<BindableAgendaClassView>>(AgendaWeeklyData.AgendaClassesViewModel.AgendaClassList);
                         if (ClassList != null)
@@ -1097,23 +1098,39 @@ public class QuickPostForm : ViewModelBase
                         var groupedAgendaData = AgendaWeeklyData.GroupedAgendaData.ToList();
                         var agendaAttachmentList = AgendaWeeklyData.AgendaAttachmentList;
 
-                        for (int i = 0; i < groupedAgendaData.Count; i++)
+                        foreach (var quickPost in DateWiseQuickPost)
                         {
-                            var item = groupedAgendaData[i];
-                            var bindableQuickPost = DateWiseQuickPost[i];
+                            var quickPostDate = DateTime.Parse(quickPost.AgendaWeekDatesFormatted);
 
-                            bindableQuickPost.AgendaUId = item.AgendaUId;
-                            bindableQuickPost.AgendaId = item.AgendaId;
-                            bindableQuickPost.AgendaDescription = item.AgendaDescription;
-                            bindableQuickPost.LearningOutcomes = item.LearningOutcomes;
-                            bindableQuickPost.IsDeleted = item.IsDeleted;
-                            bindableQuickPost.AttachmentFiles = new ObservableCollection<AttachmentFileView>(agendaAttachmentList
-                                .Where(a => a.AgendaId == item.AgendaId)
-                                .Select(a => new AttachmentFileView
+                            var item = groupedAgendaData
+                                .FirstOrDefault(x =>
                                 {
-                                    FileName = a.Attachment,
-                                }));
-                            bindableQuickPost.AttachmentListViewHeight = bindableQuickPost.AttachmentFiles.Count * 40;
+                                    if (DateTime.TryParse(x.DueDate.ToString(), out var dueDate))
+                                    {
+                                        return dueDate.Date == quickPostDate.Date;
+                                    }
+                                    return false;
+                                });
+
+
+                            if (item != null)
+                            {
+                                quickPost.AgendaUId = item.AgendaUId;
+                                quickPost.AgendaId = item.AgendaId;
+                                quickPost.AgendaDescription = item.AgendaDescription;
+                                quickPost.LearningOutcomes = item.LearningOutcomes;
+                                quickPost.IsDeleted = item.IsDeleted;
+
+                                quickPost.AttachmentFiles = new ObservableCollection<AttachmentFileView>(
+                                    agendaAttachmentList
+                                        .Where(a => a.AgendaId == item.AgendaId)
+                                        .Select(a => new AttachmentFileView
+                                        {
+                                            FileName = a.Attachment,
+                                        }));
+
+                                quickPost.AttachmentListViewHeight = quickPost.AttachmentFiles.Count * 40;
+                            }
                         }
                         IsCancelButtonVisibleForTeacher = AgendaWeeklyData.IsDeleteButtonVisibleForTeacher;
                         SaveButtonVisibility = AgendaWeeklyData.IsDeleteButtonVisibleForTeacher;
