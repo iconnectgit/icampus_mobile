@@ -14,7 +14,6 @@
            HorizontalOptions="CenterAndExpand"
            BackgroundColor="White"
            Margin="5"
-           HeightRequest="180"
            WidthRequest="{OnPlatform iOS='360', Android='350'}">
         <StackLayout Spacing="0">
 

@@ -20,6 +20,7 @@
                 <behaviours:AttachmentFileStatusToSourceConverter x:Key="AttachmentFileStatusToSourceConverter" />
                 <behaviours:AttachmentTypeToImageSourceConverter x:Key="AttachmentTypeToImageSourceConverter" />
                 <behaviours:VisiblityConverter x:Key="VisiblityConverter" />
+                <behaviours:UrlDecodeConverter x:Key="UrlDecodeConverter" />
             </ResourceDictionary>
         </VerticalStackLayout.Resources>
         <!-- Popup Frame -->
@@ -78,7 +79,7 @@
 
                                     <!-- File Name -->
                                     <Label Grid.Column="1"
-                                           Text="{Binding DisplayName}"
+                                           Text="{Binding FilePath, Converter={StaticResource UrlDecodeConverter}}"
                                            FontSize="Small"
                                            VerticalOptions="Center"
                                            HorizontalOptions="StartAndExpand">

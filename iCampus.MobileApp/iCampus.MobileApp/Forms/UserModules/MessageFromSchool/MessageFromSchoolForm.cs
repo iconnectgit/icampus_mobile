@@ -539,6 +539,11 @@ public class MessageFromSchoolForm : ViewModelBase
             IsInternalPage = sender.IsInternalPage,
             SelectedWebsiteLinks = sender.WebsiteLinks
         };
+        foreach (var link in websiteLinksPopupForm.SelectedWebsiteLinks)
+        {
+            if (!string.IsNullOrEmpty(link.Title))
+                link.Title = Uri.UnescapeDataString(link.Title);
+        }
         var websiteLinksPopup = new WebsiteLinksPopup()
         {
             BindingContext = websiteLinksPopupForm
@@ -600,6 +605,12 @@ public class MessageFromSchoolForm : ViewModelBase
                     LinkListViewHeight = obj.WebsiteLinksCount * 40,
                     AttachmentList = _mapper.Map<List<BindableAttachmentFileView>>(obj.AttachmentList)
                 };
+                foreach (var link in circularDetailForm.CircularObject.WebsiteLinks)
+                {
+                    if (!string.IsNullOrEmpty(link.Url))
+                        link.Title = Uri.UnescapeDataString(link.Title);
+                }
+
                 SelectedCircular = null;
                 CircularDetail circularDetail = new()
                 {

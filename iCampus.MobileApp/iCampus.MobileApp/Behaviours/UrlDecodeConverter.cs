@@ -9,7 +9,13 @@ public class UrlDecodeConverter : IValueConverter
     {
         if (value is string encodedFileName)
         {
-            return Uri.UnescapeDataString(encodedFileName);
+            string decodedUrl = Uri.UnescapeDataString(encodedFileName);
+
+            decodedUrl = decodedUrl.Replace("\\", "/");
+
+            string fileName = Path.GetFileName(decodedUrl);
+            
+            return fileName;
         }
         return value;
     }

@@ -861,7 +861,7 @@ public class LoginForm : ViewModelBase
                     {
                         BindingContext = birthdayPopupForm
                     };
-                    SetPopupInstance(birthdayPopup);
+                    SetBirthdayPopupInstance(birthdayPopup);
                     Application.Current.MainPage.ShowPopup(birthdayPopup);                }
             }
             catch (Exception ex)
@@ -872,6 +872,10 @@ public class LoginForm : ViewModelBase
         public void SetPopupInstance(Popup popup)
         {
             AppSettings.Current.CurrentPopup = popup;
+        }
+        public void SetBirthdayPopupInstance(Popup popup)
+        {
+            AppSettings.Current.BirthdayPopup = popup;
         }
         private bool IsLoginFormValid()
         {

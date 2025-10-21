@@ -24,6 +24,16 @@ public class AppSettings : INotifyPropertyChanged
                 OnPropertyChanged("CurrentPopup");
             }
         }
+        private Popup _birthdayPopup;
+        public Popup BirthdayPopup
+        {
+            get { return _birthdayPopup; }
+            set
+            {
+                _birthdayPopup = value;
+                OnPropertyChanged("BirthdayPopup");
+            }
+        }
         private MobileAppSettingsView _settings;
         public MobileAppSettingsView Settings
         {

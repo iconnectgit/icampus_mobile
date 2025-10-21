@@ -59,14 +59,7 @@ public class BirthdayPopupForm : ViewModelBase
         private async void OkClickedMethod(object obj)
         {
             var item = obj as BirthdayPopupForm;
-            AppSettings.Current.CurrentPopup.Close();
-            AppSettings.Current.CurrentPopup = null;
-            // Func<PopupPage, bool> predicate = x => x.GetType() == typeof(BirthdayPopup);
-            // if (PopupNavigation.Instance.PopupStack.Any(predicate))
-            // {
-            //     var popupPage = PopupNavigation.Instance.PopupStack.FirstOrDefault(predicate);
-            //     await PopupNavigation.Instance.RemovePageAsync(popupPage);
-            // }
+            AppSettings.Current.BirthdayPopup.Close();
             var currentStudent = AppSettings.Current.StudentList.FirstOrDefault(x => x.ItemId == item.ItemId);
             if(currentStudent != null)
             {

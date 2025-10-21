@@ -327,7 +327,9 @@ public class HelperMethods
         {
             try
             {
-                nativeServices.DownloadAndPreviewFile(path, fileId);
+                string decodedUrl = Uri.UnescapeDataString(path);
+                decodedUrl = decodedUrl.Replace("\\", "/"); 
+                nativeServices.DownloadAndPreviewFile(decodedUrl, fileId);
             }
             catch(Exception ex)
             {

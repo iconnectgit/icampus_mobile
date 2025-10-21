@@ -326,6 +326,11 @@ public class NotificationCenterForm : ViewModelBase
             {
                 SelectedWebsiteLinks = sender.WebsiteLinks
             };
+            foreach (var link in websiteLinksPopupForm.SelectedWebsiteLinks)
+            {
+                if (!string.IsNullOrEmpty(link.Title))
+                    link.Title = Uri.UnescapeDataString(link.Title);
+            }
             var websiteLinksPopup = new WebsiteLinksPopup()
             {
                 BindingContext = websiteLinksPopupForm
